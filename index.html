@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html class="dark" lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Marie Finance - Harmony Edition</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0" rel="stylesheet" />
+    
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        // PALETA TIERRA & ROSÉ (Ajustada para contraste)
+                        "primary": "#d48d9e",       
+                        "primary-dark": "#b06a7b", 
+                        
+                        // Modo Claro (Light Mode)
+                        "bg-light": "#fdfbf7",      // Crema casi blanco (más limpio)
+                        "surface-light": "#ffffff", // Blanco puro
+                        "text-main-light": "#2d2424", // Café muy oscuro (casi negro) para lectura
+                        "text-muted-light": "#6b5e5e", // Gris tierra medio
+                        
+                        // Modo Oscuro (Dark Mode)
+                        "bg-dark": "#121010",       // Negro cálido
+                        "surface-dark": "#1f1a1a",  // Chocolate negro
+                        "text-main-dark": "#f3e8e8", // Blanco rosado muy pálido
+                        "text-muted-dark": "#a89898", // Taupe
+                        
+                        // Semáforo
+                        "success": "#10b981",       
+                        "danger": "#ef4444",        
+                        "warning": "#f59e0b",       
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-6px)' },
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 8px 30px -4px rgba(212, 141, 158, 0.12)', // Sombra rosada muy sutil
+                        'card': '0 2px 10px rgba(0,0,0,0.03)',
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body { transition: background-color 0.4s ease, color 0.4s ease; }
+
+        /* Sliders */
+        input[type=range] { -webkit-appearance: none; background: transparent; }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none; height: 20px; width: 20px;
+            border-radius: 50%; background: #d48d9e; cursor: pointer;
+            margin-top: -8px; transition: transform 0.1s; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2); border: 2px solid white;
+        }
+        input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.1); }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%; height: 4px; background: #e5e7eb; border-radius: 2px;
+        }
+        .dark input[type=range]::-webkit-slider-runnable-track { background: #333; }
+        
+        /* Utils */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+    </style>
+</head>
+<body class="bg-bg-light dark:bg-bg-dark text-text-main-light dark:text-text-main-dark font-body h-screen flex flex-col overflow-hidden selection:bg-primary selection:text-white">
+
+    <div class="flex items-center justify-between p-6 absolute top-0 w-full z-20">
+        <div class="flex flex-col">
+            <span class="text-[10px] font-black tracking-[0.3em] uppercase text-primary">Planning</span>
+            <span class="text-sm font-bold font-display">Marie<span class="text-primary">.Inversión</span></span>
+        </div>
+        <button id="themeToggle" class="flex items-center justify-center w-10 h-10 rounded-full bg-surface-light dark:bg-surface-dark border border-gray-100 dark:border-white/5 hover:scale-110 transition-transform shadow-sm text-primary">
+             <span class="material-symbols-rounded text-xl">contrast</span>
+        </button>
+    </div>
+
+    <div class="flex-1 overflow-y-auto no-scrollbar relative pt-24 pb-48">
+        
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute top-[-10%] right-[-20%] w-[500px] h-[500px] bg-primary/10 rounded-full blur-[100px]"></div>
+        </div>
+
+        <div class="px-6 max-w-lg mx-auto relative z-10 space-y-8">
+            
+            <div class="text-center animate-float">
+                <p class="text-xs font-bold text-text-muted-light dark:text-text-muted-dark uppercase tracking-wider mb-1">Objetivo Financiero</p>
+                <p class="text-[10px] text-text-muted-light/70 dark:text-text-muted-dark/70 mb-2">Monto total que deseas alcanzar</p>
+                
+                <div class="relative inline-flex items-center justify-center gap-1 group">
+                    <span class="text-3xl text-gray-300 dark:text-gray-600 font-light">$</span>
+                    <input id="goalInput" type="number" value="5000" 
+                        class="w-48 bg-transparent text-center text-6xl font-black text-text-main-light dark:text-text-main-dark border-none focus:ring-0 p-0 tracking-tighter placeholder-gray-300"
+                    />
+                </div>
+                
+                <div class="bg-surface-light dark:bg-surface-dark rounded-2xl p-5 mt-6 max-w-xs mx-auto border border-gray-100 dark:border-white/5 shadow-soft">
+                    <div class="flex justify-between items-end mb-2 pb-2 border-b border-gray-100 dark:border-white/5">
+                        <div class="text-left">
+                            <span class="text-[10px] font-bold text-text-muted-light dark:text-text-muted-dark uppercase tracking-widest block">Fondo Acumulado</span>
+                            <span class="text-[9px] text-primary font-medium">Capital disponible hoy</span>
+                        </div>
+                        <span id="savedTotalDisplay" class="text-2xl font-black text-success">$0</span>
+                    </div>
+                    
+                    <div class="flex gap-3 items-center mt-3">
+                        <button onclick="removeDeposit()" class="bg-red-50 dark:bg-red-500/10 text-danger border border-danger/20 hover:bg-danger hover:text-white rounded-xl p-2.5 transition-all active:scale-95" title="Restar">
+                            <span class="material-symbols-rounded text-xl">remove</span>
+                        </button>
+
+                        <div class="relative flex-1">
+                            <input id="depositInput" type="number" placeholder="0" class="w-full bg-bg-light dark:bg-bg-dark rounded-xl border-none py-2.5 text-center text-sm font-bold focus:ring-2 focus:ring-primary/30">
+                        </div>
+                        
+                        <button onclick="addDeposit()" class="bg-emerald-50 dark:bg-emerald-500/10 text-success border border-success/20 hover:bg-success hover:text-white rounded-xl p-2.5 transition-all active:scale-95" title="Sumar">
+                            <span class="material-symbols-rounded text-xl">add</span>
+                        </button>
+                    </div>
+                    
+                    <div class="flex justify-between items-center mt-3 pt-1">
+                         <span class="text-[9px] text-text-muted-light/70 dark:text-text-muted-dark/70 italic">Registra movimientos</span>
+                         <button onclick="resetSaved()" class="text-[9px] text-text-muted-light hover:text-danger transition-colors">Reiniciar</button>
+                    </div>
+                </div>
+
+                <div class="mt-5 flex flex-col items-center">
+                    <span class="text-[10px] text-text-muted-light dark:text-text-muted-dark font-bold uppercase tracking-widest">Faltante para la meta</span>
+                    <p id="remainingGoalDisplay" class="font-black text-2xl text-text-main-light dark:text-text-main-dark mt-1">--</p>
+                </div>
+            </div>
+
+            <div class="rounded-2xl p-6 relative overflow-hidden bg-surface-light dark:bg-surface-dark shadow-soft border border-gray-100 dark:border-white/5 transition-colors">
+                <div class="absolute -top-10 -right-10 w-32 h-32 bg-primary/10 dark:bg-primary/20 blur-3xl rounded-full pointer-events-none"></div>
+                
+                <div class="flex justify-between items-center mb-1 relative z-10">
+                    <span class="text-sm font-bold flex items-center gap-2 text-text-main-light dark:text-white">
+                        <span class="material-symbols-rounded text-primary">equalizer</span>
+                        Salud Financiera
+                    </span>
+                    <span id="healthLabel" class="text-[10px] font-black px-2.5 py-1 rounded-md bg-gray-100 dark:bg-white/10 text-text-main-light dark:text-white uppercase tracking-wide">--</span>
+                </div>
+                <p class="text-[10px] text-text-muted-light dark:text-gray-400 mb-4 relative z-10">Relación Ingresos vs Gastos</p>
+                
+                <div class="h-4 w-full bg-gray-200 dark:bg-black/50 border border-transparent dark:border-white/10 rounded-full overflow-hidden relative shadow-inner z-10">
+                    <div class="absolute inset-0 bg-gradient-to-r from-danger via-warning to-success opacity-90"></div>
+                    <div id="healthIndicator" class="absolute top-0 bottom-0 w-1.5 bg-white shadow-[0_0_15px_rgba(255,255,255,0.8)] transition-all duration-700 ease-out" style="left: 50%"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-text-muted-light dark:text-gray-500 mt-2 font-mono uppercase relative z-10 tracking-wider">
+                    <span>Riesgo</span>
+                    <span>Equilibrio</span>
+                    <span>Solidez</span>
+                </div>
+            </div>
+
+            <div class="bg-surface-light dark:bg-surface-dark rounded-2xl p-6 shadow-soft border border-gray-100 dark:border-white/5 relative overflow-hidden transition-colors">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h3 class="font-bold text-lg flex items-center gap-2 text-text-main-light dark:text-text-main-dark">
+                            <span class="w-1.5 h-6 bg-danger rounded-full"></span>
+                            Gastos
+                        </h3>
+                        <p class="text-[10px] text-text-muted-light dark:text-text-muted-dark mt-1">Salidas fijas y variables</p>
+                    </div>
+                    <button onclick="addExpense()" class="w-8 h-8 rounded-full bg-bg-light dark:bg-bg-dark border border-gray-200 dark:border-white/10 flex items-center justify-center text-text-muted-light dark:text-text-muted-dark hover:bg-primary hover:text-white hover:border-primary transition-all">
+                        <span class="material-symbols-rounded text-lg">add</span>
+                    </button>
+                </div>
+
+                <div class="flex flex-col items-center justify-center py-6 relative border-b border-dashed border-gray-200 dark:border-white/10 mb-4">
+                    <div class="absolute inset-0 bg-danger/5 rounded-2xl -z-10 scale-90"></div>
+                    <span class="text-[10px] font-bold text-danger/80 uppercase tracking-[0.2em] mb-1">Total Egresos Mensual</span>
+                    <p id="totalExpensesDisplay" class="text-6xl font-black text-danger tracking-tighter drop-shadow-sm transition-all">$0</p>
+                </div>
+
+                <div id="expensesList" class="space-y-3"></div>
+            </div>
+
+            <div class="bg-surface-light dark:bg-surface-dark rounded-2xl p-6 shadow-soft border border-gray-100 dark:border-white/5 relative overflow-hidden mb-12 transition-colors">
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <h3 class="font-bold text-lg flex items-center gap-2 text-text-main-light dark:text-text-main-dark">
+                            <span class="w-1.5 h-6 bg-success rounded-full"></span>
+                            Ingresos
+                        </h3>
+                        <p class="text-[10px] text-text-muted-light dark:text-text-muted-dark mt-1">Entradas recurrentes</p>
+                    </div>
+                    <button onclick="addIncomeItem()" class="text-xs bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20 px-3 py-1.5 rounded-lg font-bold hover:bg-emerald-100 transition-colors">
+                        + Agregar
+                    </button>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="flex items-center justify-between border-b border-dashed border-gray-200 dark:border-white/10 pb-3">
+                        <div>
+                            <label class="text-xs text-text-muted-light dark:text-text-muted-dark font-bold uppercase block">Sueldo Base / Fijo</label>
+                            <p class="text-[9px] text-text-muted-light/70 dark:text-text-muted-dark/70 mt-0.5">Ingreso seguro</p>
+                        </div>
+                        <div class="flex items-center bg-bg-light dark:bg-bg-dark px-3 py-1 rounded-lg">
+                            <span class="text-text-muted-light dark:text-text-muted-dark mr-1">$</span>
+                            <input id="salaryInput" type="number" class="w-20 bg-transparent text-right font-bold text-lg text-text-main-light dark:text-text-main-dark border-none focus:ring-0 p-0" value="600">
+                        </div>
+                    </div>
+
+                    <div id="incomeList" class="space-y-4"></div>
+                </div>
+                
+                <div class="mt-6 pt-4 border-t border-gray-200 dark:border-white/10 flex justify-between items-baseline">
+                    <div class="flex flex-col">
+                        <span class="text-xs font-bold uppercase text-text-muted-light dark:text-text-muted-dark">Total Ingresos</span>
+                    </div>
+                    <span id="totalIncomeDisplay" class="text-2xl font-black text-success">$0</span>
+                </div>
+            </div>
+
+             <div class="text-center pb-8 opacity-60 hover:opacity-100 transition-opacity">
+                <button onclick="resetAllData()" class="text-[10px] text-text-muted-light hover:text-danger underline decoration-danger/30 transition-colors">
+                    Restablecer datos
+                </button>
+             </div>
+        </div>
+    </div>
+
+    <div class="fixed bottom-0 left-0 right-0 z-30 p-4">
+        <div class="max-w-lg mx-auto bg-surface-light dark:bg-[#1f1a1a] border border-gray-200 dark:border-white/10 rounded-[2rem] p-5 shadow-2xl relative overflow-hidden transition-all duration-500">
+            <div id="statusGlow" class="absolute top-0 right-0 w-40 h-40 bg-success/10 blur-[60px] rounded-full pointer-events-none transition-colors duration-700"></div>
+
+            <div class="relative z-10 flex flex-col gap-1">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-[10px] font-bold text-text-muted-light dark:text-text-muted-dark uppercase tracking-widest">Capacidad Mensual</p>
+                        <p class="text-[9px] text-text-muted-light/70 dark:text-text-muted-dark/70 mb-1">Disponible tras gastos</p>
+                        <h2 id="monthlySurplusDisplay" class="text-3xl font-black text-text-main-light dark:text-text-main-dark tracking-tight">$0</h2>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-[9px] text-text-muted-light dark:text-text-muted-dark mb-1">Tiempo estimado</p>
+                        <div id="timeBadge" class="inline-flex items-center gap-1 bg-bg-light dark:bg-bg-dark px-3 py-1.5 rounded-full border border-gray-100 dark:border-white/5 shadow-sm">
+                            <span class="material-symbols-rounded text-xs text-primary">timer</span>
+                            <span id="timeToGoalDisplay" class="text-xs font-bold text-text-main-light dark:text-text-main-dark">--</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-full bg-gray-200 dark:bg-black/40 h-2 rounded-full mt-4 overflow-hidden">
+                    <div id="progressBar" class="h-full bg-slate-800 dark:bg-white w-0 transition-all duration-1000 rounded-full"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-text-muted-light dark:text-text-muted-dark mt-1.5 font-medium">
+                    <span>Velocidad</span>
+                    <span id="progressText">Meta: $5k</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Referencias
+            const els = {
+                goal: document.getElementById('goalInput'),
+                savedTotal: document.getElementById('savedTotalDisplay'),
+                depositInput: document.getElementById('depositInput'),
+                remainingGoalDisplay: document.getElementById('remainingGoalDisplay'),
+                salary: document.getElementById('salaryInput'),
+                incomeList: document.getElementById('incomeList'),
+                totalIncome: document.getElementById('totalIncomeDisplay'),
+                expensesList: document.getElementById('expensesList'),
+                totalExpenses: document.getElementById('totalExpensesDisplay'),
+                surplus: document.getElementById('monthlySurplusDisplay'),
+                timeBadge: document.getElementById('timeToGoalDisplay'),
+                progressBar: document.getElementById('progressBar'),
+                progressText: document.getElementById('progressText'),
+                healthIndicator: document.getElementById('healthIndicator'),
+                healthLabel: document.getElementById('healthLabel'),
+                statusGlow: document.getElementById('statusGlow')
+            };
+
+            let state = {
+                goal: 5000,
+                accumulatedSaved: 0, 
+                salary: 600,
+                incomes: [{ id: 'inc_def', name: 'Producto / Servicio', price: 150, cost: 10, qty: 15 }],
+                expenses: [
+                    { id: 'exp_1', name: 'Vivienda', amount: 350, color: '#e15b64' },
+                    { id: 'exp_2', name: 'Alimentación', amount: 250, color: '#f59e0b' },
+                    { id: 'exp_3', name: 'Servicios', amount: 60, color: '#3b82f6' },
+                    { id: 'exp_4', name: 'Otros', amount: 100, color: '#8b5cf6' }
+                ],
+                darkMode: true
+            };
+
+            const STORAGE_KEY = 'marieFinance_v13_harmony';
+
+            // --- Load / Save Logic ---
+            function loadState() {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if(saved) {
+                    try {
+                        const parsed = JSON.parse(saved);
+                        state = { ...state, ...parsed };
+                    } catch(e) { console.error('Error loading state', e); }
+                }
+                els.goal.value = state.goal;
+                els.salary.value = state.salary;
+                if(state.darkMode) document.documentElement.classList.add('dark');
+                else document.documentElement.classList.remove('dark');
+            }
+
+            function saveState() {
+                state.darkMode = document.documentElement.classList.contains('dark');
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+            }
+
+            // --- Core Calculation Logic ---
+            function calculate() {
+                state.goal = parseFloat(els.goal.value) || 0;
+                state.salary = parseFloat(els.salary.value) || 0;
+
+                // 1. Saved
+                els.savedTotal.textContent = formatMoney(state.accumulatedSaved);
+                
+                // 2. Remaining Goal
+                const remainingGoal = Math.max(0, state.goal - state.accumulatedSaved);
+                els.remainingGoalDisplay.textContent = formatMoney(remainingGoal);
+
+                // 3. Incomes
+                let dynamicIncomeTotal = 0;
+                state.incomes.forEach(inc => {
+                    const margin = (parseFloat(inc.price) || 0) - (parseFloat(inc.cost) || 0);
+                    const subtotal = margin * (parseInt(inc.qty) || 0);
+                    dynamicIncomeTotal += subtotal;
+                    
+                    const subtotalEl = document.getElementById(`subtotal-${inc.id}`);
+                    const qtyLabelEl = document.getElementById(`qty-label-${inc.id}`);
+                    if(subtotalEl) subtotalEl.textContent = `+${formatMoney(subtotal)}`;
+                    if(qtyLabelEl) qtyLabelEl.textContent = inc.qty;
+                });
+                
+                const totalIncomeVal = state.salary + dynamicIncomeTotal;
+                const totalExpensesVal = state.expenses.reduce((acc, curr) => acc + (parseFloat(curr.amount) || 0), 0);
+                const surplusVal = totalIncomeVal - totalExpensesVal;
+
+                // UI Updates
+                animateValue(els.totalIncome, totalIncomeVal);
+                animateValue(els.totalExpenses, totalExpensesVal);
+                
+                els.progressText.textContent = `Faltan: ${formatCompact(remainingGoal)}`;
+
+                const prefix = surplusVal > 0 ? '+' : '';
+                els.surplus.textContent = prefix + formatMoney(surplusVal);
+                
+                if (surplusVal > 0) {
+                    els.surplus.className = "text-3xl font-black text-success tracking-tight transition-colors";
+                    els.statusGlow.className = "absolute top-0 right-0 w-40 h-40 bg-success/20 blur-[60px] rounded-full pointer-events-none transition-colors";
+                    
+                    const totalMonths = remainingGoal / surplusVal;
+                    
+                    if (remainingGoal <= 0) {
+                        els.timeBadge.textContent = "¡Completado!";
+                        triggerConfetti();
+                    } else if (totalMonths < 1) {
+                         const days = Math.ceil(totalMonths * 30);
+                         els.timeBadge.textContent = `${days} Días`;
+                    } else {
+                        const years = Math.floor(totalMonths / 12);
+                        const remainderMonths = Math.floor(totalMonths % 12);
+                        const days = Math.ceil((totalMonths % 1) * 30);
+                        
+                        let timeArr = [];
+                        if (years > 0) timeArr.push(`${years}a`);
+                        if (remainderMonths > 0) timeArr.push(`${remainderMonths}m`);
+                        if (days > 0) timeArr.push(`${days}d`);
+                        els.timeBadge.textContent = timeArr.length > 0 ? timeArr.join(' ') : "¡Casi listo!";
+                    }
+                    
+                    // Velocity Bar (Green)
+                    const savingRate = (surplusVal / totalIncomeVal) * 100;
+                    const visualWidth = Math.min((savingRate * 2.5), 100); 
+                    els.progressBar.style.width = `${visualWidth}%`;
+                    els.progressBar.className = "h-full bg-success w-0 transition-all duration-1000 rounded-full";
+                } else {
+                    els.surplus.className = "text-3xl font-black text-danger tracking-tight transition-colors";
+                    els.statusGlow.className = "absolute top-0 right-0 w-40 h-40 bg-danger/20 blur-[60px] rounded-full pointer-events-none transition-colors";
+                    els.timeBadge.textContent = "Infinito";
+                    // Velocity Bar (Red)
+                    els.progressBar.style.width = "100%";
+                    els.progressBar.className = "h-full bg-danger w-0 transition-all duration-1000 rounded-full";
+                }
+
+                // Health Bar logic
+                let healthRatio = 50;
+                if (totalIncomeVal > 0 && totalExpensesVal > 0) {
+                    const ratio = totalIncomeVal / totalExpensesVal;
+                    if (ratio >= 1) healthRatio = 50 + ((ratio - 1) * 50);
+                    else healthRatio = ratio * 50;
+                } else if (totalIncomeVal === 0) healthRatio = 0;
+                healthRatio = Math.min(Math.max(healthRatio, 0), 100);
+                els.healthIndicator.style.left = `${healthRatio}%`;
+                
+                if (healthRatio < 45) {
+                    els.healthLabel.textContent = "RIESGO";
+                    els.healthLabel.className = "text-[10px] font-black px-2 py-1 rounded bg-danger text-white uppercase shadow-md shadow-danger/30";
+                } else if (healthRatio < 60) {
+                    els.healthLabel.textContent = "EQUILIBRIO";
+                    els.healthLabel.className = "text-[10px] font-black px-2 py-1 rounded bg-warning text-white uppercase shadow-md shadow-warning/30";
+                } else {
+                    els.healthLabel.textContent = "SOLIDEZ";
+                    els.healthLabel.className = "text-[10px] font-black px-2 py-1 rounded bg-success text-white uppercase shadow-md shadow-success/30";
+                }
+
+                saveState();
+            }
+
+            // --- Actions ---
+            window.addDeposit = () => {
+                const amount = parseFloat(els.depositInput.value);
+                if (!isNaN(amount) && amount > 0) {
+                    state.accumulatedSaved += amount;
+                    els.depositInput.value = ''; 
+                    calculate();
+                    triggerConfetti(); 
+                }
+            };
+            
+            window.removeDeposit = () => {
+                const amount = parseFloat(els.depositInput.value);
+                if (!isNaN(amount) && amount > 0) {
+                    state.accumulatedSaved = Math.max(0, state.accumulatedSaved - amount);
+                    els.depositInput.value = ''; 
+                    calculate();
+                }
+            };
+            
+            window.resetSaved = () => {
+                if(confirm("¿Reiniciar el monto acumulado?")) {
+                    state.accumulatedSaved = 0;
+                    calculate();
+                }
+            };
+
+            // --- Renderers ---
+            function renderIncomes() {
+                els.incomeList.innerHTML = '';
+                state.incomes.forEach(inc => {
+                    const margin = (inc.price - inc.cost);
+                    const subtotal = margin * inc.qty;
+                    
+                    const div = document.createElement('div');
+                    div.className = "bg-surface-light dark:bg-black/20 p-4 rounded-xl border border-gray-100 dark:border-white/5 relative group transition-all shadow-sm";
+                    div.innerHTML = `
+                        <div class="flex justify-between items-center mb-1">
+                            <input type="text" value="${inc.name}" class="bg-transparent text-sm font-bold text-text-main-light dark:text-text-main-dark border-b border-transparent focus:border-primary p-0 w-full mr-2" onchange="updateIncome('${inc.id}', 'name', this.value)">
+                            <button onclick="removeIncome('${inc.id}')" class="text-text-muted-light hover:text-danger"><span class="material-symbols-rounded text-sm">close</span></button>
+                        </div>
+                        <p class="text-[9px] text-text-muted-light/70 dark:text-text-muted-dark/70 mb-3">Descripción</p>
+
+                        <div class="flex gap-4 mb-3">
+                            <div class="w-1/2">
+                                <label class="text-[10px] text-text-muted-light dark:text-text-muted-dark uppercase font-bold block mb-1">Precio</label>
+                                <div class="relative">
+                                    <span class="absolute left-2 top-1/2 -translate-y-1/2 text-xs text-text-muted-light">$</span>
+                                    <input type="number" value="${inc.price}" class="w-full pl-5 bg-bg-light dark:bg-bg-dark rounded-lg py-1.5 text-xs border-none font-bold text-text-main-light dark:text-text-main-dark focus:ring-1 focus:ring-primary" onchange="updateIncome('${inc.id}', 'price', this.value)">
+                                </div>
+                            </div>
+                            <div class="w-1/2">
+                                <label class="text-[10px] text-text-muted-light dark:text-text-muted-dark uppercase font-bold block mb-1">Costo</label>
+                                <div class="relative">
+                                    <span class="absolute left-2 top-1/2 -translate-y-1/2 text-xs text-text-muted-light">$</span>
+                                    <input type="number" value="${inc.cost}" class="w-full pl-5 bg-bg-light dark:bg-bg-dark rounded-lg py-1.5 text-xs border-none text-danger focus:ring-1 focus:ring-danger" onchange="updateIncome('${inc.id}', 'cost', this.value)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-bg-light dark:bg-bg-dark rounded-lg p-3 mb-3 border border-gray-100 dark:border-white/5">
+                             <div class="flex justify-between items-center mb-1">
+                                <span class="text-[10px] text-text-muted-light dark:text-text-muted-dark uppercase font-bold">Volumen</span>
+                                <span id="qty-label-${inc.id}" class="text-xs font-black text-primary bg-primary/10 px-2 rounded-full">${inc.qty}</span>
+                             </div>
+                             <input type="range" min="0" max="1000" value="${inc.qty}" class="w-full h-1.5 rounded-lg appearance-none cursor-pointer" oninput="updateIncome('${inc.id}', 'qty', this.value)">
+                        </div>
+                        <div class="flex justify-between items-center pt-2 border-t border-gray-100 dark:border-white/5">
+                            <span class="text-[10px] text-text-muted-light dark:text-text-muted-dark">Ganancia</span>
+                            <span id="subtotal-${inc.id}" class="text-sm font-bold text-success">+${formatMoney(subtotal)}</span>
+                        </div>
+                    `;
+                    els.incomeList.appendChild(div);
+                });
+            }
+
+            function renderExpenses() {
+                const sorted = [...state.expenses].sort((a,b) => b.amount - a.amount);
+                els.expensesList.innerHTML = '';
+                sorted.forEach(exp => {
+                    const div = document.createElement('div');
+                    div.className = "flex items-center justify-between p-3 rounded-xl hover:bg-bg-light dark:hover:bg-bg-dark border border-transparent hover:border-gray-100 dark:hover:border-white/5 transition-all group relative";
+                    div.innerHTML = `
+                        <div class="flex items-center gap-3 flex-1">
+                            <div class="w-1.5 h-8 rounded-full" style="background-color: ${exp.color}"></div>
+                            <input type="text" value="${exp.name}" class="bg-transparent border-none p-0 text-sm font-bold text-text-main-light dark:text-text-main-dark w-full focus:ring-0" onchange="updateExp('${exp.id}', 'name', this.value)">
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs text-text-muted-light dark:text-text-muted-dark">$</span>
+                            <input type="number" value="${exp.amount}" class="bg-transparent border-none p-0 text-right font-bold text-text-main-light dark:text-text-main-dark w-20 focus:ring-0" onchange="updateExp('${exp.id}', 'amount', this.value)">
+                            <button onclick="removeExpense('${exp.id}')" class="opacity-0 group-hover:opacity-100 text-text-muted-light hover:text-danger transition-opacity p-1">
+                                <span class="material-symbols-rounded text-sm">close</span>
+                            </button>
+                        </div>
+                    `;
+                    els.expensesList.appendChild(div);
+                });
+            }
+
+            // --- Actions ---
+            window.addIncomeItem = () => {
+                state.incomes.push({ id: Date.now().toString(), name: 'Producto / Servicio', price: 150, cost: 10, qty: 15 });
+                renderIncomes(); 
+                calculate();
+            };
+            window.removeIncome = (id) => {
+                state.incomes = state.incomes.filter(i => i.id !== id);
+                renderIncomes(); 
+                calculate();
+            };
+            window.updateIncome = (id, field, val) => {
+                const idx = state.incomes.findIndex(i => i.id === id);
+                if(idx !== -1) {
+                    if(field === 'name') state.incomes[idx].name = val;
+                    else state.incomes[idx][field] = parseFloat(val) || 0;
+                }
+                calculate();
+            };
+
+            window.addExpense = () => {
+                const colors = ['#e15b64', '#f59e0b', '#8b5cf6', '#10b981'];
+                state.expenses.push({ id: Date.now().toString(), name: 'Nuevo Gasto', amount: 0, color: colors[Math.floor(Math.random()*colors.length)] });
+                renderExpenses();
+                calculate();
+            };
+            window.removeExpense = (id) => {
+                state.expenses = state.expenses.filter(e => e.id !== id);
+                renderExpenses();
+                calculate();
+            };
+            window.updateExp = (id, field, val) => {
+                const idx = state.expenses.findIndex(e => e.id === id);
+                if(idx !== -1) {
+                    if(field === 'name') state.expenses[idx].name = val;
+                    else state.expenses[idx].amount = parseFloat(val) || 0;
+                }
+                calculate();
+            };
+            
+            window.resetAllData = () => {
+                if(confirm("¿Estás segura de querer borrar todo?")) {
+                    localStorage.removeItem(STORAGE_KEY);
+                    location.reload();
+                }
+            }
+            
+            function triggerConfetti() {
+                if(window.confettiRan) return;
+                window.confettiRan = true;
+                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+                setTimeout(() => { window.confettiRan = false; }, 3000);
+            }
+
+            const formatMoney = (v) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(v);
+            const formatCompact = (v) => new Intl.NumberFormat('en-US', { notation: "compact", maximumFractionDigits: 1 }).format(v);
+            
+            function animateValue(obj, end) {
+                const current = parseFloat(obj.textContent.replace(/[^0-9.-]+/g,"")) || 0;
+                if(current === end) return;
+                obj.textContent = formatMoney(end);
+            }
+
+            els.goal.addEventListener('input', calculate);
+            els.salary.addEventListener('input', calculate);
+            
+            document.getElementById('themeToggle').addEventListener('click', () => {
+                document.documentElement.classList.toggle('dark');
+                saveState();
+            });
+
+            // Init
+            loadState();
+            renderIncomes(); 
+            renderExpenses();
+            calculate();
+        });
+    </script>
+</body>
+</html>
