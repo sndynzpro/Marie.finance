@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-    <title>Marie Finance - Spanish Edition</title>
+    <title>Marie Finance - Precision</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0" rel="stylesheet" />
@@ -71,61 +71,22 @@
         .fade-in { animation: fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- TUTORIAL ESTILO "MARIE" --- */
+        /* TUTORIAL ETEREO */
         .driver-popover.driverjs-theme {
-            background-color: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(12px);
-            color: #4a403a;
-            border: 1px solid rgba(176, 137, 104, 0.1);
-            border-radius: 28px;
-            box-shadow: 0 25px 60px -10px rgba(60, 50, 40, 0.15);
-            padding: 24px;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            max-width: 300px;
+            background-color: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px); color: #4a403a;
+            border: 1px solid rgba(176, 137, 104, 0.1); border-radius: 28px;
+            box-shadow: 0 25px 60px -10px rgba(60, 50, 40, 0.12); padding: 24px; font-family: 'Plus Jakarta Sans', sans-serif; max-width: 320px;
         }
         .dark .driver-popover.driverjs-theme {
-            background-color: rgba(30, 28, 27, 0.98);
-            color: #e7e5e4;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.6);
+            background-color: rgba(30, 28, 27, 0.95); color: #e7e5e4; border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.6);
         }
-        
-        .driver-popover.driverjs-theme .driver-popover-title {
-            font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em;
-            color: #b08968; margin-bottom: 12px; text-align: center;
-        }
-        .driver-popover.driverjs-theme .driver-popover-description {
-            font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 400; line-height: 1.6; opacity: 0.9; margin-bottom: 24px; text-align: center;
-        }
-        
-        /* Botones */
-        .driver-popover.driverjs-theme button {
-            background: transparent; color: #b08968; border: 1px solid rgba(176, 137, 104, 0.2);
-            border-radius: 100px; font-size: 11px; font-weight: 700; padding: 8px 20px;
-            text-shadow: none; transition: all 0.3s;
-        }
-        .driver-popover.driverjs-theme button:hover {
-            background-color: rgba(176, 137, 104, 0.05); border-color: #b08968;
-        }
-        .driver-popover.driverjs-theme button.driver-popover-next-btn {
-            background-color: #b08968; color: white; border: 1px solid #b08968;
-            box-shadow: 0 4px 15px rgba(176, 137, 104, 0.2);
-        }
-        .driver-popover.driverjs-theme button.driver-popover-next-btn:hover {
-            background-color: #9c7858; box-shadow: 0 6px 20px rgba(176, 137, 104, 0.3); transform: translateY(-1px);
-        }
-        
-        /* Quitar línea de la X de cerrar */
-        .driver-popover.driverjs-theme .driver-popover-close-btn {
-            border: none; background: transparent; color: #b08968; opacity: 0.5;
-        }
-        .driver-popover.driverjs-theme .driver-popover-close-btn:hover {
-            opacity: 1; background: transparent;
-        }
-        
-        .driver-popover.driverjs-theme .driver-popover-navigation-btns {
-            justify-content: center; gap: 10px;
-        }
+        .driver-popover.driverjs-theme .driver-popover-title { font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; color: #b08968; margin-bottom: 12px; }
+        .driver-popover.driverjs-theme .driver-popover-description { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 400; line-height: 1.6; opacity: 0.9; margin-bottom: 24px; }
+        .driver-popover.driverjs-theme button { background: transparent; color: #b08968; border: 1px solid rgba(176, 137, 104, 0.2); border-radius: 100px; font-size: 11px; font-weight: 700; padding: 10px 22px; text-shadow: none; transition: all 0.3s; }
+        .driver-popover.driverjs-theme button:hover { background-color: rgba(176, 137, 104, 0.05); }
+        .driver-popover.driverjs-theme button.driver-popover-next-btn { background-color: #b08968; color: white; border: 1px solid #b08968; box-shadow: 0 4px 15px rgba(176, 137, 104, 0.25); }
+        .driver-popover.driverjs-theme .driver-popover-close-btn { border: none; background: transparent; color: #b08968; opacity: 0.5; }
+        .driver-popover.driverjs-theme .driver-popover-navigation-btns { justify-content: flex-end; gap: 8px; }
     </style>
 </head>
 <body class="bg-bg-light dark:bg-bg-dark text-text-main-light dark:text-text-main-dark font-body min-h-screen flex flex-col selection:bg-primary selection:text-white">
@@ -170,7 +131,7 @@
                         <span>Acumulado: $0</span>
                     </div>
                     <div class="mt-2 pt-3 border-t border-stone-100 dark:border-white/5">
-                        <p class="text-[10px] text-text-muted-light/80 dark:text-text-muted-dark/80 italic text-center">"Toca para gestionar movimientos"</p>
+                        <p class="text-[10px] text-text-muted-light/80 dark:text-text-muted-dark/80 italic text-center">"Toca para gestionar tu fondo"</p>
                     </div>
                 </button>
             </div>
@@ -244,7 +205,7 @@
                 </div>
             </div>
             
-            <p class="text-center text-[9px] text-text-muted-light/30 dark:text-text-muted-dark/30 mt-10 mb-4 tracking-[0.3em] font-mono">MARIE FINANCE v15.0</p>
+            <p class="text-center text-[9px] text-text-muted-light/30 dark:text-text-muted-dark/30 mt-10 mb-4 tracking-[0.3em] font-mono">MARIE FINANCE v17.0</p>
         </div>
 
         <div id="view-goal" class="fade-in hidden">
@@ -387,7 +348,9 @@
         document.addEventListener('DOMContentLoaded', () => {
             loadState();
             renderAllLists();
-            if(!localStorage.getItem('marie_v15_tut')) { setTimeout(startTutorial, 800); localStorage.setItem('marie_v15_tut', 'true'); }
+            
+            // Tutorial check v17
+            if(!localStorage.getItem('marie_v17_tut')) { setTimeout(startTutorial, 800); localStorage.setItem('marie_v17_tut', 'true'); }
         });
 
         // --- CORE UPDATE ---
@@ -416,6 +379,23 @@
         }
 
         // --- COMPONENTS ---
+        
+        function formatTimeRemaining(totalMonths) {
+            if (totalMonths === Infinity) return "Infinito";
+            if (totalMonths <= 0) return "¡Logrado!";
+
+            const years = Math.floor(totalMonths / 12);
+            const months = Math.floor(totalMonths % 12);
+            const days = Math.ceil((totalMonths - Math.floor(totalMonths)) * 30);
+
+            let parts = [];
+            if (years > 0) parts.push(`${years}a`);
+            if (months > 0) parts.push(`${months}m`);
+            if (days > 0) parts.push(`${days}d`);
+
+            return parts.length > 0 ? parts.join(' ') : "Hoy";
+        }
+
         function updateBottomBar(surplus, totalIncome, remaining) {
             const elBar = document.getElementById('barProgress');
             const elTime = document.getElementById('barTime');
@@ -429,8 +409,9 @@
                 let progress = (surplus / totalIncome) * 100 * 2; 
                 elBar.style.width = Math.min(progress, 100) + '%';
                 elBar.className = 'h-full bg-success w-0 transition-all duration-700 ease-out rounded-full';
+                
                 let months = remaining / surplus;
-                elTime.innerHTML = `<span class="material-symbols-rounded text-primary text-sm">timer</span><span>${remaining <= 0 ? "¡Logrado!" : (months < 1 ? "Días" : `${months.toFixed(1)} Meses`)}</span>`;
+                elTime.innerHTML = `<span class="material-symbols-rounded text-primary text-sm">timer</span><span>${formatTimeRemaining(months)}</span>`;
             } else {
                 elSurplus.classList.remove('text-success'); elSurplus.classList.add('text-danger');
                 elBar.style.width = '100%';
@@ -444,20 +425,32 @@
             const badge = document.getElementById('healthBadge');
             const desc = document.getElementById('healthDescText');
             
-            let ratio = income > 0 ? (expense > 0 ? income / expense : 2.5) : 0;
-            let sliderPos = ratio < 1 ? ratio * 50 : Math.min(50 + ((ratio - 1) * 50), 100);
+            // LOGIC: Savings Rate (Capacidad de Ahorro)
+            // Range 0% to 50% savings
+            let savingsRate = income > 0 ? ((income - expense) / income) * 100 : 0;
+            let sliderPos = 0;
+
+            if (income <= expense) {
+                // Deficit zone (0-30%)
+                sliderPos = 15; // Stuck in danger
+            } else {
+                // Positive zone (30-100%)
+                // Map 0% savings -> 30% pos
+                // Map 50% savings -> 100% pos
+                sliderPos = 30 + Math.min((savingsRate / 50) * 70, 70);
+            }
 
             if(indicator) indicator.style.left = `${sliderPos}%`;
 
-            if (sliderPos < 45) {
+            if (sliderPos < 35) {
                 badge.textContent = "RIESGO CRÍTICO"; badge.className = "px-3 py-1 bg-danger/10 text-danger border border-danger/30 rounded-full text-[9px] font-black uppercase";
-                desc.textContent = "ALERTA: Tus gastos son mayores que tus ingresos.";
-            } else if (sliderPos < 75) {
+                desc.textContent = "DÉFICIT: Gastas más de lo que ingresas. Reduce gastos urgentes.";
+            } else if (sliderPos < 65) {
                 badge.textContent = "ESTABLE"; badge.className = "px-3 py-1 bg-warning/10 text-warning border border-warning/30 rounded-full text-[9px] font-black uppercase";
-                desc.textContent = "Bien equilibrado, pero con poco margen de maniobra.";
+                desc.textContent = "AL LÍMITE: Ahorras poco. Cualquier imprevisto te afectará.";
             } else {
                 badge.textContent = "SÓLIDO"; badge.className = "px-3 py-1 bg-success/10 text-success border border-success/30 rounded-full text-[9px] font-black uppercase";
-                desc.textContent = "Excelente. Tienes un superávit saludable para crecer.";
+                desc.textContent = "EXCELENTE: Tienes un flujo de caja positivo y saludable.";
             }
         }
 
@@ -478,7 +471,6 @@
                 const change = h.type === 'add' ? h.amount : -h.amount;
                 runningBalance = Math.max(0, runningBalance + change); 
                 
-                // USAR NOMBRE REAL
                 let labelName = h.desc || 'Mov';
                 if(labelName.length > 8) labelName = labelName.substring(0, 8) + '..'; 
                 
@@ -517,7 +509,7 @@
                     layout: { padding: { top: 10, bottom: 10, left: -10, right: 0 } },
                     plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false } },
                     scales: {
-                        x: { display: false }, // Ocultamos texto eje X para limpieza visual
+                        x: { display: false }, 
                         y: { display: false, min: 0 }
                     },
                     interaction: { mode: 'nearest', axis: 'x', intersect: false }
@@ -575,7 +567,7 @@
             if(item) { 
                 item.desc = val; 
                 saveState(); 
-                renderChart(); // Actualizar gráfica al cambiar nombre
+                renderChart(); 
             } 
         }
         function addItem(type) { const id = Date.now(); if(type === 'incomes') { state.incomes.push({ id, name: 'Nuevo', price: 0, cost: 0, qty: 1 }); renderIncomeList(); } else { state.expenses.push({ id, name: 'Gasto', amount: 0 }); renderExpenseList(); } updateGlobalState(); }
@@ -650,20 +642,20 @@
                 showProgress: true, popoverClass: 'driverjs-theme',
                 nextBtnText: 'Siguiente', prevBtnText: 'Anterior', doneBtnText: '¡Vamos!',
                 steps: [
-                    { popover: { title: 'Bienvenida', description: 'Tu centro financiero personal, diseñado para el crecimiento.' } },
-                    { element: '#step1-target', popover: { title: '1. Meta Global', description: 'Define tu gran objetivo y gestiona el capital que ya tienes acumulado.' } },
-                    { element: '#step2-target', popover: { title: '2. Flujo de Caja', description: 'Registra detalladamente tus ingresos y gastos para conocer tu capacidad real.' } },
-                    { element: '#step3-target', popover: { title: '3. Inteligencia', description: 'Diagnóstico automático de salud financiera y tendencia histórica.' } }
+                    { popover: { title: '¡Hola! Bienvenida', description: 'Vamos a poner orden en tus números para que esa meta (como tu inmueble propio) deje de ser un sueño y se convierta en un plan real.' } },
+                    { element: '#step1-target', popover: { title: 'El Primer Paso', description: 'Para comprar un inmueble, primero necesitas un fondo sólido. Aquí gestionas ese capital inicial. Es tu primer ladrillo.' } },
+                    { element: '#step2-target', popover: { title: 'Flujo de Caja', description: 'No es solo cuánto ganas, es cuánto retienes. Registra ingresos y gastos para saber tu capacidad real.' } },
+                    { element: '#step3-target', popover: { title: 'Tu Brújula', description: 'Este termómetro te dirá si estás lista para invertir o si necesitamos ajustar las velas antes de zarpar.' } }
                 ]
             });
             driver.drive();
         }
 
         function loadState() {
-            const saved = localStorage.getItem('marieFin_v15_spanish');
+            const saved = localStorage.getItem('marieFin_v17_precision');
             if(saved) { try { state = { ...state, ...JSON.parse(saved) }; if(!state.history) state.history=[]; } catch(e) {} }
         }
-        function saveState() { localStorage.setItem('marieFin_v15_spanish', JSON.stringify(state)); }
+        function saveState() { localStorage.setItem('marieFin_v17_precision', JSON.stringify(state)); }
         function toggleTheme() { document.documentElement.classList.toggle('dark'); saveState(); renderChart(); }
         function setText(id, txt) { const el = document.getElementById(id); if(el) el.innerText = txt; }
         function setHTML(id, html) { const el = document.getElementById(id); if(el) el.innerHTML = html; }
