@@ -3,10 +3,11 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-    <title>Marie Finance - Aurea Mobile</title>
+    <title>Marie Finance - Aurea</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0" rel="stylesheet" />
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -22,8 +23,6 @@
                 extend: {
                     colors: {
                         "primary": "#b08968",        
-                        "bg-dark": "#0c0a09",
-                        "card-dark": "#1c1917",
                         "text-main-light": "#4a403a",
                         "text-muted-light": "#9c8c84",
                         "text-main-dark": "#e7e5e4",
@@ -37,8 +36,19 @@
                         "body": ["Inter", "sans-serif"],
                     },
                     boxShadow: {
-                        'soft': '0 10px 40px -10px rgba(0, 0, 0, 0.08)',
-                        'glow': '0 0 20px -5px rgba(176, 137, 104, 0.3)',
+                        'soft': '0 8px 32px -4px rgba(0, 0, 0, 0.05)',
+                        'glow': '0 0 25px -5px rgba(176, 137, 104, 0.4)',
+                        'golden': '0 13px 27px -5px rgba(50, 50, 93, 0.15), 0 8px 16px -8px rgba(0, 0, 0, 0.2)',
+                    },
+                    animation: {
+                        'gradient': 'gradient 25s ease infinite',
+                    },
+                    keyframes: {
+                        gradient: {
+                            '0%': { backgroundPosition: '0% 50%' },
+                            '50%': { backgroundPosition: '100% 50%' },
+                            '100%': { backgroundPosition: '0% 50%' },
+                        }
                     }
                 },
             },
@@ -46,248 +56,412 @@
     </script>
 
     <style>
-        /* BASE */
-        body { -webkit-tap-highlight-color: transparent; overscroll-behavior-y: none; }
+        /* BASE & UTILIDADES */
+        body { -webkit-tap-highlight-color: transparent; transition: color 0.5s ease; }
         input:focus { outline: none; }
         input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         
         /* ANIMACIONES */
-        .fade-in { animation: fadeIn 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; opacity: 0; transform: translateY(10px); }
+        .fade-in { animation: fadeIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; opacity: 0; transform: translateY(12px); }
         @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
 
-        /* FONDO */
+        /* FONDO ANIMADO */
         .animated-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-            background: linear-gradient(180deg, #f5f5f4 0%, #e7e5e4 100%);
+            background: linear-gradient(-45deg, #efebe9, #d7ccc8, #e6dace, #f5f5f5);
+            background-size: 300% 300%;
+            animation: gradient 25s ease infinite;
         }
         .dark .animated-bg {
-            background: linear-gradient(180deg, #0c0a09 0%, #1c1917 100%);
+            background: linear-gradient(-45deg, #1a120b, #2b1d16, #3e2723, #0c0a09);
         }
 
-        /* GLASSMORPHISM PROLIJO */
+        /* EFECTOS DE CRISTAL (GLASSMORPHISM) */
         .glass-panel { 
-            background: rgba(255, 255, 255, 0.85); 
+            background: rgba(255, 255, 255, 0.7); 
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.4);
         }
         .dark .glass-panel { 
-            background: rgba(12, 10, 9, 0.85); 
-            border-bottom: 1px solid rgba(255,255,255,0.05); 
+            background: rgba(20, 15, 10, 0.75); 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
         }
         
-        .card-clean {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(12px);
+        .card-glass {
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.6);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
-            transition: transform 0.2s;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-        .dark .card-clean {
-            background: rgba(30, 25, 24, 0.6); 
-            border: 1px solid rgba(255, 255, 255, 0.08);
+        .dark .card-glass {
+            background: rgba(40, 30, 25, 0.5); 
+            border: 1px solid rgba(255, 255, 255, 0.06);
         }
-        .card-clean:active { transform: scale(0.98); }
 
-        /* INPUT EDITABLE INDICATOR */
-        .input-editable-container { position: relative; display: flex; align-items: center; }
-        .input-editable-icon {
-            opacity: 0.3; margin-left: 6px; pointer-events: none; transition: opacity 0.2s;
+        @media (hover: hover) {
+            .card-glass:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -5px rgba(60, 40, 30, 0.15); border-color: rgba(176, 137, 104, 0.4); }
         }
-        .input-editable:focus + .input-editable-icon { opacity: 0; }
-        .input-editable:focus { border-bottom: 1px solid var(--primary); }
+        .card-glass:active { transform: scale(0.99); }
 
-        /* TYPOGRAPHY */
-        .text-balance { font-size: clamp(2.5rem, 8vw, 3.5rem); letter-spacing: -0.05em; line-height: 1; }
+        /* TIPOGRAFÍA */
+        .text-hero { font-size: clamp(2rem, 5vw, 4.5rem); line-height: 1.1; }
+        .text-h1 { font-size: clamp(1.5rem, 3vw, 2.5rem); } 
+        .text-body { font-size: 1rem; line-height: 1.618; }
+        .text-small { font-size: 0.85rem; line-height: 1.5; }
+        .text-micro { font-size: 0.7rem; letter-spacing: 0.05em; text-transform: uppercase; }
+        .text-truncate-input { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+        /* SCROLLBAR & INPUTS */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #b08968; border-radius: 10px; opacity: 0.5; }
+        .dark ::-webkit-scrollbar-thumb { background: #8d6e63; }
+
+        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none; height: 16px; width: 16px; border-radius: 50%;
+            background: #b08968; cursor: pointer; margin-top: -6px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15); border: 2px solid white;
+        }
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; cursor: pointer; background: #e5e5e5; border-radius: 99px; }
+        .dark input[type=range]::-webkit-slider-runnable-track { background: #4e342e; }
+
+        .help-text { font-size: 0.75rem; line-height: 1.4; opacity: 0.65; font-family: 'Inter', sans-serif; display: block; margin-top: 6px; font-style: italic; text-wrap: balance; }
         
-        /* SCROLL */
-        ::-webkit-scrollbar { width: 0px; background: transparent; }
-        
-        /* UTILS */
+        /* COMPONENTES UI */
         #toast {
-            visibility: hidden; min-width: 200px; background-color: #1c1917; color: #fff; text-align: center;
-            border-radius: 99px; padding: 12px 24px; position: fixed; z-index: 100;
-            left: 50%; bottom: 100px; transform: translateX(-50%) translateY(20px);
-            font-size: 13px; font-weight: 600; opacity: 0; transition: all 0.3s;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            visibility: hidden; min-width: 220px; max-width: 90%; background-color: rgba(43, 29, 22, 0.95);
+            color: #fff; text-align: center; border-radius: 99px; padding: 12px 24px; position: fixed;
+            z-index: 100; left: 50%; bottom: 100px; transform: translateX(-50%) translateY(20px);
+            font-size: 13px; font-weight: 500; backdrop-filter: blur(8px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.25); opacity: 0; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(255,255,255,0.1); pointer-events: none;
         }
         #toast.show { visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0); }
+        
+        .modal-backdrop { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; padding: 1rem; }
+        .modal-bg { position: absolute; inset: 0; background-color: rgba(0,0,0,0.4); backdrop-filter: blur(8px); transition: opacity 0.3s; }
+        
+        #loginOverlay {
+            position: fixed; inset: 0; z-index: 999; 
+            background: linear-gradient(-45deg, #efebe9, #e6dace);
+            display: flex; align-items: center; justify-content: center;
+            transition: opacity 0.5s ease;
+        }
+        .dark #loginOverlay { background: linear-gradient(-45deg, #1a120b, #2b1d16); }
+        .hidden-overlay { opacity: 0; pointer-events: none; }
+
+        /* CLASES UTILITARIAS DE BOTONES */
+        .btn-header { width: 44px; height: 44px; flex-shrink: 0; border-radius: 14px; }
+        .btn-control { width: 72px; height: 72px; flex-shrink: 0; border-radius: 20px; }
+        .btn-action-lg { width: 64px; height: 64px; flex-shrink: 0; border-radius: 20px; }
     </style>
 </head>
 
-<body class="text-text-main-light dark:text-text-main-dark font-body min-h-screen flex flex-col overflow-x-hidden selection:bg-primary/30">
+<body class="text-text-main-light dark:text-text-main-dark font-body min-h-screen flex flex-col selection:bg-primary selection:text-white overflow-x-hidden">
 
     <div class="animated-bg"></div>
     <div id="toast">Notificación</div>
 
-    <div id="loginOverlay" class="fixed inset-0 z-[999] bg-[#e7e5e4] dark:bg-[#0c0a09] flex items-center justify-center transition-opacity duration-500">
-        <div class="w-full max-w-sm px-8 text-center">
-            <div class="w-20 h-20 bg-primary/20 rounded-3xl mx-auto mb-6 flex items-center justify-center">
-                <span class="material-symbols-rounded text-4xl text-primary">account_balance_wallet</span>
-            </div>
-            <h1 class="text-3xl font-display font-bold mb-2">Marie Finance</h1>
-            <p class="text-sm text-text-muted-light dark:text-text-muted-dark mb-10">Tu economía, prolija y bajo control.</p>
-            <button onclick="Auth.login()" class="w-full py-4 rounded-2xl bg-white dark:bg-white/5 font-bold flex items-center justify-center gap-3 shadow-soft active:scale-95 transition-all border border-black/5 dark:border-white/10">
+    <div id="loginOverlay">
+        <div class="card-glass p-10 rounded-[2.5rem] shadow-golden text-center max-w-sm mx-6 border border-white/20 dark:border-white/10 relative overflow-hidden">
+            <div class="absolute top-[-50px] left-[-50px] w-40 h-40 bg-primary/20 rounded-full blur-3xl"></div>
+            <span class="text-micro font-black text-primary mb-3 block tracking-widest">BIENVENIDA A</span>
+            <h1 class="text-4xl font-display font-bold mb-6 text-text-main-light dark:text-white tracking-tight">Marie Finance</h1>
+            <p class="text-small text-text-muted-light dark:text-text-muted-dark mb-10 leading-relaxed">Tus finanzas organizadas con proporción áurea. Sincroniza en la nube y mantén el control.</p>
+            <button onclick="Auth.login()" class="w-full py-4 rounded-2xl bg-white dark:bg-white/10 text-text-main-light dark:text-white font-bold flex items-center justify-center gap-3 shadow-soft hover:scale-[1.02] active:scale-95 transition-all border border-black/5 dark:border-white/5 text-sm">
                 <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="G">
-                <span>Entrar con Google</span>
+                <span>Continuar con Google</span>
             </button>
         </div>
     </div>
 
-    <div class="fixed top-0 w-full z-50 glass-panel">
-        <div class="max-w-md mx-auto px-5 py-3 flex items-center justify-between">
-            <div class="flex items-center gap-3" onclick="App.navigateTo('home')">
-                <button id="backBtn" class="hidden w-10 h-10 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center">
-                    <span class="material-symbols-rounded text-lg">arrow_back</span>
+    <div id="profileModal" class="modal-backdrop hidden">
+        <div class="modal-bg" onclick="App.closeProfileModal()"></div>
+        <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-sm rounded-[2.5rem] p-8 shadow-golden relative z-10 transform transition-all scale-95 opacity-0" id="profileCard">
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-2xl bg-white dark:bg-[#1a1a1a] flex items-center justify-center border border-black/5 dark:border-white/10 shadow-lg">
+                <span class="material-symbols-rounded text-3xl text-primary">person_edit</span>
+            </div>
+            <h3 class="text-xl font-bold text-center mt-8 mb-2 text-text-main-light dark:text-text-main-dark">Tu Identidad</h3>
+            <p class="text-small text-center text-text-muted-light mb-8">¿Cómo quieres que te llamemos?</p>
+            <div class="mb-8">
+                <label class="text-micro font-bold text-text-muted-light dark:text-text-muted-dark block mb-3 pl-1">Nombre / Apodo</label>
+                <input id="inputUserName" type="text" placeholder="Ej: Marie" class="w-full bg-black/5 dark:bg-white/5 rounded-2xl border-none py-4 px-5 text-sm focus:ring-2 focus:ring-primary/50 outline-none text-text-main-light dark:text-white placeholder-stone-400 font-medium transition-shadow text-center">
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <button onclick="App.closeProfileModal()" class="py-4 rounded-2xl text-xs font-bold bg-black/5 dark:bg-white/5 text-text-muted-light hover:bg-black/10 dark:hover:bg-white/10 transition-colors uppercase tracking-wider">Cancelar</button>
+                <button onclick="App.saveProfile()" class="py-4 rounded-2xl text-xs font-bold bg-primary text-white shadow-lg shadow-primary/30 active:scale-95 transition-transform uppercase tracking-wider">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="fixed top-0 w-full z-50 transition-all duration-300">
+        <div class="glass-panel mx-auto w-full px-6 py-4 lg:px-12 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <button id="backBtn" onclick="App.navigateTo('home')" class="hidden btn-header bg-white/50 dark:bg-white/5 flex items-center justify-center text-text-muted-light dark:text-text-muted-dark hover:bg-white dark:hover:bg-white/10 active:scale-95 transition-all shadow-sm border border-white/20 dark:border-white/5">
+                    <span class="material-symbols-rounded">arrow_back</span>
                 </button>
-                <div>
-                    <span class="text-[10px] font-black tracking-widest text-primary block">MARIE FINANCE</span>
-                    <h2 id="pageTitle" class="text-lg font-bold font-display leading-none">Resumen</h2>
+                <div class="flex flex-col cursor-pointer group" onclick="App.navigateTo('home')">
+                    <span id="pageTitleLabel" class="text-micro font-black text-primary group-hover:text-primary/80 transition-colors">FINANZAS</span>
+                    <span id="pageTitleMain" class="text-lg font-bold font-display tracking-tight text-text-main-light dark:text-text-main-dark">Marie Finance</span>
                 </div>
             </div>
-            <div class="flex gap-2">
-                <button onclick="App.toggleTheme()" class="w-10 h-10 rounded-full border border-black/5 dark:border-white/10 flex items-center justify-center active:scale-90 transition-transform">
-                    <span class="material-symbols-rounded text-lg">contrast</span>
+            <div class="flex gap-3">
+                <button onclick="App.openProfileModal()" class="btn-header border border-white/20 dark:border-white/10 text-text-muted-light dark:text-text-muted-dark flex items-center justify-center active:scale-95 hover:bg-white/20 dark:hover:bg-white/10 transition-all backdrop-blur-sm" title="Editar Perfil">
+                    <span class="material-symbols-rounded text-xl">account_circle</span>
                 </button>
-                <button onclick="Auth.logout()" class="w-10 h-10 rounded-full border border-black/5 dark:border-white/10 flex items-center justify-center text-danger/80 active:scale-90 transition-transform">
-                    <span class="material-symbols-rounded text-lg">logout</span>
+                <button onclick="Auth.logout()" class="btn-header border border-white/20 dark:border-white/10 text-text-muted-light dark:text-text-muted-dark flex items-center justify-center active:scale-95 hover:bg-danger/10 hover:text-danger hover:border-danger/30 transition-all backdrop-blur-sm" title="Cerrar Sesión">
+                    <span class="material-symbols-rounded text-xl">logout</span>
+                </button>
+                <button onclick="App.toggleTheme()" class="btn-header bg-primary text-white flex items-center justify-center active:scale-95 transition-transform hover:shadow-lg hover:shadow-primary/30 shadow-md border-2 border-white/20 dark:border-white/10">
+                     <span class="material-symbols-rounded text-xl">contrast</span>
                 </button>
             </div>
         </div>
     </div>
 
-    <div class="flex-1 w-full max-w-md mx-auto px-5 pt-28 pb-40" id="mainContainer">
+    <div class="flex-1 w-full max-w-[1400px] mx-auto px-6 pt-32 pb-48 lg:px-12 lg:pt-40 lg:pb-40 transition-all duration-500 overflow-visible" id="mainContainer">
         
-        <div id="view-home" class="flex flex-col gap-4">
+        <div id="view-home" class="w-full">
             
-            <div class="card-clean rounded-[2.5rem] p-8 text-center relative overflow-hidden group fade-in" onclick="App.navigateTo('goal')">
-                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-50"></div>
-                <p class="text-xs font-bold text-text-muted-light dark:text-text-muted-dark uppercase tracking-widest mb-4">Disponible Real</p>
-                <div class="flex justify-center items-start gap-1 mb-2">
-                    <span class="text-2xl text-text-muted-light/50 mt-1">$</span>
-                    <h1 id="homeGoalDisplay" class="text-balance font-black text-text-main-light dark:text-white tracking-tight">0</h1>
-                </div>
-                <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-success/10 text-success rounded-full text-xs font-bold border border-success/20">
-                    <span class="material-symbols-rounded text-sm">trending_up</span>
-                    <span id="surplusDisplay">+0 saldo</span>
-                </div>
+            <div class="mb-10 fade-in">
+                <h1 class="text-h1 font-display font-black text-text-main-light dark:text-white tracking-tight">
+                    <span class="text-primary">¡Epa, </span><span id="userGreetingName">...</span>!
+                </h1>
+                <p class="text-small text-text-muted-light dark:text-text-muted-dark mt-2">Todo listo para organizar tus cuentas.</p>
             </div>
 
-            <div class="grid grid-cols-2 gap-4 fade-in" style="animation-delay: 0.1s;">
-                <button onclick="App.navigateTo('incomes')" class="card-clean p-5 rounded-3xl flex flex-col gap-3 items-start text-left hover:bg-white/40 dark:hover:bg-white/5 transition-colors group">
-                    <div class="w-10 h-10 rounded-full bg-success/10 flex items-center justify-center text-success group-hover:scale-110 transition-transform">
-                        <span class="material-symbols-rounded">arrow_downward</span>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch">
+                <div id="step1-target" class="lg:col-span-4 flex flex-col fade-in delay-100">
+                    <button onclick="App.navigateTo('goal')" class="w-full flex-1 card-glass p-8 rounded-[2.5rem] shadow-soft text-center relative overflow-hidden group flex flex-col justify-center items-center min-h-[360px]">
+                        <div class="absolute top-[-20%] right-[-10%] w-48 h-48 bg-primary/10 rounded-full blur-3xl opacity-50 group-hover:opacity-80 transition-opacity"></div>
+                        <div class="relative z-10 w-full flex flex-col items-center">
+                            <p class="text-micro text-text-muted-light dark:text-text-muted-dark font-bold opacity-70 mb-4">Meta Global</p>
+                            <div class="flex justify-center items-baseline gap-1 flex-wrap mb-2 w-full px-2">
+                                <span class="text-3xl text-primary/40 align-top">$</span>
+                                <span id="homeGoalDisplay" class="text-hero font-black text-text-main-light dark:text-text-main-dark tracking-tighter drop-shadow-sm break-all leading-none">0</span>
+                            </div>
+                            <span class="help-text max-w-[240px]">Tu objetivo financiero.</span>
+                            <div class="inline-flex flex-col items-center mt-8 group-hover:scale-105 transition-transform w-full">
+                                <div class="inline-flex items-center gap-2 bg-white/50 dark:bg-black/20 text-text-main-light dark:text-white px-6 py-3 rounded-2xl text-xs font-bold border border-white/20 dark:border-white/5 shadow-sm" id="homeSavedDisplay">
+                                    <span class="material-symbols-rounded text-lg text-success">savings</span>
+                                    <span>Disponible: $0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </button>
+                </div>
+
+                <div id="step2-target" class="lg:col-span-4 flex flex-col fade-in delay-200">
+                    <div class="flex flex-col gap-6 h-full">
+                        <button onclick="App.navigateTo('incomes')" class="flex-1 card-glass p-8 rounded-[2.5rem] shadow-soft text-left relative overflow-hidden group flex flex-col justify-between min-h-[170px]">
+                            <div class="flex justify-between items-start w-full">
+                                <div>
+                                    <div class="w-12 h-12 rounded-2xl bg-success/10 flex items-center justify-center text-success mb-3 group-hover:scale-110 transition-transform"><span class="material-symbols-rounded text-2xl">trending_up</span></div>
+                                    <p class="text-micro font-bold text-text-muted-light dark:text-text-muted-dark">Entradas</p>
+                                </div>
+                                <div class="w-10 h-10 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-rounded text-base">arrow_outward</span></div>
+                            </div>
+                            <div class="mt-2">
+                                <div id="homeIncomeDisplay" class="text-4xl font-black text-success truncate tracking-tight">$0</div>
+                                <span class="help-text">Ingresos totales del mes.</span>
+                            </div>
+                        </button>
+                        <button onclick="App.navigateTo('expenses')" class="flex-1 card-glass p-8 rounded-[2.5rem] shadow-soft text-left relative overflow-hidden group flex flex-col justify-between min-h-[170px]">
+                            <div class="flex justify-between items-start w-full">
+                                <div>
+                                    <div class="w-12 h-12 rounded-2xl bg-danger/10 flex items-center justify-center text-danger mb-3 group-hover:scale-110 transition-transform"><span class="material-symbols-rounded text-2xl">trending_down</span></div>
+                                    <p class="text-micro font-bold text-text-muted-light dark:text-text-muted-dark">Salidas</p>
+                                </div>
+                                <div class="w-10 h-10 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-rounded text-base">arrow_outward</span></div>
+                            </div>
+                            <div class="mt-2">
+                                <div id="homeExpenseDisplay" class="text-4xl font-black text-danger truncate tracking-tight">$0</div>
+                                <span class="help-text">Gastos totales acumulados.</span>
+                            </div>
+                        </button>
                     </div>
+                </div>
+
+                <div id="step3-target" class="lg:col-span-4 flex flex-col fade-in delay-300">
+                    <div class="flex flex-col gap-6 h-full">
+                        <div class="card-glass p-8 rounded-[2.5rem] shadow-soft relative overflow-hidden min-h-[180px]">
+                            <div class="flex justify-between items-center mb-6">
+                                 <div class="flex items-center gap-4">
+                                    <div class="w-10 h-10 rounded-2xl bg-warning/10 flex items-center justify-center text-warning shrink-0 shadow-inner"><span class="material-symbols-rounded text-xl">cardiology</span></div>
+                                    <div>
+                                        <h3 class="font-bold text-sm text-text-main-light dark:text-text-main-dark uppercase tracking-wide">Salud</h3>
+                                        <p class="text-[10px] opacity-60">Diagnóstico</p>
+                                    </div>
+                                </div>
+                                <div id="healthBadge" class="px-4 py-1.5 bg-white/50 dark:bg-white/5 rounded-full text-[10px] font-black uppercase text-text-muted-light dark:text-white border border-white/20 dark:border-white/5 shadow-sm">--</div>
+                            </div>
+                            <div class="h-3 w-full bg-black/5 dark:bg-black/50 rounded-full overflow-hidden relative mb-3 shadow-inner">
+                                <div class="absolute inset-0 bg-gradient-to-r from-danger via-warning to-success opacity-80"></div>
+                                <div id="healthIndicator" class="absolute top-0 bottom-0 w-2 bg-white shadow-[0_0_15px_rgba(255,255,255,1)] transition-all duration-1000 ease-out scale-y-125 rounded-full ring-2 ring-black/5" style="left: 50%"></div>
+                            </div>
+                            <p class="text-small text-center opacity-80 leading-relaxed bg-white/40 dark:bg-black/20 p-4 rounded-2xl border border-white/10 dark:border-white/5 font-medium shadow-sm text-text-main-light dark:text-text-main-dark mt-4" id="healthDescText">Calculando...</p>
+                        </div>
+                        <div class="flex-1 card-glass p-8 rounded-[2.5rem] shadow-soft relative overflow-hidden flex flex-col min-h-[180px]">
+                            <div class="flex justify-between items-center mb-6">
+                                <div>
+                                    <h3 class="font-bold text-sm text-text-main-light dark:text-text-main-dark uppercase tracking-wide">Historia</h3>
+                                    <span class="help-text mt-0">Evolución.</span>
+                                </div>
+                                <span class="text-[10px] bg-primary/10 text-primary px-3 py-1 rounded-full font-bold uppercase">Gráfico</span>
+                            </div>
+                            <div class="flex-1 w-full relative">
+                                <canvas id="mainChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="text-center text-micro text-text-muted-light/40 dark:text-text-muted-dark/40 mt-16 mb-4 font-mono opacity-50 hover:opacity-100 transition-opacity">MARIE FINANCE v28.2 (Refactored & Clean)</p>
+        </div>
+
+        <div id="view-goal" class="fade-in hidden w-full max-w-4xl mx-auto">
+             <div class="text-center mb-12">
+                <p class="text-micro text-primary font-bold mb-4 bg-primary/10 inline-block px-4 py-1.5 rounded-full">Configura tu Meta</p>
+                <div class="flex items-center justify-center gap-1 group relative flex-col">
+                    <div class="flex items-center justify-center w-full">
+                        <span class="text-4xl lg:text-6xl text-text-muted-light/30 dark:text-text-muted-dark/30 font-light group-hover:text-primary transition-colors">$</span>
+                        <input id="inputGoal" type="number" class="w-full max-w-[300px] lg:max-w-[500px] bg-transparent text-center text-6xl lg:text-8xl font-black border-none p-0 focus:ring-0 text-text-main-light dark:text-text-main-dark outline-none tracking-tighter placeholder-black/10 dark:placeholder-white/10 transition-all focus:scale-105" placeholder="0" oninput="App.updateVal('goal', this.value)">
+                    </div>
+                    <span class="help-text mt-2 text-primary">Toca el número para editar.</span>
+                </div>
+            </div>
+            <div class="card-glass p-8 lg:p-12 rounded-[3rem] shadow-golden relative overflow-hidden">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-10 border-b border-dashed border-black/10 dark:border-white/10 pb-8 gap-6">
+                    <div class="text-left w-full md:w-auto">
+                        <span class="text-micro font-bold text-text-muted-light dark:text-text-muted-dark block mb-2">Disponible Real</span>
+                        <span class="text-small opacity-60 bg-white/50 dark:bg-white/5 px-3 py-1.5 rounded-lg">Dinero líquido actual.</span>
+                    </div>
+                    <span id="detailSavedDisplay" class="text-6xl lg:text-7xl font-black text-success tracking-tighter w-full md:w-auto text-right">$0</span>
+                </div>
+                <div class="flex gap-6 mb-10 items-stretch h-auto min-h-[140px]">
+                    <button onclick="App.modifyFund('sub')" class="btn-control bg-danger/5 text-danger flex items-center justify-center text-4xl active:scale-90 transition-all border border-danger/20 hover:bg-danger hover:text-white hover:shadow-lg hover:shadow-danger/30"><span class="material-symbols-rounded">remove</span></button>
+                    <div class="flex-1 relative bg-white/30 dark:bg-black/20 rounded-[2rem] border border-white/20 dark:border-white/5 overflow-hidden flex items-center justify-center flex-col p-6">
+                        <span class="text-micro font-bold opacity-40 mb-2">Monto a operar</span>
+                        <input id="fundInput" type="number" placeholder="0" class="w-full bg-transparent text-center font-bold text-5xl lg:text-6xl focus:ring-0 border-none outline-none text-text-main-light dark:text-text-main-dark z-10 mb-2">
+                        <span class="help-text text-center max-w-[200px]">Ingresa cantidad para sumar o restar.</span>
+                    </div>
+                    <button onclick="App.modifyFund('add')" class="btn-control bg-success/5 text-success flex items-center justify-center text-4xl active:scale-90 transition-all border border-success/20 hover:bg-success hover:text-white hover:shadow-lg hover:shadow-success/30"><span class="material-symbols-rounded">add</span></button>
+                </div>
+                <div class="pt-4 border-t border-white/20 dark:border-white/5">
+                     <button onclick="App.toggleHistory()" class="w-full flex items-center justify-between p-6 bg-white/40 dark:bg-black/20 rounded-[2rem] text-xs font-bold uppercase text-text-muted-light dark:text-text-muted-dark hover:bg-white/60 dark:hover:bg-white/5 transition-all group border border-white/20 dark:border-white/5">
+                        <div class="flex flex-col items-start text-left">
+                            <span class="tracking-widest">Historial</span>
+                            <span class="help-text mt-0.5 normal-case opacity-50">Movimientos recientes.</span>
+                        </div>
+                        <div class="w-10 h-10 rounded-full bg-white dark:bg-white/10 flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
+                            <span id="historyChevron" class="material-symbols-rounded transition-transform group-hover:text-primary text-base">expand_more</span>
+                        </div>
+                    </button>
+                    <div id="historyContainer" class="hidden mt-6 space-y-3 max-h-80 overflow-y-auto pr-2 lg:grid lg:grid-cols-2 lg:gap-4 lg:space-y-0 pb-2 custom-scroll"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-incomes" class="fade-in hidden w-full max-w-6xl mx-auto">
+            <div class="card-glass p-8 lg:p-10 rounded-[3rem] shadow-golden mb-8">
+                <div class="flex justify-between items-center mb-10 border-b border-black/10 dark:border-white/10 pb-8">
                     <div>
-                        <span class="text-[10px] font-bold opacity-60 uppercase block">Entradas</span>
-                        <span id="homeIncomeDisplay" class="text-xl font-black text-text-main-light dark:text-white">$0</span>
+                        <div class="flex items-center gap-4 mb-3">
+                            <div class="w-12 h-12 rounded-2xl bg-success/10 flex items-center justify-center text-success"><span class="material-symbols-rounded text-2xl">trending_up</span></div>
+                            <p class="text-micro font-bold text-text-muted-light tracking-widest">Total Entradas</p>
+                        </div>
+                        <p id="totalIncomeDisplay" class="text-5xl lg:text-7xl font-black text-success tracking-tighter">$0</p>
                     </div>
-                </button>
+                    <button onclick="App.addItem('incomes')" class="btn-action-lg bg-success text-white flex items-center justify-center active:scale-90 transition-all hover:shadow-xl hover:shadow-success/40 border-4 border-white/20"><span class="material-symbols-rounded text-4xl">add</span></button>
+                </div>
+                <div class="flex flex-col md:flex-row justify-between items-center bg-white/30 dark:bg-black/20 p-6 lg:p-8 rounded-[2rem] mb-8 border border-white/20 dark:border-white/5 shadow-inner gap-6">
+                    <div class="flex items-center gap-5 w-full md:w-auto">
+                        <div class="w-14 h-14 rounded-2xl bg-primary/10 text-primary flex items-center justify-center"><span class="material-symbols-rounded text-2xl">work</span></div>
+                        <div>
+                            <span class="text-sm font-bold block uppercase text-text-main-light dark:text-text-main-dark">Ingreso Fijo</span>
+                            <span class="text-small opacity-60">Base mensual segura.</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center bg-white/50 dark:bg-white/5 px-8 py-4 rounded-2xl border border-white/30 dark:border-white/5 shadow-sm w-full md:w-auto justify-end">
+                         <span class="text-lg mr-2 opacity-40 font-serif italic">$</span>
+                        <input id="inputSalary" type="number" class="w-40 bg-transparent text-right font-black text-3xl focus:ring-0 border-none p-0 outline-none" oninput="App.updateVal('salary', this.value)">
+                    </div>
+                </div>
+                <div id="incomesList" class="space-y-4 lg:space-y-0 lg:grid lg:grid-cols-2 xl:grid-cols-3 lg:gap-6"></div>
+            </div>
+        </div>
 
-                <button onclick="App.navigateTo('expenses')" class="card-clean p-5 rounded-3xl flex flex-col gap-3 items-start text-left hover:bg-white/40 dark:hover:bg-white/5 transition-colors group">
-                    <div class="w-10 h-10 rounded-full bg-danger/10 flex items-center justify-center text-danger group-hover:scale-110 transition-transform">
-                        <span class="material-symbols-rounded">arrow_upward</span>
-                    </div>
+        <div id="view-expenses" class="fade-in hidden w-full max-w-6xl mx-auto">
+             <div class="card-glass p-8 lg:p-10 rounded-[3rem] shadow-golden mb-8">
+                <div class="flex justify-between items-center mb-10 border-b border-black/10 dark:border-white/10 pb-8">
                     <div>
-                        <span class="text-[10px] font-bold opacity-60 uppercase block">Salidas</span>
-                        <span id="homeExpenseDisplay" class="text-xl font-black text-text-main-light dark:text-white">$0</span>
+                        <div class="flex items-center gap-4 mb-3">
+                             <div class="w-12 h-12 rounded-2xl bg-danger/10 flex items-center justify-center text-danger"><span class="material-symbols-rounded text-2xl">trending_down</span></div>
+                            <p class="text-micro font-bold text-text-muted-light tracking-widest">Total Salidas</p>
+                        </div>
+                        <p id="totalExpenseDisplay" class="text-5xl lg:text-7xl font-black text-danger tracking-tighter">$0</p>
                     </div>
-                </button>
-            </div>
-
-            <div class="card-clean p-6 rounded-3xl mt-2 fade-in" style="animation-delay: 0.2s;">
-                <div class="flex justify-between items-center mb-4">
-                    <span class="text-xs font-bold uppercase text-text-muted-light">Salud Financiera</span>
-                    <span id="healthBadge" class="text-[10px] font-black px-2 py-0.5 rounded-md bg-black/5 dark:bg-white/10">--</span>
+                    <button onclick="App.addItem('expenses')" class="btn-action-lg bg-danger text-white flex items-center justify-center active:scale-90 transition-all hover:shadow-xl hover:shadow-danger/40 border-4 border-white/20"><span class="material-symbols-rounded text-4xl">add</span></button>
                 </div>
-                <div class="w-full h-2 bg-black/5 dark:bg-white/5 rounded-full overflow-hidden mb-2">
-                    <div id="healthIndicator" class="h-full bg-gradient-to-r from-danger via-warning to-success transition-all duration-1000 w-0"></div>
-                </div>
-                <p id="healthDesc" class="text-xs opacity-60 leading-relaxed">Analizando tus movimientos...</p>
-            </div>
-
-            <div class="card-clean p-6 rounded-3xl fade-in relative" style="animation-delay: 0.3s;">
-                <p class="text-xs font-bold uppercase text-text-muted-light mb-4 absolute top-6 left-6">Flujo</p>
-                <div class="h-24 w-full mt-2">
-                    <canvas id="miniChart"></canvas>
-                </div>
+                <div id="expensesList" class="space-y-4 lg:space-y-0 lg:grid lg:grid-cols-2 xl:grid-cols-3 lg:gap-6"></div>
             </div>
         </div>
 
-        <div id="view-goal" class="hidden fade-in space-y-6">
-            <div class="text-center py-6">
-                <p class="text-sm opacity-60 mb-2">Meta Objetivo</p>
-                <div class="flex items-center justify-center gap-1">
-                    <span class="text-3xl opacity-30">$</span>
-                    <input id="inputGoal" type="number" class="bg-transparent text-5xl font-black text-center w-48 border-b-2 border-dashed border-primary/30 focus:border-primary outline-none" placeholder="0" onchange="App.updateVal('goal', this.value)">
-                    <span class="material-symbols-rounded text-primary opacity-50 text-xl animate-pulse">edit</span>
-                </div>
-            </div>
+    </div>
 
-            <div class="card-clean p-2 rounded-[2rem] flex items-center justify-between gap-2">
-                <button onclick="App.modifyFund('sub')" class="h-16 w-16 rounded-full bg-danger/10 text-danger flex items-center justify-center active:scale-90 transition-transform">
-                    <span class="material-symbols-rounded text-3xl">remove</span>
-                </button>
-                <div class="flex-1 text-center bg-black/5 dark:bg-white/5 rounded-2xl h-16 flex flex-col justify-center items-center px-4">
-                    <input id="fundInput" type="number" placeholder="Monto" class="bg-transparent text-center font-bold text-xl w-full">
-                </div>
-                <button onclick="App.modifyFund('add')" class="h-16 w-16 rounded-full bg-success/10 text-success flex items-center justify-center active:scale-90 transition-transform">
-                    <span class="material-symbols-rounded text-3xl">add</span>
-                </button>
+    <div id="transactionModal" class="modal-backdrop hidden">
+        <div onclick="App.closeTransactionModal()" class="modal-bg"></div>
+        <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-sm rounded-[2.5rem] p-8 shadow-golden relative z-10 transform transition-all scale-95 opacity-0" id="transactionCard">
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-2xl bg-white dark:bg-[#1a1a1a] flex items-center justify-center border border-black/5 dark:border-white/10 shadow-lg">
+                <span class="material-symbols-rounded text-3xl text-primary" id="modalIcon">payments</span>
             </div>
-
-            <div class="mt-4">
-                <h3 class="text-xs font-bold uppercase opacity-50 mb-4 pl-4">Historial Reciente</h3>
-                <div id="historyList" class="space-y-3"></div>
+            <h3 class="text-xl font-bold text-center mt-8 mb-2 text-text-main-light dark:text-text-main-dark" id="modalTitle">Movimiento</h3>
+            <p class="text-sm text-center text-text-muted-light mb-8 font-mono font-bold" id="modalAmountDisplay">$0.00</p>
+            <div class="mb-8">
+                <label class="text-micro font-bold text-text-muted-light dark:text-text-muted-dark block mb-3 pl-1">Concepto</label>
+                <input id="transactionDesc" type="text" placeholder="..." class="w-full bg-black/5 dark:bg-white/5 rounded-2xl border-none py-4 px-5 text-sm focus:ring-2 focus:ring-primary/50 outline-none text-text-main-light dark:text-white placeholder-stone-400 font-medium transition-shadow">
+                <span class="help-text mt-2 text-center" id="modalHelpText">Descripción.</span>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <button onclick="App.closeTransactionModal()" class="py-4 rounded-2xl text-xs font-bold bg-black/5 dark:bg-white/5 text-text-muted-light hover:bg-black/10 dark:hover:bg-white/10 transition-colors uppercase tracking-wider">Cancelar</button>
+                <button onclick="App.confirmTransaction()" id="modalConfirmBtn" class="py-4 rounded-2xl text-xs font-bold bg-primary text-white shadow-lg shadow-primary/30 active:scale-95 transition-transform uppercase tracking-wider">Confirmar</button>
             </div>
         </div>
+    </div>
 
-        <div id="view-incomes" class="hidden fade-in">
-            <div class="flex items-center justify-between mb-6 px-2">
+    <div id="bottomBar" class="fixed bottom-0 w-full z-40 p-2 pb-6 lg:pb-8 flex justify-center pointer-events-none">
+        <div class="pointer-events-auto bg-white/80 dark:bg-black/80 backdrop-blur-xl border border-white/40 dark:border-white/10 shadow-golden rounded-[2rem] lg:rounded-[2.5rem] w-full max-w-sm lg:max-w-xl p-6 lg:px-10 lg:py-6">
+            <div class="flex justify-between items-start mb-4">
                 <div>
-                    <span class="text-xs font-bold text-success uppercase">Total Entradas</span>
-                    <p id="totalIncomeDisplay" class="text-3xl font-black text-success">$0</p>
+                    <p class="text-micro font-black text-text-muted-light dark:text-text-muted-dark mb-1">Capacidad Real</p>
+                    <h2 id="barSurplus" class="text-3xl lg:text-4xl font-black text-text-main-light dark:text-text-main-dark tracking-tight transition-all">$0</h2>
                 </div>
-                <button onclick="App.addItem('incomes')" class="bg-success text-white px-5 py-3 rounded-2xl font-bold shadow-lg shadow-success/30 active:scale-95 flex items-center gap-2 text-sm">
-                    <span class="material-symbols-rounded text-lg">add</span> Nuevo
-                </button>
-            </div>
-
-            <div class="card-clean p-5 rounded-3xl mb-6 border-l-4 border-l-primary flex items-center justify-between">
-                <div>
-                    <span class="text-xs font-bold uppercase opacity-60">Sueldo Base</span>
-                    <div class="input-editable-container mt-1">
-                        <span class="text-lg mr-1 opacity-50">$</span>
-                        <input id="inputSalary" type="number" class="input-editable bg-transparent text-xl font-bold w-24 p-0 border-none" oninput="App.updateVal('salary', this.value)">
-                        <span class="material-symbols-rounded text-xs input-editable-icon">edit</span>
+                <div class="text-right">
+                    <p class="text-micro text-text-muted-light dark:text-text-muted-dark mb-1 font-bold">ESTIMADO</p>
+                    <div id="barTime" class="inline-flex items-center gap-2 px-4 py-1.5 bg-black/5 dark:bg-white/5 rounded-full text-xs font-bold shadow-sm border border-black/5 dark:border-white/5">
+                        <span class="material-symbols-rounded text-primary text-sm">timer</span>
+                        <span>--</span>
                     </div>
                 </div>
-                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-                    <span class="material-symbols-rounded">work</span>
-                </div>
             </div>
-
-            <div id="incomesList" class="space-y-3"></div>
-        </div>
-
-        <div id="view-expenses" class="hidden fade-in">
-            <div class="flex items-center justify-between mb-6 px-2">
-                <div>
-                    <span class="text-xs font-bold text-danger uppercase">Total Salidas</span>
-                    <p id="totalExpenseDisplay" class="text-3xl font-black text-danger">$0</p>
-                </div>
-                <button onclick="App.addItem('expenses')" class="bg-danger text-white px-5 py-3 rounded-2xl font-bold shadow-lg shadow-danger/30 active:scale-95 flex items-center gap-2 text-sm">
-                    <span class="material-symbols-rounded text-lg">add</span> Nuevo
-                </button>
+            <div class="w-full bg-black/5 dark:bg-white/10 h-3 rounded-full overflow-hidden mb-3 shadow-inner">
+                <div id="barProgress" class="h-full bg-black/80 dark:bg-white w-0 transition-all duration-1000 ease-out rounded-full shadow-[0_0_10px_rgba(255,255,255,0.5)]"></div>
             </div>
-            <div id="expensesList" class="space-y-3 pb-20"></div>
+            <div class="flex justify-between text-micro font-bold text-text-muted-light dark:text-text-muted-dark opacity-80">
+                <span>Progreso</span>
+                <span id="barGoalText">Faltan: $0</span>
+            </div>
         </div>
-
     </div>
 
     <script>
         /**
-         * MARIE FINANCE V3 - MOBILE REFACTOR
+         * MARIE FINANCE LOGIC - REFACTORED
+         * Organización modular para mantenibilidad.
          */
+
+        // 1. CONFIGURACIÓN & CONSTANTES
         const CONFIG = {
             firebase: {
                 apiKey: "AIzaSyANBc8ziutAX47V_iJpgdn-7O3S3kvI3Tc",
@@ -301,284 +475,556 @@
             collections: { users: 'users' }
         };
 
-        let state = { userName: '', goal: 5000, accumulated: 0, salary: 600, incomes: [], expenses: [], history: [] };
-        let chartInstance = null;
-        let auth = null; let db = null;
+        // Estado Global
+        let state = {
+            userName: '',
+            goal: 5000,
+            accumulated: 0,
+            salary: 600,
+            incomes: [], 
+            expenses: [], 
+            history: []   
+        };
 
+        let pendingTransaction = null;
+        let chartInstance = null;
+        let firebaseAuth = null;
+        let firestoreDb = null;
+
+        // 2. UTILIDADES
         const Utils = {
             $: (id) => document.getElementById(id),
             formatMoney: (v) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(v),
-            getIcon: (name) => {
-                const n = (name||'').toLowerCase();
-                if(n.includes('comida') || n.includes('cena')) return 'restaurant';
-                if(n.includes('uber') || n.includes('carro')) return 'directions_car';
-                if(n.includes('casa') || n.includes('renta')) return 'cottage';
-                if(n.includes('wifi') || n.includes('net')) return 'wifi';
-                if(n.includes('gym')) return 'fitness_center';
-                return 'receipt_long';
+            formatCompact: (v) => new Intl.NumberFormat('en-US', { notation: "compact", maximumFractionDigits: 1 }).format(v),
+            getSmartIcon: (name) => {
+                const n = (name || '').toLowerCase();
+                const icons = {
+                    'comida': 'restaurant', 'cena': 'restaurant', 'uber': 'local_gas_station', 
+                    'transporte': 'local_gas_station', 'casa': 'cottage', 'alquiler': 'cottage', 
+                    'internet': 'wifi', 'wifi': 'wifi', 'netflix': 'subscriptions', 'spotify': 'subscriptions'
+                };
+                for (let key in icons) if (n.includes(key)) return icons[key];
+                return 'credit_card';
             }
         };
 
+        // 3. MÓDULO DE AUTENTICACIÓN Y FIREBASE
         const Auth = {
             init: () => {
                 try {
                     firebase.initializeApp(CONFIG.firebase);
-                    auth = firebase.auth();
-                    db = firebase.firestore();
-                    auth.onAuthStateChanged(user => {
-                        const overlay = Utils.$('loginOverlay');
-                        if (user) {
-                            overlay.classList.add('opacity-0', 'pointer-events-none');
-                            Data.load(user.uid);
-                        } else {
-                            overlay.classList.remove('opacity-0', 'pointer-events-none');
-                        }
-                    });
-                } catch(e) { console.error(e); }
+                    firebaseAuth = firebase.auth();
+                    firestoreDb = firebase.firestore();
+                    Auth.monitor();
+                } catch (e) {
+                    console.error("Firebase Error:", e);
+                    alert("Error inicializando la base de datos.");
+                }
+            },
+            monitor: () => {
+                firebaseAuth.onAuthStateChanged(user => {
+                    const overlay = Utils.$('loginOverlay');
+                    if (user) {
+                        overlay.classList.add('hidden-overlay');
+                        Data.load(user.uid);
+                    } else {
+                        overlay.classList.remove('hidden-overlay');
+                    }
+                });
             },
             login: () => {
-                const p = new firebase.auth.GoogleAuthProvider();
-                auth.signInWithPopup(p).catch(alert);
+                const provider = new firebase.auth.GoogleAuthProvider();
+                firebaseAuth.signInWithPopup(provider).catch(error => alert(error.message));
             },
             logout: () => {
-                if(confirm('¿Salir?')) auth.signOut().then(() => location.reload());
+                if(confirm("¿Cerrar sesión?")) {
+                    firebaseAuth.signOut();
+                    location.reload();
+                }
             }
         };
 
+        // 4. MÓDULO DE DATOS
         const Data = {
             load: async (uid) => {
-                const doc = await db.collection(CONFIG.collections.users).doc(uid).get();
-                if (doc.exists) state = { ...state, ...doc.data() };
-                UI.renderAll();
+                try {
+                    const docRef = firestoreDb.collection(CONFIG.collections.users).doc(uid);
+                    const doc = await docRef.get();
+                    if (doc.exists) {
+                        state = { ...state, ...doc.data() };
+                        App.updateGreeting();
+                    } else {
+                        const user = firebaseAuth.currentUser;
+                        state.userName = user.displayName ? user.displayName.split(' ')[0] : '';
+                        Data.save();
+                        App.openProfileModal();
+                    }
+                    UI.renderAll();
+                } catch (e) { console.error("Error loading data", e); }
             },
             save: () => {
-                const user = auth.currentUser;
-                if (user) db.collection(CONFIG.collections.users).doc(user.uid).set(state, { merge: true });
+                const user = firebaseAuth.currentUser;
+                if (user && firestoreDb) {
+                    firestoreDb.collection(CONFIG.collections.users).doc(user.uid).set(state, { merge: true });
+                }
+            },
+            updateHistoryDesc: (id, val) => {
+                const item = state.history.find(h => h.id === id);
+                if(item) { item.desc = val; Data.save(); UI.renderChart(); }
             }
         };
 
+        // 5. MÓDULO DE INTERFAZ (UI RENDERING)
         const UI = {
             renderAll: () => {
                 UI.renderIncomes();
                 UI.renderExpenses();
                 UI.renderHistory();
-                App.calculate();
+                App.calculateGlobal();
+            },
+            
+            showToast: (message, type = 'normal') => {
+                const toast = Utils.$('toast');
+                toast.innerText = message;
+                toast.style.animation = 'none'; toast.offsetHeight; toast.style.animation = null; 
+                const colors = { 'warn': 'rgba(188, 71, 73, 0.95)', 'neutral': 'rgba(43, 29, 22, 0.95)', 'success': 'rgba(106, 153, 78, 0.95)' };
+                toast.style.backgroundColor = colors[type] || colors['success'];
+                toast.className = "show";
+                setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
+            },
+
+            triggerConfetti: () => {
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#b08968', '#6a994e', '#e9c46a'] });
             },
 
             renderHistory: () => {
-                const list = Utils.$('historyList');
-                list.innerHTML = '';
-                state.history.slice(0, 10).forEach(h => {
-                    const isAdd = h.type === 'add';
-                    list.innerHTML += `
-                    <div class="flex items-center justify-between p-4 bg-white/50 dark:bg-white/5 rounded-2xl border border-white/20">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-full ${isAdd?'bg-success/10 text-success':'bg-danger/10 text-danger'} flex items-center justify-center">
-                                <span class="material-symbols-rounded text-sm">${isAdd?'arrow_downward':'arrow_upward'}</span>
-                            </div>
-                            <span class="text-sm font-medium">${h.desc}</span>
-                        </div>
-                        <span class="text-sm font-bold ${isAdd?'text-success':'text-danger'}">${isAdd?'+':'-'}${Utils.formatMoney(h.amount)}</span>
-                    </div>`;
-                });
-            },
+                const container = Utils.$('historyContainer'); 
+                container.innerHTML = '';
+                const sorted = [...state.history].sort((a,b) => b.id - a.id).slice(0, 30);
+                
+                if(sorted.length === 0) { 
+                    container.innerHTML = '<p class="text-center text-[10px] opacity-40 py-6 italic">Aquí aparecerá tu historia.</p>'; 
+                    return; 
+                }
 
-            renderExpenses: () => {
-                const list = Utils.$('expensesList');
-                list.innerHTML = '';
-                state.expenses.forEach(e => {
-                    list.innerHTML += `
-                    <div class="card-clean p-4 rounded-3xl flex items-center justify-between gap-3 group relative overflow-hidden">
-                        <div class="flex items-center gap-4 flex-1">
-                            <div class="w-12 h-12 rounded-2xl bg-danger/5 text-danger flex items-center justify-center shrink-0">
-                                <span class="material-symbols-rounded">${Utils.getIcon(e.name)}</span>
+                sorted.forEach(h => {
+                    const isAdd = h.type === 'add';
+                    // Usamos template literals para limpieza
+                    container.innerHTML += `
+                    <div class="flex justify-between items-center p-4 bg-white/50 dark:bg-white/5 rounded-2xl border border-white/30 dark:border-white/5 group hover:border-primary/30 transition-all hover:shadow-sm">
+                        <div class="flex items-center gap-3 w-full overflow-hidden">
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${isAdd ? 'bg-success/10 text-success' : 'bg-danger/10 text-danger'}">
+                                <span class="material-symbols-rounded text-xl">${isAdd ? 'arrow_downward' : 'arrow_upward'}</span>
                             </div>
-                            <div class="flex flex-col w-full max-w-[140px]">
-                                <div class="input-editable-container">
-                                    <input value="${e.name}" class="input-editable bg-transparent font-bold text-sm w-full p-0 border-b border-transparent focus:border-danger/50 text-text-main-light dark:text-white placeholder-opacity-50" placeholder="Nombre..." onchange="App.updateItem('expenses', ${e.id}, 'name', this.value)">
-                                    <span class="material-symbols-rounded text-[10px] input-editable-icon text-danger">edit</span>
-                                </div>
-                                <span class="text-[10px] opacity-50 mt-0.5">Mensual</span>
+                            <div class="w-full overflow-hidden">
+                                <input value="${h.desc}" class="bg-transparent font-bold text-sm w-full border-none p-0 focus:ring-0 outline-none text-text-main-light dark:text-text-main-dark cursor-pointer placeholder-stone-400 text-truncate-input" oninput="Data.updateHistoryDesc(${h.id}, this.value)">
+                                <p class="text-[10px] opacity-50 font-medium font-mono tracking-wide">${new Date(h.date).toLocaleDateString()}</p>
                             </div>
                         </div>
-                        <div class="flex items-center gap-2">
-                            <div class="bg-black/5 dark:bg-white/5 px-3 py-2 rounded-xl border border-transparent focus-within:border-danger/30 transition-colors">
-                                <input type="number" value="${e.amount}" class="bg-transparent text-right font-black text-sm w-16 outline-none" onchange="App.updateItem('expenses', ${e.id}, 'amount', this.value)">
-                            </div>
-                            <button onclick="App.deleteItem('expenses', ${e.id})" class="w-8 h-8 rounded-full flex items-center justify-center text-text-muted-light hover:bg-danger/10 hover:text-danger transition-colors">
-                                <span class="material-symbols-rounded text-lg">close</span>
-                            </button>
+                        <div class="flex items-center gap-2 shrink-0">
+                            <span class="font-black font-display ${isAdd ? 'text-success' : 'text-danger'} whitespace-nowrap text-sm">${isAdd ? '+' : '-'}${Utils.formatMoney(h.amount)}</span>
+                            <button onclick="App.deleteItem('history', ${h.id})" class="opacity-0 group-hover:opacity-100 transition-opacity text-text-muted-light hover:text-danger p-2"><span class="material-symbols-rounded text-lg">delete</span></button>
                         </div>
                     </div>`;
                 });
             },
 
             renderIncomes: () => {
-                const list = Utils.$('incomesList');
-                list.innerHTML = '';
+                const container = Utils.$('incomesList'); 
+                container.innerHTML = '';
                 state.incomes.forEach(i => {
-                    const total = (i.price - i.cost) * i.qty;
-                    list.innerHTML += `
-                    <div class="card-clean p-4 rounded-3xl flex flex-col gap-4 relative">
-                        <div class="flex items-center justify-between border-b border-black/5 dark:border-white/5 pb-3">
-                            <div class="flex items-center gap-3 flex-1">
-                                <div class="w-10 h-10 rounded-2xl bg-success/5 text-success flex items-center justify-center">
-                                    <span class="material-symbols-rounded">monetization_on</span>
-                                </div>
-                                <div class="input-editable-container w-full">
-                                    <input value="${i.name}" class="input-editable bg-transparent font-bold text-sm w-full p-0 border-b border-transparent focus:border-success/50" placeholder="Proyecto..." onchange="App.updateItem('incomes', ${i.id}, 'name', this.value)">
-                                    <span class="material-symbols-rounded text-[10px] input-editable-icon text-success">edit</span>
-                                </div>
-                            </div>
-                            <button onclick="App.deleteItem('incomes', ${i.id})" class="text-text-muted-light hover:text-danger"><span class="material-symbols-rounded">close</span></button>
+                    const sub = (i.price - i.cost) * i.qty;
+                    container.innerHTML += `
+                    <div class="bg-white/50 dark:bg-white/5 p-5 rounded-[2rem] border border-white/30 dark:border-white/5 card-glass fade-in hover:border-success/30">
+                        <div class="flex justify-between mb-4">
+                            <input value="${i.name}" class="bg-transparent font-bold w-full text-base focus:ring-0 border-none p-0 outline-none cursor-pointer text-truncate-input" oninput="App.updateItem('incomes', ${i.id}, 'name', this.value)" placeholder="Nombre del proyecto...">
+                            <button onclick="App.deleteItem('incomes', ${i.id})" class="text-text-muted-light hover:text-danger opacity-40 hover:opacity-100 transition-opacity"><span class="material-symbols-rounded text-xl">close</span></button>
                         </div>
-                        <div class="flex gap-3 text-xs">
-                            <div class="flex-1 bg-black/5 dark:bg-white/5 rounded-xl p-2 text-center">
-                                <span class="block opacity-50 text-[9px] uppercase">Precio</span>
-                                <input type="number" value="${i.price}" class="w-full bg-transparent text-center font-bold outline-none" onchange="App.updateItem('incomes', ${i.id}, 'price', this.value)">
+                        <div class="flex gap-4 mb-4">
+                             <div class="w-1/2 relative group">
+                                <span class="absolute left-4 top-2 text-[8px] uppercase font-bold opacity-40 tracking-wider">Precio</span>
+                                <input type="number" value="${i.price}" class="w-full bg-white/50 dark:bg-black/20 rounded-2xl pt-6 pb-3 px-4 text-sm font-bold border border-white/30 dark:border-white/5 text-center outline-none focus:border-primary/50 transition-colors" oninput="App.updateItem('incomes', ${i.id}, 'price', this.value)">
+                             </div>
+                             <div class="w-1/2 relative group">
+                                <span class="absolute left-4 top-2 text-[8px] uppercase font-bold opacity-40 text-danger tracking-wider">Costo</span>
+                                <input type="number" value="${i.cost}" class="w-full bg-white/50 dark:bg-black/20 rounded-2xl pt-6 pb-3 px-4 text-sm font-bold border border-white/30 dark:border-white/5 text-center outline-none focus:border-danger/50 text-danger transition-colors" oninput="App.updateItem('incomes', ${i.id}, 'cost', this.value)">
+                             </div>
+                        </div>
+                        <div class="bg-white/40 dark:bg-black/20 p-4 rounded-2xl border border-white/20 dark:border-white/5 shadow-sm">
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-[9px] font-bold text-text-muted-light uppercase tracking-widest">Cantidad</span>
+                                <span id="qty-label-${i.id}" class="text-[9px] font-bold bg-primary/10 text-primary px-2 py-0.5 rounded-lg border border-primary/20">${i.qty} Unid.</span>
                             </div>
-                            <div class="flex-1 bg-black/5 dark:bg-white/5 rounded-xl p-2 text-center">
-                                <span class="block opacity-50 text-[9px] uppercase">Cant.</span>
-                                <input type="number" value="${i.qty}" class="w-full bg-transparent text-center font-bold outline-none" onchange="App.updateItem('incomes', ${i.id}, 'qty', this.value)">
+                            <input type="range" min="1" max="100" value="${i.qty}" class="w-full h-1 bg-stone-200 dark:bg-stone-700 rounded-lg appearance-none cursor-pointer mb-3" oninput="App.updateItem('incomes', ${i.id}, 'qty', this.value)">
+                            <div class="flex justify-between items-center border-t border-dashed border-white/30 dark:border-white/10 pt-3">
+                                <span class="text-[10px] opacity-60 font-bold uppercase">Total Neto</span>
+                                <span id="sub-${i.id}" class="text-lg font-black text-success tracking-tight">+${Utils.formatMoney(sub)}</span>
                             </div>
-                            <div class="flex-1 bg-success/10 text-success rounded-xl p-2 text-center border border-success/20">
-                                <span class="block opacity-50 text-[9px] uppercase">Neto</span>
-                                <span class="font-black block">+${Utils.formatMoney(total)}</span>
-                            </div>
+                            <span class="help-text text-right mt-1">Precio x Cantidad - Costo</span>
                         </div>
                     </div>`;
                 });
             },
 
-            renderChart: (dataPoints) => {
-                const ctx = Utils.$('miniChart');
+            renderExpenses: () => {
+                const container = Utils.$('expensesList'); 
+                container.innerHTML = '';
+                state.expenses.forEach(e => {
+                    const icon = Utils.getSmartIcon(e.name);
+                    container.innerHTML += `
+                    <div class="flex flex-col gap-4 bg-white/50 dark:bg-white/5 p-5 rounded-[2rem] border border-white/30 dark:border-white/5 card-glass fade-in hover:border-danger/30 relative group">
+                        <div class="flex justify-between items-start gap-4">
+                            <div class="w-12 h-12 rounded-2xl bg-danger/5 flex items-center justify-center text-danger shrink-0 border border-danger/10 shadow-sm mt-1">
+                                 <span class="material-symbols-rounded">${icon}</span>
+                            </div>
+
+                            <div class="flex-1 w-full relative">
+                                <label class="text-[9px] font-bold text-text-muted-light uppercase tracking-widest mb-1 block flex items-center gap-1">
+                                    Concepto <span class="material-symbols-rounded text-[10px] opacity-50">edit</span>
+                                </label>
+                                <div class="relative border-b border-dashed border-black/10 dark:border-white/10 hover:border-primary transition-colors pb-1">
+                                    <input value="${e.name}" 
+                                           class="bg-transparent font-bold text-sm w-full focus:ring-0 border-none p-0 outline-none text-text-main-light dark:text-text-main-dark placeholder-stone-400 text-truncate-input" 
+                                           oninput="App.updateItem('expenses', ${e.id}, 'name', this.value)" 
+                                           placeholder="Ej: Netflix">
+                                </div>
+                                <span class="help-text text-[10px] mt-1">Toca para renombrar</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between border-t border-white/20 dark:border-white/5 pt-3 mt-1">
+                            <div class="flex flex-col">
+                                 <label class="text-[9px] font-bold text-text-muted-light uppercase tracking-widest mb-0.5">Monto</label>
+                                 <div class="flex items-center">
+                                    <span class="text-xs mr-1 opacity-40 font-serif">$</span>
+                                    <input type="number" value="${e.amount}" 
+                                           class="w-24 bg-transparent font-bold text-lg focus:ring-0 border-none p-0 outline-none" 
+                                           oninput="App.updateItem('expenses', ${e.id}, 'amount', this.value)">
+                                 </div>
+                            </div>
+                            <button onclick="App.deleteItem('expenses', ${e.id})" class="w-8 h-8 rounded-full bg-danger/10 text-danger flex items-center justify-center hover:bg-danger hover:text-white transition-all">
+                                <span class="material-symbols-rounded text-base">close</span>
+                            </button>
+                        </div>
+                    </div>`;
+                });
+            },
+
+            renderChart: () => {
+                const ctx = Utils.$('mainChart');
+                if(!ctx) return;
+                
+                const sorted = [...state.history].sort((a,b) => a.id - b.id);
+                const labels = ['Inicio'];
+                const dataPoints = [0];
+                let runningBalance = 0;
+                
+                sorted.forEach((h) => {
+                    const change = h.type === 'add' ? h.amount : -h.amount;
+                    runningBalance = Math.max(0, runningBalance + change); 
+                    let labelName = h.desc || 'Mov';
+                    if(labelName.length > 8) labelName = labelName.substring(0, 8) + '..'; 
+                    labels.push(labelName); 
+                    dataPoints.push(runningBalance);
+                });
+                
+                labels.push('Hoy'); 
+                dataPoints.push(state.accumulated);
+                
                 if(chartInstance) chartInstance.destroy();
+                
+                const gradient = ctx.getContext('2d').createLinearGradient(0, 0, 0, 300);
+                gradient.addColorStop(0, 'rgba(176, 137, 104, 0.4)'); 
+                gradient.addColorStop(1, 'rgba(176, 137, 104, 0.0)');
+                
                 chartInstance = new Chart(ctx, {
                     type: 'line',
                     data: {
-                        labels: dataPoints.map((_,i) => i),
+                        labels: labels,
                         datasets: [{
-                            data: dataPoints,
-                            borderColor: '#b08968',
-                            borderWidth: 2,
-                            pointRadius: 0,
-                            tension: 0.4,
-                            fill: true,
-                            backgroundColor: (context) => {
-                                const ctx = context.chart.ctx;
-                                const gradient = ctx.createLinearGradient(0, 0, 0, 100);
-                                gradient.addColorStop(0, "rgba(176, 137, 104, 0.4)");
-                                gradient.addColorStop(1, "rgba(176, 137, 104, 0)");
-                                return gradient;
-                            }
+                            label: 'Fondo', data: dataPoints, borderColor: '#b08968', backgroundColor: gradient,
+                            borderWidth: 3, pointBackgroundColor: '#fff', pointBorderColor: '#b08968', pointRadius: 4, pointHoverRadius: 8,
+                            fill: true, tension: 0.4 
                         }]
                     },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { x: {display: false}, y: {display: false} } }
+                    options: {
+                        responsive: true, maintainAspectRatio: false,
+                        layout: { padding: { top: 20, bottom: 10, left: 10, right: 10 } },
+                        plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false, backgroundColor: 'rgba(0,0,0,0.8)', titleFont: {family: 'Plus Jakarta Sans'}, bodyFont: {family: 'Inter'} } },
+                        scales: { x: { display: false }, y: { display: false, min: 0 } },
+                        interaction: { mode: 'nearest', axis: 'x', intersect: false }
+                    }
                 });
+            },
+
+            updateThermometer: (income, expense) => {
+                const indicator = Utils.$('healthIndicator');
+                const badge = Utils.$('healthBadge');
+                const desc = Utils.$('healthDescText');
+                
+                let savingsRate = income > 0 ? ((income - expense) / income) * 100 : 0;
+                let sliderPos = income <= expense ? 15 : 30 + Math.min((savingsRate / 50) * 70, 70);
+                
+                if(indicator) indicator.style.left = `${sliderPos}%`;
+                
+                if (sliderPos < 35) {
+                    badge.textContent = "ALERTA ROJA"; badge.className = "px-3 py-1 bg-danger/10 text-danger border border-danger/30 rounded-full text-[9px] font-black uppercase";
+                    desc.textContent = "Houston, tenemos un problema. Estás gastando de más.";
+                } else if (sliderPos < 65) {
+                    badge.textContent = "AHÍ VAMOS"; badge.className = "px-3 py-1 bg-warning/10 text-warning border border-warning/30 rounded-full text-[9px] font-black uppercase";
+                    desc.textContent = "Estás al límite. Un gasto extra y adiós planes.";
+                } else {
+                    badge.textContent = "COMO JEFE"; badge.className = "px-3 py-1 bg-success/10 text-success border border-success/30 rounded-full text-[9px] font-black uppercase";
+                    desc.textContent = "Vas sobrado. Así es como se construye un imperio.";
+                }
             }
         };
 
+        // 6. CONTROLADOR DE LA APLICACIÓN (LÓGICA)
         const App = {
-            calculate: () => {
-                const totalIncome = state.salary + state.incomes.reduce((a,i) => a + ((i.price - i.cost) * i.qty), 0);
-                const totalExpense = state.expenses.reduce((a,e) => a + e.amount, 0);
-                const surplus = totalIncome - totalExpense;
-                
-                Utils.$('homeGoalDisplay').innerText = Utils.formatMoney(state.accumulated);
-                Utils.$('surplusDisplay').innerText = (surplus > 0 ? '+' : '') + Utils.formatMoney(surplus) + " flujo";
-                Utils.$('homeIncomeDisplay').innerText = Utils.formatMoney(totalIncome);
-                Utils.$('homeExpenseDisplay').innerText = Utils.formatMoney(totalExpense);
-                
-                Utils.$('inputGoal').value = state.goal;
-                Utils.$('inputSalary').value = state.salary;
-                Utils.$('totalIncomeDisplay').innerText = Utils.formatMoney(totalIncome);
-                Utils.$('totalExpenseDisplay').innerText = Utils.formatMoney(totalExpense);
-
-                // Salud (Health Bar)
-                const ratio = totalIncome > 0 ? (totalExpense / totalIncome) * 100 : 100;
-                const width = Math.min(Math.max(100 - ratio, 5), 100);
-                Utils.$('healthIndicator').style.width = `${width}%`;
-                
-                let hText = "Estable";
-                if(width < 20) hText = "Crítico";
-                else if(width > 60) hText = "Excelente";
-                Utils.$('healthDesc').innerText = width < 20 ? "Gastos muy altos. ¡Cuidado!" : "Buen margen de maniobra.";
-                Utils.$('healthBadge').innerText = hText;
-
-                // Simple Data Points Gen for Chart
-                const points = [state.accumulated - (surplus*2), state.accumulated - surplus, state.accumulated];
-                UI.renderChart(points);
-                Data.save();
-            },
-
-            navigateTo: (view) => {
-                ['home', 'goal', 'incomes', 'expenses'].forEach(v => {
-                    Utils.$(`view-${v}`).classList.add('hidden');
-                });
-                Utils.$(`view-${view}`).classList.remove('hidden');
-                
-                const titles = { home: 'Resumen', goal: 'Ahorros', incomes: 'Entradas', expenses: 'Salidas' };
-                Utils.$('pageTitle').innerText = titles[view];
-                
-                const backBtn = Utils.$('backBtn');
-                if(view === 'home') backBtn.classList.add('hidden');
-                else backBtn.classList.remove('hidden');
-                
-                window.scrollTo(0,0);
-            },
-
-            updateVal: (key, val) => {
-                state[key] = parseFloat(val) || 0;
-                App.calculate();
-            },
-
-            modifyFund: (type) => {
-                const el = Utils.$('fundInput');
-                const val = parseFloat(el.value);
-                if(!val) return el.focus();
-                
-                if(type === 'add') {
-                    state.accumulated += val;
-                    state.history.unshift({ type: 'add', desc: 'Depósito manual', amount: val });
-                    confetti({ particleCount: 50, spread: 60, origin: { y: 0.7 }, colors: ['#6a994e', '#b08968'] });
-                } else {
-                    state.accumulated = Math.max(0, state.accumulated - val);
-                    state.history.unshift({ type: 'sub', desc: 'Retiro manual', amount: val });
-                }
-                
-                el.value = '';
-                UI.renderHistory();
-                App.calculate();
-            },
-
-            addItem: (type) => {
-                const id = Date.now();
-                if(type === 'incomes') state.incomes.push({ id, name: '', price: 0, cost: 0, qty: 1 });
-                else state.expenses.push({ id, name: '', amount: 0 });
-                type === 'incomes' ? UI.renderIncomes() : UI.renderExpenses();
-            },
-
-            deleteItem: (type, id) => {
-                if(type === 'incomes') state.incomes = state.incomes.filter(i => i.id !== id);
-                else state.expenses = state.expenses.filter(e => e.id !== id);
+            init: () => {
+                Auth.init();
                 UI.renderAll();
             },
 
+            // Navegación
+            navigateTo: (viewId) => {
+                document.querySelectorAll('[id^="view-"]').forEach(el => el.classList.add('hidden'));
+                Utils.$(`view-${viewId}`).classList.remove('hidden');
+                
+                const titles = { home: 'DASHBOARD', goal: 'LA META', incomes: 'INGRESOS', expenses: 'GASTOS' };
+                Utils.setText('pageTitleLabel', titles[viewId]);
+                
+                const btn = Utils.$('backBtn');
+                if(viewId === 'home') btn.classList.add('hidden'); 
+                else btn.classList.remove('hidden');
+                
+                App.calculateGlobal(); 
+            },
+
+            // Lógica Global de Finanzas
+            calculateGlobal: () => {
+                let varIncome = state.incomes.reduce((acc, i) => acc + ((i.price - i.cost) * i.qty), 0);
+                let totalIncome = state.salary + varIncome;
+                let totalExpense = state.expenses.reduce((acc, e) => acc + e.amount, 0);
+                let surplus = totalIncome - totalExpense;
+                let remaining = Math.max(0, state.goal - state.accumulated);
+
+                // Actualizar Textos Home
+                Utils.setText('homeGoalDisplay', Utils.formatMoney(state.goal));
+                Utils.setHTML('homeSavedDisplay', `<span class="material-symbols-rounded text-base">savings</span><span>Disponible: ${Utils.formatMoney(state.accumulated)}</span>`);
+                Utils.setText('homeIncomeDisplay', Utils.formatMoney(totalIncome));
+                Utils.setText('homeExpenseDisplay', Utils.formatMoney(totalExpense));
+
+                // Actualizar Inputs y Detalles
+                Utils.setVal('inputGoal', state.goal);
+                Utils.setVal('inputSalary', state.salary);
+                Utils.setText('detailSavedDisplay', Utils.formatMoney(state.accumulated));
+                Utils.setText('totalIncomeDisplay', Utils.formatMoney(totalIncome));
+                Utils.setText('totalExpenseDisplay', Utils.formatMoney(totalExpense));
+
+                // Componentes Visuales
+                App.updateBottomBar(surplus, totalIncome, remaining);
+                UI.updateThermometer(totalIncome, totalExpense);
+                UI.renderChart();
+                Data.save();
+            },
+
+            updateBottomBar: (surplus, totalIncome, remaining) => {
+                const elBar = Utils.$('barProgress');
+                const elTime = Utils.$('barTime');
+                const elSurplus = Utils.$('barSurplus');
+                
+                Utils.setText('barGoalText', `Faltan: ${Utils.formatCompact(remaining)}`);
+                elSurplus.innerText = (surplus > 0 ? '+' : '') + Utils.formatMoney(surplus);
+                
+                if (surplus > 0) {
+                    elSurplus.classList.remove('text-danger'); elSurplus.classList.add('text-success');
+                    let progress = (surplus / totalIncome) * 100 * 2; 
+                    elBar.style.width = Math.min(progress, 100) + '%';
+                    elBar.className = 'h-full bg-success w-0 transition-all duration-1000 ease-out rounded-full shadow-[0_0_15px_rgba(106,153,78,0.6)]';
+                    
+                    let months = remaining / surplus;
+                    elTime.innerHTML = `<span class="material-symbols-rounded text-primary text-sm">timer</span><span>${App.formatTimeRemaining(months)}</span>`;
+                } else {
+                    elSurplus.classList.remove('text-success'); elSurplus.classList.add('text-danger');
+                    elBar.style.width = '100%';
+                    elBar.className = 'h-full bg-danger w-0 transition-all duration-1000 ease-out rounded-full shadow-[0_0_15px_rgba(188,71,73,0.6)]';
+                    elTime.innerHTML = `<span class="material-symbols-rounded text-text-muted-light text-sm">timer_off</span><span>Ni en sueños</span>`;
+                }
+            },
+
+            formatTimeRemaining: (totalMonths) => {
+                if (totalMonths === Infinity) return "Nunca jamás";
+                if (totalMonths <= 0) return "¡Logrado!";
+                const years = Math.floor(totalMonths / 12);
+                const months = Math.floor(totalMonths % 12);
+                let parts = [];
+                if (years > 0) parts.push(`${years}a`);
+                if (months > 0) parts.push(`${months}m`);
+                return parts.length > 0 ? parts.join(' ') : "Hoy";
+            },
+
+            // Acciones de Usuario
+            updateVal: (key, val) => { 
+                state[key] = parseFloat(val) || 0; 
+                App.calculateGlobal(); 
+            },
+
+            toggleTheme: () => {
+                document.documentElement.classList.toggle('dark');
+                UI.renderChart();
+            },
+
+            // Modales y Formularios
+            openProfileModal: () => {
+                const modal = Utils.$('profileModal');
+                const card = Utils.$('profileCard');
+                Utils.$('inputUserName').value = state.userName || (firebaseAuth.currentUser ? firebaseAuth.currentUser.displayName : '');
+                modal.classList.remove('hidden');
+                setTimeout(() => { card.classList.remove('scale-95', 'opacity-0'); card.classList.add('scale-100', 'opacity-100'); }, 10);
+            },
+            closeProfileModal: () => {
+                const modal = Utils.$('profileModal');
+                const card = Utils.$('profileCard');
+                card.classList.remove('scale-100', 'opacity-100'); card.classList.add('scale-95', 'opacity-0');
+                setTimeout(() => modal.classList.add('hidden'), 300);
+            },
+            saveProfile: () => {
+                const newName = Utils.$('inputUserName').value.trim();
+                if (newName) {
+                    state.userName = newName;
+                    Data.save();
+                    App.updateGreeting();
+                    App.closeProfileModal();
+                    UI.showToast(`¡Listo, ${newName}!`);
+                }
+            },
+            updateGreeting: () => {
+                const el = Utils.$('userGreetingName');
+                if(el) el.innerText = state.userName || 'Amiga';
+            },
+
+            // Gestión de Transacciones Manuales
+            modifyFund: (type) => {
+                const elInput = Utils.$('fundInput');
+                const amount = parseFloat(elInput.value);
+                if(!amount || amount <= 0) { elInput.focus(); return; }
+                pendingTransaction = { type, amount };
+                App.openTransactionModal();
+            },
+            openTransactionModal: () => {
+                if(!pendingTransaction) return;
+                const type = pendingTransaction.type;
+                const inputField = Utils.$('transactionDesc');
+                const helpText = Utils.$('modalHelpText');
+                
+                if(type === 'add') {
+                    Utils.setText('modalTitle', '¡Ka-ching! Ingreso');
+                    Utils.$('modalIcon').innerText = 'arrow_downward';
+                    Utils.$('modalIcon').className = `material-symbols-rounded text-3xl text-success`;
+                    inputField.placeholder = "Ej: Bono, Regalo, Ahorro extra...";
+                    helpText.innerText = "¡Bien hecho! ¿De dónde salió este dinero?";
+                } else {
+                    Utils.setText('modalTitle', 'Retiro de fondos');
+                    Utils.$('modalIcon').innerText = 'warning';
+                    Utils.$('modalIcon').className = `material-symbols-rounded text-3xl text-warning`;
+                    inputField.placeholder = "Ej: Emergencia, Antojo, Imprevisto...";
+                    helpText.innerText = "Piénsalo bien: ¿Es una emergencia o un capricho?";
+                }
+                Utils.setText('modalAmountDisplay', Utils.formatMoney(pendingTransaction.amount));
+                
+                const btn = Utils.$('modalConfirmBtn');
+                btn.className = `py-4 rounded-2xl text-xs font-bold text-white shadow-lg active:scale-95 transition-transform uppercase tracking-wider ${type === 'add' ? 'bg-success shadow-success/30' : 'bg-danger shadow-danger/30'}`;
+                
+                inputField.value = "";
+                Utils.$('transactionModal').classList.remove('hidden');
+                setTimeout(() => { Utils.$('transactionCard').classList.remove('scale-95', 'opacity-0'); Utils.$('transactionCard').classList.add('scale-100', 'opacity-100'); }, 10);
+            },
+            closeTransactionModal: () => {
+                const card = Utils.$('transactionCard');
+                card.classList.remove('scale-100', 'opacity-100'); card.classList.add('scale-95', 'opacity-0');
+                setTimeout(() => Utils.$('transactionModal').classList.add('hidden'), 300);
+            },
+            confirmTransaction: () => {
+                if(!pendingTransaction) return;
+                const desc = Utils.$('transactionDesc').value || (pendingTransaction.type === 'add' ? 'Ahorro Manual' : 'Retiro Manual');
+                
+                if(pendingTransaction.type === 'add') { 
+                    state.accumulated += pendingTransaction.amount; 
+                    UI.triggerConfetti(); 
+                    UI.showToast("¡Ka-ching! Dinero en la bolsa. 💰");
+                } else { 
+                    state.accumulated = Math.max(0, state.accumulated - pendingTransaction.amount);
+                    UI.showToast("Anotado. (Respira, todo va a estar bien). 🧘", "warn");
+                }
+                
+                state.history.unshift({ id: Date.now(), date: new Date().toISOString(), desc, amount: pendingTransaction.amount, type: pendingTransaction.type });
+                Utils.$('fundInput').value = '';
+                UI.renderHistory(); App.calculateGlobal(); App.closeTransactionModal();
+            },
+
+            // CRUD Items
+            addItem: (type) => {
+                const id = Date.now();
+                if(type === 'incomes') { 
+                    state.incomes.push({ id, name: 'Extra', price: 0, cost: 0, qty: 1 }); 
+                    UI.renderIncomes(); 
+                } else { 
+                    state.expenses.push({ id, name: 'Gasto', amount: 0 }); 
+                    UI.renderExpenses(); 
+                }
+                App.calculateGlobal();
+            },
+            deleteItem: (type, id) => {
+                if(type === 'history') { 
+                    const item = state.history.find(x => x.id === id); 
+                    if(item) { 
+                        if(item.type === 'add') state.accumulated = Math.max(0, state.accumulated - item.amount); 
+                        else state.accumulated += item.amount; 
+                        state.history = state.history.filter(x => x.id !== id); 
+                        UI.renderHistory(); 
+                    } 
+                } else if(type === 'incomes') { 
+                    state.incomes = state.incomes.filter(x => x.id !== id); 
+                    UI.renderIncomes(); 
+                } else { 
+                    state.expenses = state.expenses.filter(x => x.id !== id); 
+                    UI.renderExpenses(); 
+                } 
+                App.calculateGlobal(); 
+                UI.showToast("¡Poof! Desapareció. ✨", "neutral");
+            },
             updateItem: (type, id, field, val) => {
                 const arr = state[type];
                 const item = arr.find(x => x.id === id);
                 if(item) {
-                    item[field] = field === 'name' ? val : (parseFloat(val)||0);
-                    App.calculate();
-                    if(type === 'incomes') UI.renderIncomes(); // Re-render for totals
+                    item[field] = (field === 'name' || field === 'desc') ? val : (parseFloat(val) || 0);
+                    if(type === 'incomes' && field !== 'name') {
+                        const sub = (item.price - item.cost) * item.qty;
+                        Utils.setText(`sub-${id}`, `+${Utils.formatMoney(sub)}`);
+                        Utils.setText(`qty-label-${id}`, item.qty + ' Unid.');
+                    }
+                    App.calculateGlobal();
                 }
             },
 
-            toggleTheme: () => document.documentElement.classList.toggle('dark')
+            toggleHistory: () => {
+                const cont = Utils.$('historyContainer');
+                const chev = Utils.$('historyChevron');
+                cont.classList.toggle('hidden');
+                chev.classList.toggle('rotate-180');
+            }
         };
 
-        // Init
-        Auth.init();
+        // Extensions to Utils for standard DOM operations not in UI class
+        Utils.setText = (id, txt) => { const el = Utils.$(id); if(el) el.innerText = txt; }
+        Utils.setHTML = (id, html) => { const el = Utils.$(id); if(el) el.innerHTML = html; }
+        Utils.setVal = (id, val) => { const el = Utils.$(id); if(el && document.activeElement !== el) el.value = val; }
+
+        // INICIALIZACIÓN
+        document.addEventListener('DOMContentLoaded', App.init);
+
     </script>
 </body>
 </html>
