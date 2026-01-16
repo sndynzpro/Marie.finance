@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-    <title>Marie Finance - Mobile First</title>
+    <title>Marie Finance - Fixed</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0" rel="stylesheet" />
@@ -23,187 +23,57 @@
             darkMode: "class",
             theme: {
                 extend: {
-                    colors: {
-                        "primary": "#b08968",       
-                        "text-main-light": "#4a403a",
-                        "text-muted-light": "#9c8c84",
-                        "text-main-dark": "#e7e5e4",
-                        "text-muted-dark": "#a8a29e",
-                        "success": "#6a994e",       
-                        "danger": "#bc4749",        
-                        "warning": "#e9c46a",       
-                    },
-                    fontFamily: {
-                        "display": ["Plus Jakarta Sans", "sans-serif"],
-                        "body": ["Inter", "sans-serif"],
-                    },
-                    boxShadow: {
-                        'soft': '0 8px 32px -4px rgba(0, 0, 0, 0.05)',
-                        'glow': '0 0 25px -5px rgba(176, 137, 104, 0.4)',
-                        'golden': '0 10px 30px -5px rgba(176, 137, 104, 0.15)',
-                    },
-                    animation: {
-                        'gradient': 'gradient 25s ease infinite',
-                    },
-                    keyframes: {
-                        gradient: {
-                            '0%': { backgroundPosition: '0% 50%' },
-                            '50%': { backgroundPosition: '100% 50%' },
-                            '100%': { backgroundPosition: '0% 50%' },
-                        }
-                    }
+                    colors: { "primary": "#b08968", "text-main-light": "#4a403a", "text-muted-light": "#9c8c84", "text-main-dark": "#e7e5e4", "text-muted-dark": "#a8a29e", "success": "#6a994e", "danger": "#bc4749", "warning": "#e9c46a" },
+                    fontFamily: { "display": ["Plus Jakarta Sans", "sans-serif"], "body": ["Inter", "sans-serif"] },
+                    boxShadow: { 'soft': '0 8px 32px -4px rgba(0, 0, 0, 0.05)', 'glow': '0 0 25px -5px rgba(176, 137, 104, 0.4)', 'golden': '0 10px 30px -5px rgba(176, 137, 104, 0.15)' },
+                    animation: { 'gradient': 'gradient 25s ease infinite' },
+                    keyframes: { gradient: { '0%': { backgroundPosition: '0% 50%' }, '50%': { backgroundPosition: '100% 50%' }, '100%': { backgroundPosition: '0% 50%' } } }
                 },
             },
         }
     </script>
     <style>
         body { -webkit-tap-highlight-color: transparent; transition: color 0.5s ease; }
-        
-        /* FONDO ANIMADO */
-        .animated-bg {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-            background: linear-gradient(-45deg, #efebe9, #d7ccc8, #e6dace, #f5f5f5);
-            background-size: 300% 300%;
-            animation: gradient 25s ease infinite;
-        }
-        .dark .animated-bg {
-            background: linear-gradient(-45deg, #1a120b, #2b1d16, #3e2723, #0c0a09);
-            background-size: 300% 300%;
-        }
-
-        /* Glassmorphism */
-        .glass-panel { 
-            background: rgba(255, 255, 255, 0.75); 
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.4);
-        }
-        .dark .glass-panel { 
-            background: rgba(20, 15, 10, 0.75); 
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
-        }
-        
-        .card-glass {
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-        .dark .card-glass {
-            background: rgba(40, 30, 25, 0.6); 
-            border: 1px solid rgba(255, 255, 255, 0.06);
-        }
-
-        @media (hover: hover) {
-            .card-glass:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -5px rgba(60, 40, 30, 0.15); border-color: rgba(176, 137, 104, 0.4); }
-        }
+        .animated-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: linear-gradient(-45deg, #efebe9, #d7ccc8, #e6dace, #f5f5f5); background-size: 300% 300%; animation: gradient 25s ease infinite; }
+        .dark .animated-bg { background: linear-gradient(-45deg, #1a120b, #2b1d16, #3e2723, #0c0a09); background-size: 300% 300%; }
+        .glass-panel { background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.4); }
+        .dark .glass-panel { background: rgba(20, 15, 10, 0.75); border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+        .card-glass { background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.6); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
+        .dark .card-glass { background: rgba(40, 30, 25, 0.6); border: 1px solid rgba(255, 255, 255, 0.06); }
         .card-glass:active { transform: scale(0.98); }
-
-        /* Tipografía Ajustada para Móvil */
         .text-hero { font-size: clamp(2.5rem, 8vw, 4.5rem); line-height: 1; }
         .text-h1 { font-size: clamp(1.5rem, 5vw, 2.5rem); } 
         .text-micro { font-size: 0.7rem; letter-spacing: 0.05em; text-transform: uppercase; font-weight: 800; }
         .help-text { font-size: 0.75rem; line-height: 1.4; opacity: 0.65; font-family: 'Inter', sans-serif; display: block; margin-top: 6px; font-style: italic; }
-
         input:focus { outline: none; }
         input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         .fade-in { animation: fadeIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; opacity: 0; transform: translateY(12px); }
         @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #b08968; border-radius: 10px; opacity: 0.5; }
-        
-        /* Inputs & Sliders */
+        ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: #b08968; border-radius: 10px; opacity: 0.5; }
         input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
-        input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none; height: 18px; width: 18px; border-radius: 50%;
-            background: #b08968; cursor: pointer; margin-top: -7px; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.15); border: 2px solid white;
-        }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 18px; width: 18px; border-radius: 50%; background: #b08968; cursor: pointer; margin-top: -7px; box-shadow: 0 2px 5px rgba(0,0,0,0.15); border: 2px solid white; }
         input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; cursor: pointer; background: #e5e5e5; border-radius: 99px; }
         .dark input[type=range]::-webkit-slider-runnable-track { background: #4e342e; }
-
-        /* Toast */
-        #toast {
-            visibility: hidden; min-width: 220px; max-width: 90%; background-color: rgba(43, 29, 22, 0.95);
-            color: #fff; text-align: center; border-radius: 99px; padding: 12px 24px; position: fixed;
-            z-index: 100; left: 50%; bottom: 110px; transform: translateX(-50%) translateY(20px);
-            font-size: 13px; font-weight: 600; backdrop-filter: blur(8px);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.25); opacity: 0; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 1px solid rgba(255,255,255,0.1); pointer-events: none;
-        }
+        #toast { visibility: hidden; min-width: 220px; max-width: 90%; background-color: rgba(43, 29, 22, 0.95); color: #fff; text-align: center; border-radius: 99px; padding: 12px 24px; position: fixed; z-index: 100; left: 50%; bottom: 110px; transform: translateX(-50%) translateY(20px); font-size: 13px; font-weight: 600; backdrop-filter: blur(8px); box-shadow: 0 8px 30px rgba(0,0,0,0.25); opacity: 0; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); border: 1px solid rgba(255,255,255,0.1); pointer-events: none; }
         #toast.show { visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0); }
-        
-        /* Modal Backdrop */
         .modal-backdrop { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; padding: 1rem; }
         .modal-bg { position: absolute; inset: 0; background-color: rgba(0,0,0,0.5); backdrop-filter: blur(8px); transition: opacity 0.3s; }
-        
-        /* Login Overlay */
-        #loginOverlay {
-            position: fixed; inset: 0; z-index: 999; 
-            background: linear-gradient(-45deg, #efebe9, #e6dace);
-            display: flex; align-items: center; justify-content: center;
-            transition: opacity 0.5s ease;
-        }
+        #loginOverlay { position: fixed; inset: 0; z-index: 999; background: linear-gradient(-45deg, #efebe9, #e6dace); display: flex; align-items: center; justify-content: center; transition: opacity 0.5s ease; }
         .dark #loginOverlay { background: linear-gradient(-45deg, #1a120b, #2b1d16); }
         .hidden-overlay { opacity: 0; pointer-events: none; }
-
-        /* Botones Prolijos */
         .btn-header { width: 44px; height: 44px; flex-shrink: 0; border-radius: 14px; }
         .btn-control { width: 64px; height: 64px; flex-shrink: 0; border-radius: 20px; }
         .btn-action-lg { width: 60px; height: 60px; flex-shrink: 0; border-radius: 20px; }
-        
+        @media (min-width: 1024px) { .btn-header { width: 48px; height: 48px; } .btn-control { width: 80px; height: 80px; } .btn-action-lg { width: 72px; height: 72px; } }
         .text-truncate-input { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        
-        /* === TUTORIAL ESTILO MÓVIL === */
-        .driver-popover.driverjs-theme { 
-            background-color: rgba(255, 255, 255, 0.95); 
-            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            color: #4a403a; 
-            border: 1px solid rgba(176, 137, 104, 0.3); 
-            border-radius: 24px; 
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            padding: 20px;
-            /* Máximo ancho para móvil */
-            max-width: 300px;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
-        }
-        .dark .driver-popover.driverjs-theme { 
-            background-color: rgba(30, 25, 20, 0.95); 
-            color: #e7e5e4; 
-            border: 1px solid rgba(255, 255, 255, 0.1); 
-        }
-        
-        .driver-popover.driverjs-theme .driver-popover-title { 
-            color: #b08968; 
-            text-transform: uppercase; 
-            font-size: 13px;
-            letter-spacing: 0.05em;
-            margin-bottom: 8px;
-        }
-        
-        .driver-popover.driverjs-theme .driver-popover-description {
-            font-size: 14px;
-            line-height: 1.5;
-            margin-bottom: 20px;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .driver-popover.driverjs-theme button { 
-            background: transparent; color: #b08968; border: none; text-shadow: none; font-weight: 700; font-size: 12px;
-        }
-        .driver-popover.driverjs-theme button.driver-popover-next-btn { 
-            background-color: #b08968; color: #fff; border-radius: 12px; padding: 8px 16px; box-shadow: 0 4px 10px rgba(176, 137, 104, 0.3);
-        }
-        
-        /* Botón cerrar limpio */
-        .driver-popover.driverjs-theme button.driver-popover-close-btn { 
-            background-color: transparent !important; color: #9c8c84; width: 24px; height: 24px; border-radius: 50%; transition: all 0.3s ease; 
-        }
-        .driver-popover.driverjs-theme button.driver-popover-close-btn:hover { 
-            color: #bc4749 !important; transform: scale(1.1) rotate(90deg); 
-        }
+        .driver-popover.driverjs-theme { background-color: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px); color: #4a403a; border: 1px solid rgba(176, 137, 104, 0.3); border-radius: 24px; padding: 20px; max-width: 300px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); font-family: 'Plus Jakarta Sans', sans-serif; }
+        .dark .driver-popover.driverjs-theme { background-color: rgba(30, 25, 20, 0.95); color: #e7e5e4; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .driver-popover.driverjs-theme .driver-popover-title { color: #b08968; text-transform: uppercase; font-size: 13px; letter-spacing: 0.05em; margin-bottom: 8px; }
+        .driver-popover.driverjs-theme .driver-popover-description { font-size: 14px; line-height: 1.5; margin-bottom: 20px; font-family: 'Inter', sans-serif; }
+        .driver-popover.driverjs-theme button { background: transparent; color: #b08968; border: none; text-shadow: none; font-weight: 700; font-size: 12px; }
+        .driver-popover.driverjs-theme button.driver-popover-next-btn { background-color: #b08968; color: #fff; border-radius: 12px; padding: 8px 16px; box-shadow: 0 4px 10px rgba(176, 137, 104, 0.3); }
+        .driver-popover.driverjs-theme button.driver-popover-close-btn { background-color: transparent !important; color: #9c8c84; width: 24px; height: 24px; border-radius: 50%; transition: all 0.3s ease; }
+        .driver-popover.driverjs-theme button.driver-popover-close-btn:hover { color: #bc4749 !important; transform: scale(1.1) rotate(90deg); }
     </style>
 </head>
 <body class="text-text-main-light dark:text-text-main-dark font-body min-h-screen flex flex-col selection:bg-primary selection:text-white overflow-x-hidden">
@@ -216,9 +86,8 @@
             <div class="absolute top-[-50px] left-[-50px] w-40 h-40 bg-primary/20 rounded-full blur-3xl"></div>
             <span class="text-micro font-black text-primary mb-3 block tracking-widest">BIENVENIDA A</span>
             <h1 class="text-3xl font-display font-bold mb-6 text-text-main-light dark:text-white tracking-tight">Marie Finance</h1>
-            <p class="text-xs text-text-muted-light dark:text-text-muted-dark mb-8 leading-relaxed">Tus finanzas organizadas en la nube. Simple, elegante y siempre contigo.</p>
+            <p class="text-xs text-text-muted-light dark:text-text-muted-dark mb-8 leading-relaxed">Tus finanzas organizadas en la nube.</p>
             <button onclick="loginWithGoogle()" class="w-full py-4 rounded-2xl bg-white dark:bg-white/10 text-text-main-light dark:text-white font-bold flex items-center justify-center gap-3 shadow-soft hover:scale-[1.02] active:scale-95 transition-all border border-black/5 dark:border-white/5 text-sm">
-                <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="G">
                 <span>Continuar con Google</span>
             </button>
         </div>
@@ -274,7 +143,6 @@
     <div class="flex-1 w-full max-w-[1400px] mx-auto px-5 pt-28 pb-40 lg:px-12 lg:pt-40 lg:pb-40 transition-all duration-500 overflow-visible" id="mainContainer">
         
         <div id="view-home" class="w-full">
-            
             <div class="mb-8 fade-in">
                 <h1 class="text-3xl font-display font-black text-text-main-light dark:text-white tracking-tight">
                     <span class="text-primary">¡Epa, </span><span id="userGreetingName">...</span>!
@@ -368,7 +236,7 @@
                     </div>
                 </div>
             </div>
-            <p class="text-center text-micro text-text-muted-light/40 dark:text-text-muted-dark/40 mt-16 mb-4 font-mono opacity-50 hover:opacity-100 transition-opacity">MARIE FINANCE v29.0 MOBILE</p>
+            <p class="text-center text-micro text-text-muted-light/40 dark:text-text-muted-dark/40 mt-16 mb-4 font-mono opacity-50 hover:opacity-100 transition-opacity">MARIE FINANCE v30.0 FINAL</p>
         </div>
 
         <div id="view-goal" class="fade-in hidden w-full max-w-4xl mx-auto">
@@ -383,25 +251,32 @@
                 </div>
             </div>
             <div class="card-glass p-6 lg:p-12 rounded-[2.5rem] shadow-golden relative overflow-hidden">
-                <div class="flex flex-col justify-between items-center mb-8 border-b border-dashed border-black/10 dark:border-white/10 pb-6 gap-2">
-                    <span class="text-micro font-bold text-text-muted-light dark:text-text-muted-dark">Disponible Real</span>
-                    <span id="detailSavedDisplay" class="text-5xl font-black text-success tracking-tighter">$0</span>
+                <div class="flex flex-col md:flex-row justify-between items-end mb-10 border-b border-dashed border-black/10 dark:border-white/10 pb-8 gap-6">
+                    <div class="text-left w-full md:w-auto">
+                        <span class="text-micro font-bold text-text-muted-light dark:text-text-muted-dark block mb-2">Disponible Real</span>
+                        <span class="text-5xl font-black text-success tracking-tighter" id="detailSavedDisplay">$0</span>
+                    </div>
                 </div>
-                <div class="flex gap-4 mb-8 items-stretch h-auto min-h-[120px]">
+                <div class="flex gap-4 mb-10 items-stretch h-auto min-h-[140px]">
                     <button onclick="modifyFund('sub')" class="btn-control bg-danger/5 text-danger flex items-center justify-center text-4xl active:scale-90 transition-all border border-danger/20 hover:bg-danger hover:text-white"><span class="material-symbols-rounded">remove</span></button>
-                    <div class="flex-1 relative bg-white/30 dark:bg-black/20 rounded-[2rem] border border-white/20 dark:border-white/5 overflow-hidden flex items-center justify-center flex-col p-4">
-                        <span class="text-micro font-bold opacity-40 mb-1">Monto a operar</span>
-                        <input id="fundInput" type="number" placeholder="0" class="w-full bg-transparent text-center font-bold text-4xl lg:text-5xl focus:ring-0 border-none outline-none text-text-main-light dark:text-text-main-dark z-10 mb-1">
-                        <span class="help-text text-center text-[10px]">Ingresa cantidad.</span>
+                    <div class="flex-1 relative bg-white/30 dark:bg-black/20 rounded-[2rem] border border-white/20 dark:border-white/5 overflow-hidden flex items-center justify-center flex-col p-6">
+                        <span class="text-micro font-bold opacity-40 mb-2">Monto a operar</span>
+                        <input id="fundInput" type="number" placeholder="0" class="w-full bg-transparent text-center font-bold text-5xl lg:text-6xl focus:ring-0 border-none outline-none text-text-main-light dark:text-text-main-dark z-10 mb-2">
+                        <span class="help-text text-center max-w-[200px]">Ingresa cantidad.</span>
                     </div>
                     <button onclick="modifyFund('add')" class="btn-control bg-success/5 text-success flex items-center justify-center text-4xl active:scale-90 transition-all border border-success/20 hover:bg-success hover:text-white"><span class="material-symbols-rounded">add</span></button>
                 </div>
-                <div class="pt-2 border-t border-white/20 dark:border-white/5">
-                     <button onclick="toggleHistory()" class="w-full flex items-center justify-between p-5 bg-white/40 dark:bg-black/20 rounded-[1.5rem] text-xs font-bold uppercase text-text-muted-light dark:text-text-muted-dark hover:bg-white/60 dark:hover:bg-white/5 transition-all group border border-white/20 dark:border-white/5">
-                        <span class="tracking-widest">Historial</span>
-                        <span id="historyChevron" class="material-symbols-rounded transition-transform group-hover:text-primary text-base">expand_more</span>
+                <div class="pt-4 border-t border-white/20 dark:border-white/5">
+                     <button onclick="toggleHistory()" class="w-full flex items-center justify-between p-6 bg-white/40 dark:bg-black/20 rounded-[2rem] text-xs font-bold uppercase text-text-muted-light dark:text-text-muted-dark hover:bg-white/60 dark:hover:bg-white/5 transition-all group border border-white/20 dark:border-white/5">
+                        <div class="flex flex-col items-start text-left">
+                            <span class="tracking-widest">Historial</span>
+                            <span class="help-text mt-0.5 normal-case opacity-50">Movimientos.</span>
+                        </div>
+                        <div class="w-10 h-10 rounded-full bg-white dark:bg-white/10 flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
+                            <span id="historyChevron" class="material-symbols-rounded transition-transform group-hover:text-primary text-base">expand_more</span>
+                        </div>
                     </button>
-                    <div id="historyContainer" class="hidden mt-4 space-y-3 max-h-80 overflow-y-auto pr-2 pb-2 custom-scroll"></div>
+                    <div id="historyContainer" class="hidden mt-6 space-y-3 max-h-80 overflow-y-auto pr-2 pb-2 custom-scroll"></div>
                 </div>
             </div>
         </div>
