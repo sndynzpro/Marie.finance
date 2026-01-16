@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-    <title>Marie Finance - Aurea</title>
+    <title>Marie Finance - Mobile First</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0" rel="stylesheet" />
@@ -40,7 +40,7 @@
                     boxShadow: {
                         'soft': '0 8px 32px -4px rgba(0, 0, 0, 0.05)',
                         'glow': '0 0 25px -5px rgba(176, 137, 104, 0.4)',
-                        'golden': '0 13px 27px -5px rgba(50, 50, 93, 0.15), 0 8px 16px -8px rgba(0, 0, 0, 0.2)',
+                        'golden': '0 10px 30px -5px rgba(176, 137, 104, 0.15)',
                     },
                     animation: {
                         'gradient': 'gradient 25s ease infinite',
@@ -71,9 +71,9 @@
             background-size: 300% 300%;
         }
 
-        /* GLASSMORPHISM ÁUREO */
+        /* Glassmorphism */
         .glass-panel { 
-            background: rgba(255, 255, 255, 0.7); 
+            background: rgba(255, 255, 255, 0.75); 
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.4);
         }
@@ -83,27 +83,26 @@
         }
         
         .card-glass {
-            background: rgba(255, 255, 255, 0.55);
+            background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.6);
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
         .dark .card-glass {
-            background: rgba(40, 30, 25, 0.5); 
+            background: rgba(40, 30, 25, 0.6); 
             border: 1px solid rgba(255, 255, 255, 0.06);
         }
 
         @media (hover: hover) {
             .card-glass:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -5px rgba(60, 40, 30, 0.15); border-color: rgba(176, 137, 104, 0.4); }
         }
-        .card-glass:active { transform: scale(0.99); }
+        .card-glass:active { transform: scale(0.98); }
 
-        /* Tipografía Áurea - Escalas */
-        .text-hero { font-size: clamp(2rem, 5vw, 4.5rem); line-height: 1.1; } /* Para números grandes */
-        .text-h1 { font-size: clamp(1.5rem, 3vw, 2.5rem); } 
-        .text-body { font-size: 1rem; line-height: 1.618; }
-        .text-small { font-size: 0.85rem; line-height: 1.5; }
-        .text-micro { font-size: 0.7rem; letter-spacing: 0.05em; text-transform: uppercase; }
+        /* Tipografía Ajustada para Móvil */
+        .text-hero { font-size: clamp(2.5rem, 8vw, 4.5rem); line-height: 1; }
+        .text-h1 { font-size: clamp(1.5rem, 5vw, 2.5rem); } 
+        .text-micro { font-size: 0.7rem; letter-spacing: 0.05em; text-transform: uppercase; font-weight: 800; }
+        .help-text { font-size: 0.75rem; line-height: 1.4; opacity: 0.65; font-family: 'Inter', sans-serif; display: block; margin-top: 6px; font-style: italic; }
 
         input:focus { outline: none; }
         input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
@@ -111,28 +110,26 @@
         @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
 
         /* Scrollbar */
-        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #b08968; border-radius: 10px; opacity: 0.5; }
-        .dark ::-webkit-scrollbar-thumb { background: #8d6e63; }
-
-        /* Inputs */
+        
+        /* Inputs & Sliders */
         input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
         input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none; height: 16px; width: 16px; border-radius: 50%;
-            background: #b08968; cursor: pointer; margin-top: -6px; 
+            -webkit-appearance: none; height: 18px; width: 18px; border-radius: 50%;
+            background: #b08968; cursor: pointer; margin-top: -7px; 
             box-shadow: 0 2px 5px rgba(0,0,0,0.15); border: 2px solid white;
         }
         input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; cursor: pointer; background: #e5e5e5; border-radius: 99px; }
         .dark input[type=range]::-webkit-slider-runnable-track { background: #4e342e; }
 
-        .help-text { font-size: 0.75rem; line-height: 1.4; opacity: 0.65; font-family: 'Inter', sans-serif; display: block; margin-top: 6px; font-style: italic; text-wrap: balance; }
-        
+        /* Toast */
         #toast {
             visibility: hidden; min-width: 220px; max-width: 90%; background-color: rgba(43, 29, 22, 0.95);
             color: #fff; text-align: center; border-radius: 99px; padding: 12px 24px; position: fixed;
-            z-index: 100; left: 50%; bottom: 100px; transform: translateX(-50%) translateY(20px);
-            font-size: 13px; font-weight: 500; backdrop-filter: blur(8px);
+            z-index: 100; left: 50%; bottom: 110px; transform: translateX(-50%) translateY(20px);
+            font-size: 13px; font-weight: 600; backdrop-filter: blur(8px);
             box-shadow: 0 8px 30px rgba(0,0,0,0.25); opacity: 0; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             border: 1px solid rgba(255,255,255,0.1); pointer-events: none;
         }
@@ -140,7 +137,7 @@
         
         /* Modal Backdrop */
         .modal-backdrop { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; padding: 1rem; }
-        .modal-bg { position: absolute; inset: 0; background-color: rgba(0,0,0,0.4); backdrop-filter: blur(8px); transition: opacity 0.3s; }
+        .modal-bg { position: absolute; inset: 0; background-color: rgba(0,0,0,0.5); backdrop-filter: blur(8px); transition: opacity 0.3s; }
         
         /* Login Overlay */
         #loginOverlay {
@@ -154,16 +151,59 @@
 
         /* Botones Prolijos */
         .btn-header { width: 44px; height: 44px; flex-shrink: 0; border-radius: 14px; }
-        .btn-control { width: 72px; height: 72px; flex-shrink: 0; border-radius: 20px; }
-        .btn-action-lg { width: 64px; height: 64px; flex-shrink: 0; border-radius: 20px; }
+        .btn-control { width: 64px; height: 64px; flex-shrink: 0; border-radius: 20px; }
+        .btn-action-lg { width: 60px; height: 60px; flex-shrink: 0; border-radius: 20px; }
         
         .text-truncate-input { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         
-        /* Tutorial */
-        .driver-popover.driverjs-theme { background-color: rgba(255, 255, 255, 0.9); backdrop-filter: blur(15px); color: #4a403a; border: 1px solid rgba(176, 137, 104, 0.3); border-radius: 24px; font-family: 'Plus Jakarta Sans', sans-serif; }
-        .dark .driver-popover.driverjs-theme { background-color: rgba(30, 25, 20, 0.95); color: #e7e5e4; border: 1px solid rgba(255, 255, 255, 0.1); }
-        .driver-popover.driverjs-theme button.driver-popover-close-btn { background-color: transparent !important; color: #9c8c84; width: 24px; height: 24px; border-radius: 50%; transition: all 0.3s ease; }
-        .driver-popover.driverjs-theme button.driver-popover-close-btn:hover { color: #bc4749 !important; transform: scale(1.1) rotate(90deg); }
+        /* === TUTORIAL ESTILO MÓVIL === */
+        .driver-popover.driverjs-theme { 
+            background-color: rgba(255, 255, 255, 0.95); 
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            color: #4a403a; 
+            border: 1px solid rgba(176, 137, 104, 0.3); 
+            border-radius: 24px; 
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            padding: 20px;
+            /* Máximo ancho para móvil */
+            max-width: 300px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+        }
+        .dark .driver-popover.driverjs-theme { 
+            background-color: rgba(30, 25, 20, 0.95); 
+            color: #e7e5e4; 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+        }
+        
+        .driver-popover.driverjs-theme .driver-popover-title { 
+            color: #b08968; 
+            text-transform: uppercase; 
+            font-size: 13px;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+        
+        .driver-popover.driverjs-theme .driver-popover-description {
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .driver-popover.driverjs-theme button { 
+            background: transparent; color: #b08968; border: none; text-shadow: none; font-weight: 700; font-size: 12px;
+        }
+        .driver-popover.driverjs-theme button.driver-popover-next-btn { 
+            background-color: #b08968; color: #fff; border-radius: 12px; padding: 8px 16px; box-shadow: 0 4px 10px rgba(176, 137, 104, 0.3);
+        }
+        
+        /* Botón cerrar limpio */
+        .driver-popover.driverjs-theme button.driver-popover-close-btn { 
+            background-color: transparent !important; color: #9c8c84; width: 24px; height: 24px; border-radius: 50%; transition: all 0.3s ease; 
+        }
+        .driver-popover.driverjs-theme button.driver-popover-close-btn:hover { 
+            color: #bc4749 !important; transform: scale(1.1) rotate(90deg); 
+        }
     </style>
 </head>
 <body class="text-text-main-light dark:text-text-main-dark font-body min-h-screen flex flex-col selection:bg-primary selection:text-white overflow-x-hidden">
@@ -172,11 +212,11 @@
     <div id="toast">Notificación</div>
 
     <div id="loginOverlay">
-        <div class="card-glass p-10 rounded-[2.5rem] shadow-golden text-center max-w-sm mx-6 border border-white/20 dark:border-white/10 relative overflow-hidden">
+        <div class="card-glass p-8 lg:p-10 rounded-[2.5rem] shadow-golden text-center max-w-xs mx-6 border border-white/20 dark:border-white/10 relative overflow-hidden">
             <div class="absolute top-[-50px] left-[-50px] w-40 h-40 bg-primary/20 rounded-full blur-3xl"></div>
             <span class="text-micro font-black text-primary mb-3 block tracking-widest">BIENVENIDA A</span>
-            <h1 class="text-4xl font-display font-bold mb-6 text-text-main-light dark:text-white tracking-tight">Marie Finance</h1>
-            <p class="text-small text-text-muted-light dark:text-text-muted-dark mb-10 leading-relaxed">Tus finanzas organizadas con proporción áurea. Sincroniza en la nube y mantén el control.</p>
+            <h1 class="text-3xl font-display font-bold mb-6 text-text-main-light dark:text-white tracking-tight">Marie Finance</h1>
+            <p class="text-xs text-text-muted-light dark:text-text-muted-dark mb-8 leading-relaxed">Tus finanzas organizadas en la nube. Simple, elegante y siempre contigo.</p>
             <button onclick="loginWithGoogle()" class="w-full py-4 rounded-2xl bg-white dark:bg-white/10 text-text-main-light dark:text-white font-bold flex items-center justify-center gap-3 shadow-soft hover:scale-[1.02] active:scale-95 transition-all border border-black/5 dark:border-white/5 text-sm">
                 <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="G">
                 <span>Continuar con Google</span>
@@ -186,26 +226,26 @@
 
     <div id="profileModal" class="modal-backdrop hidden">
         <div class="modal-bg" onclick="closeProfileModal()"></div>
-        <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-sm rounded-[2.5rem] p-8 shadow-golden relative z-10 transform transition-all scale-95 opacity-0" id="profileCard">
+        <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-xs rounded-[2.5rem] p-8 shadow-golden relative z-10 transform transition-all scale-95 opacity-0" id="profileCard">
             <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-2xl bg-white dark:bg-[#1a1a1a] flex items-center justify-center border border-black/5 dark:border-white/10 shadow-lg">
                 <span class="material-symbols-rounded text-3xl text-primary">person_edit</span>
             </div>
-            <h3 class="text-xl font-bold text-center mt-8 mb-2 text-text-main-light dark:text-text-main-dark">Tu Identidad</h3>
-            <p class="text-small text-center text-text-muted-light mb-8">¿Cómo quieres que te llamemos?</p>
-            <div class="mb-8">
-                <label class="text-micro font-bold text-text-muted-light dark:text-text-muted-dark block mb-3 pl-1">Nombre / Apodo</label>
+            <h3 class="text-lg font-bold text-center mt-8 mb-2 text-text-main-light dark:text-text-main-dark">Tu Identidad</h3>
+            <p class="text-xs text-center text-text-muted-light mb-6 opacity-70">¿Cómo quieres que te llamemos?</p>
+            <div class="mb-6">
+                <label class="text-micro font-bold text-text-muted-light dark:text-text-muted-dark block mb-2 pl-1">Nombre / Apodo</label>
                 <input id="inputUserName" type="text" placeholder="Ej: Marie" class="w-full bg-black/5 dark:bg-white/5 rounded-2xl border-none py-4 px-5 text-sm focus:ring-2 focus:ring-primary/50 outline-none text-text-main-light dark:text-white placeholder-stone-400 font-medium transition-shadow text-center">
             </div>
-            <div class="grid grid-cols-2 gap-4">
-                <button onclick="closeProfileModal()" class="py-4 rounded-2xl text-xs font-bold bg-black/5 dark:bg-white/5 text-text-muted-light hover:bg-black/10 dark:hover:bg-white/10 transition-colors uppercase tracking-wider">Cancelar</button>
-                <button onclick="saveProfile()" class="py-4 rounded-2xl text-xs font-bold bg-primary text-white shadow-lg shadow-primary/30 active:scale-95 transition-transform uppercase tracking-wider">Guardar</button>
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="closeProfileModal()" class="py-3.5 rounded-2xl text-xs font-bold bg-black/5 dark:bg-white/5 text-text-muted-light hover:bg-black/10 dark:hover:bg-white/10 transition-colors uppercase tracking-wider">Cancelar</button>
+                <button onclick="saveProfile()" class="py-3.5 rounded-2xl text-xs font-bold bg-primary text-white shadow-lg shadow-primary/30 active:scale-95 transition-transform uppercase tracking-wider">Guardar</button>
             </div>
         </div>
     </div>
 
     <div class="fixed top-0 w-full z-50 transition-all duration-300">
-        <div class="glass-panel mx-auto w-full px-6 py-4 lg:px-12 flex items-center justify-between">
-            <div class="flex items-center gap-4">
+        <div class="glass-panel mx-auto w-full px-5 py-3 lg:px-12 flex items-center justify-between">
+            <div class="flex items-center gap-3 lg:gap-4">
                 <button id="backBtn" onclick="navigateTo('home')" class="hidden btn-header bg-white/50 dark:bg-white/5 flex items-center justify-center text-text-muted-light dark:text-text-muted-dark hover:bg-white dark:hover:bg-white/10 active:scale-95 transition-all shadow-sm border border-white/20 dark:border-white/5">
                     <span class="material-symbols-rounded">arrow_back</span>
                 </button>
@@ -214,9 +254,12 @@
                     <span id="pageTitleMain" class="text-lg font-bold font-display tracking-tight text-text-main-light dark:text-text-main-dark">Marie Finance</span>
                 </div>
             </div>
-            <div class="flex gap-3">
+            <div class="flex gap-2">
                 <button onclick="openProfileModal()" class="btn-header border border-white/20 dark:border-white/10 text-text-muted-light dark:text-text-muted-dark flex items-center justify-center active:scale-95 hover:bg-white/20 dark:hover:bg-white/10 transition-all backdrop-blur-sm" title="Editar Perfil">
                     <span class="material-symbols-rounded text-xl">account_circle</span>
+                </button>
+                <button onclick="startTutorial()" class="btn-header border border-white/20 dark:border-white/10 text-text-muted-light dark:text-text-muted-dark flex items-center justify-center active:scale-95 hover:bg-white/20 dark:hover:bg-white/10 transition-all backdrop-blur-sm" title="Ver Tutorial">
+                    <span class="material-symbols-rounded text-xl">help</span>
                 </button>
                 <button onclick="logout()" class="btn-header border border-white/20 dark:border-white/10 text-text-muted-light dark:text-text-muted-dark flex items-center justify-center active:scale-95 hover:bg-danger/10 hover:text-danger hover:border-danger/30 transition-all backdrop-blur-sm" title="Cerrar Sesión">
                     <span class="material-symbols-rounded text-xl">logout</span>
@@ -228,30 +271,30 @@
         </div>
     </div>
 
-    <div class="flex-1 w-full max-w-[1400px] mx-auto px-6 pt-32 pb-48 lg:px-12 lg:pt-40 lg:pb-40 transition-all duration-500 overflow-visible" id="mainContainer">
+    <div class="flex-1 w-full max-w-[1400px] mx-auto px-5 pt-28 pb-40 lg:px-12 lg:pt-40 lg:pb-40 transition-all duration-500 overflow-visible" id="mainContainer">
         
         <div id="view-home" class="w-full">
             
-            <div class="mb-10 fade-in">
-                <h1 class="text-h1 font-display font-black text-text-main-light dark:text-white tracking-tight">
+            <div class="mb-8 fade-in">
+                <h1 class="text-3xl font-display font-black text-text-main-light dark:text-white tracking-tight">
                     <span class="text-primary">¡Epa, </span><span id="userGreetingName">...</span>!
                 </h1>
-                <p class="text-small text-text-muted-light dark:text-text-muted-dark mt-2">Todo listo para organizar tus cuentas.</p>
+                <p class="text-xs text-text-muted-light dark:text-text-muted-dark mt-2 opacity-80">Organiza tu bolsillo, vive tranquila.</p>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
                 <div id="step1-target" class="lg:col-span-4 flex flex-col fade-in delay-100">
-                    <button onclick="navigateTo('goal')" class="w-full flex-1 card-glass p-8 rounded-[2.5rem] shadow-soft text-center relative overflow-hidden group flex flex-col justify-center items-center min-h-[360px]">
+                    <button onclick="navigateTo('goal')" class="w-full flex-1 card-glass p-6 lg:p-8 rounded-[2rem] shadow-soft text-center relative overflow-hidden group flex flex-col justify-center items-center min-h-[300px]">
                         <div class="absolute top-[-20%] right-[-10%] w-48 h-48 bg-primary/10 rounded-full blur-3xl opacity-50 group-hover:opacity-80 transition-opacity"></div>
                         <div class="relative z-10 w-full flex flex-col items-center">
-                            <p class="text-micro text-text-muted-light dark:text-text-muted-dark font-bold opacity-70 mb-4">Meta Global</p>
+                            <p class="text-micro text-text-muted-light dark:text-text-muted-dark font-bold opacity-70 mb-3">Meta Global</p>
                             <div class="flex justify-center items-baseline gap-1 flex-wrap mb-2 w-full px-2">
                                 <span class="text-3xl text-primary/40 align-top">$</span>
                                 <span id="homeGoalDisplay" class="text-hero font-black text-text-main-light dark:text-text-main-dark tracking-tighter drop-shadow-sm break-all leading-none">0</span>
                             </div>
-                            <span class="help-text max-w-[240px]">Tu objetivo financiero.</span>
-                            <div class="inline-flex flex-col items-center mt-8 group-hover:scale-105 transition-transform w-full">
-                                <div class="inline-flex items-center gap-2 bg-white/50 dark:bg-black/20 text-text-main-light dark:text-white px-6 py-3 rounded-2xl text-xs font-bold border border-white/20 dark:border-white/5 shadow-sm" id="homeSavedDisplay">
+                            <span class="help-text">Tu objetivo financiero.</span>
+                            <div class="inline-flex flex-col items-center mt-6 group-hover:scale-105 transition-transform w-full">
+                                <div class="inline-flex items-center gap-2 bg-white/50 dark:bg-black/20 text-text-main-light dark:text-white px-5 py-2.5 rounded-xl text-xs font-bold border border-white/20 dark:border-white/5 shadow-sm" id="homeSavedDisplay">
                                     <span class="material-symbols-rounded text-lg text-success">savings</span>
                                     <span>Disponible: $0</span>
                                 </div>
@@ -261,62 +304,62 @@
                 </div>
 
                 <div id="step2-target" class="lg:col-span-4 flex flex-col fade-in delay-200">
-                    <div class="flex flex-col gap-6 h-full">
-                        <button onclick="navigateTo('incomes')" class="flex-1 card-glass p-8 rounded-[2.5rem] shadow-soft text-left relative overflow-hidden group flex flex-col justify-between min-h-[170px]">
+                    <div class="flex flex-col gap-4 h-full">
+                        <button onclick="navigateTo('incomes')" class="flex-1 card-glass p-6 lg:p-8 rounded-[2rem] shadow-soft text-left relative overflow-hidden group flex flex-col justify-between min-h-[160px]">
                             <div class="flex justify-between items-start w-full">
                                 <div>
-                                    <div class="w-12 h-12 rounded-2xl bg-success/10 flex items-center justify-center text-success mb-3 group-hover:scale-110 transition-transform"><span class="material-symbols-rounded text-2xl">trending_up</span></div>
+                                    <div class="w-10 h-10 rounded-2xl bg-success/10 flex items-center justify-center text-success mb-2 group-hover:scale-110 transition-transform"><span class="material-symbols-rounded text-xl">trending_up</span></div>
                                     <p class="text-micro font-bold text-text-muted-light dark:text-text-muted-dark">Entradas</p>
                                 </div>
-                                <div class="w-10 h-10 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-rounded text-base">arrow_outward</span></div>
+                                <div class="w-8 h-8 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-rounded text-sm">arrow_outward</span></div>
                             </div>
-                            <div class="mt-2">
+                            <div class="mt-1">
                                 <div id="homeIncomeDisplay" class="text-4xl font-black text-success truncate tracking-tight">$0</div>
-                                <span class="help-text">Ingresos totales del mes.</span>
+                                <span class="help-text">Suma de ingresos.</span>
                             </div>
                         </button>
-                        <button onclick="navigateTo('expenses')" class="flex-1 card-glass p-8 rounded-[2.5rem] shadow-soft text-left relative overflow-hidden group flex flex-col justify-between min-h-[170px]">
+                        <button onclick="navigateTo('expenses')" class="flex-1 card-glass p-6 lg:p-8 rounded-[2rem] shadow-soft text-left relative overflow-hidden group flex flex-col justify-between min-h-[160px]">
                             <div class="flex justify-between items-start w-full">
                                 <div>
-                                    <div class="w-12 h-12 rounded-2xl bg-danger/10 flex items-center justify-center text-danger mb-3 group-hover:scale-110 transition-transform"><span class="material-symbols-rounded text-2xl">trending_down</span></div>
+                                    <div class="w-10 h-10 rounded-2xl bg-danger/10 flex items-center justify-center text-danger mb-2 group-hover:scale-110 transition-transform"><span class="material-symbols-rounded text-xl">trending_down</span></div>
                                     <p class="text-micro font-bold text-text-muted-light dark:text-text-muted-dark">Salidas</p>
                                 </div>
-                                <div class="w-10 h-10 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-rounded text-base">arrow_outward</span></div>
+                                <div class="w-8 h-8 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-rounded text-sm">arrow_outward</span></div>
                             </div>
-                            <div class="mt-2">
+                            <div class="mt-1">
                                 <div id="homeExpenseDisplay" class="text-4xl font-black text-danger truncate tracking-tight">$0</div>
-                                <span class="help-text">Gastos totales acumulados.</span>
+                                <span class="help-text">Gastos acumulados.</span>
                             </div>
                         </button>
                     </div>
                 </div>
 
                 <div id="step3-target" class="lg:col-span-4 flex flex-col fade-in delay-300">
-                    <div class="flex flex-col gap-6 h-full">
-                        <div class="card-glass p-8 rounded-[2.5rem] shadow-soft relative overflow-hidden min-h-[180px]">
-                            <div class="flex justify-between items-center mb-6">
-                                 <div class="flex items-center gap-4">
+                    <div class="flex flex-col gap-4 h-full">
+                        <div class="card-glass p-6 lg:p-8 rounded-[2rem] shadow-soft relative overflow-hidden min-h-[160px]">
+                            <div class="flex justify-between items-center mb-4">
+                                 <div class="flex items-center gap-3">
                                     <div class="w-10 h-10 rounded-2xl bg-warning/10 flex items-center justify-center text-warning shrink-0 shadow-inner"><span class="material-symbols-rounded text-xl">cardiology</span></div>
                                     <div>
-                                        <h3 class="font-bold text-sm text-text-main-light dark:text-text-main-dark uppercase tracking-wide">Salud</h3>
-                                        <p class="text-[10px] opacity-60">Diagnóstico</p>
+                                        <h3 class="font-bold text-xs text-text-main-light dark:text-text-main-dark uppercase tracking-wide">Salud</h3>
+                                        <p class="text-[9px] opacity-60">Diagnóstico</p>
                                     </div>
                                 </div>
-                                <div id="healthBadge" class="px-4 py-1.5 bg-white/50 dark:bg-white/5 rounded-full text-[10px] font-black uppercase text-text-muted-light dark:text-white border border-white/20 dark:border-white/5 shadow-sm">--</div>
+                                <div id="healthBadge" class="px-3 py-1 bg-white/50 dark:bg-white/5 rounded-full text-[9px] font-black uppercase text-text-muted-light dark:text-white border border-white/20 dark:border-white/5 shadow-sm">--</div>
                             </div>
-                            <div class="h-3 w-full bg-black/5 dark:bg-black/50 rounded-full overflow-hidden relative mb-3 shadow-inner">
+                            <div class="h-2.5 w-full bg-black/5 dark:bg-black/50 rounded-full overflow-hidden relative mb-3 shadow-inner">
                                 <div class="absolute inset-0 bg-gradient-to-r from-danger via-warning to-success opacity-80"></div>
                                 <div id="healthIndicator" class="absolute top-0 bottom-0 w-2 bg-white shadow-[0_0_15px_rgba(255,255,255,1)] transition-all duration-1000 ease-out scale-y-125 rounded-full ring-2 ring-black/5" style="left: 50%"></div>
                             </div>
-                            <p class="text-small text-center opacity-80 leading-relaxed bg-white/40 dark:bg-black/20 p-4 rounded-2xl border border-white/10 dark:border-white/5 font-medium shadow-sm text-text-main-light dark:text-text-main-dark mt-4" id="healthDescText">Calculando...</p>
+                            <p class="text-[10px] text-center opacity-80 leading-relaxed bg-white/40 dark:bg-black/20 p-3 rounded-2xl border border-white/10 dark:border-white/5 font-medium shadow-sm text-text-main-light dark:text-text-main-dark mt-2" id="healthDescText">Calculando...</p>
                         </div>
-                        <div class="flex-1 card-glass p-8 rounded-[2.5rem] shadow-soft relative overflow-hidden flex flex-col min-h-[180px]">
-                            <div class="flex justify-between items-center mb-6">
+                        <div class="flex-1 card-glass p-6 lg:p-8 rounded-[2rem] shadow-soft relative overflow-hidden flex flex-col min-h-[160px]">
+                            <div class="flex justify-between items-center mb-4">
                                 <div>
-                                    <h3 class="font-bold text-sm text-text-main-light dark:text-text-main-dark uppercase tracking-wide">Historia</h3>
+                                    <h3 class="font-bold text-xs text-text-main-light dark:text-text-main-dark uppercase tracking-wide">Historia</h3>
                                     <span class="help-text mt-0">Evolución.</span>
                                 </div>
-                                <span class="text-[10px] bg-primary/10 text-primary px-3 py-1 rounded-full font-bold uppercase">Gráfico</span>
+                                <span class="text-[9px] bg-primary/10 text-primary px-3 py-1 rounded-full font-bold uppercase">Gráfico</span>
                             </div>
                             <div class="flex-1 w-full relative">
                                 <canvas id="mainChart"></canvas>
@@ -325,94 +368,80 @@
                     </div>
                 </div>
             </div>
-            <p class="text-center text-micro text-text-muted-light/40 dark:text-text-muted-dark/40 mt-16 mb-4 font-mono opacity-50 hover:opacity-100 transition-opacity">MARIE FINANCE v28.0</p>
+            <p class="text-center text-micro text-text-muted-light/40 dark:text-text-muted-dark/40 mt-16 mb-4 font-mono opacity-50 hover:opacity-100 transition-opacity">MARIE FINANCE v29.0 MOBILE</p>
         </div>
 
         <div id="view-goal" class="fade-in hidden w-full max-w-4xl mx-auto">
-             <div class="text-center mb-12">
-                <p class="text-micro text-primary font-bold mb-4 bg-primary/10 inline-block px-4 py-1.5 rounded-full">Configura tu Meta</p>
+             <div class="text-center mb-10">
+                <p class="text-micro text-primary font-bold mb-3 bg-primary/10 inline-block px-4 py-1.5 rounded-full">Configura tu Meta</p>
                 <div class="flex items-center justify-center gap-1 group relative flex-col">
                     <div class="flex items-center justify-center w-full">
                         <span class="text-4xl lg:text-6xl text-text-muted-light/30 dark:text-text-muted-dark/30 font-light group-hover:text-primary transition-colors">$</span>
-                        <input id="inputGoal" type="number" class="w-full max-w-[300px] lg:max-w-[500px] bg-transparent text-center text-6xl lg:text-8xl font-black border-none p-0 focus:ring-0 text-text-main-light dark:text-text-main-dark outline-none tracking-tighter placeholder-black/10 dark:placeholder-white/10 transition-all focus:scale-105" placeholder="0" oninput="updateVal('goal', this.value)">
+                        <input id="inputGoal" type="number" class="w-full max-w-[300px] bg-transparent text-center text-6xl lg:text-8xl font-black border-none p-0 focus:ring-0 text-text-main-light dark:text-text-main-dark outline-none tracking-tighter placeholder-black/10 dark:placeholder-white/10 transition-all focus:scale-105" placeholder="0" oninput="updateVal('goal', this.value)">
                     </div>
-                    <span class="help-text mt-2 text-primary">Toca el número para editar.</span>
+                    <span class="help-text mt-2 text-primary">Toca para editar tu norte.</span>
                 </div>
             </div>
-            <div class="card-glass p-8 lg:p-12 rounded-[3rem] shadow-golden relative overflow-hidden">
-                <div class="flex flex-col md:flex-row justify-between items-end mb-10 border-b border-dashed border-black/10 dark:border-white/10 pb-8 gap-6">
-                    <div class="text-left w-full md:w-auto">
-                        <span class="text-micro font-bold text-text-muted-light dark:text-text-muted-dark block mb-2">Disponible Real</span>
-                        <span class="text-small opacity-60 bg-white/50 dark:bg-white/5 px-3 py-1.5 rounded-lg">Dinero líquido actual.</span>
-                    </div>
-                    <span id="detailSavedDisplay" class="text-6xl lg:text-7xl font-black text-success tracking-tighter w-full md:w-auto text-right">$0</span>
+            <div class="card-glass p-6 lg:p-12 rounded-[2.5rem] shadow-golden relative overflow-hidden">
+                <div class="flex flex-col justify-between items-center mb-8 border-b border-dashed border-black/10 dark:border-white/10 pb-6 gap-2">
+                    <span class="text-micro font-bold text-text-muted-light dark:text-text-muted-dark">Disponible Real</span>
+                    <span id="detailSavedDisplay" class="text-5xl font-black text-success tracking-tighter">$0</span>
                 </div>
-                <div class="flex gap-6 mb-10 items-stretch h-auto min-h-[140px]">
-                    <button onclick="modifyFund('sub')" class="btn-control bg-danger/5 text-danger flex items-center justify-center text-4xl active:scale-90 transition-all border border-danger/20 hover:bg-danger hover:text-white hover:shadow-lg hover:shadow-danger/30"><span class="material-symbols-rounded">remove</span></button>
-                    <div class="flex-1 relative bg-white/30 dark:bg-black/20 rounded-[2rem] border border-white/20 dark:border-white/5 overflow-hidden flex items-center justify-center flex-col p-6">
-                        <span class="text-micro font-bold opacity-40 mb-2">Monto a operar</span>
-                        <input id="fundInput" type="number" placeholder="0" class="w-full bg-transparent text-center font-bold text-5xl lg:text-6xl focus:ring-0 border-none outline-none text-text-main-light dark:text-text-main-dark z-10 mb-2">
-                        <span class="help-text text-center max-w-[200px]">Ingresa cantidad para sumar o restar.</span>
+                <div class="flex gap-4 mb-8 items-stretch h-auto min-h-[120px]">
+                    <button onclick="modifyFund('sub')" class="btn-control bg-danger/5 text-danger flex items-center justify-center text-4xl active:scale-90 transition-all border border-danger/20 hover:bg-danger hover:text-white"><span class="material-symbols-rounded">remove</span></button>
+                    <div class="flex-1 relative bg-white/30 dark:bg-black/20 rounded-[2rem] border border-white/20 dark:border-white/5 overflow-hidden flex items-center justify-center flex-col p-4">
+                        <span class="text-micro font-bold opacity-40 mb-1">Monto a operar</span>
+                        <input id="fundInput" type="number" placeholder="0" class="w-full bg-transparent text-center font-bold text-4xl lg:text-5xl focus:ring-0 border-none outline-none text-text-main-light dark:text-text-main-dark z-10 mb-1">
+                        <span class="help-text text-center text-[10px]">Ingresa cantidad.</span>
                     </div>
-                    <button onclick="modifyFund('add')" class="btn-control bg-success/5 text-success flex items-center justify-center text-4xl active:scale-90 transition-all border border-success/20 hover:bg-success hover:text-white hover:shadow-lg hover:shadow-success/30"><span class="material-symbols-rounded">add</span></button>
+                    <button onclick="modifyFund('add')" class="btn-control bg-success/5 text-success flex items-center justify-center text-4xl active:scale-90 transition-all border border-success/20 hover:bg-success hover:text-white"><span class="material-symbols-rounded">add</span></button>
                 </div>
-                <div class="pt-4 border-t border-white/20 dark:border-white/5">
-                     <button onclick="toggleHistory()" class="w-full flex items-center justify-between p-6 bg-white/40 dark:bg-black/20 rounded-[2rem] text-xs font-bold uppercase text-text-muted-light dark:text-text-muted-dark hover:bg-white/60 dark:hover:bg-white/5 transition-all group border border-white/20 dark:border-white/5">
-                        <div class="flex flex-col items-start text-left">
-                            <span class="tracking-widest">Historial</span>
-                            <span class="help-text mt-0.5 normal-case opacity-50">Movimientos recientes.</span>
-                        </div>
-                        <div class="w-10 h-10 rounded-full bg-white dark:bg-white/10 flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
-                            <span id="historyChevron" class="material-symbols-rounded transition-transform group-hover:text-primary text-base">expand_more</span>
-                        </div>
+                <div class="pt-2 border-t border-white/20 dark:border-white/5">
+                     <button onclick="toggleHistory()" class="w-full flex items-center justify-between p-5 bg-white/40 dark:bg-black/20 rounded-[1.5rem] text-xs font-bold uppercase text-text-muted-light dark:text-text-muted-dark hover:bg-white/60 dark:hover:bg-white/5 transition-all group border border-white/20 dark:border-white/5">
+                        <span class="tracking-widest">Historial</span>
+                        <span id="historyChevron" class="material-symbols-rounded transition-transform group-hover:text-primary text-base">expand_more</span>
                     </button>
-                    <div id="historyContainer" class="hidden mt-6 space-y-3 max-h-80 overflow-y-auto pr-2 lg:grid lg:grid-cols-2 lg:gap-4 lg:space-y-0 pb-2 custom-scroll"></div>
+                    <div id="historyContainer" class="hidden mt-4 space-y-3 max-h-80 overflow-y-auto pr-2 pb-2 custom-scroll"></div>
                 </div>
             </div>
         </div>
 
         <div id="view-incomes" class="fade-in hidden w-full max-w-6xl mx-auto">
-            <div class="card-glass p-8 lg:p-10 rounded-[3rem] shadow-golden mb-8">
-                <div class="flex justify-between items-center mb-10 border-b border-black/10 dark:border-white/10 pb-8">
+            <div class="card-glass p-6 lg:p-10 rounded-[2.5rem] shadow-golden mb-6">
+                <div class="flex justify-between items-center mb-8 border-b border-black/10 dark:border-white/10 pb-6">
                     <div>
-                        <div class="flex items-center gap-4 mb-3">
-                            <div class="w-12 h-12 rounded-2xl bg-success/10 flex items-center justify-center text-success"><span class="material-symbols-rounded text-2xl">trending_up</span></div>
-                            <p class="text-micro font-bold text-text-muted-light tracking-widest">Total Entradas</p>
-                        </div>
-                        <p id="totalIncomeDisplay" class="text-5xl lg:text-7xl font-black text-success tracking-tighter">$0</p>
+                        <p class="text-micro font-bold text-text-muted-light mb-1">Total Entradas</p>
+                        <p id="totalIncomeDisplay" class="text-4xl font-black text-success tracking-tighter">$0</p>
                     </div>
-                    <button onclick="addItem('incomes')" class="btn-action-lg bg-success text-white flex items-center justify-center active:scale-90 transition-all hover:shadow-xl hover:shadow-success/40 border-4 border-white/20"><span class="material-symbols-rounded text-4xl">add</span></button>
+                    <button onclick="addItem('incomes')" class="btn-action-lg bg-success text-white flex items-center justify-center active:scale-90 transition-all border-4 border-white/20"><span class="material-symbols-rounded text-3xl">add</span></button>
                 </div>
-                <div class="flex flex-col md:flex-row justify-between items-center bg-white/30 dark:bg-black/20 p-6 lg:p-8 rounded-[2rem] mb-8 border border-white/20 dark:border-white/5 shadow-inner gap-6">
-                    <div class="flex items-center gap-5 w-full md:w-auto">
-                        <div class="w-14 h-14 rounded-2xl bg-primary/10 text-primary flex items-center justify-center"><span class="material-symbols-rounded text-2xl">work</span></div>
+                <div class="flex items-center justify-between bg-white/30 dark:bg-black/20 p-5 rounded-[1.5rem] mb-6 border border-white/20 dark:border-white/5 shadow-inner">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center"><span class="material-symbols-rounded">work</span></div>
                         <div>
-                            <span class="text-sm font-bold block uppercase text-text-main-light dark:text-text-main-dark">Ingreso Fijo</span>
-                            <span class="text-small opacity-60">Base mensual segura.</span>
+                            <span class="text-sm font-bold block">Ingreso Fijo</span>
+                            <span class="text-[10px] opacity-60">Base mensual.</span>
                         </div>
                     </div>
-                    <div class="flex items-center bg-white/50 dark:bg-white/5 px-8 py-4 rounded-2xl border border-white/30 dark:border-white/5 shadow-sm w-full md:w-auto justify-end">
-                         <span class="text-lg mr-2 opacity-40 font-serif italic">$</span>
-                        <input id="inputSalary" type="number" class="w-40 bg-transparent text-right font-black text-3xl focus:ring-0 border-none p-0 outline-none" oninput="updateVal('salary', this.value)">
+                    <div class="flex items-center bg-white/50 dark:bg-white/5 px-4 py-2 rounded-xl border border-white/30 dark:border-white/5">
+                         <span class="text-sm mr-1 opacity-40 font-serif italic">$</span>
+                        <input id="inputSalary" type="number" class="w-20 bg-transparent text-right font-black text-xl focus:ring-0 border-none p-0 outline-none" oninput="updateVal('salary', this.value)">
                     </div>
                 </div>
-                <div id="incomesList" class="space-y-4 lg:space-y-0 lg:grid lg:grid-cols-2 xl:grid-cols-3 lg:gap-6"></div>
+                <div id="incomesList" class="space-y-3 lg:grid lg:grid-cols-2 lg:gap-4"></div>
             </div>
         </div>
 
         <div id="view-expenses" class="fade-in hidden w-full max-w-6xl mx-auto">
-             <div class="card-glass p-8 lg:p-10 rounded-[3rem] shadow-golden mb-8">
-                <div class="flex justify-between items-center mb-10 border-b border-black/10 dark:border-white/10 pb-8">
+             <div class="card-glass p-6 lg:p-10 rounded-[2.5rem] shadow-golden mb-6">
+                <div class="flex justify-between items-center mb-8 border-b border-black/10 dark:border-white/10 pb-6">
                     <div>
-                        <div class="flex items-center gap-4 mb-3">
-                             <div class="w-12 h-12 rounded-2xl bg-danger/10 flex items-center justify-center text-danger"><span class="material-symbols-rounded text-2xl">trending_down</span></div>
-                            <p class="text-micro font-bold text-text-muted-light tracking-widest">Total Salidas</p>
-                        </div>
-                        <p id="totalExpenseDisplay" class="text-5xl lg:text-7xl font-black text-danger tracking-tighter">$0</p>
+                        <p class="text-micro font-bold text-text-muted-light mb-1">Total Salidas</p>
+                        <p id="totalExpenseDisplay" class="text-4xl font-black text-danger tracking-tighter">$0</p>
                     </div>
-                    <button onclick="addItem('expenses')" class="btn-action-lg bg-danger text-white flex items-center justify-center active:scale-90 transition-all hover:shadow-xl hover:shadow-danger/40 border-4 border-white/20"><span class="material-symbols-rounded text-4xl">add</span></button>
+                    <button onclick="addItem('expenses')" class="btn-action-lg bg-danger text-white flex items-center justify-center active:scale-90 transition-all border-4 border-white/20"><span class="material-symbols-rounded text-3xl">add</span></button>
                 </div>
-                <div id="expensesList" class="space-y-4 lg:space-y-0 lg:grid lg:grid-cols-2 xl:grid-cols-3 lg:gap-6"></div>
+                <div id="expensesList" class="space-y-3 lg:grid lg:grid-cols-2 lg:gap-4"></div>
             </div>
         </div>
 
@@ -420,40 +449,40 @@
 
     <div id="transactionModal" class="modal-backdrop hidden">
         <div onclick="closeTransactionModal()" class="modal-bg"></div>
-        <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-sm rounded-[2.5rem] p-8 shadow-golden relative z-10 transform transition-all scale-95 opacity-0" id="transactionCard">
-            <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-2xl bg-white dark:bg-[#1a1a1a] flex items-center justify-center border border-black/5 dark:border-white/10 shadow-lg">
-                <span class="material-symbols-rounded text-3xl text-primary" id="modalIcon">payments</span>
+        <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-xs rounded-[2.5rem] p-8 shadow-golden relative z-10 transform transition-all scale-95 opacity-0" id="transactionCard">
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-2xl bg-white dark:bg-[#1a1a1a] flex items-center justify-center border border-black/5 dark:border-white/10 shadow-lg">
+                <span class="material-symbols-rounded text-2xl text-primary" id="modalIcon">payments</span>
             </div>
-            <h3 class="text-xl font-bold text-center mt-8 mb-2 text-text-main-light dark:text-text-main-dark" id="modalTitle">Movimiento</h3>
-            <p class="text-sm text-center text-text-muted-light mb-8 font-mono font-bold" id="modalAmountDisplay">$0.00</p>
-            <div class="mb-8">
-                <label class="text-micro font-bold text-text-muted-light dark:text-text-muted-dark block mb-3 pl-1">Concepto</label>
-                <input id="transactionDesc" type="text" placeholder="..." class="w-full bg-black/5 dark:bg-white/5 rounded-2xl border-none py-4 px-5 text-sm focus:ring-2 focus:ring-primary/50 outline-none text-text-main-light dark:text-white placeholder-stone-400 font-medium transition-shadow">
+            <h3 class="text-lg font-bold text-center mt-6 mb-1 text-text-main-light dark:text-text-main-dark" id="modalTitle">Movimiento</h3>
+            <p class="text-xs text-center text-text-muted-light mb-6 font-mono font-bold" id="modalAmountDisplay">$0.00</p>
+            <div class="mb-6">
+                <label class="text-micro font-bold text-text-muted-light dark:text-text-muted-dark block mb-2 pl-1">Concepto</label>
+                <input id="transactionDesc" type="text" placeholder="..." class="w-full bg-black/5 dark:bg-white/5 rounded-2xl border-none py-3.5 px-4 text-sm focus:ring-2 focus:ring-primary/50 outline-none text-text-main-light dark:text-white placeholder-stone-400 font-medium transition-shadow text-center">
                 <span class="help-text mt-2 text-center" id="modalHelpText">Descripción.</span>
             </div>
-            <div class="grid grid-cols-2 gap-4">
-                <button onclick="closeTransactionModal()" class="py-4 rounded-2xl text-xs font-bold bg-black/5 dark:bg-white/5 text-text-muted-light hover:bg-black/10 dark:hover:bg-white/10 transition-colors uppercase tracking-wider">Cancelar</button>
-                <button onclick="confirmTransaction()" id="modalConfirmBtn" class="py-4 rounded-2xl text-xs font-bold bg-primary text-white shadow-lg shadow-primary/30 active:scale-95 transition-transform uppercase tracking-wider">Confirmar</button>
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="closeTransactionModal()" class="py-3.5 rounded-2xl text-xs font-bold bg-black/5 dark:bg-white/5 text-text-muted-light hover:bg-black/10 dark:hover:bg-white/10 transition-colors uppercase tracking-wider">Cancelar</button>
+                <button onclick="confirmTransaction()" id="modalConfirmBtn" class="py-3.5 rounded-2xl text-xs font-bold bg-primary text-white shadow-lg shadow-primary/30 active:scale-95 transition-transform uppercase tracking-wider">Confirmar</button>
             </div>
         </div>
     </div>
 
-    <div id="bottomBar" class="fixed bottom-0 w-full z-40 p-2 pb-6 lg:pb-8 flex justify-center pointer-events-none">
-        <div class="pointer-events-auto bg-white/80 dark:bg-black/80 backdrop-blur-xl border border-white/40 dark:border-white/10 shadow-golden rounded-[2rem] lg:rounded-[2.5rem] w-full max-w-sm lg:max-w-xl p-6 lg:px-10 lg:py-6">
-            <div class="flex justify-between items-start mb-4">
+    <div id="bottomBar" class="fixed bottom-0 w-full z-40 p-2 pb-6 flex justify-center pointer-events-none">
+        <div class="pointer-events-auto bg-white/80 dark:bg-black/80 backdrop-blur-xl border border-white/40 dark:border-white/10 shadow-golden rounded-[2rem] w-full max-w-sm p-5">
+            <div class="flex justify-between items-start mb-2">
                 <div>
-                    <p class="text-micro font-black text-text-muted-light dark:text-text-muted-dark mb-1">Capacidad Real</p>
-                    <h2 id="barSurplus" class="text-3xl lg:text-4xl font-black text-text-main-light dark:text-text-main-dark tracking-tight transition-all">$0</h2>
+                    <p class="text-micro font-black text-text-muted-light dark:text-text-muted-dark mb-0.5">Capacidad Real</p>
+                    <h2 id="barSurplus" class="text-2xl font-black text-text-main-light dark:text-text-main-dark tracking-tight transition-all">$0</h2>
                 </div>
                 <div class="text-right">
-                    <p class="text-micro text-text-muted-light dark:text-text-muted-dark mb-1 font-bold">ESTIMADO</p>
-                    <div id="barTime" class="inline-flex items-center gap-2 px-4 py-1.5 bg-black/5 dark:bg-white/5 rounded-full text-xs font-bold shadow-sm border border-black/5 dark:border-white/5">
-                        <span class="material-symbols-rounded text-primary text-sm">timer</span>
+                    <p class="text-micro text-text-muted-light dark:text-text-muted-dark mb-1 font-bold">TIEMPO</p>
+                    <div id="barTime" class="inline-flex items-center gap-1.5 px-3 py-1 bg-black/5 dark:bg-white/5 rounded-full text-[10px] font-bold shadow-sm border border-black/5 dark:border-white/5">
+                        <span class="material-symbols-rounded text-primary text-xs">timer</span>
                         <span>--</span>
                     </div>
                 </div>
             </div>
-            <div class="w-full bg-black/5 dark:bg-white/10 h-3 rounded-full overflow-hidden mb-3 shadow-inner">
+            <div class="w-full bg-black/5 dark:bg-white/10 h-2 rounded-full overflow-hidden mb-2 shadow-inner">
                 <div id="barProgress" class="h-full bg-black/80 dark:bg-white w-0 transition-all duration-1000 ease-out rounded-full shadow-[0_0_10px_rgba(255,255,255,0.5)]"></div>
             </div>
             <div class="flex justify-between text-micro font-bold text-text-muted-light dark:text-text-muted-dark opacity-80">
@@ -484,15 +513,7 @@
             console.error("Firebase no configurado aún.");
         }
 
-        let state = {
-            userName: '',
-            goal: 5000,
-            accumulated: 0,
-            salary: 600,
-            incomes: [], 
-            expenses: [], 
-            history: []   
-        };
+        let state = { userName: '', goal: 5000, accumulated: 0, salary: 600, incomes: [], expenses: [], history: [] };
 
         // --- GESTIÓN DE SESIÓN ---
         function checkAuth() {
@@ -531,19 +552,17 @@
                 const user = auth.currentUser;
                 state.userName = user.displayName ? user.displayName.split(' ')[0] : '';
                 saveDataToCloud();
-                openProfileModal(); // Pedir nombre al inicio
+                openProfileModal();
             }
             renderAllLists();
         }
 
         function saveDataToCloud() {
             const user = auth.currentUser;
-            if (user && db) {
-                db.collection('users').doc(user.uid).set(state, { merge: true });
-            }
+            if (user && db) { db.collection('users').doc(user.uid).set(state, { merge: true }); }
         }
 
-        // --- PROFILE MODAL ---
+        // --- MODALES ---
         function openProfileModal() {
             const modal = document.getElementById('profileModal');
             const card = document.getElementById('profileCard');
@@ -578,7 +597,7 @@
             if(el) el.innerText = state.userName || 'Amiga';
         }
 
-        // --- LOGIC APP ---
+        // --- FUNCIONES CORE ---
         const getSmartIcon = (name) => {
             const n = name.toLowerCase();
             if(n.includes('comida') || n.includes('cena')) return 'restaurant';
@@ -592,7 +611,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             checkAuth();
             renderAllLists();
-            if(!localStorage.getItem('marie_v28_tut')) { setTimeout(startTutorial, 2000); localStorage.setItem('marie_v28_tut', 'true'); }
+            if(!localStorage.getItem('marie_v29_tut')) { setTimeout(startTutorial, 2500); localStorage.setItem('marie_v29_tut', 'true'); }
         });
 
         function updateGlobalState() {
@@ -619,16 +638,14 @@
             saveDataToCloud();
         }
 
+        // --- FORMATTERS ---
         function formatTimeRemaining(totalMonths) {
-            if (totalMonths === Infinity) return "Nunca jamás";
-            if (totalMonths <= 0) return "¡Logrado!";
+            if (totalMonths === Infinity) return "Nunca";
+            if (totalMonths <= 0) return "¡Listo!";
             const years = Math.floor(totalMonths / 12);
             const months = Math.floor(totalMonths % 12);
-            const days = Math.ceil((totalMonths - Math.floor(totalMonths)) * 30);
-            let parts = [];
-            if (years > 0) parts.push(`${years}a`);
-            if (months > 0) parts.push(`${months}m`);
-            return parts.length > 0 ? parts.join(' ') : "Hoy";
+            if (years > 0) return `${years}a ${months}m`;
+            return `${months} meses`;
         }
 
         function updateBottomBar(surplus, totalIncome, remaining) {
@@ -637,18 +654,19 @@
             const elSurplus = document.getElementById('barSurplus');
             setText('barGoalText', `Faltan: ${formatCompact(remaining)}`);
             elSurplus.innerText = (surplus > 0 ? '+' : '') + formatMoney(surplus);
+            
             if (surplus > 0) {
                 elSurplus.classList.remove('text-danger'); elSurplus.classList.add('text-success');
                 let progress = (surplus / totalIncome) * 100 * 2; 
                 elBar.style.width = Math.min(progress, 100) + '%';
-                elBar.className = 'h-full bg-success w-0 transition-all duration-1000 ease-out rounded-full shadow-[0_0_15px_rgba(106,153,78,0.6)]';
+                elBar.className = 'h-full bg-success w-0 transition-all duration-1000 ease-out rounded-full shadow-[0_0_10px_rgba(106,153,78,0.5)]';
                 let months = remaining / surplus;
-                elTime.innerHTML = `<span class="material-symbols-rounded text-primary text-sm">timer</span><span>${formatTimeRemaining(months)}</span>`;
+                elTime.innerHTML = `<span class="material-symbols-rounded text-primary text-xs">timer</span><span>${formatTimeRemaining(months)}</span>`;
             } else {
                 elSurplus.classList.remove('text-success'); elSurplus.classList.add('text-danger');
                 elBar.style.width = '100%';
-                elBar.className = 'h-full bg-danger w-0 transition-all duration-1000 ease-out rounded-full shadow-[0_0_15px_rgba(188,71,73,0.6)]';
-                elTime.innerHTML = `<span class="material-symbols-rounded text-text-muted-light text-sm">timer_off</span><span>Ni en sueños</span>`;
+                elBar.className = 'h-full bg-danger w-0 transition-all duration-1000 ease-out rounded-full shadow-[0_0_10px_rgba(188,71,73,0.5)]';
+                elTime.innerHTML = `<span class="material-symbols-rounded text-text-muted-light text-xs">timer_off</span><span>--</span>`;
             }
         }
 
@@ -660,17 +678,18 @@
             let sliderPos = income <= expense ? 15 : 30 + Math.min((savingsRate / 50) * 70, 70);
             if(indicator) indicator.style.left = `${sliderPos}%`;
             if (sliderPos < 35) {
-                badge.textContent = "ALERTA ROJA"; badge.className = "px-3 py-1 bg-danger/10 text-danger border border-danger/30 rounded-full text-[9px] font-black uppercase";
-                desc.textContent = "Houston, tenemos un problema. Estás gastando de más.";
+                badge.textContent = "ALERTA"; badge.className = "px-3 py-1 bg-danger/10 text-danger border border-danger/30 rounded-full text-[9px] font-black uppercase";
+                desc.textContent = "Gastas más de la cuenta. ¡Cuidado!";
             } else if (sliderPos < 65) {
-                badge.textContent = "AHÍ VAMOS"; badge.className = "px-3 py-1 bg-warning/10 text-warning border border-warning/30 rounded-full text-[9px] font-black uppercase";
-                desc.textContent = "Estás al límite. Un gasto extra y adiós planes.";
+                badge.textContent = "ESTABLE"; badge.className = "px-3 py-1 bg-warning/10 text-warning border border-warning/30 rounded-full text-[9px] font-black uppercase";
+                desc.textContent = "Estás al límite. Un gasto extra te desajusta.";
             } else {
-                badge.textContent = "COMO JEFE"; badge.className = "px-3 py-1 bg-success/10 text-success border border-success/30 rounded-full text-[9px] font-black uppercase";
-                desc.textContent = "Vas sobrado. Así es como se construye un imperio.";
+                badge.textContent = "SÓLIDO"; badge.className = "px-3 py-1 bg-success/10 text-success border border-success/30 rounded-full text-[9px] font-black uppercase";
+                desc.textContent = "Vas muy bien. Sigue así.";
             }
         }
 
+        // --- CRUD & CHART ---
         let chartInstance = null;
         function renderChart() {
             const ctx = document.getElementById('mainChart');
@@ -683,13 +702,13 @@
                 const change = h.type === 'add' ? h.amount : -h.amount;
                 runningBalance = Math.max(0, runningBalance + change); 
                 let labelName = h.desc || 'Mov';
-                if(labelName.length > 8) labelName = labelName.substring(0, 8) + '..'; 
+                if(labelName.length > 5) labelName = labelName.substring(0, 5) + '.'; 
                 labels.push(labelName); 
                 dataPoints.push(runningBalance);
             });
             labels.push('Hoy'); dataPoints.push(state.accumulated);
             if(chartInstance) chartInstance.destroy();
-            const gradient = ctx.getContext('2d').createLinearGradient(0, 0, 0, 300);
+            const gradient = ctx.getContext('2d').createLinearGradient(0, 0, 0, 150);
             gradient.addColorStop(0, 'rgba(176, 137, 104, 0.4)'); 
             gradient.addColorStop(1, 'rgba(176, 137, 104, 0.0)');
             chartInstance = new Chart(ctx, {
@@ -698,14 +717,13 @@
                     labels: labels,
                     datasets: [{
                         label: 'Fondo', data: dataPoints, borderColor: '#b08968', backgroundColor: gradient,
-                        borderWidth: 3, pointBackgroundColor: '#fff', pointBorderColor: '#b08968', pointRadius: 4, pointHoverRadius: 8,
-                        fill: true, tension: 0.4 
+                        borderWidth: 2, pointRadius: 3, pointHoverRadius: 6, fill: true, tension: 0.4 
                     }]
                 },
                 options: {
                     responsive: true, maintainAspectRatio: false,
-                    layout: { padding: { top: 20, bottom: 10, left: 10, right: 10 } },
-                    plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false, backgroundColor: 'rgba(0,0,0,0.8)', titleFont: {family: 'Plus Jakarta Sans'}, bodyFont: {family: 'Inter'} } },
+                    layout: { padding: { top: 10, bottom: 5, left: 5, right: 5 } },
+                    plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false, backgroundColor: 'rgba(0,0,0,0.8)' } },
                     scales: { x: { display: false }, y: { display: false, min: 0 } },
                     interaction: { mode: 'nearest', axis: 'x', intersect: false }
                 }
@@ -728,22 +746,23 @@
             const type = pendingTransaction.type;
             const inputField = document.getElementById('transactionDesc');
             const helpText = document.getElementById('modalHelpText');
+            
             if(type === 'add') {
-                setText('modalTitle', '¡Ka-ching! Ingreso');
+                setText('modalTitle', 'Ingreso al Pote');
                 setText('modalIcon', 'arrow_downward');
                 document.getElementById('modalIcon').className = `material-symbols-rounded text-3xl text-success`;
-                inputField.placeholder = "Ej: Bono, Regalo, Ahorro extra...";
-                helpText.innerText = "¡Bien hecho! ¿De dónde salió este dinero?";
+                inputField.placeholder = "Ej: Bono, Regalo...";
+                helpText.innerText = "¡Excelente! ¿De dónde salió?";
             } else {
-                setText('modalTitle', 'Retiro de fondos');
+                setText('modalTitle', 'Retiro del Pote');
                 setText('modalIcon', 'warning');
                 document.getElementById('modalIcon').className = `material-symbols-rounded text-3xl text-warning`;
-                inputField.placeholder = "Ej: Emergencia, Antojo, Imprevisto...";
-                helpText.innerText = "Piénsalo bien: ¿Es una emergencia o un capricho?";
+                inputField.placeholder = "Ej: Emergencia...";
+                helpText.innerText = "¿Es una emergencia o un gusto?";
             }
             setText('modalAmountDisplay', formatMoney(pendingTransaction.amount));
             const btn = document.getElementById('modalConfirmBtn');
-            btn.className = `py-4 rounded-2xl text-xs font-bold text-white shadow-lg active:scale-95 transition-transform uppercase tracking-wider ${type === 'add' ? 'bg-success shadow-success/30' : 'bg-danger shadow-danger/30'}`;
+            btn.className = `py-3.5 rounded-2xl text-xs font-bold text-white shadow-lg active:scale-95 transition-transform uppercase tracking-wider ${type === 'add' ? 'bg-success shadow-success/30' : 'bg-danger shadow-danger/30'}`;
             inputField.value = "";
             document.getElementById('transactionModal').classList.remove('hidden');
             setTimeout(() => { document.getElementById('transactionCard').classList.remove('scale-95', 'opacity-0'); document.getElementById('transactionCard').classList.add('scale-100', 'opacity-100'); }, 10);
@@ -769,22 +788,23 @@
 
         function confirmTransaction() {
             if(!pendingTransaction) return;
-            const desc = document.getElementById('transactionDesc').value || (pendingTransaction.type === 'add' ? 'Ahorro Manual' : 'Retiro Manual');
+            const desc = document.getElementById('transactionDesc').value || (pendingTransaction.type === 'add' ? 'Ingreso Manual' : 'Retiro Manual');
+            
             if(pendingTransaction.type === 'add') { 
                 state.accumulated += pendingTransaction.amount; 
                 triggerConfetti(); 
-                showToast("¡Ka-ching! Dinero en la bolsa. 💰");
+                showToast("¡Dinero guardado! 💰");
             } else { 
                 state.accumulated = Math.max(0, state.accumulated - pendingTransaction.amount);
-                showToast("Anotado. (Respira, todo va a estar bien). 🧘", "warn");
+                showToast("Retiro anotado. 📉", "warn");
             }
             state.history.unshift({ id: Date.now(), date: new Date().toISOString(), desc, amount: pendingTransaction.amount, type: pendingTransaction.type });
             document.getElementById('fundInput').value = '';
             renderHistoryList(); updateGlobalState(); closeTransactionModal();
         }
 
-        function updateHistoryDesc(id, val) { const item = state.history.find(h => h.id === id); if(item) { item.desc = val; saveDataToCloud(); renderChart(); } }
-        function addItem(type) { const id = Date.now(); if(type === 'incomes') { state.incomes.push({ id, name: 'Extra', price: 0, cost: 0, qty: 1 }); renderIncomeList(); } else { state.expenses.push({ id, name: 'Gasto', amount: 0 }); renderExpenseList(); } updateGlobalState(); }
+        function updateHistoryDesc(id, val) { const item = state.history.find(h => h.id === id); if(item) { item.desc = val; saveDataToCloud(); } }
+        function addItem(type) { const id = Date.now(); if(type === 'incomes') { state.incomes.push({ id, name: '', price: 0, cost: 0, qty: 1 }); renderIncomeList(); } else { state.expenses.push({ id, name: '', amount: 0 }); renderExpenseList(); } updateGlobalState(); }
         function deleteItem(type, id) { 
             if(type === 'history') { 
                 const item = state.history.find(x => x.id === id); 
@@ -796,7 +816,7 @@
                 } 
             } else if(type === 'incomes') { state.incomes = state.incomes.filter(x => x.id !== id); renderIncomeList(); } else { state.expenses = state.expenses.filter(x => x.id !== id); renderExpenseList(); } 
             updateGlobalState(); 
-            showToast("¡Poof! Desapareció. ✨", "neutral");
+            showToast("Eliminado. 🗑️", "neutral");
         }
         function updateItem(type, id, field, val) { const arr = state[type]; const item = arr.find(x => x.id === id); if(item) { item[field] = field === 'name' || field === 'desc' ? val : (parseFloat(val) || 0); if(type === 'incomes' && field !== 'name') { const sub = (item.price - item.cost) * item.qty; setText(`sub-${id}`, `+${formatMoney(sub)}`); setText(`qty-label-${id}`, item.qty + ' Unid.'); } updateGlobalState(); } }
         function toggleHistory() { const cont = document.getElementById('historyContainer'); const chev = document.getElementById('historyChevron'); cont.classList.toggle('hidden'); chev.classList.toggle('rotate-180'); }
@@ -806,23 +826,23 @@
         function renderHistoryList() {
             const container = document.getElementById('historyContainer'); container.innerHTML = '';
             const sorted = [...state.history].sort((a,b) => b.id - a.id).slice(0, 30);
-            if(sorted.length === 0) { container.innerHTML = '<p class="text-center text-[10px] opacity-40 py-6 italic">Aquí aparecerá tu historia.</p>'; return; }
+            if(sorted.length === 0) { container.innerHTML = '<p class="text-center text-[10px] opacity-40 py-6 italic">Sin movimientos.</p>'; return; }
             sorted.forEach(h => {
                 const isAdd = h.type === 'add';
                 container.innerHTML += `
-                <div class="flex justify-between items-center p-4 bg-white/50 dark:bg-white/5 rounded-2xl border border-white/30 dark:border-white/5 group hover:border-primary/30 transition-all hover:shadow-sm">
+                <div class="flex justify-between items-center p-3 bg-white/50 dark:bg-white/5 rounded-2xl border border-white/30 dark:border-white/5 group hover:border-primary/30 transition-all shadow-sm mb-2">
                     <div class="flex items-center gap-3 w-full overflow-hidden">
-                        <div class="w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${isAdd ? 'bg-success/10 text-success' : 'bg-danger/10 text-danger'}">
-                            <span class="material-symbols-rounded text-xl">${isAdd ? 'arrow_downward' : 'arrow_upward'}</span>
+                        <div class="w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${isAdd ? 'bg-success/10 text-success' : 'bg-danger/10 text-danger'}">
+                            <span class="material-symbols-rounded text-lg">${isAdd ? 'arrow_downward' : 'arrow_upward'}</span>
                         </div>
                         <div class="w-full overflow-hidden">
-                            <input value="${h.desc}" class="bg-transparent font-bold text-sm w-full border-none p-0 focus:ring-0 outline-none text-text-main-light dark:text-text-main-dark cursor-pointer placeholder-stone-400 text-truncate-input" oninput="updateHistoryDesc(${h.id}, this.value)">
-                            <p class="text-[10px] opacity-50 font-medium font-mono tracking-wide">${new Date(h.date).toLocaleDateString()}</p>
+                            <input value="${h.desc}" class="bg-transparent font-bold text-xs w-full border-none p-0 focus:ring-0 outline-none text-text-main-light dark:text-text-main-dark cursor-pointer text-truncate-input" oninput="updateHistoryDesc(${h.id}, this.value)">
+                            <p class="text-[9px] opacity-50 font-medium font-mono">${new Date(h.date).toLocaleDateString()}</p>
                         </div>
                     </div>
                     <div class="flex items-center gap-2 shrink-0">
-                        <span class="font-black font-display ${isAdd ? 'text-success' : 'text-danger'} whitespace-nowrap text-sm">${isAdd ? '+' : '-'}${formatMoney(h.amount)}</span>
-                        <button onclick="deleteItem('history', ${h.id})" class="opacity-0 group-hover:opacity-100 transition-opacity text-text-muted-light hover:text-danger p-2"><span class="material-symbols-rounded text-lg">delete</span></button>
+                        <span class="font-black font-display ${isAdd ? 'text-success' : 'text-danger'} whitespace-nowrap text-xs">${isAdd ? '+' : '-'}${formatMoney(h.amount)}</span>
+                        <button onclick="deleteItem('history', ${h.id})" class="opacity-0 group-hover:opacity-100 transition-opacity text-text-muted-light hover:text-danger p-1"><span class="material-symbols-rounded text-base">delete</span></button>
                     </div>
                 </div>`;
             });
@@ -832,32 +852,27 @@
             state.incomes.forEach(i => {
                 const sub = (i.price - i.cost) * i.qty;
                 container.innerHTML += `
-                <div class="bg-white/50 dark:bg-white/5 p-5 rounded-[2rem] border border-white/30 dark:border-white/5 card-glass fade-in hover:border-success/30">
-                    <div class="flex justify-between mb-4">
-                        <input value="${i.name}" class="bg-transparent font-bold w-full text-base focus:ring-0 border-none p-0 outline-none cursor-pointer text-truncate-input" oninput="updateItem('incomes', ${i.id}, 'name', this.value)" placeholder="Nombre del proyecto...">
-                        <button onclick="deleteItem('incomes', ${i.id})" class="text-text-muted-light hover:text-danger opacity-40 hover:opacity-100 transition-opacity"><span class="material-symbols-rounded text-xl">close</span></button>
+                <div class="bg-white/50 dark:bg-white/5 p-4 rounded-[1.5rem] border border-white/30 dark:border-white/5 card-glass fade-in mb-3">
+                    <div class="flex justify-between mb-3">
+                        <input value="${i.name}" class="bg-transparent font-bold w-full text-sm focus:ring-0 border-none p-0 outline-none cursor-pointer text-truncate-input" oninput="updateItem('incomes', ${i.id}, 'name', this.value)" placeholder="Nombre...">
+                        <button onclick="deleteItem('incomes', ${i.id})" class="text-text-muted-light hover:text-danger opacity-40 hover:opacity-100 transition-opacity"><span class="material-symbols-rounded text-lg">close</span></button>
                     </div>
-                    <div class="flex gap-4 mb-4">
+                    <div class="flex gap-3 mb-3">
                          <div class="w-1/2 relative group">
-                            <span class="absolute left-4 top-2 text-[8px] uppercase font-bold opacity-40 tracking-wider">Precio</span>
-                            <input type="number" value="${i.price}" class="w-full bg-white/50 dark:bg-black/20 rounded-2xl pt-6 pb-3 px-4 text-sm font-bold border border-white/30 dark:border-white/5 text-center outline-none focus:border-primary/50 transition-colors" oninput="updateItem('incomes', ${i.id}, 'price', this.value)">
+                            <span class="absolute left-3 top-1.5 text-[7px] uppercase font-bold opacity-40 tracking-wider">Precio</span>
+                            <input type="number" value="${i.price}" class="w-full bg-white/50 dark:bg-black/20 rounded-xl pt-5 pb-2 px-3 text-xs font-bold border border-white/30 dark:border-white/5 text-center outline-none focus:border-primary/50 transition-colors" oninput="updateItem('incomes', ${i.id}, 'price', this.value)">
                          </div>
                          <div class="w-1/2 relative group">
-                            <span class="absolute left-4 top-2 text-[8px] uppercase font-bold opacity-40 text-danger tracking-wider">Costo</span>
-                            <input type="number" value="${i.cost}" class="w-full bg-white/50 dark:bg-black/20 rounded-2xl pt-6 pb-3 px-4 text-sm font-bold border border-white/30 dark:border-white/5 text-center outline-none focus:border-danger/50 text-danger transition-colors" oninput="updateItem('incomes', ${i.id}, 'cost', this.value)">
+                            <span class="absolute left-3 top-1.5 text-[7px] uppercase font-bold opacity-40 text-danger tracking-wider">Costo</span>
+                            <input type="number" value="${i.cost}" class="w-full bg-white/50 dark:bg-black/20 rounded-xl pt-5 pb-2 px-3 text-xs font-bold border border-white/30 dark:border-white/5 text-center outline-none focus:border-danger/50 text-danger transition-colors" oninput="updateItem('incomes', ${i.id}, 'cost', this.value)">
                          </div>
                     </div>
-                    <div class="bg-white/40 dark:bg-black/20 p-4 rounded-2xl border border-white/20 dark:border-white/5 shadow-sm">
-                        <div class="flex justify-between items-center mb-3">
-                            <span class="text-[9px] font-bold text-text-muted-light uppercase tracking-widest">Cantidad</span>
-                            <span id="qty-label-${i.id}" class="text-[9px] font-bold bg-primary/10 text-primary px-2 py-0.5 rounded-lg border border-primary/20">${i.qty} Unid.</span>
+                    <div class="bg-white/40 dark:bg-black/20 p-3 rounded-xl border border-white/20 dark:border-white/5 shadow-sm">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-[9px] font-bold text-text-muted-light uppercase">Cant: <span id="qty-label-${i.id}" class="text-primary">${i.qty}</span></span>
+                            <span id="sub-${i.id}" class="text-sm font-black text-success tracking-tight">+${formatMoney(sub)}</span>
                         </div>
-                        <input type="range" min="1" max="100" value="${i.qty}" class="w-full h-1 bg-stone-200 dark:bg-stone-700 rounded-lg appearance-none cursor-pointer mb-3" oninput="updateItem('incomes', ${i.id}, 'qty', this.value)">
-                        <div class="flex justify-between items-center border-t border-dashed border-white/30 dark:border-white/10 pt-3">
-                            <span class="text-[10px] opacity-60 font-bold uppercase">Total Neto</span>
-                            <span id="sub-${i.id}" class="text-lg font-black text-success tracking-tight">+${formatMoney(sub)}</span>
-                        </div>
-                        <span class="help-text text-right mt-1">Precio x Cantidad - Costo</span>
+                        <input type="range" min="1" max="50" value="${i.qty}" class="w-full h-1 bg-stone-200 dark:bg-stone-700 rounded-lg appearance-none cursor-pointer" oninput="updateItem('incomes', ${i.id}, 'qty', this.value)">
                     </div>
                 </div>`;
             });
@@ -867,59 +882,48 @@
             state.expenses.forEach(e => {
                 const icon = getSmartIcon(e.name);
                 container.innerHTML += `
-                <div class="flex items-center bg-white/50 dark:bg-white/5 p-5 rounded-[2rem] border border-white/30 dark:border-white/5 card-glass fade-in justify-between hover:border-danger/30 gap-4">
-                    <div class="flex items-center gap-4 flex-1 overflow-hidden">
-                        <div class="w-12 h-12 rounded-2xl bg-danger/5 flex items-center justify-center text-danger shrink-0 border border-danger/10 shadow-sm">
-                            <span class="material-symbols-rounded">${icon}</span>
+                <div class="flex items-center bg-white/50 dark:bg-white/5 p-4 rounded-[1.5rem] border border-white/30 dark:border-white/5 card-glass fade-in justify-between mb-3 gap-3">
+                    <div class="flex items-center gap-3 flex-1 overflow-hidden">
+                        <div class="w-10 h-10 rounded-xl bg-danger/5 flex items-center justify-center text-danger shrink-0 border border-danger/10 shadow-sm">
+                            <span class="material-symbols-rounded text-lg">${icon}</span>
                         </div>
                         <div class="w-full overflow-hidden">
-                            <span class="text-[8px] block opacity-40 uppercase font-bold pl-1 tracking-widest mb-0.5">Concepto</span>
-                            <input value="${e.name}" class="bg-transparent font-bold text-sm focus:ring-0 border-none p-0 outline-none w-full cursor-pointer placeholder-stone-400 text-truncate-input" oninput="updateItem('expenses', ${e.id}, 'name', this.value)" placeholder="Nombre del gasto...">
-                            <span class="help-text mt-1 text-truncate-input">¿Necesario?</span>
+                            <span class="text-[7px] block opacity-40 uppercase font-bold pl-1 tracking-widest mb-0.5">Concepto</span>
+                            <input value="${e.name}" class="bg-transparent font-bold text-sm focus:ring-0 border-none p-0 outline-none w-full cursor-pointer placeholder-stone-400 text-truncate-input" oninput="updateItem('expenses', ${e.id}, 'name', this.value)" placeholder="...">
                         </div>
                     </div>
-                    <div class="flex items-center gap-3 shrink-0">
-                        <div class="flex items-center bg-white/50 dark:bg-black/20 px-4 py-3 rounded-2xl border border-white/30 dark:border-white/5 shadow-sm">
-                            <span class="text-xs mr-1 opacity-40 font-serif">$</span>
-                            <input type="number" value="${e.amount}" class="w-20 bg-transparent text-right font-bold focus:ring-0 border-none p-0 outline-none" oninput="updateItem('expenses', ${e.id}, 'amount', this.value)">
+                    <div class="flex items-center gap-2 shrink-0">
+                        <div class="flex items-center bg-white/50 dark:bg-black/20 px-3 py-2 rounded-xl border border-white/30 dark:border-white/5 shadow-sm">
+                            <span class="text-[10px] mr-1 opacity-40 font-serif">$</span>
+                            <input type="number" value="${e.amount}" class="w-16 bg-transparent text-right font-bold text-sm focus:ring-0 border-none p-0 outline-none" oninput="updateItem('expenses', ${e.id}, 'amount', this.value)">
                         </div>
-                        <button onclick="deleteItem('expenses', ${e.id})" class="text-text-muted-light hover:text-danger opacity-40 hover:opacity-100 transition-opacity"><span class="material-symbols-rounded text-xl">close</span></button>
+                        <button onclick="deleteItem('expenses', ${e.id})" class="text-text-muted-light hover:text-danger opacity-40 hover:opacity-100 transition-opacity"><span class="material-symbols-rounded text-lg">close</span></button>
                     </div>
                 </div>`;
             });
         }
 
-        function navigateTo(viewId) {
-            document.querySelectorAll('[id^="view-"]').forEach(el => el.classList.add('hidden'));
-            document.getElementById(`view-${viewId}`).classList.remove('hidden');
-            const titles = { home: 'DASHBOARD', goal: 'LA META', incomes: 'INGRESOS', expenses: 'GASTOS' };
-            setText('pageTitleLabel', titles[viewId]);
-            const btn = document.getElementById('backBtn');
-            const bar = document.getElementById('bottomBar');
-            if(viewId === 'home') { 
-                btn.classList.add('hidden'); 
-            } else { 
-                btn.classList.remove('hidden'); 
-            }
-            updateGlobalState(); 
-        }
-
+        // --- TUTORIAL SIMPLE & DIRECTO ---
         function startTutorial() {
             const driver = window.driver.js.driver({
-                showProgress: true, popoverClass: 'driverjs-theme',
-                nextBtnText: 'Siguiente', prevBtnText: 'Atrás', doneBtnText: '¡Vamos!',
+                showProgress: true, 
+                popoverClass: 'driverjs-theme',
+                nextBtnText: 'Siguiente', 
+                prevBtnText: 'Atrás', 
+                doneBtnText: '¡Listo!',
                 steps: [
-                    { popover: { title: 'Hola, Marie', description: 'Bienvenida a tu centro de mando. Vamos a poner tus finanzas en forma.' } },
-                    { element: '#step1-target', popover: { title: 'Tu Colchón', description: 'Aquí vive tu tranquilidad. Cuanto más alto el número, mejor dormirás.' } },
-                    { element: '#step2-target', popover: { title: 'El Flujo', description: 'Lo que entra (¡bien!) y lo que sale (auch). Mantén la balanza a tu favor.' } },
-                    { element: '#step3-target', popover: { title: 'El Chequeo', description: 'Si esto está en rojo, Houston, tenemos un problema. Si está verde, eres imparable.' } }
+                    { popover: { title: 'Tu App', description: 'Todo lo que necesitas para controlar tu dinero, en una sola pantalla.' } },
+                    { element: '#step1-target', popover: { title: 'La Meta', description: 'Aquí está tu objetivo. Toca para editar cuánto quieres ahorrar y ver tu saldo real.' } },
+                    { element: '#step2-target', popover: { title: 'Entradas y Salidas', description: 'Registra lo que ganas y lo que gastas. Mantén el control de tu flujo.' } },
+                    { element: '#step3-target', popover: { title: 'Diagnóstico', description: 'Tu salud financiera en un vistazo. Si la barra está verde, vas por buen camino.' } },
+                    { element: '#bottomBar', popover: { title: 'Resumen', description: 'Tu capacidad real de ahorro mensual. Este es el número que importa.' } }
                 ]
             });
             driver.drive();
         }
 
-        function loadState() { const saved = localStorage.getItem('marieFin_v28_tut'); if(saved) { try { state = { ...state, ...JSON.parse(saved) }; if(!state.history) state.history=[]; } catch(e) {} } }
-        function saveState() { localStorage.setItem('marieFin_v28_tut', JSON.stringify(state)); }
+        function loadState() { const saved = localStorage.getItem('marieFin_v29_tut'); if(saved) { try { state = { ...state, ...JSON.parse(saved) }; if(!state.history) state.history=[]; } catch(e) {} } }
+        function saveState() { localStorage.setItem('marieFin_v29_tut', JSON.stringify(state)); }
         function toggleTheme() { document.documentElement.classList.toggle('dark'); saveState(); renderChart(); }
         function setText(id, txt) { const el = document.getElementById(id); if(el) el.innerText = txt; }
         function setHTML(id, html) { const el = document.getElementById(id); if(el) el.innerHTML = html; }
