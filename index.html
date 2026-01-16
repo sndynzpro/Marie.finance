@@ -2,10 +2,10 @@
 <html class="dark" lang="es">
 <head>
     <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-    <title>Marie Finance - Precision</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+    <title>Marie Finance - Cloud</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0" rel="stylesheet" />
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -14,6 +14,10 @@
     <script src="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.js.iife.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.css"/>
 
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -21,12 +25,8 @@
                 extend: {
                     colors: {
                         "primary": "#b08968",       
-                        "bg-light": "#fbf7f5",
-                        "surface-light": "#ffffff",
                         "text-main-light": "#4a403a",
                         "text-muted-light": "#9c8c84",
-                        "bg-dark": "#1c1917",
-                        "surface-dark": "#292524",
                         "text-main-dark": "#e7e5e4",
                         "text-muted-dark": "#a8a29e",
                         "success": "#6a994e",       
@@ -38,288 +38,405 @@
                         "body": ["Inter", "sans-serif"],
                     },
                     boxShadow: {
-                        'soft': '0 8px 30px -6px rgba(74, 64, 58, 0.05)',
-                        'glow': '0 4px 20px -2px rgba(176, 137, 104, 0.25)',
+                        'soft': '0 10px 40px -10px rgba(60, 40, 30, 0.08)',
+                        'glow': '0 0 25px -5px rgba(176, 137, 104, 0.4)',
+                    },
+                    animation: {
+                        'gradient': 'gradient 25s ease infinite',
+                    },
+                    keyframes: {
+                        gradient: {
+                            '0%': { backgroundPosition: '0% 50%' },
+                            '50%': { backgroundPosition: '100% 50%' },
+                            '100%': { backgroundPosition: '0% 50%' },
+                        }
                     }
                 },
             },
         }
     </script>
     <style>
-        body { -webkit-tap-highlight-color: transparent; transition: background-color 0.5s ease, color 0.5s ease; }
+        body { -webkit-tap-highlight-color: transparent; transition: color 0.5s ease; }
         
-        /* SLIDER */
-        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
-        input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none; height: 18px; width: 18px; border-radius: 50%;
-            background: #b08968; cursor: pointer; margin-top: -7px; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2); border: 2px solid white; transition: transform 0.1s;
+        .animated-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background: linear-gradient(-45deg, #efebe9, #d7ccc8, #e6dace, #f5f5f5);
+            background-size: 300% 300%;
+            animation: gradient 25s ease infinite;
         }
-        input[type=range]::-webkit-slider-thumb:active { transform: scale(1.2); }
-        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; cursor: pointer; background: #e5e5e5; border-radius: 2px; }
-        .dark input[type=range]::-webkit-slider-runnable-track { background: #44403c; }
+        .dark .animated-bg {
+            background: linear-gradient(-45deg, #1a120b, #2b1d16, #3e2723, #0c0a09);
+            background-size: 300% 300%;
+        }
 
-        .glass-panel { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.6); }
-        .dark .glass-panel { background: rgba(41, 37, 36, 0.95); border-top: 1px solid rgba(255,255,255,0.05); }
+        .glass-panel { 
+            background: rgba(255, 255, 255, 0.65); 
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        .dark .glass-panel { 
+            background: rgba(20, 15, 10, 0.65); 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
+        }
         
-        .card-earth { transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); border: 1px solid rgba(0,0,0,0.03); }
-        .dark .card-earth { border: 1px solid rgba(255,255,255,0.03); }
-        .card-earth:active { transform: scale(0.98); }
+        .card-glass {
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .dark .card-glass {
+            background: rgba(40, 30, 25, 0.5); 
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        @media (hover: hover) {
+            .card-glass:hover { transform: translateY(-3px); box-shadow: 0 15px 35px -5px rgba(60, 40, 30, 0.15); border-color: rgba(176, 137, 104, 0.4); }
+        }
+        .card-glass:active { transform: scale(0.99); }
 
         input:focus { outline: none; }
         input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-        .fade-in { animation: fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in { animation: fadeIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; opacity: 0; transform: translateY(12px); }
+        @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
 
-        /* TUTORIAL ETEREO */
-        .driver-popover.driverjs-theme {
-            background-color: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px); color: #4a403a;
-            border: 1px solid rgba(176, 137, 104, 0.1); border-radius: 28px;
-            box-shadow: 0 25px 60px -10px rgba(60, 50, 40, 0.12); padding: 24px; font-family: 'Plus Jakarta Sans', sans-serif; max-width: 320px;
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #b08968; border-radius: 10px; opacity: 0.5; }
+        .dark ::-webkit-scrollbar-thumb { background: #8d6e63; }
+
+        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none; height: 16px; width: 16px; border-radius: 50%;
+            background: #b08968; cursor: pointer; margin-top: -6px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15); border: 2px solid white;
         }
-        .dark .driver-popover.driverjs-theme {
-            background-color: rgba(30, 28, 27, 0.95); color: #e7e5e4; border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.6);
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; cursor: pointer; background: #e5e5e5; border-radius: 99px; }
+        .dark input[type=range]::-webkit-slider-runnable-track { background: #4e342e; }
+
+        .help-text { font-size: 10px; line-height: 1.3; opacity: 0.6; font-family: 'Inter', sans-serif; display: block; margin-top: 6px; font-style: italic; text-wrap: balance; }
+        
+        #toast {
+            visibility: hidden; min-width: 200px; max-width: 90%; background-color: rgba(43, 29, 22, 0.95);
+            color: #fff; text-align: center; border-radius: 99px; padding: 12px 24px; position: fixed;
+            z-index: 100; left: 50%; bottom: 100px; transform: translateX(-50%) translateY(20px);
+            font-size: 13px; font-weight: 500; backdrop-filter: blur(8px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.25); opacity: 0; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(255,255,255,0.1); pointer-events: none;
         }
-        .driver-popover.driverjs-theme .driver-popover-title { font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; color: #b08968; margin-bottom: 12px; }
-        .driver-popover.driverjs-theme .driver-popover-description { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 400; line-height: 1.6; opacity: 0.9; margin-bottom: 24px; }
-        .driver-popover.driverjs-theme button { background: transparent; color: #b08968; border: 1px solid rgba(176, 137, 104, 0.2); border-radius: 100px; font-size: 11px; font-weight: 700; padding: 10px 22px; text-shadow: none; transition: all 0.3s; }
-        .driver-popover.driverjs-theme button:hover { background-color: rgba(176, 137, 104, 0.05); }
-        .driver-popover.driverjs-theme button.driver-popover-next-btn { background-color: #b08968; color: white; border: 1px solid #b08968; box-shadow: 0 4px 15px rgba(176, 137, 104, 0.25); }
-        .driver-popover.driverjs-theme .driver-popover-close-btn { border: none; background: transparent; color: #b08968; opacity: 0.5; }
-        .driver-popover.driverjs-theme .driver-popover-navigation-btns { justify-content: flex-end; gap: 8px; }
+        #toast.show { visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0); }
+        
+        .driver-popover.driverjs-theme { background-color: rgba(255, 255, 255, 0.9); backdrop-filter: blur(15px); color: #4a403a; border: 1px solid rgba(176, 137, 104, 0.3); border-radius: 24px; font-family: 'Plus Jakarta Sans', sans-serif; }
+        .dark .driver-popover.driverjs-theme { background-color: rgba(30, 25, 20, 0.95); color: #e7e5e4; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .driver-popover.driverjs-theme .driver-popover-title { color: #b08968; text-transform: uppercase; }
+        .driver-popover.driverjs-theme button.driver-popover-next-btn { background-color: #b08968; color: #fff; text-shadow: none; border-radius: 12px; }
+        .driver-popover.driverjs-theme button.driver-popover-close-btn { background-color: transparent !important; color: #9c8c84; width: 24px; height: 24px; border-radius: 50%; transition: all 0.3s ease; }
+        .driver-popover.driverjs-theme button.driver-popover-close-btn:hover { background-color: transparent !important; color: #bc4749 !important; transform: scale(1.1) rotate(90deg); }
+
+        .btn-header { width: 44px; height: 44px; flex-shrink: 0; }
+        .btn-control { width: 68px; height: 68px; flex-shrink: 0; }
+        .btn-action-lg { width: 60px; height: 60px; flex-shrink: 0; }
+        @media (min-width: 1024px) { .btn-header { width: 48px; height: 48px; } .btn-control { width: 80px; height: 80px; } .btn-action-lg { width: 72px; height: 72px; } }
+        .text-truncate-input { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+        /* Login Overlay */
+        #loginOverlay {
+            position: fixed; inset: 0; z-index: 999; 
+            background: linear-gradient(-45deg, #efebe9, #e6dace);
+            display: flex; align-items: center; justify-content: center;
+            transition: opacity 0.5s ease;
+        }
+        .dark #loginOverlay { background: linear-gradient(-45deg, #1a120b, #2b1d16); }
+        .hidden-overlay { opacity: 0; pointer-events: none; }
     </style>
 </head>
-<body class="bg-bg-light dark:bg-bg-dark text-text-main-light dark:text-text-main-dark font-body min-h-screen flex flex-col selection:bg-primary selection:text-white">
+<body class="text-text-main-light dark:text-text-main-dark font-body min-h-screen flex flex-col selection:bg-primary selection:text-white overflow-x-hidden">
 
-    <div class="fixed top-0 w-full z-50 px-6 py-5 flex items-center justify-between bg-bg-light/90 dark:bg-bg-dark/90 backdrop-blur-xl border-b border-stone-200/50 dark:border-white/5 transition-all">
-        <div class="flex items-center gap-4">
-            <button id="backBtn" onclick="navigateTo('home')" class="hidden w-10 h-10 rounded-full bg-surface-light dark:bg-surface-dark flex items-center justify-center text-text-muted-light dark:text-text-muted-dark active:scale-90 transition-all shadow-sm">
-                <span class="material-symbols-rounded">arrow_back</span>
+    <div class="animated-bg"></div>
+    <div id="toast">Notificación</div>
+
+    <div id="loginOverlay">
+        <div class="card-glass p-10 rounded-[3rem] shadow-glow text-center max-w-sm mx-6 border border-white/20 dark:border-white/10 relative overflow-hidden">
+            <div class="absolute top-[-50px] left-[-50px] w-32 h-32 bg-primary/20 rounded-full blur-3xl"></div>
+            
+            <span class="text-xs font-black tracking-[0.3em] uppercase text-primary mb-2 block">BIENVENIDA A</span>
+            <h1 class="text-3xl font-display font-bold mb-6 text-text-main-light dark:text-white">Marie Finance</h1>
+            <p class="text-sm text-text-muted-light dark:text-text-muted-dark mb-8 leading-relaxed">Tus finanzas, organizadas con estilo. Sincroniza tus datos en la nube y toma el control.</p>
+            
+            <button onclick="loginWithGoogle()" class="w-full py-4 rounded-2xl bg-white dark:bg-white/10 text-text-main-light dark:text-white font-bold flex items-center justify-center gap-3 shadow-soft hover:scale-[1.02] active:scale-95 transition-all border border-black/5 dark:border-white/5">
+                <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="G">
+                <span>Continuar con Google</span>
             </button>
-            <div class="flex flex-col">
-                <span id="pageTitleLabel" class="text-[9px] font-black tracking-[0.25em] uppercase text-primary">FINANZAS</span>
-                <span id="pageTitleMain" class="text-base font-bold font-display tracking-tight">Marie Finance</span>
-            </div>
-        </div>
-        <div class="flex gap-2">
-            <button onclick="startTutorial()" class="w-10 h-10 rounded-full border border-stone-200 dark:border-white/10 text-text-muted-light dark:text-text-muted-dark flex items-center justify-center active:scale-95 transition-all bg-transparent" title="Guía">
-                <span class="material-symbols-rounded text-lg">help</span>
-            </button>
-            <button onclick="toggleTheme()" class="w-10 h-10 rounded-full bg-primary/10 dark:bg-white/10 text-primary dark:text-white flex items-center justify-center active:scale-95 transition-transform hover:shadow-md">
-                 <span class="material-symbols-rounded text-lg">contrast</span>
-            </button>
+            <p class="text-[10px] opacity-40 mt-6">Tus datos están seguros y privados.</p>
         </div>
     </div>
 
-    <div class="flex-1 overflow-y-auto w-full max-w-md mx-auto px-6 pt-28 pb-48" id="mainContainer">
-        
-        <div id="view-home" class="fade-in">
-            
-            <div id="step1-target" class="mb-8">
-                <div class="flex items-center gap-2.5 mb-3 px-1 opacity-80">
-                    <span class="w-5 h-5 rounded-full bg-primary text-white flex items-center justify-center text-[10px] font-bold shadow-glow">1</span>
-                    <h2 class="text-[10px] font-black uppercase tracking-widest text-text-muted-light dark:text-text-muted-dark">Tu Norte</h2>
+    <div class="fixed top-0 w-full z-50 transition-all duration-300">
+        <div class="glass-panel mx-auto w-full px-5 py-3 lg:px-10 lg:py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3 lg:gap-4">
+                <button id="backBtn" onclick="navigateTo('home')" class="hidden btn-header rounded-full bg-white/50 dark:bg-white/5 flex items-center justify-center text-text-muted-light dark:text-text-muted-dark hover:bg-white dark:hover:bg-white/10 active:scale-95 transition-all shadow-sm border border-white/20 dark:border-white/5">
+                    <span class="material-symbols-rounded">arrow_back</span>
+                </button>
+                <div class="flex flex-col cursor-pointer group" onclick="navigateTo('home')">
+                    <span id="pageTitleLabel" class="text-[9px] lg:text-[10px] font-black tracking-[0.25em] uppercase text-primary group-hover:text-primary/80 transition-colors">FINANZAS</span>
+                    <span id="pageTitleMain" class="text-base lg:text-xl font-bold font-display tracking-tight text-text-main-light dark:text-text-main-dark">Marie Finance</span>
                 </div>
-                
-                <button onclick="navigateTo('goal')" class="w-full bg-surface-light dark:bg-surface-dark p-6 rounded-[2rem] card-earth shadow-soft text-center relative overflow-hidden group">
-                    <div class="absolute top-[-20%] left-[10%] w-32 h-32 bg-primary/5 rounded-full blur-2xl"></div>
-                    <p class="text-[10px] text-text-muted-light dark:text-text-muted-dark uppercase tracking-widest mb-2 font-bold opacity-70">Meta de Ahorro</p>
-                    <div id="homeGoalDisplay" class="text-5xl font-black text-text-main-light dark:text-text-main-dark mb-4 tracking-tighter text-primary">$0</div>
-                    
-                    <div class="inline-flex items-center gap-2 bg-stone-100 dark:bg-white/5 text-text-main-light dark:text-white px-5 py-2 rounded-xl text-xs font-bold border border-stone-200 dark:border-white/5 mb-3" id="homeSavedDisplay">
-                        <span class="material-symbols-rounded text-sm text-success">savings</span>
-                        <span>Acumulado: $0</span>
-                    </div>
-                    <div class="mt-2 pt-3 border-t border-stone-100 dark:border-white/5">
-                        <p class="text-[10px] text-text-muted-light/80 dark:text-text-muted-dark/80 italic text-center">"Toca para gestionar tu fondo"</p>
-                    </div>
+            </div>
+            <div class="flex gap-2 lg:gap-3">
+                <button onclick="logout()" class="btn-header rounded-full border border-white/20 dark:border-white/10 text-text-muted-light dark:text-text-muted-dark flex items-center justify-center active:scale-95 hover:bg-danger/10 hover:text-danger hover:border-danger/30 transition-all backdrop-blur-sm" title="Cerrar Sesión">
+                    <span class="material-symbols-rounded text-xl">logout</span>
+                </button>
+                <button onclick="startTutorial()" class="btn-header rounded-full border border-white/20 dark:border-white/10 text-text-muted-light dark:text-text-muted-dark flex items-center justify-center active:scale-95 hover:bg-white/20 dark:hover:bg-white/10 transition-all backdrop-blur-sm" title="Guía">
+                    <span class="material-symbols-rounded text-xl">help</span>
+                </button>
+                <button onclick="toggleTheme()" class="btn-header rounded-full bg-primary text-white flex items-center justify-center active:scale-95 transition-transform hover:shadow-lg hover:shadow-primary/30 shadow-md border-2 border-white/20 dark:border-white/10">
+                     <span class="material-symbols-rounded text-xl">contrast</span>
                 </button>
             </div>
+        </div>
+    </div>
 
-            <div id="step2-target" class="mb-8">
-                <div class="flex items-center gap-2.5 mb-3 px-1 opacity-80">
-                    <span class="w-5 h-5 rounded-full bg-text-muted-light dark:bg-white/20 text-white flex items-center justify-center text-[10px] font-bold">2</span>
-                    <h2 class="text-[10px] font-black uppercase tracking-widest text-text-muted-light dark:text-text-muted-dark">Control Mensual</h2>
-                </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <button onclick="navigateTo('incomes')" class="bg-surface-light dark:bg-surface-dark p-5 rounded-[2rem] card-earth shadow-soft text-left relative overflow-hidden group h-48 flex flex-col justify-between">
-                        <div>
-                            <div class="w-10 h-10 rounded-2xl bg-success/10 flex items-center justify-center text-success mb-3"><span class="material-symbols-rounded text-xl">trending_up</span></div>
-                            <p class="text-[11px] font-bold uppercase text-text-muted-light dark:text-text-muted-dark mb-1">Ingresos</p>
-                            <p class="text-[10px] text-text-muted-light dark:text-text-muted-dark opacity-60 leading-snug">Sueldo, ventas y extras.</p>
-                        </div>
-                        <div>
-                            <div id="homeIncomeDisplay" class="text-2xl font-black text-success truncate tracking-tight">$0</div>
-                            <p class="text-[9px] text-text-muted-light mt-1 font-medium opacity-70">Total Entradas</p>
-                        </div>
-                    </button>
-                    <button onclick="navigateTo('expenses')" class="bg-surface-light dark:bg-surface-dark p-5 rounded-[2rem] card-earth shadow-soft text-left relative overflow-hidden group h-48 flex flex-col justify-between">
-                        <div>
-                            <div class="w-10 h-10 rounded-2xl bg-danger/10 flex items-center justify-center text-danger mb-3"><span class="material-symbols-rounded text-xl">trending_down</span></div>
-                            <p class="text-[11px] font-bold uppercase text-text-muted-light dark:text-text-muted-dark mb-1">Gastos</p>
-                            <p class="text-[10px] text-text-muted-light dark:text-text-muted-dark opacity-60 leading-snug">Lista tus salidas fijas y variables.</p>
-                        </div>
-                        <div>
-                            <div id="homeExpenseDisplay" class="text-2xl font-black text-danger truncate tracking-tight">$0</div>
-                            <p class="text-[9px] text-text-muted-light mt-1 font-medium opacity-70">Total Salidas</p>
-                        </div>
-                    </button>
-                </div>
-            </div>
-
-             <div id="step3-target" class="mb-4">
-                <div class="flex items-center gap-2.5 mb-3 px-1 opacity-80">
-                    <span class="w-5 h-5 rounded-full bg-text-muted-light dark:bg-white/20 text-white flex items-center justify-center text-[10px] font-bold">3</span>
-                    <h2 class="text-[10px] font-black uppercase tracking-widest text-text-muted-light dark:text-text-muted-dark">Inteligencia</h2>
-                </div>
-                
-                <div class="bg-surface-light dark:bg-surface-dark p-6 rounded-[2rem] card-earth shadow-soft relative overflow-hidden mb-4">
-                    <div class="flex justify-between items-center mb-5">
-                         <div class="flex items-center gap-3">
-                            <div class="w-9 h-9 rounded-2xl bg-warning/10 flex items-center justify-center text-warning shrink-0"><span class="material-symbols-rounded text-lg">health_metrics</span></div>
-                            <div>
-                                <h3 class="font-bold text-xs text-text-main-light dark:text-text-main-dark uppercase tracking-wide">Salud Financiera</h3>
-                                <p class="text-[9px] opacity-60">Diagnóstico</p>
+    <div class="flex-1 w-full max-w-[1440px] mx-auto px-5 pt-28 pb-48 lg:px-10 lg:pt-36 lg:pb-40 transition-all duration-500 overflow-visible" id="mainContainer">
+        
+        <div id="view-home" class="w-full">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-8 items-stretch">
+                <div id="step1-target" class="lg:col-span-4 flex flex-col fade-in">
+                    <div class="flex items-center gap-2.5 mb-3 px-1 opacity-80">
+                        <span class="w-5 h-5 rounded-full bg-primary text-white flex items-center justify-center text-[10px] font-bold shadow-glow">1</span>
+                        <h2 class="text-[10px] font-black uppercase tracking-widest text-text-muted-light dark:text-text-muted-dark">La Meta</h2>
+                    </div>
+                    <button onclick="navigateTo('goal')" class="w-full flex-1 card-glass p-8 lg:p-10 rounded-[2rem] lg:rounded-[2.5rem] shadow-soft text-center relative overflow-hidden group min-h-[340px] lg:min-h-0 flex flex-col justify-center items-center">
+                        <div class="absolute top-[-20%] right-[-10%] w-40 h-40 bg-primary/20 rounded-full blur-3xl opacity-50 group-hover:opacity-80 transition-opacity"></div>
+                        <div class="relative z-10 w-full flex flex-col items-center">
+                            <p class="text-[10px] text-text-muted-light dark:text-text-muted-dark uppercase tracking-[0.2em] mb-2 font-bold opacity-70">Objetivo de Ahorro</p>
+                            <div class="flex justify-center items-baseline gap-1 flex-wrap mb-1">
+                                <span class="text-3xl text-primary/40 align-top">$</span>
+                                <span id="homeGoalDisplay" class="text-5xl lg:text-7xl font-black text-text-main-light dark:text-text-main-dark tracking-tighter drop-shadow-sm break-all">0</span>
+                            </div>
+                            <span class="help-text max-w-[220px]">Ese número mágico que te dará paz mental.</span>
+                            <div class="inline-flex flex-col items-center mt-8 group-hover:scale-105 transition-transform w-full">
+                                <div class="inline-flex items-center gap-2 bg-white/50 dark:bg-black/20 text-text-main-light dark:text-white px-6 py-3 rounded-2xl text-xs font-bold border border-white/20 dark:border-white/5 shadow-sm" id="homeSavedDisplay">
+                                    <span class="material-symbols-rounded text-lg text-success">savings</span>
+                                    <span>Disponible: $0</span>
+                                </div>
+                                <span class="help-text mt-2 max-w-[200px]">Lo que realmente hay en el banco.</span>
                             </div>
                         </div>
-                        <div id="healthBadge" class="px-4 py-1.5 bg-stone-100 dark:bg-white/5 rounded-full text-[9px] font-black uppercase text-text-muted-light dark:text-white border border-stone-200 dark:border-white/5">--</div>
-                    </div>
-                    <div class="h-2 w-full bg-stone-100 dark:bg-black/50 rounded-full overflow-hidden relative mb-4">
-                        <div class="absolute inset-0 bg-gradient-to-r from-danger via-warning to-success opacity-80"></div>
-                        <div id="healthIndicator" class="absolute top-0 bottom-0 w-1.5 bg-white shadow-[0_0_15px_rgba(255,255,255,1)] transition-all duration-1000 ease-out scale-y-125 rounded-full" style="left: 50%"></div>
-                    </div>
-                    <p class="text-[10px] text-center opacity-70 leading-relaxed bg-bg-light dark:bg-bg-dark p-3 rounded-xl border border-stone-100 dark:border-white/5 font-medium" id="healthDescText">Calculando...</p>
-                </div>
-
-                <div class="bg-surface-light dark:bg-surface-dark p-6 rounded-[2rem] card-earth shadow-soft relative overflow-hidden">
-                    <div class="flex justify-between items-center mb-6">
-                        <div>
-                            <h3 class="font-bold text-xs text-text-main-light dark:text-text-main-dark uppercase tracking-wide">Línea de Vida</h3>
-                            <p class="text-[10px] opacity-60">Evolución Tick-by-Tick</p>
-                        </div>
-                        <span class="text-[9px] bg-primary/10 text-primary px-3 py-1 rounded-full font-bold">Tendencia</span>
-                    </div>
-                    <div class="h-48 w-full relative">
-                        <canvas id="mainChart"></canvas>
-                    </div>
-                </div>
-            </div>
-            
-            <p class="text-center text-[9px] text-text-muted-light/30 dark:text-text-muted-dark/30 mt-10 mb-4 tracking-[0.3em] font-mono">MARIE FINANCE v17.0</p>
-        </div>
-
-        <div id="view-goal" class="fade-in hidden">
-            <div class="text-center mb-10">
-                <p class="text-[9px] text-text-muted-light dark:text-text-muted-dark font-bold uppercase mb-2 tracking-widest">Define tu meta global</p>
-                <div class="flex items-center justify-center gap-1">
-                    <span class="text-3xl text-stone-300 dark:text-stone-700 font-light">$</span>
-                    <input id="inputGoal" type="number" class="w-48 bg-transparent text-center text-6xl font-black border-none p-0 focus:ring-0 text-text-main-light dark:text-text-main-dark outline-none tracking-tighter placeholder-stone-200 dark:placeholder-stone-800" placeholder="0" oninput="updateVal('goal', this.value)">
-                </div>
-            </div>
-
-            <div class="bg-surface-light dark:bg-surface-dark p-6 rounded-[2rem] card-earth shadow-soft relative overflow-hidden">
-                <div class="flex justify-between items-end mb-6 border-b border-dashed border-stone-200 dark:border-white/5 pb-5">
-                    <div>
-                        <span class="text-[10px] font-bold uppercase text-text-muted-light dark:text-text-muted-dark tracking-wider block">Fondo Disponible</span>
-                        <span class="text-[9px] opacity-50">Dinero real</span>
-                    </div>
-                    <span id="detailSavedDisplay" class="text-3xl font-black text-success">$0</span>
-                </div>
-                
-                <div class="flex gap-4 mb-8">
-                    <button onclick="modifyFund('sub')" class="w-16 h-16 rounded-2xl bg-danger/10 text-danger flex items-center justify-center text-2xl active:scale-90 transition-all border border-danger/20 hover:bg-danger hover:text-white"><span class="material-symbols-rounded">remove</span></button>
-                    <div class="flex-1 relative">
-                        <span class="absolute left-1/2 -translate-x-1/2 top-2 text-[9px] uppercase font-bold opacity-30">Monto</span>
-                        <input id="fundInput" type="number" placeholder="0" class="w-full h-full bg-bg-light dark:bg-bg-dark rounded-2xl border-none text-center font-bold text-2xl focus:ring-2 focus:ring-primary/30 outline-none">
-                    </div>
-                    <button onclick="modifyFund('add')" class="w-16 h-16 rounded-2xl bg-success/10 text-success flex items-center justify-center text-2xl active:scale-90 transition-all border border-success/20 hover:bg-success hover:text-white"><span class="material-symbols-rounded">add</span></button>
-                </div>
-
-                <div class="border-t border-stone-200 dark:border-white/5 pt-5">
-                     <button onclick="toggleHistory()" class="w-full flex items-center justify-between p-4 bg-bg-light dark:bg-bg-dark rounded-2xl text-[10px] font-bold uppercase text-text-muted-light dark:text-text-muted-dark hover:bg-stone-100 dark:hover:bg-white/5 transition-colors group">
-                        <span>Historial</span>
-                        <span id="historyChevron" class="material-symbols-rounded transition-transform group-hover:text-primary">expand_more</span>
                     </button>
-                    <div id="historyContainer" class="hidden mt-4 space-y-3 max-h-64 overflow-y-auto pr-2 scrollbar-thin"></div>
+                </div>
+                <div id="step2-target" class="lg:col-span-4 flex flex-col fade-in delay-100">
+                    <div class="flex items-center gap-2.5 mb-3 px-1 opacity-80">
+                        <span class="w-5 h-5 rounded-full bg-text-muted-light dark:bg-white/20 text-white flex items-center justify-center text-[10px] font-bold">2</span>
+                        <h2 class="text-[10px] font-black uppercase tracking-widest text-text-muted-light dark:text-text-muted-dark">El Flujo</h2>
+                    </div>
+                    <div class="flex flex-col gap-4 h-full">
+                        <button onclick="navigateTo('incomes')" class="flex-1 card-glass p-6 lg:p-8 rounded-[2rem] lg:rounded-[2.5rem] shadow-soft text-left relative overflow-hidden group min-h-[180px] flex flex-col justify-between">
+                            <div class="flex justify-between items-start w-full">
+                                <div>
+                                    <div class="w-12 h-12 rounded-2xl bg-success/10 flex items-center justify-center text-success mb-2 group-hover:scale-110 transition-transform"><span class="material-symbols-rounded text-2xl">trending_up</span></div>
+                                    <p class="text-[10px] lg:text-[11px] font-bold uppercase text-text-muted-light dark:text-text-muted-dark">Entradas</p>
+                                </div>
+                                <div class="w-8 h-8 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity -mr-2 -mt-2"><span class="material-symbols-rounded text-sm">arrow_outward</span></div>
+                            </div>
+                            <div class="mt-2">
+                                <div id="homeIncomeDisplay" class="text-4xl lg:text-5xl font-black text-success truncate tracking-tight">$0</div>
+                                <span class="help-text">Sueldos, extras y buenas noticias.</span>
+                            </div>
+                        </button>
+                        <button onclick="navigateTo('expenses')" class="flex-1 card-glass p-6 lg:p-8 rounded-[2rem] lg:rounded-[2.5rem] shadow-soft text-left relative overflow-hidden group min-h-[180px] flex flex-col justify-between">
+                            <div class="flex justify-between items-start w-full">
+                                <div>
+                                    <div class="w-12 h-12 rounded-2xl bg-danger/10 flex items-center justify-center text-danger mb-2 group-hover:scale-110 transition-transform"><span class="material-symbols-rounded text-2xl">trending_down</span></div>
+                                    <p class="text-[10px] lg:text-[11px] font-bold uppercase text-text-muted-light dark:text-text-muted-dark">Salidas</p>
+                                </div>
+                                <div class="w-8 h-8 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity -mr-2 -mt-2"><span class="material-symbols-rounded text-sm">arrow_outward</span></div>
+                            </div>
+                            <div class="mt-2">
+                                <div id="homeExpenseDisplay" class="text-4xl lg:text-5xl font-black text-danger truncate tracking-tight">$0</div>
+                                <span class="help-text">Gastos fijos, gustos y sorpresas.</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+                <div id="step3-target" class="lg:col-span-4 flex flex-col fade-in delay-200">
+                    <div class="flex items-center gap-2.5 mb-3 px-1 opacity-80">
+                        <span class="w-5 h-5 rounded-full bg-text-muted-light dark:bg-white/20 text-white flex items-center justify-center text-[10px] font-bold">3</span>
+                        <h2 class="text-[10px] font-black uppercase tracking-widest text-text-muted-light dark:text-text-muted-dark">Diagnóstico</h2>
+                    </div>
+                    <div class="flex flex-col gap-4 h-full">
+                        <div class="card-glass p-6 lg:p-8 rounded-[2rem] lg:rounded-[2.5rem] shadow-soft relative overflow-hidden min-h-[180px]">
+                            <div class="flex justify-between items-center mb-5">
+                                 <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-2xl bg-warning/10 flex items-center justify-center text-warning shrink-0 shadow-inner"><span class="material-symbols-rounded text-xl">cardiology</span></div>
+                                    <div>
+                                        <h3 class="font-bold text-xs text-text-main-light dark:text-text-main-dark uppercase tracking-wide">Salud Financiera</h3>
+                                        <p class="text-[10px] opacity-60">¿Sobrevivimos?</p>
+                                    </div>
+                                </div>
+                                <div id="healthBadge" class="px-3 py-1 bg-white/50 dark:bg-white/5 rounded-full text-[9px] font-black uppercase text-text-muted-light dark:text-white border border-white/20 dark:border-white/5 shadow-sm">--</div>
+                            </div>
+                            <div class="h-3 w-full bg-black/5 dark:bg-black/50 rounded-full overflow-hidden relative mb-2 shadow-inner">
+                                <div class="absolute inset-0 bg-gradient-to-r from-danger via-warning to-success opacity-80"></div>
+                                <div id="healthIndicator" class="absolute top-0 bottom-0 w-2 bg-white shadow-[0_0_15px_rgba(255,255,255,1)] transition-all duration-1000 ease-out scale-y-125 rounded-full ring-2 ring-black/5" style="left: 50%"></div>
+                            </div>
+                            <div class="flex justify-between w-full text-[8px] opacity-40 font-bold uppercase mb-4 px-1">
+                                <span>Pánico</span>
+                                <span>Zen</span>
+                            </div>
+                            <p class="text-[11px] text-center opacity-80 leading-relaxed bg-white/40 dark:bg-black/20 p-3 rounded-2xl border border-white/10 dark:border-white/5 font-medium shadow-sm text-text-main-light dark:text-text-main-dark" id="healthDescText">Analizando tus números...</p>
+                        </div>
+                        <div class="flex-1 card-glass p-6 lg:p-8 rounded-[2rem] lg:rounded-[2.5rem] shadow-soft relative overflow-hidden flex flex-col min-h-[180px]">
+                            <div class="flex justify-between items-center mb-4">
+                                <div>
+                                    <h3 class="font-bold text-xs text-text-main-light dark:text-text-main-dark uppercase tracking-wide">Tu Historia</h3>
+                                    <span class="help-text mt-0">La tendencia no miente.</span>
+                                </div>
+                                <span class="text-[9px] bg-primary/10 text-primary px-3 py-1 rounded-full font-bold">Gráfico</span>
+                            </div>
+                            <div class="flex-1 w-full relative">
+                                <canvas id="mainChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="text-center text-[10px] text-text-muted-light/40 dark:text-text-muted-dark/40 mt-12 mb-4 tracking-[0.4em] font-mono lg:mt-24 opacity-50 hover:opacity-100 transition-opacity">MARIE FINANCE v26.0</p>
+        </div>
+
+        <div id="view-goal" class="fade-in hidden w-full max-w-4xl mx-auto">
+             <div class="text-center mb-10 lg:mb-14">
+                <p class="text-[10px] text-primary font-bold uppercase mb-4 tracking-[0.3em] bg-primary/10 inline-block px-4 py-1 rounded-full">Configura tu Meta</p>
+                <div class="flex items-center justify-center gap-1 group relative flex-col">
+                    <div class="flex items-center justify-center w-full">
+                        <span class="text-4xl lg:text-6xl text-text-muted-light/30 dark:text-text-muted-dark/30 font-light group-hover:text-primary transition-colors">$</span>
+                        <input id="inputGoal" type="number" class="w-full max-w-[280px] lg:max-w-[400px] bg-transparent text-center text-6xl lg:text-8xl font-black border-none p-0 focus:ring-0 text-text-main-light dark:text-text-main-dark outline-none tracking-tighter placeholder-black/10 dark:placeholder-white/10 transition-all focus:scale-105" placeholder="0" oninput="updateVal('goal', this.value)">
+                    </div>
+                    <span class="help-text mt-2 text-primary">Toca el número para cambiar tu norte.</span>
+                </div>
+            </div>
+            <div class="card-glass p-6 lg:p-12 rounded-[2.5rem] lg:rounded-[3rem] shadow-soft relative overflow-hidden">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-8 border-b border-dashed border-black/10 dark:border-white/10 pb-8 gap-4">
+                    <div class="text-left w-full md:w-auto">
+                        <span class="text-xs font-bold uppercase text-text-muted-light dark:text-text-muted-dark tracking-wider block mb-1">Disponible Real</span>
+                        <span class="text-[10px] opacity-50 bg-white/50 dark:bg-white/5 px-2 py-1 rounded">Dinero líquido actual.</span>
+                    </div>
+                    <span id="detailSavedDisplay" class="text-5xl lg:text-7xl font-black text-success tracking-tighter w-full md:w-auto text-right">$0</span>
+                </div>
+                <div class="flex gap-4 lg:gap-6 mb-10 items-stretch h-auto min-h-[120px]">
+                    <button onclick="modifyFund('sub')" class="btn-control rounded-2xl lg:rounded-[2rem] bg-danger/5 text-danger flex items-center justify-center text-4xl active:scale-90 transition-all border border-danger/20 hover:bg-danger hover:text-white hover:shadow-lg hover:shadow-danger/30"><span class="material-symbols-rounded">remove</span></button>
+                    <div class="flex-1 relative bg-white/30 dark:bg-black/20 rounded-2xl lg:rounded-[2rem] border border-white/20 dark:border-white/5 overflow-hidden flex items-center justify-center flex-col p-4">
+                        <span class="text-[9px] uppercase font-bold opacity-30 tracking-widest mb-1">Monto a operar</span>
+                        <input id="fundInput" type="number" placeholder="0" class="w-full bg-transparent text-center font-bold text-4xl lg:text-5xl focus:ring-0 border-none outline-none text-text-main-light dark:text-text-main-dark z-10 mb-2">
+                        <span class="help-text text-center text-[10px] max-w-[180px]">Ingresa la cantidad para sumar o restar.</span>
+                    </div>
+                    <button onclick="modifyFund('add')" class="btn-control rounded-2xl lg:rounded-[2rem] bg-success/5 text-success flex items-center justify-center text-4xl active:scale-90 transition-all border border-success/20 hover:bg-success hover:text-white hover:shadow-lg hover:shadow-success/30"><span class="material-symbols-rounded">add</span></button>
+                </div>
+                <div class="pt-2">
+                     <button onclick="toggleHistory()" class="w-full flex items-center justify-between p-4 lg:p-6 bg-white/40 dark:bg-black/20 rounded-3xl text-xs font-bold uppercase text-text-muted-light dark:text-text-muted-dark hover:bg-white/60 dark:hover:bg-white/5 transition-all group border border-white/20 dark:border-white/5">
+                        <div class="flex flex-col items-start text-left">
+                            <span class="tracking-widest">Movimientos Recientes</span>
+                            <span class="help-text mt-0.5 normal-case opacity-50">El historial no perdona.</span>
+                        </div>
+                        <div class="w-10 h-10 rounded-full bg-white dark:bg-white/10 flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
+                            <span id="historyChevron" class="material-symbols-rounded transition-transform group-hover:text-primary text-base">expand_more</span>
+                        </div>
+                    </button>
+                    <div id="historyContainer" class="hidden mt-6 space-y-3 max-h-80 overflow-y-auto pr-2 lg:grid lg:grid-cols-2 lg:gap-4 lg:space-y-0 pb-2 custom-scroll"></div>
                 </div>
             </div>
         </div>
 
-        <div id="view-incomes" class="fade-in hidden">
-            <div class="bg-surface-light dark:bg-surface-dark p-6 rounded-[2rem] card-earth shadow-soft mb-6">
-                <div class="flex justify-between items-center mb-6 border-b border-stone-200 dark:border-white/5 pb-6">
+        <div id="view-incomes" class="fade-in hidden w-full max-w-6xl mx-auto">
+            <div class="card-glass p-6 lg:p-10 rounded-[2.5rem] lg:rounded-[3rem] shadow-soft mb-8">
+                <div class="flex justify-between items-center mb-8 border-b border-black/10 dark:border-white/10 pb-8">
                     <div>
-                        <p class="text-[10px] uppercase font-bold text-text-muted-light tracking-widest mb-1">Total Ingresos</p>
-                        <p id="totalIncomeDisplay" class="text-5xl font-black text-success tracking-tighter">$0</p>
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="w-10 h-10 rounded-full bg-success/10 flex items-center justify-center text-success"><span class="material-symbols-rounded">trending_up</span></div>
+                            <p class="text-xs uppercase font-bold text-text-muted-light tracking-widest">Total Entradas</p>
+                        </div>
+                        <p id="totalIncomeDisplay" class="text-5xl lg:text-7xl font-black text-success tracking-tighter">$0</p>
+                        <span class="help-text mt-1">Suma total: Fijo + Extras.</span>
                     </div>
-                    <button onclick="addItem('incomes')" class="w-14 h-14 rounded-2xl bg-success/10 text-success flex items-center justify-center active:scale-95 transition-all hover:bg-success hover:text-white"><span class="material-symbols-rounded text-3xl">add</span></button>
+                    <button onclick="addItem('incomes')" class="btn-action-lg rounded-[2rem] bg-success text-white flex items-center justify-center active:scale-90 transition-all hover:shadow-xl hover:shadow-success/40 border-4 border-white/20"><span class="material-symbols-rounded text-4xl">add</span></button>
                 </div>
-                
-                <div class="flex justify-between items-center bg-bg-light dark:bg-bg-dark p-4 rounded-2xl mb-4 border border-stone-200 dark:border-white/5">
-                    <div>
-                        <span class="text-xs font-bold block uppercase text-text-main-light dark:text-text-main-dark">Sueldo Fijo</span>
-                        <span class="text-[10px] opacity-60">Base mensual</span>
+                <div class="flex flex-col md:flex-row justify-between items-center bg-white/30 dark:bg-black/20 p-5 lg:p-8 rounded-[2rem] mb-8 border border-white/20 dark:border-white/5 shadow-inner gap-4">
+                    <div class="flex items-center gap-4 w-full md:w-auto">
+                        <div class="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center"><span class="material-symbols-rounded">work</span></div>
+                        <div>
+                            <span class="text-sm font-bold block uppercase text-text-main-light dark:text-text-main-dark">Ingreso Fijo</span>
+                            <span class="text-[10px] opacity-60">Tu base mensual segura.</span>
+                        </div>
                     </div>
-                    <div class="flex items-center bg-surface-light dark:bg-surface-dark px-4 py-2 rounded-xl border border-stone-100 dark:border-white/5 shadow-sm">
-                         <span class="text-xs mr-1 opacity-60">$</span>
-                        <input id="inputSalary" type="number" class="w-24 bg-transparent text-right font-bold text-lg focus:ring-0 border-none p-0 outline-none" oninput="updateVal('salary', this.value)">
+                    <div class="flex items-center bg-white/50 dark:bg-white/5 px-6 py-3 rounded-2xl border border-white/30 dark:border-white/5 shadow-sm w-full md:w-auto justify-end">
+                         <span class="text-sm mr-2 opacity-40 font-serif italic">$</span>
+                        <input id="inputSalary" type="number" class="w-32 bg-transparent text-right font-black text-2xl focus:ring-0 border-none p-0 outline-none" oninput="updateVal('salary', this.value)">
                     </div>
                 </div>
-
-                <div id="incomesList" class="space-y-4"></div>
+                <div id="incomesList" class="space-y-4 lg:space-y-0 lg:grid lg:grid-cols-2 xl:grid-cols-3 lg:gap-6"></div>
             </div>
         </div>
 
-        <div id="view-expenses" class="fade-in hidden">
-             <div class="bg-surface-light dark:bg-surface-dark p-6 rounded-[2rem] card-earth shadow-soft mb-6">
-                <div class="flex justify-between items-center mb-6 border-b border-stone-200 dark:border-white/5 pb-6">
+        <div id="view-expenses" class="fade-in hidden w-full max-w-6xl mx-auto">
+             <div class="card-glass p-6 lg:p-10 rounded-[2.5rem] lg:rounded-[3rem] shadow-soft mb-8">
+                <div class="flex justify-between items-center mb-8 border-b border-black/10 dark:border-white/10 pb-8">
                     <div>
-                        <p class="text-[10px] uppercase font-bold text-text-muted-light tracking-widest mb-1">Total Gastos</p>
-                        <p id="totalExpenseDisplay" class="text-5xl font-black text-danger tracking-tighter">$0</p>
+                        <div class="flex items-center gap-3 mb-2">
+                             <div class="w-10 h-10 rounded-full bg-danger/10 flex items-center justify-center text-danger"><span class="material-symbols-rounded">trending_down</span></div>
+                            <p class="text-xs uppercase font-bold text-text-muted-light tracking-widest">Total Salidas</p>
+                        </div>
+                        <p id="totalExpenseDisplay" class="text-5xl lg:text-7xl font-black text-danger tracking-tighter">$0</p>
+                        <span class="help-text mt-1">Lo que ha salido de tu bolsillo este mes.</span>
                     </div>
-                    <button onclick="addItem('expenses')" class="w-14 h-14 rounded-2xl bg-danger/10 text-danger flex items-center justify-center active:scale-95 transition-all hover:bg-danger hover:text-white"><span class="material-symbols-rounded text-3xl">add</span></button>
+                    <button onclick="addItem('expenses')" class="btn-action-lg rounded-[2rem] bg-danger text-white flex items-center justify-center active:scale-90 transition-all hover:shadow-xl hover:shadow-danger/40 border-4 border-white/20"><span class="material-symbols-rounded text-4xl">add</span></button>
                 </div>
-                <div id="expensesList" class="space-y-4"></div>
+                <div id="expensesList" class="space-y-4 lg:space-y-0 lg:grid lg:grid-cols-2 xl:grid-cols-3 lg:gap-6"></div>
             </div>
         </div>
 
     </div>
 
-    <div id="transactionModal" class="fixed inset-0 z-[60] hidden flex items-center justify-center px-4">
-        <div onclick="closeTransactionModal()" class="absolute inset-0 bg-stone-900/60 backdrop-blur-md transition-opacity"></div>
-        <div class="bg-surface-light dark:bg-[#1a1a1a] w-full max-w-sm rounded-[2rem] p-6 shadow-2xl relative z-10 transform transition-all scale-95 opacity-0 border border-stone-100 dark:border-white/5" id="transactionCard">
-            <h3 class="text-lg font-bold text-center mb-1 text-text-main-light dark:text-text-main-dark" id="modalTitle">Nuevo Depósito</h3>
-            <p class="text-[10px] text-center text-text-muted-light mb-6 uppercase tracking-widest font-mono" id="modalAmountDisplay">$0.00</p>
-            <div class="mb-6">
-                <label class="text-[10px] font-bold text-text-muted-light dark:text-text-muted-dark uppercase block mb-2 pl-1">Concepto</label>
-                <input id="transactionDesc" type="text" placeholder="Ej: Ahorro..." class="w-full bg-bg-light dark:bg-bg-dark rounded-xl border-none py-3.5 px-4 text-sm focus:ring-2 focus:ring-primary outline-none text-text-main-light dark:text-white placeholder-gray-400">
+    <div id="transactionModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center px-4">
+        <div onclick="closeTransactionModal()" class="absolute inset-0 bg-stone-900/40 backdrop-blur-md transition-opacity duration-300"></div>
+        <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-sm rounded-[2.5rem] p-8 shadow-2xl relative z-10 transform transition-all scale-95 opacity-0" id="transactionCard">
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-white dark:bg-[#1a1a1a] flex items-center justify-center border border-black/5 dark:border-white/10 shadow-lg">
+                <span class="material-symbols-rounded text-3xl text-primary" id="modalIcon">payments</span>
             </div>
-            <div class="grid grid-cols-2 gap-3">
-                <button onclick="closeTransactionModal()" class="py-3.5 rounded-xl text-xs font-bold bg-stone-100 dark:bg-white/5 text-text-muted-light hover:bg-stone-200 dark:hover:bg-white/10 transition-colors">Cancelar</button>
-                <button onclick="confirmTransaction()" id="modalConfirmBtn" class="py-3.5 rounded-xl text-xs font-bold bg-primary text-white shadow-lg shadow-primary/30 active:scale-95 transition-transform">Guardar</button>
+            <h3 class="text-xl font-bold text-center mt-6 mb-1 text-text-main-light dark:text-text-main-dark" id="modalTitle">Nuevo Movimiento</h3>
+            <p class="text-xs text-center text-text-muted-light mb-8 uppercase tracking-widest font-mono" id="modalAmountDisplay">$0.00</p>
+            <div class="mb-8">
+                <label class="text-[10px] font-bold text-text-muted-light dark:text-text-muted-dark uppercase block mb-3 pl-1 tracking-wider">Concepto</label>
+                <input id="transactionDesc" type="text" placeholder="..." class="w-full bg-black/5 dark:bg-white/5 rounded-2xl border-none py-4 px-5 text-sm focus:ring-2 focus:ring-primary/50 outline-none text-text-main-light dark:text-white placeholder-stone-400 font-medium transition-shadow">
+                <span class="help-text mt-2 text-center" id="modalHelpText">Describe este movimiento.</span>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <button onclick="closeTransactionModal()" class="py-4 rounded-2xl text-xs font-bold bg-black/5 dark:bg-white/5 text-text-muted-light hover:bg-black/10 dark:hover:bg-white/10 transition-colors uppercase tracking-wider">Cancelar</button>
+                <button onclick="confirmTransaction()" id="modalConfirmBtn" class="py-4 rounded-2xl text-xs font-bold bg-primary text-white shadow-lg shadow-primary/30 active:scale-95 transition-transform uppercase tracking-wider">Confirmar</button>
             </div>
         </div>
     </div>
 
-    <div id="bottomBar" class="fixed bottom-0 w-full z-40 p-5 glass-panel rounded-t-[2.5rem] shadow-[0_-10px_50px_rgba(0,0,0,0.1)] transition-transform duration-500">
-        <div class="max-w-md mx-auto relative z-10 px-2">
+    <div id="bottomBar" class="fixed bottom-0 w-full z-40 p-2 pb-6 lg:pb-8 flex justify-center pointer-events-none">
+        <div class="pointer-events-auto bg-white/80 dark:bg-black/80 backdrop-blur-xl border border-white/40 dark:border-white/10 shadow-soft 
+                    rounded-[2rem] lg:rounded-[2.5rem] 
+                    w-full max-w-sm lg:max-w-xl 
+                    p-5 lg:px-8 lg:py-5">
             <div class="flex justify-between items-start mb-3">
                 <div>
-                    <p class="text-[10px] font-bold text-text-muted-light dark:text-text-muted-dark uppercase tracking-widest mb-1">Capacidad Mensual</p>
-                    <h2 id="barSurplus" class="text-3xl font-black text-text-main-light dark:text-text-main-dark tracking-tight transition-all">$0</h2>
+                    <p class="text-[9px] font-extrabold text-text-muted-light dark:text-text-muted-dark uppercase tracking-widest mb-1">Capacidad Real</p>
+                    <h2 id="barSurplus" class="text-3xl lg:text-4xl font-black text-text-main-light dark:text-text-main-dark tracking-tight transition-all">$0</h2>
                 </div>
                 <div class="text-right">
-                    <p class="text-[9px] text-text-muted-light dark:text-text-muted-dark mb-1 font-bold">TIEMPO META</p>
-                    <div id="barTime" class="inline-flex items-center gap-2 px-4 py-2 bg-bg-light dark:bg-bg-dark rounded-full text-xs font-bold shadow-sm border border-stone-200 dark:border-white/10">
+                    <p class="text-[9px] text-text-muted-light dark:text-text-muted-dark mb-1 font-bold tracking-wider">ESTIMADO</p>
+                    <div id="barTime" class="inline-flex items-center gap-2 px-4 py-1.5 bg-black/5 dark:bg-white/5 rounded-full text-xs font-bold shadow-sm border border-black/5 dark:border-white/5">
                         <span class="material-symbols-rounded text-primary text-sm">timer</span>
                         <span>--</span>
                     </div>
                 </div>
             </div>
-            <div class="w-full bg-stone-200 dark:bg-black/40 h-2 rounded-full overflow-hidden mb-2">
-                <div id="barProgress" class="h-full bg-stone-800 dark:bg-white w-0 transition-all duration-700 ease-out rounded-full"></div>
+            <div class="w-full bg-black/5 dark:bg-white/10 h-2.5 rounded-full overflow-hidden mb-2 shadow-inner">
+                <div id="barProgress" class="h-full bg-black/80 dark:bg-white w-0 transition-all duration-1000 ease-out rounded-full shadow-[0_0_10px_rgba(255,255,255,0.5)]"></div>
             </div>
-            <div class="flex justify-between text-[10px] opacity-70 font-bold uppercase tracking-wider text-text-muted-light dark:text-text-muted-dark">
+            <div class="flex justify-between text-[9px] opacity-70 font-bold uppercase tracking-wider text-text-muted-light dark:text-text-muted-dark">
                 <span>Progreso</span>
                 <span id="barGoalText">Faltan: $0</span>
             </div>
@@ -327,33 +444,106 @@
     </div>
 
     <script>
+        // CONFIGURACIÓN DE FIREBASE
+        // --- PEGA AQUÍ TU CONFIGURACIÓN DE FIREBASE ---
+        const firebaseConfig = {
+  apiKey: "AIzaSyANBc8ziutAX47V_iJpgdn-7O3S3kvI3Tc",
+  authDomain: "marie-finance.firebaseapp.com",
+  projectId: "marie-finance",
+  storageBucket: "marie-finance.firebasestorage.app",
+  messagingSenderId: "754175935134",
+  appId: "1:754175935134:web:d159ae64d6ce56f51f318f",
+  measurementId: "G-NX06QJHXL9"
+};
+        // ------------------------------------------------
+
+        // Inicializar Firebase (Manejo de errores si no está configurado)
+        let auth, db;
+        try {
+            firebase.initializeApp(firebaseConfig);
+            auth = firebase.auth();
+            db = firebase.firestore();
+        } catch (e) {
+            console.error("Firebase no configurado aún.");
+        }
+
         let state = {
             goal: 5000,
             accumulated: 0,
             salary: 600,
-            incomes: [{ id: 1, name: 'Freelance', price: 200, cost: 0, qty: 1 }], 
-            expenses: [{ id: 1, name: 'Alquiler', amount: 400 }], 
+            incomes: [], 
+            expenses: [], 
             history: []   
         };
 
+        // --- GESTIÓN DE SESIÓN ---
+        function checkAuth() {
+            if(!auth) return;
+            auth.onAuthStateChanged(user => {
+                const overlay = document.getElementById('loginOverlay');
+                if (user) {
+                    overlay.classList.add('hidden-overlay');
+                    loadDataFromCloud(user.uid);
+                    showToast(`Bienvenida, ${user.displayName.split(' ')[0]}`);
+                } else {
+                    overlay.classList.remove('hidden-overlay');
+                }
+            });
+        }
+
+        function loginWithGoogle() {
+            if(!auth) { alert("Configura Firebase primero en el código."); return; }
+            const provider = new firebase.auth.GoogleAuthProvider();
+            auth.signInWithPopup(provider).catch(error => alert(error.message));
+        }
+
+        function logout() {
+            if(confirm("¿Cerrar sesión?")) {
+                auth.signOut();
+                location.reload();
+            }
+        }
+
+        async function loadDataFromCloud(uid) {
+            const docRef = db.collection('users').doc(uid);
+            const doc = await docRef.get();
+            if (doc.exists) {
+                state = { ...state, ...doc.data() };
+            } else {
+                // Primera vez, guardar estado inicial
+                saveDataToCloud();
+            }
+            renderAllLists();
+        }
+
+        function saveDataToCloud() {
+            const user = auth.currentUser;
+            if (user && db) {
+                db.collection('users').doc(user.uid).set(state, { merge: true });
+            }
+        }
+
+        // --- LOGIC APP ---
         const getSmartIcon = (name) => {
             const n = name.toLowerCase();
-            if(n.includes('comida') || n.includes('cena')) return 'restaurant';
-            if(n.includes('transporte') || n.includes('uber')) return 'directions_car';
-            if(n.includes('casa') || n.includes('alquiler')) return 'home';
-            if(n.includes('netflix') || n.includes('spotify')) return 'movie';
+            if(n.includes('comida') || n.includes('cena') || n.includes('sushi') || n.includes('pizza')) return 'restaurant';
+            if(n.includes('transporte') || n.includes('uber') || n.includes('gasolina')) return 'local_gas_station';
+            if(n.includes('casa') || n.includes('alquiler') || n.includes('luz')) return 'cottage';
+            if(n.includes('internet') || n.includes('wifi') || n.includes('celular')) return 'wifi';
+            if(n.includes('netflix') || n.includes('spotify') || n.includes('cine')) return 'subscriptions';
+            if(n.includes('salud') || n.includes('gym') || n.includes('medico')) return 'cardiology';
+            if(n.includes('fiesta') || n.includes('bar') || n.includes('salida')) return 'celebration';
             return 'credit_card';
         };
 
         document.addEventListener('DOMContentLoaded', () => {
-            loadState();
+            checkAuth(); // Verificar login al inicio
             renderAllLists();
-            
-            // Tutorial check v17
-            if(!localStorage.getItem('marie_v17_tut')) { setTimeout(startTutorial, 800); localStorage.setItem('marie_v17_tut', 'true'); }
+            // Tutorial check
+            if(!localStorage.getItem('marie_v26_tut')) { setTimeout(startTutorial, 2000); localStorage.setItem('marie_v26_tut', 'true'); }
         });
 
-        // --- CORE UPDATE ---
+        // Modificamos el updateGlobalState para guardar en nube
         function updateGlobalState() {
             let varIncome = state.incomes.reduce((acc, i) => acc + ((i.price - i.cost) * i.qty), 0);
             let totalIncome = state.salary + varIncome;
@@ -362,7 +552,7 @@
             let remaining = Math.max(0, state.goal - state.accumulated);
 
             setText('homeGoalDisplay', formatMoney(state.goal));
-            setHTML('homeSavedDisplay', `<span class="material-symbols-rounded text-base">savings</span><span>Acumulado: ${formatMoney(state.accumulated)}</span>`);
+            setHTML('homeSavedDisplay', `<span class="material-symbols-rounded text-base">savings</span><span>Disponible: ${formatMoney(state.accumulated)}</span>`);
             setText('homeIncomeDisplay', formatMoney(totalIncome));
             setText('homeExpenseDisplay', formatMoney(totalExpense));
 
@@ -375,24 +565,20 @@
             updateBottomBar(surplus, totalIncome, remaining);
             updateHealthThermometer(totalIncome, totalExpense);
             renderChart();
-            saveState();
+            saveDataToCloud(); // GUARDAR EN NUBE
         }
 
-        // --- COMPONENTS ---
-        
+        // --- COMPONENTS & UTILS (Iguales a versión anterior pero optimizados) ---
         function formatTimeRemaining(totalMonths) {
-            if (totalMonths === Infinity) return "Infinito";
+            if (totalMonths === Infinity) return "Nunca jamás";
             if (totalMonths <= 0) return "¡Logrado!";
-
             const years = Math.floor(totalMonths / 12);
             const months = Math.floor(totalMonths % 12);
             const days = Math.ceil((totalMonths - Math.floor(totalMonths)) * 30);
-
             let parts = [];
             if (years > 0) parts.push(`${years}a`);
             if (months > 0) parts.push(`${months}m`);
             if (days > 0) parts.push(`${days}d`);
-
             return parts.length > 0 ? parts.join(' ') : "Hoy";
         }
 
@@ -408,15 +594,14 @@
                 elSurplus.classList.remove('text-danger'); elSurplus.classList.add('text-success');
                 let progress = (surplus / totalIncome) * 100 * 2; 
                 elBar.style.width = Math.min(progress, 100) + '%';
-                elBar.className = 'h-full bg-success w-0 transition-all duration-700 ease-out rounded-full';
-                
+                elBar.className = 'h-full bg-success w-0 transition-all duration-1000 ease-out rounded-full shadow-[0_0_15px_rgba(106,153,78,0.6)]';
                 let months = remaining / surplus;
                 elTime.innerHTML = `<span class="material-symbols-rounded text-primary text-sm">timer</span><span>${formatTimeRemaining(months)}</span>`;
             } else {
                 elSurplus.classList.remove('text-success'); elSurplus.classList.add('text-danger');
                 elBar.style.width = '100%';
-                elBar.className = 'h-full bg-danger w-0 transition-all duration-700 ease-out rounded-full';
-                elTime.innerHTML = `<span class="material-symbols-rounded text-text-muted-light text-sm">timer_off</span><span>Infinito</span>`;
+                elBar.className = 'h-full bg-danger w-0 transition-all duration-1000 ease-out rounded-full shadow-[0_0_15px_rgba(188,71,73,0.6)]';
+                elTime.innerHTML = `<span class="material-symbols-rounded text-text-muted-light text-sm">timer_off</span><span>Ni en sueños</span>`;
             }
         }
 
@@ -424,100 +609,62 @@
             const indicator = document.getElementById('healthIndicator');
             const badge = document.getElementById('healthBadge');
             const desc = document.getElementById('healthDescText');
-            
-            // LOGIC: Savings Rate (Capacidad de Ahorro)
-            // Range 0% to 50% savings
             let savingsRate = income > 0 ? ((income - expense) / income) * 100 : 0;
-            let sliderPos = 0;
-
-            if (income <= expense) {
-                // Deficit zone (0-30%)
-                sliderPos = 15; // Stuck in danger
-            } else {
-                // Positive zone (30-100%)
-                // Map 0% savings -> 30% pos
-                // Map 50% savings -> 100% pos
-                sliderPos = 30 + Math.min((savingsRate / 50) * 70, 70);
-            }
-
+            let sliderPos = income <= expense ? 15 : 30 + Math.min((savingsRate / 50) * 70, 70);
             if(indicator) indicator.style.left = `${sliderPos}%`;
-
             if (sliderPos < 35) {
-                badge.textContent = "RIESGO CRÍTICO"; badge.className = "px-3 py-1 bg-danger/10 text-danger border border-danger/30 rounded-full text-[9px] font-black uppercase";
-                desc.textContent = "DÉFICIT: Gastas más de lo que ingresas. Reduce gastos urgentes.";
+                badge.textContent = "ALERTA ROJA"; badge.className = "px-3 py-1 bg-danger/10 text-danger border border-danger/30 rounded-full text-[9px] font-black uppercase";
+                desc.textContent = "Houston, tenemos un problema. Estás gastando de más.";
             } else if (sliderPos < 65) {
-                badge.textContent = "ESTABLE"; badge.className = "px-3 py-1 bg-warning/10 text-warning border border-warning/30 rounded-full text-[9px] font-black uppercase";
-                desc.textContent = "AL LÍMITE: Ahorras poco. Cualquier imprevisto te afectará.";
+                badge.textContent = "AHÍ VAMOS"; badge.className = "px-3 py-1 bg-warning/10 text-warning border border-warning/30 rounded-full text-[9px] font-black uppercase";
+                desc.textContent = "Estás al límite. Un gasto extra y adiós planes.";
             } else {
-                badge.textContent = "SÓLIDO"; badge.className = "px-3 py-1 bg-success/10 text-success border border-success/30 rounded-full text-[9px] font-black uppercase";
-                desc.textContent = "EXCELENTE: Tienes un flujo de caja positivo y saludable.";
+                badge.textContent = "COMO JEFE"; badge.className = "px-3 py-1 bg-success/10 text-success border border-success/30 rounded-full text-[9px] font-black uppercase";
+                desc.textContent = "Vas sobrado. Así es como se construye un imperio.";
             }
         }
 
-        // --- TICK-BY-TICK CHART (With Names) ---
         let chartInstance = null;
         function renderChart() {
             const ctx = document.getElementById('mainChart');
             if(!ctx) return;
             const sorted = [...state.history].sort((a,b) => a.id - b.id);
-            const labels = [];
-            const dataPoints = [];
+            const labels = ['Inicio'];
+            const dataPoints = [0];
             let runningBalance = 0;
-            
-            labels.push('Inicio');
-            dataPoints.push(0);
-
             sorted.forEach((h) => {
                 const change = h.type === 'add' ? h.amount : -h.amount;
                 runningBalance = Math.max(0, runningBalance + change); 
-                
                 let labelName = h.desc || 'Mov';
                 if(labelName.length > 8) labelName = labelName.substring(0, 8) + '..'; 
-                
                 labels.push(labelName); 
                 dataPoints.push(runningBalance);
             });
-            
-            // Punto actual
-            labels.push('Actual');
-            dataPoints.push(state.accumulated);
-
+            labels.push('Hoy'); dataPoints.push(state.accumulated);
             if(chartInstance) chartInstance.destroy();
-            
-            const gradient = ctx.getContext('2d').createLinearGradient(0, 0, 0, 250);
-            gradient.addColorStop(0, 'rgba(176, 137, 104, 0.5)'); 
+            const gradient = ctx.getContext('2d').createLinearGradient(0, 0, 0, 300);
+            gradient.addColorStop(0, 'rgba(176, 137, 104, 0.4)'); 
             gradient.addColorStop(1, 'rgba(176, 137, 104, 0.0)');
-
             chartInstance = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Fondo',
-                        data: dataPoints,
-                        borderColor: '#b08968',
-                        backgroundColor: gradient,
-                        borderWidth: 2,
-                        pointRadius: 2, 
-                        pointHoverRadius: 6,
-                        fill: true,
-                        tension: 0.3
+                        label: 'Fondo', data: dataPoints, borderColor: '#b08968', backgroundColor: gradient,
+                        borderWidth: 3, pointBackgroundColor: '#fff', pointBorderColor: '#b08968', pointRadius: 4, pointHoverRadius: 8,
+                        fill: true, tension: 0.4 
                     }]
                 },
                 options: {
                     responsive: true, maintainAspectRatio: false,
-                    layout: { padding: { top: 10, bottom: 10, left: -10, right: 0 } },
-                    plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false } },
-                    scales: {
-                        x: { display: false }, 
-                        y: { display: false, min: 0 }
-                    },
+                    layout: { padding: { top: 20, bottom: 10, left: 10, right: 10 } },
+                    plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false, backgroundColor: 'rgba(0,0,0,0.8)', titleFont: {family: 'Plus Jakarta Sans'}, bodyFont: {family: 'Inter'} } },
+                    scales: { x: { display: false }, y: { display: false, min: 0 } },
                     interaction: { mode: 'nearest', axis: 'x', intersect: false }
                 }
             });
         }
 
-        // --- CRUD ---
         function updateVal(key, val) { state[key] = parseFloat(val) || 0; updateGlobalState(); }
 
         let pendingTransaction = null;
@@ -532,11 +679,25 @@
         function openTransactionModal() {
             if(!pendingTransaction) return;
             const type = pendingTransaction.type;
-            setText('modalTitle', type === 'add' ? 'Confirmar Depósito' : 'Confirmar Retiro');
+            const inputField = document.getElementById('transactionDesc');
+            const helpText = document.getElementById('modalHelpText');
+            if(type === 'add') {
+                setText('modalTitle', '¡Ka-ching! Ingreso');
+                setText('modalIcon', 'arrow_downward');
+                document.getElementById('modalIcon').className = `material-symbols-rounded text-3xl text-success`;
+                inputField.placeholder = "Ej: Bono, Regalo, Ahorro extra...";
+                helpText.innerText = "¡Bien hecho! ¿De dónde salió este dinero?";
+            } else {
+                setText('modalTitle', 'Retiro de fondos');
+                setText('modalIcon', 'warning');
+                document.getElementById('modalIcon').className = `material-symbols-rounded text-3xl text-warning`;
+                inputField.placeholder = "Ej: Emergencia, Antojo, Imprevisto...";
+                helpText.innerText = "Piénsalo bien: ¿Es una emergencia o un capricho?";
+            }
             setText('modalAmountDisplay', formatMoney(pendingTransaction.amount));
             const btn = document.getElementById('modalConfirmBtn');
-            btn.className = `py-3.5 rounded-xl text-xs font-bold text-white shadow-lg active:scale-95 transition-transform ${type === 'add' ? 'bg-success shadow-success/30' : 'bg-danger shadow-danger/30'}`;
-            document.getElementById('transactionDesc').value = "";
+            btn.className = `py-4 rounded-2xl text-xs font-bold text-white shadow-lg active:scale-95 transition-transform uppercase tracking-wider ${type === 'add' ? 'bg-success shadow-success/30' : 'bg-danger shadow-danger/30'}`;
+            inputField.value = "";
             document.getElementById('transactionModal').classList.remove('hidden');
             setTimeout(() => { document.getElementById('transactionCard').classList.remove('scale-95', 'opacity-0'); document.getElementById('transactionCard').classList.add('scale-100', 'opacity-100'); }, 10);
         }
@@ -545,125 +706,180 @@
             const card = document.getElementById('transactionCard');
             card.classList.remove('scale-100', 'opacity-100');
             card.classList.add('scale-95', 'opacity-0');
-            setTimeout(() => document.getElementById('transactionModal').classList.add('hidden'), 200);
+            setTimeout(() => document.getElementById('transactionModal').classList.add('hidden'), 300);
+        }
+
+        function showToast(message, type = 'normal') {
+            const toast = document.getElementById('toast');
+            toast.innerText = message;
+            toast.style.animation = 'none'; toast.offsetHeight; toast.style.animation = null; 
+            if(type === 'warn') { toast.style.backgroundColor = 'rgba(188, 71, 73, 0.95)'; } 
+            else if (type === 'neutral') { toast.style.backgroundColor = 'rgba(43, 29, 22, 0.95)'; }
+            else { toast.style.backgroundColor = 'rgba(106, 153, 78, 0.95)'; }
+            toast.className = "show";
+            setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
         }
 
         function confirmTransaction() {
             if(!pendingTransaction) return;
-            const desc = document.getElementById('transactionDesc').value || (pendingTransaction.type === 'add' ? 'Depósito' : 'Retiro');
-            
-            if(pendingTransaction.type === 'add') { state.accumulated += pendingTransaction.amount; triggerConfetti(); }
-            else { state.accumulated = Math.max(0, state.accumulated - pendingTransaction.amount); }
-
+            const desc = document.getElementById('transactionDesc').value || (pendingTransaction.type === 'add' ? 'Ahorro Manual' : 'Retiro Manual');
+            if(pendingTransaction.type === 'add') { 
+                state.accumulated += pendingTransaction.amount; 
+                triggerConfetti(); 
+                showToast("¡Ka-ching! Dinero en la bolsa. 💰");
+            } else { 
+                state.accumulated = Math.max(0, state.accumulated - pendingTransaction.amount);
+                showToast("Anotado. (Respira, todo va a estar bien). 🧘", "warn");
+            }
             state.history.unshift({ id: Date.now(), date: new Date().toISOString(), desc, amount: pendingTransaction.amount, type: pendingTransaction.type });
             document.getElementById('fundInput').value = '';
-            renderHistoryList();
-            updateGlobalState();
-            closeTransactionModal();
+            renderHistoryList(); updateGlobalState(); closeTransactionModal();
         }
 
-        function updateHistoryDesc(id, val) { 
-            const item = state.history.find(h => h.id === id); 
-            if(item) { 
-                item.desc = val; 
-                saveState(); 
-                renderChart(); 
-            } 
+        function updateHistoryDesc(id, val) { const item = state.history.find(h => h.id === id); if(item) { item.desc = val; saveDataToCloud(); renderChart(); } }
+        function addItem(type) { const id = Date.now(); if(type === 'incomes') { state.incomes.push({ id, name: 'Extra', price: 0, cost: 0, qty: 1 }); renderIncomeList(); } else { state.expenses.push({ id, name: 'Gasto', amount: 0 }); renderExpenseList(); } updateGlobalState(); }
+        function deleteItem(type, id) { 
+            if(type === 'history') { 
+                const item = state.history.find(x => x.id === id); 
+                if(item) { 
+                    if(item.type === 'add') state.accumulated = Math.max(0, state.accumulated - item.amount); 
+                    else state.accumulated += item.amount; 
+                    state.history = state.history.filter(x => x.id !== id); 
+                    renderHistoryList(); 
+                } 
+            } else if(type === 'incomes') { state.incomes = state.incomes.filter(x => x.id !== id); renderIncomeList(); } else { state.expenses = state.expenses.filter(x => x.id !== id); renderExpenseList(); } 
+            updateGlobalState(); 
+            showToast("¡Poof! Desapareció. ✨", "neutral");
         }
-        function addItem(type) { const id = Date.now(); if(type === 'incomes') { state.incomes.push({ id, name: 'Nuevo', price: 0, cost: 0, qty: 1 }); renderIncomeList(); } else { state.expenses.push({ id, name: 'Gasto', amount: 0 }); renderExpenseList(); } updateGlobalState(); }
-        function deleteItem(type, id) { if(confirm('¿Eliminar?')) { if(type === 'history') { const item = state.history.find(x => x.id === id); if(item) { if(item.type === 'add') state.accumulated = Math.max(0, state.accumulated - item.amount); else state.accumulated += item.amount; state.history = state.history.filter(x => x.id !== id); renderHistoryList(); } } else if(type === 'incomes') { state.incomes = state.incomes.filter(x => x.id !== id); renderIncomeList(); } else { state.expenses = state.expenses.filter(x => x.id !== id); renderExpenseList(); } updateGlobalState(); } }
         function updateItem(type, id, field, val) { const arr = state[type]; const item = arr.find(x => x.id === id); if(item) { item[field] = field === 'name' || field === 'desc' ? val : (parseFloat(val) || 0); if(type === 'incomes' && field !== 'name') { const sub = (item.price - item.cost) * item.qty; setText(`sub-${id}`, `+${formatMoney(sub)}`); setText(`qty-label-${id}`, item.qty + ' Unid.'); } updateGlobalState(); } }
         function toggleHistory() { const cont = document.getElementById('historyContainer'); const chev = document.getElementById('historyChevron'); cont.classList.toggle('hidden'); chev.classList.toggle('rotate-180'); }
 
-        // --- RENDER LISTS ---
+        // --- RENDER LISTS (Iguales) ---
         function renderAllLists() { renderIncomeList(); renderExpenseList(); renderHistoryList(); updateGlobalState(); }
-
         function renderHistoryList() {
             const container = document.getElementById('historyContainer'); container.innerHTML = '';
             const sorted = [...state.history].sort((a,b) => b.id - a.id).slice(0, 30);
-            if(sorted.length === 0) { container.innerHTML = '<p class="text-center text-[10px] opacity-50 py-4">Sin registros</p>'; return; }
+            if(sorted.length === 0) { container.innerHTML = '<p class="text-center text-[10px] opacity-40 py-6 italic">Aquí aparecerá tu historia.</p>'; return; }
             sorted.forEach(h => {
                 const isAdd = h.type === 'add';
-                container.innerHTML += `<div class="flex justify-between items-center p-3 bg-bg-light dark:bg-bg-dark rounded-xl border border-stone-200 dark:border-white/5 group mb-2"><div class="flex items-center gap-3 w-full"><div class="w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${isAdd ? 'bg-success/10 text-success' : 'bg-danger/10 text-danger'}"><span class="material-symbols-rounded text-base">${isAdd ? 'arrow_downward' : 'arrow_upward'}</span></div><div class="w-full"><input value="${h.desc}" class="bg-transparent font-bold text-xs w-full border-none p-0 focus:ring-0 outline-none text-text-main-light dark:text-text-main-dark" oninput="updateHistoryDesc(${h.id}, this.value)"><p class="text-[9px] opacity-50 font-medium">${new Date(h.date).toLocaleDateString()}</p></div></div><div class="flex items-center gap-2"><span class="font-black font-mono ${isAdd ? 'text-success' : 'text-danger'} whitespace-nowrap text-xs">${isAdd ? '+' : '-'}${formatMoney(h.amount)}</span><button onclick="deleteItem('history', ${h.id})" class="opacity-0 group-hover:opacity-100 transition-opacity text-text-muted-light hover:text-danger p-1"><span class="material-symbols-rounded text-base">delete</span></button></div></div>`;
+                container.innerHTML += `
+                <div class="flex justify-between items-center p-4 bg-white/50 dark:bg-white/5 rounded-2xl border border-white/30 dark:border-white/5 group hover:border-primary/30 transition-all hover:shadow-sm">
+                    <div class="flex items-center gap-3 w-full overflow-hidden">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${isAdd ? 'bg-success/10 text-success' : 'bg-danger/10 text-danger'}">
+                            <span class="material-symbols-rounded text-xl">${isAdd ? 'arrow_downward' : 'arrow_upward'}</span>
+                        </div>
+                        <div class="w-full overflow-hidden">
+                            <input value="${h.desc}" class="bg-transparent font-bold text-sm w-full border-none p-0 focus:ring-0 outline-none text-text-main-light dark:text-text-main-dark cursor-pointer placeholder-stone-400 text-truncate-input" oninput="updateHistoryDesc(${h.id}, this.value)">
+                            <p class="text-[10px] opacity-50 font-medium font-mono tracking-wide">${new Date(h.date).toLocaleDateString()}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 shrink-0">
+                        <span class="font-black font-display ${isAdd ? 'text-success' : 'text-danger'} whitespace-nowrap text-sm">${isAdd ? '+' : '-'}${formatMoney(h.amount)}</span>
+                        <button onclick="deleteItem('history', ${h.id})" class="opacity-0 group-hover:opacity-100 transition-opacity text-text-muted-light hover:text-danger p-2"><span class="material-symbols-rounded text-lg">delete</span></button>
+                    </div>
+                </div>`;
             });
         }
-
         function renderIncomeList() {
             const container = document.getElementById('incomesList'); container.innerHTML = '';
             state.incomes.forEach(i => {
                 const sub = (i.price - i.cost) * i.qty;
                 container.innerHTML += `
-                <div class="bg-bg-light dark:bg-bg-dark p-4 rounded-2xl border border-stone-200 dark:border-white/5 card-earth fade-in mb-3">
-                    <div class="flex justify-between mb-3">
-                        <input value="${i.name}" class="bg-transparent font-bold w-full text-sm focus:ring-0 border-none p-0 outline-none" oninput="updateItem('incomes', ${i.id}, 'name', this.value)" placeholder="Nombre...">
-                        <button onclick="deleteItem('incomes', ${i.id})" class="text-text-muted-light hover:text-danger opacity-50 hover:opacity-100"><span class="material-symbols-rounded text-lg">close</span></button>
+                <div class="bg-white/50 dark:bg-white/5 p-5 rounded-[2rem] border border-white/30 dark:border-white/5 card-glass fade-in hover:border-success/30">
+                    <div class="flex justify-between mb-4">
+                        <input value="${i.name}" class="bg-transparent font-bold w-full text-base focus:ring-0 border-none p-0 outline-none cursor-pointer text-truncate-input" oninput="updateItem('incomes', ${i.id}, 'name', this.value)" placeholder="Nombre del proyecto...">
+                        <button onclick="deleteItem('incomes', ${i.id})" class="text-text-muted-light hover:text-danger opacity-40 hover:opacity-100 transition-opacity"><span class="material-symbols-rounded text-xl">close</span></button>
                     </div>
-                    <div class="flex gap-3 mb-4">
-                         <div class="w-1/2 relative"><span class="absolute left-3 top-2 text-[9px] uppercase font-bold opacity-50">Precio</span><input type="number" value="${i.price}" class="w-full bg-surface-light dark:bg-surface-dark rounded-xl pt-5 pb-2 px-3 text-xs font-bold border border-stone-100 dark:border-white/5 text-center outline-none focus:border-primary/30" oninput="updateItem('incomes', ${i.id}, 'price', this.value)"></div>
-                         <div class="w-1/2 relative"><span class="absolute left-3 top-2 text-[9px] uppercase font-bold opacity-50 text-danger">Costo</span><input type="number" value="${i.cost}" class="w-full bg-surface-light dark:bg-surface-dark rounded-xl pt-5 pb-2 px-3 text-xs font-bold border border-stone-100 dark:border-white/5 text-center outline-none focus:border-danger/30 text-danger" oninput="updateItem('incomes', ${i.id}, 'cost', this.value)"></div>
+                    <div class="flex gap-4 mb-4">
+                         <div class="w-1/2 relative group">
+                            <span class="absolute left-4 top-2 text-[8px] uppercase font-bold opacity-40 tracking-wider">Precio</span>
+                            <input type="number" value="${i.price}" class="w-full bg-white/50 dark:bg-black/20 rounded-2xl pt-6 pb-3 px-4 text-sm font-bold border border-white/30 dark:border-white/5 text-center outline-none focus:border-primary/50 transition-colors" oninput="updateItem('incomes', ${i.id}, 'price', this.value)">
+                         </div>
+                         <div class="w-1/2 relative group">
+                            <span class="absolute left-4 top-2 text-[8px] uppercase font-bold opacity-40 text-danger tracking-wider">Costo</span>
+                            <input type="number" value="${i.cost}" class="w-full bg-white/50 dark:bg-black/20 rounded-2xl pt-6 pb-3 px-4 text-sm font-bold border border-white/30 dark:border-white/5 text-center outline-none focus:border-danger/50 text-danger transition-colors" oninput="updateItem('incomes', ${i.id}, 'cost', this.value)">
+                         </div>
                     </div>
-                    <div class="bg-surface-light dark:bg-surface-dark p-3 rounded-xl border border-stone-100 dark:border-white/5">
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="text-[10px] font-bold text-text-muted-light uppercase">Cantidad</span>
-                            <span id="qty-label-${i.id}" class="text-[10px] font-bold bg-primary/10 text-primary px-2 rounded">${i.qty} Unid.</span>
+                    <div class="bg-white/40 dark:bg-black/20 p-4 rounded-2xl border border-white/20 dark:border-white/5 shadow-sm">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-[9px] font-bold text-text-muted-light uppercase tracking-widest">Cantidad</span>
+                            <span id="qty-label-${i.id}" class="text-[9px] font-bold bg-primary/10 text-primary px-2 py-0.5 rounded-lg border border-primary/20">${i.qty} Unid.</span>
                         </div>
-                        <input type="range" min="1" max="100" value="${i.qty}" class="w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer mb-2" oninput="updateItem('incomes', ${i.id}, 'qty', this.value)">
-                        <div class="flex justify-between items-center border-t border-dashed border-gray-200 dark:border-white/10 pt-2">
-                            <span class="text-[9px] opacity-60">Ganancia Neta</span>
-                            <span id="sub-${i.id}" class="text-sm font-black text-success">+${formatMoney(sub)}</span>
+                        <input type="range" min="1" max="100" value="${i.qty}" class="w-full h-1 bg-stone-200 dark:bg-stone-700 rounded-lg appearance-none cursor-pointer mb-3" oninput="updateItem('incomes', ${i.id}, 'qty', this.value)">
+                        <div class="flex justify-between items-center border-t border-dashed border-white/30 dark:border-white/10 pt-3">
+                            <span class="text-[10px] opacity-60 font-bold uppercase">Total Neto</span>
+                            <span id="sub-${i.id}" class="text-lg font-black text-success tracking-tight">+${formatMoney(sub)}</span>
                         </div>
+                        <span class="help-text text-right mt-1">Precio x Cantidad - Costo</span>
+                    </div>
+                </div>`;
+            });
+        }
+        function renderExpenseList() {
+            const container = document.getElementById('expensesList'); container.innerHTML = '';
+            state.expenses.forEach(e => {
+                const icon = getSmartIcon(e.name);
+                container.innerHTML += `
+                <div class="flex items-center bg-white/50 dark:bg-white/5 p-5 rounded-[2rem] border border-white/30 dark:border-white/5 card-glass fade-in justify-between hover:border-danger/30 gap-4">
+                    <div class="flex items-center gap-4 flex-1 overflow-hidden">
+                        <div class="w-12 h-12 rounded-2xl bg-danger/5 flex items-center justify-center text-danger shrink-0 border border-danger/10 shadow-sm">
+                            <span class="material-symbols-rounded">${icon}</span>
+                        </div>
+                        <div class="w-full overflow-hidden">
+                            <span class="text-[8px] block opacity-40 uppercase font-bold pl-1 tracking-widest mb-0.5">Concepto</span>
+                            <input value="${e.name}" class="bg-transparent font-bold text-sm focus:ring-0 border-none p-0 outline-none w-full cursor-pointer placeholder-stone-400 text-truncate-input" oninput="updateItem('expenses', ${e.id}, 'name', this.value)" placeholder="Nombre del gasto...">
+                            <span class="help-text mt-1 text-truncate-input">¿Necesario?</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3 shrink-0">
+                        <div class="flex items-center bg-white/50 dark:bg-black/20 px-4 py-3 rounded-2xl border border-white/30 dark:border-white/5 shadow-sm">
+                            <span class="text-xs mr-1 opacity-40 font-serif">$</span>
+                            <input type="number" value="${e.amount}" class="w-20 bg-transparent text-right font-bold focus:ring-0 border-none p-0 outline-none" oninput="updateItem('expenses', ${e.id}, 'amount', this.value)">
+                        </div>
+                        <button onclick="deleteItem('expenses', ${e.id})" class="text-text-muted-light hover:text-danger opacity-40 hover:opacity-100 transition-opacity"><span class="material-symbols-rounded text-xl">close</span></button>
                     </div>
                 </div>`;
             });
         }
 
-        function renderExpenseList() {
-            const container = document.getElementById('expensesList'); container.innerHTML = '';
-            state.expenses.forEach(e => {
-                container.innerHTML += `<div class="flex items-center bg-bg-light dark:bg-bg-dark p-4 rounded-2xl mb-3 border border-stone-200 dark:border-white/5 card-earth fade-in justify-between"><div class="flex items-center gap-3 flex-1"><div class="w-10 h-10 rounded-xl bg-danger/10 flex items-center justify-center text-danger shrink-0"><span class="material-symbols-rounded">credit_card</span></div><div class="w-full"><span class="text-[9px] block opacity-50 uppercase font-bold pl-1">Concepto</span><input value="${e.name}" class="bg-transparent font-bold text-sm focus:ring-0 border-none p-0 outline-none w-full" oninput="updateItem('expenses', ${e.id}, 'name', this.value)" placeholder="..."></div></div><div class="flex items-center gap-3"><div class="flex items-center bg-surface-light dark:bg-surface-dark px-3 py-2 rounded-xl border border-stone-100 dark:border-white/5"><span class="text-xs mr-1 opacity-60">$</span><input type="number" value="${e.amount}" class="w-20 bg-transparent text-right font-bold focus:ring-0 border-none p-0 outline-none" oninput="updateItem('expenses', ${e.id}, 'amount', this.value)"></div><button onclick="deleteItem('expenses', ${e.id})" class="text-text-muted-light hover:text-danger opacity-50 hover:opacity-100"><span class="material-symbols-rounded text-lg">close</span></button></div></div>`;
-            });
-        }
-
-        // --- NAVIGATION & UTILS ---
         function navigateTo(viewId) {
             document.querySelectorAll('[id^="view-"]').forEach(el => el.classList.add('hidden'));
             document.getElementById(`view-${viewId}`).classList.remove('hidden');
-            const titles = { home: 'DASHBOARD', goal: 'OBJETIVO', incomes: 'FLUJO DE CAJA', expenses: 'CONTROL SALIDAS' };
+            const titles = { home: 'DASHBOARD', goal: 'LA META', incomes: 'INGRESOS', expenses: 'GASTOS' };
             setText('pageTitleLabel', titles[viewId]);
             const btn = document.getElementById('backBtn');
             const bar = document.getElementById('bottomBar');
-            if(viewId === 'home') { btn.classList.add('hidden'); bar.classList.remove('translate-y-full'); } 
-            else { btn.classList.remove('hidden'); bar.classList.add('translate-y-full'); }
+            if(viewId === 'home') { 
+                btn.classList.add('hidden'); 
+            } else { 
+                btn.classList.remove('hidden'); 
+            }
             updateGlobalState(); 
         }
 
         function startTutorial() {
             const driver = window.driver.js.driver({
                 showProgress: true, popoverClass: 'driverjs-theme',
-                nextBtnText: 'Siguiente', prevBtnText: 'Anterior', doneBtnText: '¡Vamos!',
+                nextBtnText: 'Siguiente', prevBtnText: 'Atrás', doneBtnText: '¡Vamos!',
                 steps: [
-                    { popover: { title: '¡Hola! Bienvenida', description: 'Vamos a poner orden en tus números para que esa meta (como tu inmueble propio) deje de ser un sueño y se convierta en un plan real.' } },
-                    { element: '#step1-target', popover: { title: 'El Primer Paso', description: 'Para comprar un inmueble, primero necesitas un fondo sólido. Aquí gestionas ese capital inicial. Es tu primer ladrillo.' } },
-                    { element: '#step2-target', popover: { title: 'Flujo de Caja', description: 'No es solo cuánto ganas, es cuánto retienes. Registra ingresos y gastos para saber tu capacidad real.' } },
-                    { element: '#step3-target', popover: { title: 'Tu Brújula', description: 'Este termómetro te dirá si estás lista para invertir o si necesitamos ajustar las velas antes de zarpar.' } }
+                    { popover: { title: 'Hola, Marie', description: 'Bienvenida a tu centro de mando. Vamos a poner tus finanzas en forma.' } },
+                    { element: '#step1-target', popover: { title: 'Tu Colchón', description: 'Aquí vive tu tranquilidad. Cuanto más alto el número, mejor dormirás.' } },
+                    { element: '#step2-target', popover: { title: 'El Flujo', description: 'Lo que entra (¡bien!) y lo que sale (auch). Mantén la balanza a tu favor.' } },
+                    { element: '#step3-target', popover: { title: 'El Chequeo', description: 'Si esto está en rojo, Houston, tenemos un problema. Si está verde, eres imparable.' } }
                 ]
             });
             driver.drive();
         }
 
-        function loadState() {
-            const saved = localStorage.getItem('marieFin_v17_precision');
-            if(saved) { try { state = { ...state, ...JSON.parse(saved) }; if(!state.history) state.history=[]; } catch(e) {} }
-        }
-        function saveState() { localStorage.setItem('marieFin_v17_precision', JSON.stringify(state)); }
+        function loadState() { const saved = localStorage.getItem('marieFin_v26_tut'); if(saved) { try { state = { ...state, ...JSON.parse(saved) }; if(!state.history) state.history=[]; } catch(e) {} } }
+        function saveState() { localStorage.setItem('marieFin_v26_tut', JSON.stringify(state)); }
         function toggleTheme() { document.documentElement.classList.toggle('dark'); saveState(); renderChart(); }
         function setText(id, txt) { const el = document.getElementById(id); if(el) el.innerText = txt; }
         function setHTML(id, html) { const el = document.getElementById(id); if(el) el.innerHTML = html; }
         function setVal(id, val) { const el = document.getElementById(id); if(el && document.activeElement !== el) el.value = val; }
         const formatMoney = (v) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(v);
         const formatCompact = (v) => new Intl.NumberFormat('en-US', { notation: "compact", maximumFractionDigits: 1 }).format(v);
-        function triggerConfetti() { confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 }, colors: ['#b08968', '#6a994e', '#e9c46a'] }); }
-
+        function triggerConfetti() { confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#b08968', '#6a994e', '#e9c46a'] }); }
     </script>
 </body>
 </html>
