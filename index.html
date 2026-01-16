@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-    <title>Marie Finance - Cloud</title>
+    <title>Marie Finance - Identity</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0" rel="stylesheet" />
@@ -98,6 +98,8 @@
         input:focus { outline: none; }
         input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         .fade-in { animation: fadeIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; opacity: 0; transform: translateY(12px); }
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
         @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
 
         ::-webkit-scrollbar { width: 5px; }
@@ -148,6 +150,10 @@
         }
         .dark #loginOverlay { background: linear-gradient(-45deg, #1a120b, #2b1d16); }
         .hidden-overlay { opacity: 0; pointer-events: none; }
+        
+        /* Modal General (Compartido) */
+        .modal-backdrop { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; padding: 1rem; }
+        .modal-bg { position: absolute; inset: 0; background-color: rgba(0,0,0,0.4); backdrop-filter: blur(5px); }
     </style>
 </head>
 <body class="text-text-main-light dark:text-text-main-dark font-body min-h-screen flex flex-col selection:bg-primary selection:text-white overflow-x-hidden">
@@ -168,6 +174,24 @@
                 <span>Continuar con Google</span>
             </button>
             <p class="text-[10px] opacity-40 mt-6">Tus datos están seguros y privados.</p>
+        </div>
+    </div>
+
+    <div id="profileModal" class="modal-backdrop hidden">
+        <div class="modal-bg"></div>
+        <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-sm rounded-[2.5rem] p-8 shadow-2xl relative z-10 transform transition-all scale-95 opacity-0" id="profileCard">
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-white dark:bg-[#1a1a1a] flex items-center justify-center border border-black/5 dark:border-white/10 shadow-lg">
+                <span class="material-symbols-rounded text-3xl text-primary">person_edit</span>
+            </div>
+            <h3 class="text-xl font-bold text-center mt-6 mb-2 text-text-main-light dark:text-text-main-dark">¿Cómo te llamamos?</h3>
+            <p class="text-xs text-center text-text-muted-light mb-8">Para saludarte como te mereces.</p>
+            
+            <div class="mb-8">
+                <label class="text-[10px] font-bold text-text-muted-light dark:text-text-muted-dark uppercase block mb-3 pl-1 tracking-wider">Nombre y Apellido</label>
+                <input id="inputUserName" type="text" placeholder="Ej: Marie Doe" class="w-full bg-black/5 dark:bg-white/5 rounded-2xl border-none py-4 px-5 text-sm focus:ring-2 focus:ring-primary/50 outline-none text-text-main-light dark:text-white placeholder-stone-400 font-medium transition-shadow text-center">
+            </div>
+            
+            <button onclick="saveProfile()" class="w-full py-4 rounded-2xl text-xs font-bold bg-primary text-white shadow-lg shadow-primary/30 active:scale-95 transition-transform uppercase tracking-wider">¡Listo, entrar!</button>
         </div>
     </div>
 
@@ -199,12 +223,16 @@
     <div class="flex-1 w-full max-w-[1440px] mx-auto px-5 pt-28 pb-48 lg:px-10 lg:pt-36 lg:pb-40 transition-all duration-500 overflow-visible" id="mainContainer">
         
         <div id="view-home" class="w-full">
+            
+            <div class="mb-6 lg:mb-8 fade-in">
+                <h1 class="text-3xl lg:text-4xl font-display font-black text-text-main-light dark:text-white tracking-tight">
+                    <span class="text-primary">¡Epa, </span><span id="userGreetingName">...</span>!
+                </h1>
+                <p class="text-sm text-text-muted-light dark:text-text-muted-dark mt-1">Aquí está tu panorama financiero de hoy.</p>
+            </div>
+
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-8 items-stretch">
-                <div id="step1-target" class="lg:col-span-4 flex flex-col fade-in">
-                    <div class="flex items-center gap-2.5 mb-3 px-1 opacity-80">
-                        <span class="w-5 h-5 rounded-full bg-primary text-white flex items-center justify-center text-[10px] font-bold shadow-glow">1</span>
-                        <h2 class="text-[10px] font-black uppercase tracking-widest text-text-muted-light dark:text-text-muted-dark">La Meta</h2>
-                    </div>
+                <div id="step1-target" class="lg:col-span-4 flex flex-col fade-in delay-100">
                     <button onclick="navigateTo('goal')" class="w-full flex-1 card-glass p-8 lg:p-10 rounded-[2rem] lg:rounded-[2.5rem] shadow-soft text-center relative overflow-hidden group min-h-[340px] lg:min-h-0 flex flex-col justify-center items-center">
                         <div class="absolute top-[-20%] right-[-10%] w-40 h-40 bg-primary/20 rounded-full blur-3xl opacity-50 group-hover:opacity-80 transition-opacity"></div>
                         <div class="relative z-10 w-full flex flex-col items-center">
@@ -224,11 +252,7 @@
                         </div>
                     </button>
                 </div>
-                <div id="step2-target" class="lg:col-span-4 flex flex-col fade-in delay-100">
-                    <div class="flex items-center gap-2.5 mb-3 px-1 opacity-80">
-                        <span class="w-5 h-5 rounded-full bg-text-muted-light dark:bg-white/20 text-white flex items-center justify-center text-[10px] font-bold">2</span>
-                        <h2 class="text-[10px] font-black uppercase tracking-widest text-text-muted-light dark:text-text-muted-dark">El Flujo</h2>
-                    </div>
+                <div id="step2-target" class="lg:col-span-4 flex flex-col fade-in delay-200">
                     <div class="flex flex-col gap-4 h-full">
                         <button onclick="navigateTo('incomes')" class="flex-1 card-glass p-6 lg:p-8 rounded-[2rem] lg:rounded-[2.5rem] shadow-soft text-left relative overflow-hidden group min-h-[180px] flex flex-col justify-between">
                             <div class="flex justify-between items-start w-full">
@@ -259,10 +283,6 @@
                     </div>
                 </div>
                 <div id="step3-target" class="lg:col-span-4 flex flex-col fade-in delay-200">
-                    <div class="flex items-center gap-2.5 mb-3 px-1 opacity-80">
-                        <span class="w-5 h-5 rounded-full bg-text-muted-light dark:bg-white/20 text-white flex items-center justify-center text-[10px] font-bold">3</span>
-                        <h2 class="text-[10px] font-black uppercase tracking-widest text-text-muted-light dark:text-text-muted-dark">Diagnóstico</h2>
-                    </div>
                     <div class="flex flex-col gap-4 h-full">
                         <div class="card-glass p-6 lg:p-8 rounded-[2rem] lg:rounded-[2.5rem] shadow-soft relative overflow-hidden min-h-[180px]">
                             <div class="flex justify-between items-center mb-5">
@@ -300,7 +320,7 @@
                     </div>
                 </div>
             </div>
-            <p class="text-center text-[10px] text-text-muted-light/40 dark:text-text-muted-dark/40 mt-12 mb-4 tracking-[0.4em] font-mono lg:mt-24 opacity-50 hover:opacity-100 transition-opacity">MARIE FINANCE v26.0</p>
+            <p class="text-center text-[10px] text-text-muted-light/40 dark:text-text-muted-dark/40 mt-12 mb-4 tracking-[0.4em] font-mono lg:mt-24 opacity-50 hover:opacity-100 transition-opacity">MARIE FINANCE v27.0</p>
         </div>
 
         <div id="view-goal" class="fade-in hidden w-full max-w-4xl mx-auto">
@@ -395,8 +415,8 @@
 
     </div>
 
-    <div id="transactionModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center px-4">
-        <div onclick="closeTransactionModal()" class="absolute inset-0 bg-stone-900/40 backdrop-blur-md transition-opacity duration-300"></div>
+    <div id="transactionModal" class="modal-backdrop hidden">
+        <div onclick="closeTransactionModal()" class="modal-bg"></div>
         <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-sm rounded-[2.5rem] p-8 shadow-2xl relative z-10 transform transition-all scale-95 opacity-0" id="transactionCard">
             <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-white dark:bg-[#1a1a1a] flex items-center justify-center border border-black/5 dark:border-white/10 shadow-lg">
                 <span class="material-symbols-rounded text-3xl text-primary" id="modalIcon">payments</span>
@@ -416,10 +436,7 @@
     </div>
 
     <div id="bottomBar" class="fixed bottom-0 w-full z-40 p-2 pb-6 lg:pb-8 flex justify-center pointer-events-none">
-        <div class="pointer-events-auto bg-white/80 dark:bg-black/80 backdrop-blur-xl border border-white/40 dark:border-white/10 shadow-soft 
-                    rounded-[2rem] lg:rounded-[2.5rem] 
-                    w-full max-w-sm lg:max-w-xl 
-                    p-5 lg:px-8 lg:py-5">
+        <div class="pointer-events-auto bg-white/80 dark:bg-black/80 backdrop-blur-xl border border-white/40 dark:border-white/10 shadow-soft rounded-[2rem] lg:rounded-[2.5rem] w-full max-w-sm lg:max-w-xl p-5 lg:px-8 lg:py-5">
             <div class="flex justify-between items-start mb-3">
                 <div>
                     <p class="text-[9px] font-extrabold text-text-muted-light dark:text-text-muted-dark uppercase tracking-widest mb-1">Capacidad Real</p>
@@ -444,20 +461,17 @@
     </div>
 
     <script>
-        // CONFIGURACIÓN DE FIREBASE
-        // --- PEGA AQUÍ TU CONFIGURACIÓN DE FIREBASE ---
+        // CONFIGURACIÓN DE FIREBASE (PEGA TUS DATOS AQUÍ)
         const firebaseConfig = {
-  apiKey: "AIzaSyANBc8ziutAX47V_iJpgdn-7O3S3kvI3Tc",
-  authDomain: "marie-finance.firebaseapp.com",
-  projectId: "marie-finance",
-  storageBucket: "marie-finance.firebasestorage.app",
-  messagingSenderId: "754175935134",
-  appId: "1:754175935134:web:d159ae64d6ce56f51f318f",
-  measurementId: "G-NX06QJHXL9"
-};
-        // ------------------------------------------------
+            apiKey: "AIzaSyANBc8ziutAX47V_iJpgdn-7O3S3kvI3Tc",
+            authDomain: "marie-finance.firebaseapp.com",
+            projectId: "marie-finance",
+            storageBucket: "marie-finance.firebasestorage.app",
+            messagingSenderId: "754175935134",
+            appId: "1:754175935134:web:d159ae64d6ce56f51f318f",
+            measurementId: "G-NX06QJHXL9"
+        };
 
-        // Inicializar Firebase (Manejo de errores si no está configurado)
         let auth, db;
         try {
             firebase.initializeApp(firebaseConfig);
@@ -468,6 +482,7 @@
         }
 
         let state = {
+            userName: '', 
             goal: 5000,
             accumulated: 0,
             salary: 600,
@@ -476,7 +491,7 @@
             history: []   
         };
 
-        // --- GESTIÓN DE SESIÓN ---
+        // --- GESTIÓN DE SESIÓN Y NOMBRE ---
         function checkAuth() {
             if(!auth) return;
             auth.onAuthStateChanged(user => {
@@ -484,7 +499,6 @@
                 if (user) {
                     overlay.classList.add('hidden-overlay');
                     loadDataFromCloud(user.uid);
-                    showToast(`Bienvenida, ${user.displayName.split(' ')[0]}`);
                 } else {
                     overlay.classList.remove('hidden-overlay');
                 }
@@ -492,7 +506,7 @@
         }
 
         function loginWithGoogle() {
-            if(!auth) { alert("Configura Firebase primero en el código."); return; }
+            if(!auth) { alert("Configura Firebase."); return; }
             const provider = new firebase.auth.GoogleAuthProvider();
             auth.signInWithPopup(provider).catch(error => alert(error.message));
         }
@@ -509,9 +523,13 @@
             const doc = await docRef.get();
             if (doc.exists) {
                 state = { ...state, ...doc.data() };
+                updateGreeting();
             } else {
-                // Primera vez, guardar estado inicial
+                // Nuevo usuario: Usar nombre de Google por defecto pero mostrar modal
+                const user = auth.currentUser;
+                state.userName = user.displayName ? user.displayName.split(' ')[0] : ''; // Primer nombre
                 saveDataToCloud();
+                openProfileModal(); // Pedir confirmación del nombre
             }
             renderAllLists();
         }
@@ -523,27 +541,61 @@
             }
         }
 
-        // --- LOGIC APP ---
+        // --- PROFILE MODAL ---
+        function openProfileModal() {
+            const modal = document.getElementById('profileModal');
+            const card = document.getElementById('profileCard');
+            const input = document.getElementById('inputUserName');
+            
+            // Pre-llenar con el nombre actual o el de Google
+            input.value = state.userName || (auth.currentUser ? auth.currentUser.displayName : '');
+            
+            modal.classList.remove('hidden');
+            setTimeout(() => { card.classList.remove('scale-95', 'opacity-0'); card.classList.add('scale-100', 'opacity-100'); }, 10);
+        }
+
+        function saveProfile() {
+            const input = document.getElementById('inputUserName');
+            const newName = input.value.trim();
+            
+            if (newName) {
+                state.userName = newName;
+                saveDataToCloud();
+                updateGreeting();
+                
+                // Cerrar modal
+                const modal = document.getElementById('profileModal');
+                const card = document.getElementById('profileCard');
+                card.classList.remove('scale-100', 'opacity-100');
+                card.classList.add('scale-95', 'opacity-0');
+                setTimeout(() => modal.classList.add('hidden'), 300);
+                
+                showToast(`¡Listo, ${newName}!`);
+            }
+        }
+
+        function updateGreeting() {
+            const el = document.getElementById('userGreetingName');
+            if(el) el.innerText = state.userName || 'Amiga';
+        }
+
+        // --- LOGIC APP (Resto igual) ---
         const getSmartIcon = (name) => {
             const n = name.toLowerCase();
-            if(n.includes('comida') || n.includes('cena') || n.includes('sushi') || n.includes('pizza')) return 'restaurant';
-            if(n.includes('transporte') || n.includes('uber') || n.includes('gasolina')) return 'local_gas_station';
-            if(n.includes('casa') || n.includes('alquiler') || n.includes('luz')) return 'cottage';
-            if(n.includes('internet') || n.includes('wifi') || n.includes('celular')) return 'wifi';
-            if(n.includes('netflix') || n.includes('spotify') || n.includes('cine')) return 'subscriptions';
-            if(n.includes('salud') || n.includes('gym') || n.includes('medico')) return 'cardiology';
-            if(n.includes('fiesta') || n.includes('bar') || n.includes('salida')) return 'celebration';
+            if(n.includes('comida') || n.includes('cena')) return 'restaurant';
+            if(n.includes('transporte') || n.includes('uber')) return 'local_gas_station';
+            if(n.includes('casa') || n.includes('alquiler')) return 'cottage';
+            if(n.includes('internet') || n.includes('wifi')) return 'wifi';
+            if(n.includes('netflix') || n.includes('spotify')) return 'subscriptions';
             return 'credit_card';
         };
 
         document.addEventListener('DOMContentLoaded', () => {
-            checkAuth(); // Verificar login al inicio
+            checkAuth();
             renderAllLists();
-            // Tutorial check
-            if(!localStorage.getItem('marie_v26_tut')) { setTimeout(startTutorial, 2000); localStorage.setItem('marie_v26_tut', 'true'); }
+            if(!localStorage.getItem('marie_v27_tut')) { setTimeout(startTutorial, 2000); localStorage.setItem('marie_v27_tut', 'true'); }
         });
 
-        // Modificamos el updateGlobalState para guardar en nube
         function updateGlobalState() {
             let varIncome = state.incomes.reduce((acc, i) => acc + ((i.price - i.cost) * i.qty), 0);
             let totalIncome = state.salary + varIncome;
@@ -565,10 +617,10 @@
             updateBottomBar(surplus, totalIncome, remaining);
             updateHealthThermometer(totalIncome, totalExpense);
             renderChart();
-            saveDataToCloud(); // GUARDAR EN NUBE
+            saveDataToCloud();
         }
 
-        // --- COMPONENTS & UTILS (Iguales a versión anterior pero optimizados) ---
+        // --- FUNCIONES AUXILIARES (Chart, Toast, etc) ---
         function formatTimeRemaining(totalMonths) {
             if (totalMonths === Infinity) return "Nunca jamás";
             if (totalMonths <= 0) return "¡Logrado!";
@@ -578,7 +630,6 @@
             let parts = [];
             if (years > 0) parts.push(`${years}a`);
             if (months > 0) parts.push(`${months}m`);
-            if (days > 0) parts.push(`${days}d`);
             return parts.length > 0 ? parts.join(' ') : "Hoy";
         }
 
@@ -586,10 +637,8 @@
             const elBar = document.getElementById('barProgress');
             const elTime = document.getElementById('barTime');
             const elSurplus = document.getElementById('barSurplus');
-            
             setText('barGoalText', `Faltan: ${formatCompact(remaining)}`);
             elSurplus.innerText = (surplus > 0 ? '+' : '') + formatMoney(surplus);
-
             if (surplus > 0) {
                 elSurplus.classList.remove('text-danger'); elSurplus.classList.add('text-success');
                 let progress = (surplus / totalIncome) * 100 * 2; 
@@ -754,7 +803,7 @@
         function updateItem(type, id, field, val) { const arr = state[type]; const item = arr.find(x => x.id === id); if(item) { item[field] = field === 'name' || field === 'desc' ? val : (parseFloat(val) || 0); if(type === 'incomes' && field !== 'name') { const sub = (item.price - item.cost) * item.qty; setText(`sub-${id}`, `+${formatMoney(sub)}`); setText(`qty-label-${id}`, item.qty + ' Unid.'); } updateGlobalState(); } }
         function toggleHistory() { const cont = document.getElementById('historyContainer'); const chev = document.getElementById('historyChevron'); cont.classList.toggle('hidden'); chev.classList.toggle('rotate-180'); }
 
-        // --- RENDER LISTS (Iguales) ---
+        // --- RENDER LISTS ---
         function renderAllLists() { renderIncomeList(); renderExpenseList(); renderHistoryList(); updateGlobalState(); }
         function renderHistoryList() {
             const container = document.getElementById('historyContainer'); container.innerHTML = '';
@@ -871,8 +920,8 @@
             driver.drive();
         }
 
-        function loadState() { const saved = localStorage.getItem('marieFin_v26_tut'); if(saved) { try { state = { ...state, ...JSON.parse(saved) }; if(!state.history) state.history=[]; } catch(e) {} } }
-        function saveState() { localStorage.setItem('marieFin_v26_tut', JSON.stringify(state)); }
+        function loadState() { const saved = localStorage.getItem('marieFin_v27_tut'); if(saved) { try { state = { ...state, ...JSON.parse(saved) }; if(!state.history) state.history=[]; } catch(e) {} } }
+        function saveState() { localStorage.setItem('marieFin_v27_tut', JSON.stringify(state)); }
         function toggleTheme() { document.documentElement.classList.toggle('dark'); saveState(); renderChart(); }
         function setText(id, txt) { const el = document.getElementById(id); if(el) el.innerText = txt; }
         function setHTML(id, html) { const el = document.getElementById(id); if(el) el.innerHTML = html; }
@@ -883,4 +932,3 @@
     </script>
 </body>
 </html>
-
