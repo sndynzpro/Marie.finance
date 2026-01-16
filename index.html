@@ -3,16 +3,14 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-    <title>Marie Finance - Aurea</title>
+    <title>Marie Finance - App</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0" rel="stylesheet" />
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.js.iife.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.css"/>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
@@ -24,33 +22,23 @@
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#b08968",        
-                        "text-main-light": "#4a403a",
-                        "text-muted-light": "#9c8c84",
-                        "text-main-dark": "#e7e5e4",
-                        "text-muted-dark": "#a8a29e",
-                        "success": "#6a994e",        
-                        "danger": "#bc4749",        
-                        "warning": "#e9c46a",        
+                        "bg-dark": "#121212",
+                        "card-dark": "#1e1e1e",
+                        "primary": "#d4a373", // Tono arena/dorado de la imagen
+                        "accent-green": "#4ade80",
+                        "accent-red": "#f87171",
+                        "text-main": "#ffffff",
+                        "text-muted": "#a1a1aa",
                     },
                     fontFamily: {
-                        "display": ["Plus Jakarta Sans", "sans-serif"],
-                        "body": ["Inter", "sans-serif"],
+                        "sans": ["Plus Jakarta Sans", "sans-serif"],
+                    },
+                    borderRadius: {
+                        '3xl': '1.5rem',
+                        '4xl': '2rem',
                     },
                     boxShadow: {
-                        'soft': '0 8px 32px -4px rgba(0, 0, 0, 0.05)',
-                        'glow': '0 0 25px -5px rgba(176, 137, 104, 0.4)',
-                        'golden': '0 13px 27px -5px rgba(50, 50, 93, 0.15), 0 8px 16px -8px rgba(0, 0, 0, 0.2)',
-                    },
-                    animation: {
-                        'gradient': 'gradient 25s ease infinite',
-                    },
-                    keyframes: {
-                        gradient: {
-                            '0%': { backgroundPosition: '0% 50%' },
-                            '50%': { backgroundPosition: '100% 50%' },
-                            '100%': { backgroundPosition: '0% 50%' },
-                        }
+                        'glow': '0 0 20px -5px rgba(212, 163, 115, 0.3)',
                     }
                 },
             },
@@ -58,418 +46,291 @@
     </script>
 
     <style>
-        /* BASE & UTILIDADES */
-        body { -webkit-tap-highlight-color: transparent; transition: color 0.5s ease; }
+        body { 
+            background-color: #121212; 
+            color: #fff; 
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        
+        /* Ocultar Scrollbar pero permitir scroll */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Inputs limpios */
         input:focus { outline: none; }
         input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-        
-        /* ANIMACIONES */
-        .fade-in { animation: fadeIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; opacity: 0; transform: translateY(12px); }
+
+        /* Animaciones */
+        .fade-in { animation: fadeIn 0.4s ease-out forwards; opacity: 0; transform: translateY(10px); }
         @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
 
-        /* FONDO ANIMADO */
-        .animated-bg {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-            background: linear-gradient(-45deg, #efebe9, #d7ccc8, #e6dace, #f5f5f5);
-            background-size: 300% 300%;
-            animation: gradient 25s ease infinite;
-        }
-        .dark .animated-bg {
-            background: linear-gradient(-45deg, #1a120b, #2b1d16, #3e2723, #0c0a09);
-        }
-
-        /* EFECTOS DE CRISTAL (GLASSMORPHISM) */
-        .glass-panel { 
-            background: rgba(255, 255, 255, 0.7); 
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.4);
-        }
-        .dark .glass-panel { 
-            background: rgba(20, 15, 10, 0.75); 
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
+        /* Utilidades UI */
+        .glass-card {
+            background: #1e1e1e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 1.5rem;
         }
         
-        .card-glass {
-            background: rgba(255, 255, 255, 0.55);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-        .dark .card-glass {
-            background: rgba(40, 30, 25, 0.5); 
-            border: 1px solid rgba(255, 255, 255, 0.06);
+        .bottom-nav {
+            background: rgba(30, 30, 30, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: env(safe-area-inset-bottom);
         }
 
-        @media (hover: hover) {
-            .card-glass:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -5px rgba(60, 40, 30, 0.15); border-color: rgba(176, 137, 104, 0.4); }
+        .fab-btn {
+            background: linear-gradient(135deg, #d4a373, #b08968);
+            box-shadow: 0 4px 15px rgba(212, 163, 115, 0.4);
         }
-        .card-glass:active { transform: scale(0.99); }
 
-        /* TIPOGRAFÍA */
-        .text-hero { font-size: clamp(2rem, 5vw, 4.5rem); line-height: 1.1; }
-        .text-h1 { font-size: clamp(1.5rem, 3vw, 2.5rem); } 
-        .text-body { font-size: 1rem; line-height: 1.618; }
-        .text-small { font-size: 0.85rem; line-height: 1.5; }
-        .text-micro { font-size: 0.7rem; letter-spacing: 0.05em; text-transform: uppercase; }
-        .text-truncate-input { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-        /* SCROLLBAR & INPUTS */
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #b08968; border-radius: 10px; opacity: 0.5; }
-        .dark ::-webkit-scrollbar-thumb { background: #8d6e63; }
-
-        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
-        input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none; height: 16px; width: 16px; border-radius: 50%;
-            background: #b08968; cursor: pointer; margin-top: -6px; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.15); border: 2px solid white;
+        /* Overlay para fondo de imagen en tarjeta meta */
+        .goal-card-bg {
+            background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1000&auto=format&fit=crop'); 
+            background-size: cover;
+            background-position: center;
         }
-        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; cursor: pointer; background: #e5e5e5; border-radius: 99px; }
-        .dark input[type=range]::-webkit-slider-runnable-track { background: #4e342e; }
-
-        .help-text { font-size: 0.75rem; line-height: 1.4; opacity: 0.65; font-family: 'Inter', sans-serif; display: block; margin-top: 6px; font-style: italic; text-wrap: balance; }
-        
-        /* COMPONENTES UI */
-        #toast {
-            visibility: hidden; min-width: 220px; max-width: 90%; background-color: rgba(43, 29, 22, 0.95);
-            color: #fff; text-align: center; border-radius: 99px; padding: 12px 24px; position: fixed;
-            z-index: 100; left: 50%; bottom: 100px; transform: translateX(-50%) translateY(20px);
-            font-size: 13px; font-weight: 500; backdrop-filter: blur(8px);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.25); opacity: 0; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 1px solid rgba(255,255,255,0.1); pointer-events: none;
+        .goal-overlay {
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.8));
         }
-        #toast.show { visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0); }
-        
-        .modal-backdrop { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; padding: 1rem; }
-        .modal-bg { position: absolute; inset: 0; background-color: rgba(0,0,0,0.4); backdrop-filter: blur(8px); transition: opacity 0.3s; }
-        
-        #loginOverlay {
-            position: fixed; inset: 0; z-index: 999; 
-            background: linear-gradient(-45deg, #efebe9, #e6dace);
-            display: flex; align-items: center; justify-content: center;
-            transition: opacity 0.5s ease;
-        }
-        .dark #loginOverlay { background: linear-gradient(-45deg, #1a120b, #2b1d16); }
-        .hidden-overlay { opacity: 0; pointer-events: none; }
-
-        /* CLASES UTILITARIAS DE BOTONES */
-        .btn-header { width: 44px; height: 44px; flex-shrink: 0; border-radius: 14px; }
-        .btn-control { width: 72px; height: 72px; flex-shrink: 0; border-radius: 20px; }
-        .btn-action-lg { width: 64px; height: 64px; flex-shrink: 0; border-radius: 20px; }
-        
-        /* ESTILOS TUTORIAL */
-        .driver-popover.driverjs-theme { background-color: rgba(255, 255, 255, 0.9); backdrop-filter: blur(15px); color: #4a403a; border: 1px solid rgba(176, 137, 104, 0.3); border-radius: 24px; font-family: 'Plus Jakarta Sans', sans-serif; }
-        .dark .driver-popover.driverjs-theme { background-color: rgba(30, 25, 20, 0.95); color: #e7e5e4; border: 1px solid rgba(255, 255, 255, 0.1); }
-        .driver-popover.driverjs-theme button.driver-popover-close-btn { background-color: transparent !important; color: #9c8c84; width: 24px; height: 24px; border-radius: 50%; transition: all 0.3s ease; }
-        .driver-popover.driverjs-theme button.driver-popover-close-btn:hover { color: #bc4749 !important; transform: scale(1.1) rotate(90deg); }
     </style>
 </head>
 
-<body class="text-text-main-light dark:text-text-main-dark font-body min-h-screen flex flex-col selection:bg-primary selection:text-white overflow-x-hidden">
+<body class="min-h-screen flex flex-col pb-24 overflow-x-hidden selection:bg-primary selection:text-black">
 
-    <div class="animated-bg"></div>
-    <div id="toast">Notificación</div>
-
-    <div id="loginOverlay">
-        <div class="card-glass p-10 rounded-[2.5rem] shadow-golden text-center max-w-sm mx-6 border border-white/20 dark:border-white/10 relative overflow-hidden">
-            <div class="absolute top-[-50px] left-[-50px] w-40 h-40 bg-primary/20 rounded-full blur-3xl"></div>
-            <span class="text-micro font-black text-primary mb-3 block tracking-widest">BIENVENIDA A</span>
-            <h1 class="text-4xl font-display font-bold mb-6 text-text-main-light dark:text-white tracking-tight">Marie Finance</h1>
-            <p class="text-small text-text-muted-light dark:text-text-muted-dark mb-10 leading-relaxed">Tus finanzas organizadas con proporción áurea. Sincroniza en la nube y mantén el control.</p>
-            <button onclick="Auth.login()" class="w-full py-4 rounded-2xl bg-white dark:bg-white/10 text-text-main-light dark:text-white font-bold flex items-center justify-center gap-3 shadow-soft hover:scale-[1.02] active:scale-95 transition-all border border-black/5 dark:border-white/5 text-sm">
+    <div id="loginOverlay" class="fixed inset-0 z-50 bg-[#121212] flex items-center justify-center p-6 transition-opacity duration-500">
+        <div class="w-full max-w-sm text-center">
+            <div class="w-24 h-24 rounded-full bg-primary/20 mx-auto mb-6 flex items-center justify-center animate-pulse">
+                <span class="material-symbols-rounded text-5xl text-primary">savings</span>
+            </div>
+            <h1 class="text-3xl font-bold mb-2">Marie Finance</h1>
+            <p class="text-text-muted mb-8 text-sm">Tus finanzas, pero con estilo.</p>
+            <button onclick="Auth.login()" class="w-full py-4 rounded-2xl bg-white text-black font-bold flex items-center justify-center gap-3 active:scale-95 transition-transform">
                 <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="G">
-                <span>Continuar con Google</span>
+                <span>Entrar con Google</span>
             </button>
         </div>
     </div>
 
-    <div id="profileModal" class="modal-backdrop hidden">
-        <div class="modal-bg" onclick="App.closeProfileModal()"></div>
-        <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-sm rounded-[2.5rem] p-8 shadow-golden relative z-10 transform transition-all scale-95 opacity-0" id="profileCard">
-            <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-2xl bg-white dark:bg-[#1a1a1a] flex items-center justify-center border border-black/5 dark:border-white/10 shadow-lg">
-                <span class="material-symbols-rounded text-3xl text-primary">person_edit</span>
-            </div>
-            <h3 class="text-xl font-bold text-center mt-8 mb-2 text-text-main-light dark:text-text-main-dark">Tu Identidad</h3>
-            <p class="text-small text-center text-text-muted-light mb-8">¿Cómo quieres que te llamemos?</p>
-            <div class="mb-8">
-                <label class="text-micro font-bold text-text-muted-light dark:text-text-muted-dark block mb-3 pl-1">Nombre / Apodo</label>
-                <input id="inputUserName" type="text" placeholder="Ej: Marie" class="w-full bg-black/5 dark:bg-white/5 rounded-2xl border-none py-4 px-5 text-sm focus:ring-2 focus:ring-primary/50 outline-none text-text-main-light dark:text-white placeholder-stone-400 font-medium transition-shadow text-center">
-            </div>
-            <div class="grid grid-cols-2 gap-4">
-                <button onclick="App.closeProfileModal()" class="py-4 rounded-2xl text-xs font-bold bg-black/5 dark:bg-white/5 text-text-muted-light hover:bg-black/10 dark:hover:bg-white/10 transition-colors uppercase tracking-wider">Cancelar</button>
-                <button onclick="App.saveProfile()" class="py-4 rounded-2xl text-xs font-bold bg-primary text-white shadow-lg shadow-primary/30 active:scale-95 transition-transform uppercase tracking-wider">Guardar</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="fixed top-0 w-full z-50 transition-all duration-300">
-        <div class="glass-panel mx-auto w-full px-6 py-4 lg:px-12 flex items-center justify-between">
-            <div class="flex items-center gap-4">
-                <button id="backBtn" onclick="App.navigateTo('home')" class="hidden btn-header bg-white/50 dark:bg-white/5 flex items-center justify-center text-text-muted-light dark:text-text-muted-dark hover:bg-white dark:hover:bg-white/10 active:scale-95 transition-all shadow-sm border border-white/20 dark:border-white/5">
-                    <span class="material-symbols-rounded">arrow_back</span>
-                </button>
-                <div class="flex flex-col cursor-pointer group" onclick="App.navigateTo('home')">
-                    <span id="pageTitleLabel" class="text-micro font-black text-primary group-hover:text-primary/80 transition-colors">FINANZAS</span>
-                    <span id="pageTitleMain" class="text-lg font-bold font-display tracking-tight text-text-main-light dark:text-text-main-dark">Marie Finance</span>
-                </div>
-            </div>
-            <div class="flex gap-3">
-                <button onclick="App.openProfileModal()" class="btn-header border border-white/20 dark:border-white/10 text-text-muted-light dark:text-text-muted-dark flex items-center justify-center active:scale-95 hover:bg-white/20 dark:hover:bg-white/10 transition-all backdrop-blur-sm" title="Editar Perfil">
-                    <span class="material-symbols-rounded text-xl">account_circle</span>
-                </button>
-                <button onclick="Auth.logout()" class="btn-header border border-white/20 dark:border-white/10 text-text-muted-light dark:text-text-muted-dark flex items-center justify-center active:scale-95 hover:bg-danger/10 hover:text-danger hover:border-danger/30 transition-all backdrop-blur-sm" title="Cerrar Sesión">
-                    <span class="material-symbols-rounded text-xl">logout</span>
-                </button>
-                <button onclick="App.toggleTheme()" class="btn-header bg-primary text-white flex items-center justify-center active:scale-95 transition-transform hover:shadow-lg hover:shadow-primary/30 shadow-md border-2 border-white/20 dark:border-white/10">
-                     <span class="material-symbols-rounded text-xl">contrast</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <div class="flex-1 w-full max-w-[1400px] mx-auto px-6 pt-32 pb-48 lg:px-12 lg:pt-40 lg:pb-40 transition-all duration-500 overflow-visible" id="mainContainer">
+    <div id="appContent" class="flex-1 w-full max-w-md mx-auto px-5 pt-4 opacity-0 transition-opacity duration-500">
         
-        <div id="view-home" class="w-full">
-            
-            <div class="mb-10 fade-in">
-                <h1 class="text-h1 font-display font-black text-text-main-light dark:text-white tracking-tight">
-                    <span class="text-primary">¡Epa, </span><span id="userGreetingName">...</span>!
-                </h1>
-                <p class="text-small text-text-muted-light dark:text-text-muted-dark mt-2">Todo listo para organizar tus cuentas.</p>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch">
-                <div id="step1-target" class="lg:col-span-4 flex flex-col fade-in delay-100">
-                    <button onclick="App.navigateTo('goal')" class="w-full flex-1 card-glass p-8 rounded-[2.5rem] shadow-soft text-center relative overflow-hidden group flex flex-col justify-center items-center min-h-[360px]">
-                        <div class="absolute top-[-20%] right-[-10%] w-48 h-48 bg-primary/10 rounded-full blur-3xl opacity-50 group-hover:opacity-80 transition-opacity"></div>
-                        <div class="relative z-10 w-full flex flex-col items-center">
-                            <p class="text-micro text-text-muted-light dark:text-text-muted-dark font-bold opacity-70 mb-4">Meta Global</p>
-                            <div class="flex justify-center items-baseline gap-1 flex-wrap mb-2 w-full px-2">
-                                <span class="text-3xl text-primary/40 align-top">$</span>
-                                <span id="homeGoalDisplay" class="text-hero font-black text-text-main-light dark:text-text-main-dark tracking-tighter drop-shadow-sm break-all leading-none">0</span>
-                            </div>
-                            <span class="help-text max-w-[240px]">Tu objetivo financiero.</span>
-                            <div class="inline-flex flex-col items-center mt-8 group-hover:scale-105 transition-transform w-full">
-                                <div class="inline-flex items-center gap-2 bg-white/50 dark:bg-black/20 text-text-main-light dark:text-white px-6 py-3 rounded-2xl text-xs font-bold border border-white/20 dark:border-white/5 shadow-sm" id="homeSavedDisplay">
-                                    <span class="material-symbols-rounded text-lg text-success">savings</span>
-                                    <span>Disponible: $0</span>
-                                </div>
-                            </div>
-                        </div>
-                    </button>
-                </div>
-
-                <div id="step2-target" class="lg:col-span-4 flex flex-col fade-in delay-200">
-                    <div class="flex flex-col gap-6 h-full">
-                        <button onclick="App.navigateTo('incomes')" class="flex-1 card-glass p-8 rounded-[2.5rem] shadow-soft text-left relative overflow-hidden group flex flex-col justify-between min-h-[170px]">
-                            <div class="flex justify-between items-start w-full">
-                                <div>
-                                    <div class="w-12 h-12 rounded-2xl bg-success/10 flex items-center justify-center text-success mb-3 group-hover:scale-110 transition-transform"><span class="material-symbols-rounded text-2xl">trending_up</span></div>
-                                    <p class="text-micro font-bold text-text-muted-light dark:text-text-muted-dark">Entradas</p>
-                                </div>
-                                <div class="w-10 h-10 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-rounded text-base">arrow_outward</span></div>
-                            </div>
-                            <div class="mt-2">
-                                <div id="homeIncomeDisplay" class="text-4xl font-black text-success truncate tracking-tight">$0</div>
-                                <span class="help-text">Ingresos totales del mes.</span>
-                            </div>
-                        </button>
-                        <button onclick="App.navigateTo('expenses')" class="flex-1 card-glass p-8 rounded-[2.5rem] shadow-soft text-left relative overflow-hidden group flex flex-col justify-between min-h-[170px]">
-                            <div class="flex justify-between items-start w-full">
-                                <div>
-                                    <div class="w-12 h-12 rounded-2xl bg-danger/10 flex items-center justify-center text-danger mb-3 group-hover:scale-110 transition-transform"><span class="material-symbols-rounded text-2xl">trending_down</span></div>
-                                    <p class="text-micro font-bold text-text-muted-light dark:text-text-muted-dark">Salidas</p>
-                                </div>
-                                <div class="w-10 h-10 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-rounded text-base">arrow_outward</span></div>
-                            </div>
-                            <div class="mt-2">
-                                <div id="homeExpenseDisplay" class="text-4xl font-black text-danger truncate tracking-tight">$0</div>
-                                <span class="help-text">Gastos totales acumulados.</span>
-                            </div>
-                        </button>
+        <header class="flex justify-between items-center mb-6">
+            <div class="flex items-center gap-3">
+                <div class="relative">
+                    <div class="w-10 h-10 rounded-full bg-stone-700 overflow-hidden border border-white/10">
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Marie" alt="Avatar" class="w-full h-full object-cover">
                     </div>
+                    <div class="absolute bottom-0 right-0 w-3 h-3 bg-accent-green rounded-full border-2 border-[#121212]"></div>
                 </div>
-
-                <div id="step3-target" class="lg:col-span-4 flex flex-col fade-in delay-300">
-                    <div class="flex flex-col gap-6 h-full">
-                        <div class="card-glass p-8 rounded-[2.5rem] shadow-soft relative overflow-hidden min-h-[180px]">
-                            <div class="flex justify-between items-center mb-6">
-                                 <div class="flex items-center gap-4">
-                                    <div class="w-10 h-10 rounded-2xl bg-warning/10 flex items-center justify-center text-warning shrink-0 shadow-inner"><span class="material-symbols-rounded text-xl">cardiology</span></div>
-                                    <div>
-                                        <h3 class="font-bold text-sm text-text-main-light dark:text-text-main-dark uppercase tracking-wide">Salud</h3>
-                                        <p class="text-[10px] opacity-60">Diagnóstico</p>
-                                    </div>
-                                </div>
-                                <div id="healthBadge" class="px-4 py-1.5 bg-white/50 dark:bg-white/5 rounded-full text-[10px] font-black uppercase text-text-muted-light dark:text-white border border-white/20 dark:border-white/5 shadow-sm">--</div>
-                            </div>
-                            <div class="h-3 w-full bg-black/5 dark:bg-black/50 rounded-full overflow-hidden relative mb-3 shadow-inner">
-                                <div class="absolute inset-0 bg-gradient-to-r from-danger via-warning to-success opacity-80"></div>
-                                <div id="healthIndicator" class="absolute top-0 bottom-0 w-2 bg-white shadow-[0_0_15px_rgba(255,255,255,1)] transition-all duration-1000 ease-out scale-y-125 rounded-full ring-2 ring-black/5" style="left: 50%"></div>
-                            </div>
-                            <p class="text-small text-center opacity-80 leading-relaxed bg-white/40 dark:bg-black/20 p-4 rounded-2xl border border-white/10 dark:border-white/5 font-medium shadow-sm text-text-main-light dark:text-text-main-dark mt-4" id="healthDescText">Calculando...</p>
-                        </div>
-                        <div class="flex-1 card-glass p-8 rounded-[2.5rem] shadow-soft relative overflow-hidden flex flex-col min-h-[180px]">
-                            <div class="flex justify-between items-center mb-6">
-                                <div>
-                                    <h3 class="font-bold text-sm text-text-main-light dark:text-text-main-dark uppercase tracking-wide">Historia</h3>
-                                    <span class="help-text mt-0">Evolución.</span>
-                                </div>
-                                <span class="text-[10px] bg-primary/10 text-primary px-3 py-1 rounded-full font-bold uppercase">Gráfico</span>
-                            </div>
-                            <div class="flex-1 w-full relative">
-                                <canvas id="mainChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <p class="text-center text-micro text-text-muted-light/40 dark:text-text-muted-dark/40 mt-16 mb-4 font-mono opacity-50 hover:opacity-100 transition-opacity">MARIE FINANCE v28.1 (Refactored)</p>
-        </div>
-
-        <div id="view-goal" class="fade-in hidden w-full max-w-4xl mx-auto">
-             <div class="text-center mb-12">
-                <p class="text-micro text-primary font-bold mb-4 bg-primary/10 inline-block px-4 py-1.5 rounded-full">Configura tu Meta</p>
-                <div class="flex items-center justify-center gap-1 group relative flex-col">
-                    <div class="flex items-center justify-center w-full">
-                        <span class="text-4xl lg:text-6xl text-text-muted-light/30 dark:text-text-muted-dark/30 font-light group-hover:text-primary transition-colors">$</span>
-                        <input id="inputGoal" type="number" class="w-full max-w-[300px] lg:max-w-[500px] bg-transparent text-center text-6xl lg:text-8xl font-black border-none p-0 focus:ring-0 text-text-main-light dark:text-text-main-dark outline-none tracking-tighter placeholder-black/10 dark:placeholder-white/10 transition-all focus:scale-105" placeholder="0" oninput="App.updateVal('goal', this.value)">
-                    </div>
-                    <span class="help-text mt-2 text-primary">Toca el número para editar.</span>
-                </div>
-            </div>
-            <div class="card-glass p-8 lg:p-12 rounded-[3rem] shadow-golden relative overflow-hidden">
-                <div class="flex flex-col md:flex-row justify-between items-end mb-10 border-b border-dashed border-black/10 dark:border-white/10 pb-8 gap-6">
-                    <div class="text-left w-full md:w-auto">
-                        <span class="text-micro font-bold text-text-muted-light dark:text-text-muted-dark block mb-2">Disponible Real</span>
-                        <span class="text-small opacity-60 bg-white/50 dark:bg-white/5 px-3 py-1.5 rounded-lg">Dinero líquido actual.</span>
-                    </div>
-                    <span id="detailSavedDisplay" class="text-6xl lg:text-7xl font-black text-success tracking-tighter w-full md:w-auto text-right">$0</span>
-                </div>
-                <div class="flex gap-6 mb-10 items-stretch h-auto min-h-[140px]">
-                    <button onclick="App.modifyFund('sub')" class="btn-control bg-danger/5 text-danger flex items-center justify-center text-4xl active:scale-90 transition-all border border-danger/20 hover:bg-danger hover:text-white hover:shadow-lg hover:shadow-danger/30"><span class="material-symbols-rounded">remove</span></button>
-                    <div class="flex-1 relative bg-white/30 dark:bg-black/20 rounded-[2rem] border border-white/20 dark:border-white/5 overflow-hidden flex items-center justify-center flex-col p-6">
-                        <span class="text-micro font-bold opacity-40 mb-2">Monto a operar</span>
-                        <input id="fundInput" type="number" placeholder="0" class="w-full bg-transparent text-center font-bold text-5xl lg:text-6xl focus:ring-0 border-none outline-none text-text-main-light dark:text-text-main-dark z-10 mb-2">
-                        <span class="help-text text-center max-w-[200px]">Ingresa cantidad para sumar o restar.</span>
-                    </div>
-                    <button onclick="App.modifyFund('add')" class="btn-control bg-success/5 text-success flex items-center justify-center text-4xl active:scale-90 transition-all border border-success/20 hover:bg-success hover:text-white hover:shadow-lg hover:shadow-success/30"><span class="material-symbols-rounded">add</span></button>
-                </div>
-                <div class="pt-4 border-t border-white/20 dark:border-white/5">
-                     <button onclick="App.toggleHistory()" class="w-full flex items-center justify-between p-6 bg-white/40 dark:bg-black/20 rounded-[2rem] text-xs font-bold uppercase text-text-muted-light dark:text-text-muted-dark hover:bg-white/60 dark:hover:bg-white/5 transition-all group border border-white/20 dark:border-white/5">
-                        <div class="flex flex-col items-start text-left">
-                            <span class="tracking-widest">Historial</span>
-                            <span class="help-text mt-0.5 normal-case opacity-50">Movimientos recientes.</span>
-                        </div>
-                        <div class="w-10 h-10 rounded-full bg-white dark:bg-white/10 flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
-                            <span id="historyChevron" class="material-symbols-rounded transition-transform group-hover:text-primary text-base">expand_more</span>
-                        </div>
-                    </button>
-                    <div id="historyContainer" class="hidden mt-6 space-y-3 max-h-80 overflow-y-auto pr-2 lg:grid lg:grid-cols-2 lg:gap-4 lg:space-y-0 pb-2 custom-scroll"></div>
-                </div>
-            </div>
-        </div>
-
-        <div id="view-incomes" class="fade-in hidden w-full max-w-6xl mx-auto">
-            <div class="card-glass p-8 lg:p-10 rounded-[3rem] shadow-golden mb-8">
-                <div class="flex justify-between items-center mb-10 border-b border-black/10 dark:border-white/10 pb-8">
-                    <div>
-                        <div class="flex items-center gap-4 mb-3">
-                            <div class="w-12 h-12 rounded-2xl bg-success/10 flex items-center justify-center text-success"><span class="material-symbols-rounded text-2xl">trending_up</span></div>
-                            <p class="text-micro font-bold text-text-muted-light tracking-widest">Total Entradas</p>
-                        </div>
-                        <p id="totalIncomeDisplay" class="text-5xl lg:text-7xl font-black text-success tracking-tighter">$0</p>
-                    </div>
-                    <button onclick="App.addItem('incomes')" class="btn-action-lg bg-success text-white flex items-center justify-center active:scale-90 transition-all hover:shadow-xl hover:shadow-success/40 border-4 border-white/20"><span class="material-symbols-rounded text-4xl">add</span></button>
-                </div>
-                <div class="flex flex-col md:flex-row justify-between items-center bg-white/30 dark:bg-black/20 p-6 lg:p-8 rounded-[2rem] mb-8 border border-white/20 dark:border-white/5 shadow-inner gap-6">
-                    <div class="flex items-center gap-5 w-full md:w-auto">
-                        <div class="w-14 h-14 rounded-2xl bg-primary/10 text-primary flex items-center justify-center"><span class="material-symbols-rounded text-2xl">work</span></div>
-                        <div>
-                            <span class="text-sm font-bold block uppercase text-text-main-light dark:text-text-main-dark">Ingreso Fijo</span>
-                            <span class="text-small opacity-60">Base mensual segura.</span>
-                        </div>
-                    </div>
-                    <div class="flex items-center bg-white/50 dark:bg-white/5 px-8 py-4 rounded-2xl border border-white/30 dark:border-white/5 shadow-sm w-full md:w-auto justify-end">
-                         <span class="text-lg mr-2 opacity-40 font-serif italic">$</span>
-                        <input id="inputSalary" type="number" class="w-40 bg-transparent text-right font-black text-3xl focus:ring-0 border-none p-0 outline-none" oninput="App.updateVal('salary', this.value)">
-                    </div>
-                </div>
-                <div id="incomesList" class="space-y-4 lg:space-y-0 lg:grid lg:grid-cols-2 xl:grid-cols-3 lg:gap-6"></div>
-            </div>
-        </div>
-
-        <div id="view-expenses" class="fade-in hidden w-full max-w-6xl mx-auto">
-             <div class="card-glass p-8 lg:p-10 rounded-[3rem] shadow-golden mb-8">
-                <div class="flex justify-between items-center mb-10 border-b border-black/10 dark:border-white/10 pb-8">
-                    <div>
-                        <div class="flex items-center gap-4 mb-3">
-                             <div class="w-12 h-12 rounded-2xl bg-danger/10 flex items-center justify-center text-danger"><span class="material-symbols-rounded text-2xl">trending_down</span></div>
-                            <p class="text-micro font-bold text-text-muted-light tracking-widest">Total Salidas</p>
-                        </div>
-                        <p id="totalExpenseDisplay" class="text-5xl lg:text-7xl font-black text-danger tracking-tighter">$0</p>
-                    </div>
-                    <button onclick="App.addItem('expenses')" class="btn-action-lg bg-danger text-white flex items-center justify-center active:scale-90 transition-all hover:shadow-xl hover:shadow-danger/40 border-4 border-white/20"><span class="material-symbols-rounded text-4xl">add</span></button>
-                </div>
-                <div id="expensesList" class="space-y-4 lg:space-y-0 lg:grid lg:grid-cols-2 xl:grid-cols-3 lg:gap-6"></div>
-            </div>
-        </div>
-
-    </div>
-
-    <div id="transactionModal" class="modal-backdrop hidden">
-        <div onclick="App.closeTransactionModal()" class="modal-bg"></div>
-        <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-sm rounded-[2.5rem] p-8 shadow-golden relative z-10 transform transition-all scale-95 opacity-0" id="transactionCard">
-            <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-2xl bg-white dark:bg-[#1a1a1a] flex items-center justify-center border border-black/5 dark:border-white/10 shadow-lg">
-                <span class="material-symbols-rounded text-3xl text-primary" id="modalIcon">payments</span>
-            </div>
-            <h3 class="text-xl font-bold text-center mt-8 mb-2 text-text-main-light dark:text-text-main-dark" id="modalTitle">Movimiento</h3>
-            <p class="text-sm text-center text-text-muted-light mb-8 font-mono font-bold" id="modalAmountDisplay">$0.00</p>
-            <div class="mb-8">
-                <label class="text-micro font-bold text-text-muted-light dark:text-text-muted-dark block mb-3 pl-1">Concepto</label>
-                <input id="transactionDesc" type="text" placeholder="..." class="w-full bg-black/5 dark:bg-white/5 rounded-2xl border-none py-4 px-5 text-sm focus:ring-2 focus:ring-primary/50 outline-none text-text-main-light dark:text-white placeholder-stone-400 font-medium transition-shadow">
-                <span class="help-text mt-2 text-center" id="modalHelpText">Descripción.</span>
-            </div>
-            <div class="grid grid-cols-2 gap-4">
-                <button onclick="App.closeTransactionModal()" class="py-4 rounded-2xl text-xs font-bold bg-black/5 dark:bg-white/5 text-text-muted-light hover:bg-black/10 dark:hover:bg-white/10 transition-colors uppercase tracking-wider">Cancelar</button>
-                <button onclick="App.confirmTransaction()" id="modalConfirmBtn" class="py-4 rounded-2xl text-xs font-bold bg-primary text-white shadow-lg shadow-primary/30 active:scale-95 transition-transform uppercase tracking-wider">Confirmar</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="bottomBar" class="fixed bottom-0 w-full z-40 p-2 pb-6 lg:pb-8 flex justify-center pointer-events-none">
-        <div class="pointer-events-auto bg-white/80 dark:bg-black/80 backdrop-blur-xl border border-white/40 dark:border-white/10 shadow-golden rounded-[2rem] lg:rounded-[2.5rem] w-full max-w-sm lg:max-w-xl p-6 lg:px-10 lg:py-6">
-            <div class="flex justify-between items-start mb-4">
                 <div>
-                    <p class="text-micro font-black text-text-muted-light dark:text-text-muted-dark mb-1">Capacidad Real</p>
-                    <h2 id="barSurplus" class="text-3xl lg:text-4xl font-black text-text-main-light dark:text-text-main-dark tracking-tight transition-all">$0</h2>
-                </div>
-                <div class="text-right">
-                    <p class="text-micro text-text-muted-light dark:text-text-muted-dark mb-1 font-bold">ESTIMADO</p>
-                    <div id="barTime" class="inline-flex items-center gap-2 px-4 py-1.5 bg-black/5 dark:bg-white/5 rounded-full text-xs font-bold shadow-sm border border-black/5 dark:border-white/5">
-                        <span class="material-symbols-rounded text-primary text-sm">timer</span>
-                        <span>--</span>
+                    <p class="text-[10px] font-medium text-text-muted uppercase tracking-wider" id="headerDate">HOY, 24 OCT</p>
+                    <div class="flex items-center gap-1.5 cursor-pointer group" onclick="App.openProfileModal()">
+                        <h1 class="text-xl font-bold text-white leading-none">¡Epa, <span id="userNameDisplay">Marie</span>!</h1>
+                        <span class="material-symbols-rounded text-xs text-text-muted group-hover:text-primary transition-colors">edit</span>
                     </div>
                 </div>
             </div>
-            <div class="w-full bg-black/5 dark:bg-white/10 h-3 rounded-full overflow-hidden mb-3 shadow-inner">
-                <div id="barProgress" class="h-full bg-black/80 dark:bg-white w-0 transition-all duration-1000 ease-out rounded-full shadow-[0_0_10px_rgba(255,255,255,0.5)]"></div>
+            <button class="w-10 h-10 rounded-full bg-card-dark flex items-center justify-center border border-white/5 active:scale-95 transition-transform">
+                <span class="material-symbols-rounded text-text-muted">notifications</span>
+            </button>
+        </header>
+
+        <div id="view-home" class="view-section fade-in">
+            <div class="flex justify-between items-end mb-3 px-1">
+                <h2 class="text-base font-bold">Tu Meta</h2>
+                <button onclick="App.navigateTo('wallet')" class="text-xs text-primary font-medium hover:text-white transition-colors">Ver billetera</button>
             </div>
-            <div class="flex justify-between text-micro font-bold text-text-muted-light dark:text-text-muted-dark opacity-80">
-                <span>Progreso</span>
-                <span id="barGoalText">Faltan: $0</span>
+
+            <div class="w-full aspect-[16/9] rounded-3xl relative overflow-hidden mb-8 shadow-glow cursor-pointer group" onclick="App.openGoalModal()">
+                <div class="absolute inset-0 goal-card-bg transition-transform duration-700 group-hover:scale-105"></div>
+                <div class="absolute inset-0 goal-overlay p-6 flex flex-col justify-between">
+                    <div class="flex justify-between items-start">
+                        <span class="bg-white/20 backdrop-blur-md px-3 py-1 rounded-lg text-xs font-semibold text-white border border-white/10">Ahorro</span>
+                        <div class="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white">
+                            <span class="material-symbols-rounded">flight_takeoff</span>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-white mb-4">Meta Financiera</h3>
+                        <p class="text-[10px] font-bold text-white/60 uppercase tracking-widest mb-1">PLATA GUARDADA</p>
+                        <div class="flex justify-between items-end mb-3">
+                            <div class="flex items-baseline gap-1">
+                                <span class="text-3xl font-bold text-white" id="cardSavedDisplay">$0</span>
+                                <span class="text-sm text-white/50 font-medium" id="cardGoalDisplay">/ $0</span>
+                            </div>
+                            <span class="text-lg font-bold text-primary" id="cardPercentDisplay">0%</span>
+                        </div>
+                        <div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
+                            <div id="cardProgressBar" class="h-full bg-primary rounded-full transition-all duration-1000 w-0"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="text-base font-bold mb-3 px-1">La Movida</h2>
+            
+            <div class="grid grid-cols-2 gap-4 mb-8">
+                <div class="glass-card p-5 relative overflow-hidden flex flex-col justify-between min-h-[140px]">
+                    <div class="absolute bottom-0 left-0 w-full h-12 bg-accent-green/5 rounded-b-3xl">
+                         <svg class="w-full h-full text-accent-green/20" viewBox="0 0 100 40" preserveAspectRatio="none"><path d="M0,40 Q50,0 100,40" fill="currentColor"/></svg>
+                    </div>
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-8 h-8 rounded-full bg-accent-green/10 flex items-center justify-center">
+                            <span class="material-symbols-rounded text-accent-green text-sm">arrow_downward</span>
+                        </div>
+                        <span class="text-[10px] font-bold bg-accent-green/10 text-accent-green px-1.5 py-0.5 rounded flex items-center gap-0.5">
+                            <span class="material-symbols-rounded text-[10px]">trending_up</span> OK
+                        </span>
+                    </div>
+                    <div>
+                        <p class="text-xs text-text-muted font-medium mb-1">Lo que entra</p>
+                        <p class="text-2xl font-bold text-white tracking-tight" id="dashboardIncome">$0</p>
+                    </div>
+                </div>
+                
+                <div class="glass-card p-5 relative overflow-hidden flex flex-col justify-between min-h-[140px]">
+                     <div class="absolute bottom-0 left-0 w-full h-12 bg-accent-red/5 rounded-b-3xl">
+                         <svg class="w-full h-full text-accent-red/20" viewBox="0 0 100 40" preserveAspectRatio="none"><path d="M0,40 Q50,10 100,40" fill="currentColor"/></svg>
+                    </div>
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-8 h-8 rounded-full bg-accent-red/10 flex items-center justify-center">
+                            <span class="material-symbols-rounded text-accent-red text-sm">arrow_upward</span>
+                        </div>
+                         <span class="text-[10px] font-bold bg-accent-red/10 text-accent-red px-1.5 py-0.5 rounded flex items-center gap-0.5">
+                            <span class="material-symbols-rounded text-[10px]">trending_down</span> !
+                        </span>
+                    </div>
+                    <div>
+                        <p class="text-xs text-text-muted font-medium mb-1">Lo que sale</p>
+                        <p class="text-2xl font-bold text-white tracking-tight" id="dashboardExpense">$0</p>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="text-base font-bold mb-3 px-1">Pilas con esto</h2>
+            <div class="space-y-3 pb-6" id="alertsList">
+                <div class="glass-card p-4 flex items-center gap-4 active:scale-[0.98] transition-transform">
+                    <div class="w-10 h-10 rounded-full bg-orange-500/20 flex items-center justify-center shrink-0">
+                         <span class="material-symbols-rounded text-orange-500">lunch_dining</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h4 class="text-sm font-bold text-white truncate">Analizando gastos...</h4>
+                        <p class="text-xs text-text-muted truncate">Revisando tu historial reciente.</p>
+                    </div>
+                    <span class="material-symbols-rounded text-text-muted text-sm">chevron_right</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-wallet" class="view-section hidden fade-in">
+            <h2 class="text-xl font-bold mb-6">Tu Billetera</h2>
+            
+            <div class="flex p-1 bg-card-dark rounded-xl mb-6">
+                <button onclick="App.switchWalletTab('income')" id="tab-income" class="flex-1 py-2 rounded-lg text-xs font-bold bg-white text-black shadow-sm transition-all">Ingresos</button>
+                <button onclick="App.switchWalletTab('expense')" id="tab-expense" class="flex-1 py-2 rounded-lg text-xs font-bold text-text-muted hover:text-white transition-all">Gastos</button>
+            </div>
+
+            <div id="walletListContainer" class="space-y-3 pb-10"></div>
+             <div id="walletEmptyState" class="hidden flex-col items-center justify-center py-10 text-center opacity-50">
+                <span class="material-symbols-rounded text-4xl mb-2">inbox</span>
+                <p class="text-sm">Nada por aquí aún.</p>
+            </div>
+        </div>
+
+        <div id="view-chart" class="view-section hidden fade-in">
+            <h2 class="text-xl font-bold mb-6">Historial</h2>
+            <div class="glass-card p-4 h-64 mb-6">
+                <canvas id="mainChart"></canvas>
+            </div>
+            <div id="historyList" class="space-y-3 pb-6"></div>
+        </div>
+
+    </div>
+
+    <div id="transactionModal" class="fixed inset-0 z-40 hidden">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="App.closeTransactionModal()"></div>
+        <div class="absolute bottom-0 left-0 w-full bg-[#1e1e1e] rounded-t-[2rem] p-6 transform transition-transform duration-300 translate-y-full" id="transactionPanel">
+            <div class="w-12 h-1 bg-white/10 rounded-full mx-auto mb-6"></div>
+            
+            <div class="text-center mb-8">
+                <span class="text-xs font-bold text-text-muted uppercase tracking-widest block mb-2" id="modalTypeTitle">NUEVO MOVIMIENTO</span>
+                <div class="flex justify-center items-center gap-2">
+                    <span class="text-3xl font-light text-text-muted">$</span>
+                    <input type="number" id="modalAmountInput" placeholder="0" class="bg-transparent text-5xl font-bold text-white w-40 text-center placeholder-white/10 p-0 border-none outline-none focus:ring-0">
+                </div>
+            </div>
+
+            <div class="bg-black/20 rounded-2xl p-2 mb-6">
+                <input type="text" id="modalDescInput" placeholder="¿Qué es este movimiento?" class="w-full bg-transparent text-center text-sm p-3 text-white placeholder-text-muted border-none focus:ring-0">
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="App.confirmTransaction('expense')" class="py-4 rounded-xl bg-accent-red/10 text-accent-red font-bold text-sm border border-accent-red/20 active:scale-95 transition-transform flex flex-col items-center gap-1">
+                    <span class="material-symbols-rounded">arrow_upward</span>
+                    Es un Gasto
+                </button>
+                <button onclick="App.confirmTransaction('income')" class="py-4 rounded-xl bg-accent-green/10 text-accent-green font-bold text-sm border border-accent-green/20 active:scale-95 transition-transform flex flex-col items-center gap-1">
+                    <span class="material-symbols-rounded">arrow_downward</span>
+                    Es un Ingreso
+                </button>
             </div>
         </div>
     </div>
+
+    <div id="goalModal" class="fixed inset-0 z-40 hidden flex items-center justify-center px-6">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="App.closeGoalModal()"></div>
+        <div class="relative bg-[#1e1e1e] w-full max-w-sm rounded-3xl p-6 border border-white/10">
+            <h3 class="text-lg font-bold mb-4 text-center">Configurar Meta</h3>
+            <label class="text-xs text-text-muted font-bold ml-1 mb-2 block">MONTO OBJETIVO ($)</label>
+            <input type="number" id="goalInput" class="w-full bg-black/20 rounded-xl p-4 text-xl font-bold text-white mb-6 border border-white/5 focus:border-primary/50 text-center" placeholder="5000">
+            
+            <button onclick="App.saveGoal()" class="w-full py-3.5 bg-primary text-black font-bold rounded-xl active:scale-95 transition-transform">Guardar Meta</button>
+        </div>
+    </div>
+
+    <div id="profileModal" class="fixed inset-0 z-40 hidden flex items-center justify-center px-6">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="App.closeProfileModal()"></div>
+        <div class="relative bg-[#1e1e1e] w-full max-w-sm rounded-3xl p-6 border border-white/10">
+            <h3 class="text-lg font-bold mb-4 text-center">Editar Perfil</h3>
+            <label class="text-xs text-text-muted font-bold ml-1 mb-2 block">TU NOMBRE</label>
+            <input type="text" id="profileNameInput" class="w-full bg-black/20 rounded-xl p-4 text-lg font-medium text-white mb-6 border border-white/5 focus:border-primary/50 text-center" placeholder="Marie">
+            
+            <button onclick="App.saveProfile()" class="w-full py-3.5 bg-white text-black font-bold rounded-xl active:scale-95 transition-transform">Listo</button>
+        </div>
+    </div>
+
+    <nav class="fixed bottom-0 left-0 w-full bottom-nav z-30">
+        <div class="flex justify-between items-center px-6 py-2 max-w-md mx-auto relative">
+            
+            <button onclick="App.navigateTo('home')" class="p-2 text-primary nav-btn active" data-target="home">
+                <span class="material-symbols-rounded text-2xl">home</span>
+            </button>
+            
+            <button onclick="App.navigateTo('wallet')" class="p-2 text-text-muted hover:text-white transition-colors nav-btn" data-target="wallet">
+                <span class="material-symbols-rounded text-2xl">account_balance_wallet</span>
+            </button>
+
+            <button onclick="App.openTransactionModal()" class="w-14 h-14 rounded-full fab-btn flex items-center justify-center text-black -mt-8 shadow-glow active:scale-95 transition-transform">
+                <span class="material-symbols-rounded text-3xl">add</span>
+            </button>
+
+            <button onclick="App.navigateTo('chart')" class="p-2 text-text-muted hover:text-white transition-colors nav-btn" data-target="chart">
+                <span class="material-symbols-rounded text-2xl">bar_chart</span>
+            </button>
+
+            <button onclick="App.openProfileModal()" class="p-2 text-text-muted hover:text-white transition-colors">
+                <span class="material-symbols-rounded text-2xl">person</span>
+            </button>
+        </div>
+    </nav>
 
     <script>
         /**
-         * MARIE FINANCE LOGIC - REFACTORED
-         * Organización modular para mantenibilidad.
+         * MARIE FINANCE V2 - MOBILE FIRST REDESIGN
+         * Lógica mantenida, UI totalmente renovada según referencia.
          */
 
-        // 1. CONFIGURACIÓN & CONSTANTES
         const CONFIG = {
             firebase: {
                 apiKey: "AIzaSyANBc8ziutAX47V_iJpgdn-7O3S3kvI3Tc",
@@ -480,7 +341,6 @@
                 appId: "1:754175935134:web:d159ae64d6ce56f51f318f",
                 measurementId: "G-NX06QJHXL9"
             },
-            tutorialKey: 'marie_v28_tut_completed',
             collections: { users: 'users' }
         };
 
@@ -489,35 +349,30 @@
             userName: '',
             goal: 5000,
             accumulated: 0,
-            salary: 600,
-            incomes: [], 
-            expenses: [], 
-            history: []   
+            salary: 0,
+            incomes: [], // { id, name, amount }
+            expenses: [], // { id, name, amount }
+            history: [] // { id, date, desc, amount, type }
         };
 
-        let pendingTransaction = null;
+        let currentWalletTab = 'income'; // 'income' | 'expense'
         let chartInstance = null;
         let firebaseAuth = null;
         let firestoreDb = null;
 
-        // 2. UTILIDADES
+        // --- UTILIDADES ---
         const Utils = {
             $: (id) => document.getElementById(id),
             formatMoney: (v) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(v),
-            formatCompact: (v) => new Intl.NumberFormat('en-US', { notation: "compact", maximumFractionDigits: 1 }).format(v),
-            getSmartIcon: (name) => {
-                const n = (name || '').toLowerCase();
-                const icons = {
-                    'comida': 'restaurant', 'cena': 'restaurant', 'uber': 'local_gas_station', 
-                    'transporte': 'local_gas_station', 'casa': 'cottage', 'alquiler': 'cottage', 
-                    'internet': 'wifi', 'wifi': 'wifi', 'netflix': 'subscriptions', 'spotify': 'subscriptions'
-                };
-                for (let key in icons) if (n.includes(key)) return icons[key];
-                return 'credit_card';
+            getDateString: () => {
+                const now = new Date();
+                const day = now.getDate();
+                const month = now.toLocaleString('es-ES', { month: 'short' }).toUpperCase().replace('.', '');
+                return `HOY, ${day} ${month}`;
             }
         };
 
-        // 3. MÓDULO DE AUTENTICACIÓN Y FIREBASE
+        // --- AUTH & DATA ---
         const Auth = {
             init: () => {
                 try {
@@ -527,515 +382,365 @@
                     Auth.monitor();
                 } catch (e) {
                     console.error("Firebase Error:", e);
-                    alert("Error inicializando la base de datos.");
                 }
             },
             monitor: () => {
                 firebaseAuth.onAuthStateChanged(user => {
                     const overlay = Utils.$('loginOverlay');
+                    const content = Utils.$('appContent');
                     if (user) {
-                        overlay.classList.add('hidden-overlay');
+                        overlay.classList.add('hidden');
+                        content.classList.remove('opacity-0');
                         Data.load(user.uid);
                     } else {
-                        overlay.classList.remove('hidden-overlay');
+                        overlay.classList.remove('hidden');
+                        content.classList.add('opacity-0');
                     }
                 });
             },
             login: () => {
                 const provider = new firebase.auth.GoogleAuthProvider();
-                firebaseAuth.signInWithPopup(provider).catch(error => alert(error.message));
-            },
-            logout: () => {
-                if(confirm("¿Cerrar sesión?")) {
-                    firebaseAuth.signOut();
-                    location.reload();
-                }
+                firebaseAuth.signInWithPopup(provider).catch(console.error);
             }
         };
 
-        // 4. MÓDULO DE DATOS
         const Data = {
             load: async (uid) => {
-                try {
-                    const docRef = firestoreDb.collection(CONFIG.collections.users).doc(uid);
-                    const doc = await docRef.get();
-                    if (doc.exists) {
-                        state = { ...state, ...doc.data() };
-                        App.updateGreeting();
-                    } else {
-                        const user = firebaseAuth.currentUser;
-                        state.userName = user.displayName ? user.displayName.split(' ')[0] : '';
-                        Data.save();
-                        App.openProfileModal();
-                    }
-                    UI.renderAll();
-                } catch (e) { console.error("Error loading data", e); }
+                const docRef = firestoreDb.collection(CONFIG.collections.users).doc(uid);
+                const doc = await docRef.get();
+                if (doc.exists) {
+                    // Migración simple de datos viejos si existen
+                    let data = doc.data();
+                    state = { ...state, ...data };
+                    // Asegurar arrays
+                    if(!state.incomes) state.incomes = [];
+                    if(!state.expenses) state.expenses = [];
+                } else {
+                    const user = firebaseAuth.currentUser;
+                    state.userName = user.displayName ? user.displayName.split(' ')[0] : 'Marie';
+                    Data.save();
+                }
+                App.renderAll();
             },
             save: () => {
                 const user = firebaseAuth.currentUser;
                 if (user && firestoreDb) {
                     firestoreDb.collection(CONFIG.collections.users).doc(user.uid).set(state, { merge: true });
                 }
-            },
-            updateHistoryDesc: (id, val) => {
-                const item = state.history.find(h => h.id === id);
-                if(item) { item.desc = val; Data.save(); UI.renderChart(); }
             }
         };
 
-        // 5. MÓDULO DE INTERFAZ (UI RENDERING)
+        // --- UI RENDER ---
         const UI = {
-            renderAll: () => {
-                UI.renderIncomes();
-                UI.renderExpenses();
-                UI.renderHistory();
-                App.calculateGlobal();
-            },
-            
-            showToast: (message, type = 'normal') => {
-                const toast = Utils.$('toast');
-                toast.innerText = message;
-                toast.style.animation = 'none'; toast.offsetHeight; toast.style.animation = null; 
-                const colors = { 'warn': 'rgba(188, 71, 73, 0.95)', 'neutral': 'rgba(43, 29, 22, 0.95)', 'success': 'rgba(106, 153, 78, 0.95)' };
-                toast.style.backgroundColor = colors[type] || colors['success'];
-                toast.className = "show";
-                setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
-            },
-
-            triggerConfetti: () => {
-                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#b08968', '#6a994e', '#e9c46a'] });
-            },
-
-            renderHistory: () => {
-                const container = Utils.$('historyContainer'); 
-                container.innerHTML = '';
-                const sorted = [...state.history].sort((a,b) => b.id - a.id).slice(0, 30);
+            updateDashboard: () => {
+                // Cálculos
+                const totalIncome = state.incomes.reduce((acc, i) => acc + (parseFloat(i.amount)||0), 0) + (state.salary||0);
+                const totalExpense = state.expenses.reduce((acc, e) => acc + (parseFloat(e.amount)||0), 0);
+                // "Plata Guardada" es el acumulado manual + (ingresos - gastos), simplificado aquí como state.accumulated para la meta
+                // Nota: En la versión anterior la lógica era compleja. Aquí simplificamos para la UI nueva.
+                // Asumimos que state.accumulated es el "Ahorro Real" disponible.
                 
-                if(sorted.length === 0) { 
-                    container.innerHTML = '<p class="text-center text-[10px] opacity-40 py-6 italic">Aquí aparecerá tu historia.</p>'; 
-                    return; 
+                // Header
+                Utils.$('headerDate').innerText = Utils.getDateString();
+                Utils.$('userNameDisplay').innerText = state.userName || 'Marie';
+
+                // Tarjeta Meta
+                Utils.$('cardSavedDisplay').innerText = Utils.formatMoney(state.accumulated);
+                Utils.$('cardGoalDisplay').innerText = `/ ${Utils.formatMoney(state.goal)}`;
+                
+                const percent = Math.min(100, Math.round((state.accumulated / state.goal) * 100)) || 0;
+                Utils.$('cardPercentDisplay').innerText = `${percent}%`;
+                Utils.$('cardProgressBar').style.width = `${percent}%`;
+
+                // Tarjetas Movida
+                Utils.$('dashboardIncome').innerText = `+${Utils.formatMoney(totalIncome)}`;
+                Utils.$('dashboardExpense').innerText = `-${Utils.formatMoney(totalExpense)}`;
+
+                // Alertas (Lógica simple simulada)
+                const alertsList = Utils.$('alertsList');
+                alertsList.innerHTML = '';
+                
+                // Alerta Gastos Altos
+                if (totalExpense > totalIncome * 0.8 && totalIncome > 0) {
+                    UI.addAlert('warning', 'fastfood', '¡Cuidado con los gastos!', 'Estás al 80% de tus ingresos.');
+                }
+                // Alerta Meta Lejos
+                if (percent < 10) {
+                    UI.addAlert('info', 'flag', 'La meta está lejos', 'Intenta guardar un poco hoy.');
+                }
+                // Alerta Genérica Positiva
+                if (totalExpense < totalIncome * 0.3 && totalIncome > 0) {
+                    UI.addAlert('success', 'verified', 'Finanzas Saludables', 'Tienes buen margen de ahorro.');
+                }
+                // Fallback si no hay alertas
+                if (alertsList.children.length === 0) {
+                    UI.addAlert('neutral', 'check_circle', 'Todo en orden', 'No hay alertas urgentes hoy.');
+                }
+            },
+
+            addAlert: (type, icon, title, subtitle) => {
+                const colors = {
+                    warning: 'text-orange-500 bg-orange-500/20',
+                    info: 'text-blue-500 bg-blue-500/20',
+                    success: 'text-green-500 bg-green-500/20',
+                    neutral: 'text-text-muted bg-white/10'
+                };
+                const theme = colors[type] || colors.neutral;
+                
+                Utils.$('alertsList').innerHTML += `
+                <div class="glass-card p-4 flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-full ${theme.split(' ')[1]} flex items-center justify-center shrink-0">
+                         <span class="material-symbols-rounded ${theme.split(' ')[0]}">${icon}</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h4 class="text-sm font-bold text-white truncate">${title}</h4>
+                        <p class="text-xs text-text-muted truncate">${subtitle}</p>
+                    </div>
+                </div>`;
+            },
+
+            renderWalletList: () => {
+                const list = Utils.$('walletListContainer');
+                const empty = Utils.$('walletEmptyState');
+                list.innerHTML = '';
+                
+                const items = currentWalletTab === 'income' ? state.incomes : state.expenses;
+                
+                // Toggle visual tab state
+                const btnInc = Utils.$('tab-income');
+                const btnExp = Utils.$('tab-expense');
+                
+                if(currentWalletTab === 'income') {
+                    btnInc.className = "flex-1 py-2 rounded-lg text-xs font-bold bg-white text-black shadow-sm transition-all";
+                    btnExp.className = "flex-1 py-2 rounded-lg text-xs font-bold text-text-muted hover:text-white transition-all";
+                } else {
+                    btnInc.className = "flex-1 py-2 rounded-lg text-xs font-bold text-text-muted hover:text-white transition-all";
+                    btnExp.className = "flex-1 py-2 rounded-lg text-xs font-bold bg-white text-black shadow-sm transition-all";
                 }
 
-                sorted.forEach(h => {
-                    const isAdd = h.type === 'add';
-                    // Usamos template literals para limpieza
-                    container.innerHTML += `
-                    <div class="flex justify-between items-center p-4 bg-white/50 dark:bg-white/5 rounded-2xl border border-white/30 dark:border-white/5 group hover:border-primary/30 transition-all hover:shadow-sm">
-                        <div class="flex items-center gap-3 w-full overflow-hidden">
-                            <div class="w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${isAdd ? 'bg-success/10 text-success' : 'bg-danger/10 text-danger'}">
-                                <span class="material-symbols-rounded text-xl">${isAdd ? 'arrow_downward' : 'arrow_upward'}</span>
-                            </div>
-                            <div class="w-full overflow-hidden">
-                                <input value="${h.desc}" class="bg-transparent font-bold text-sm w-full border-none p-0 focus:ring-0 outline-none text-text-main-light dark:text-text-main-dark cursor-pointer placeholder-stone-400 text-truncate-input" oninput="Data.updateHistoryDesc(${h.id}, this.value)">
-                                <p class="text-[10px] opacity-50 font-medium font-mono tracking-wide">${new Date(h.date).toLocaleDateString()}</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-2 shrink-0">
-                            <span class="font-black font-display ${isAdd ? 'text-success' : 'text-danger'} whitespace-nowrap text-sm">${isAdd ? '+' : '-'}${Utils.formatMoney(h.amount)}</span>
-                            <button onclick="App.deleteItem('history', ${h.id})" class="opacity-0 group-hover:opacity-100 transition-opacity text-text-muted-light hover:text-danger p-2"><span class="material-symbols-rounded text-lg">delete</span></button>
-                        </div>
-                    </div>`;
-                });
-            },
+                if (items.length === 0) {
+                    empty.classList.remove('hidden');
+                    empty.classList.add('flex');
+                    return;
+                } else {
+                    empty.classList.add('hidden');
+                    empty.classList.remove('flex');
+                }
 
-            renderIncomes: () => {
-                const container = Utils.$('incomesList'); 
-                container.innerHTML = '';
-                state.incomes.forEach(i => {
-                    const sub = (i.price - i.cost) * i.qty;
-                    container.innerHTML += `
-                    <div class="bg-white/50 dark:bg-white/5 p-5 rounded-[2rem] border border-white/30 dark:border-white/5 card-glass fade-in hover:border-success/30">
-                        <div class="flex justify-between mb-4">
-                            <input value="${i.name}" class="bg-transparent font-bold w-full text-base focus:ring-0 border-none p-0 outline-none cursor-pointer text-truncate-input" oninput="App.updateItem('incomes', ${i.id}, 'name', this.value)" placeholder="Nombre del proyecto...">
-                            <button onclick="App.deleteItem('incomes', ${i.id})" class="text-text-muted-light hover:text-danger opacity-40 hover:opacity-100 transition-opacity"><span class="material-symbols-rounded text-xl">close</span></button>
+                items.forEach(item => {
+                    // Diseño "Full Width" para que se vea el nombre completo
+                    list.innerHTML += `
+                    <div class="glass-card p-4 flex items-center justify-between group">
+                        <div class="flex-1 mr-4">
+                            <input type="text" value="${item.name}" onchange="App.updateItemName('${currentWalletTab}', ${item.id}, this.value)" class="bg-transparent font-bold text-white text-sm w-full p-0 border-none focus:ring-0 placeholder-text-muted/50" placeholder="Nombre...">
                         </div>
-                        <div class="flex gap-4 mb-4">
-                             <div class="w-1/2 relative group">
-                                <span class="absolute left-4 top-2 text-[8px] uppercase font-bold opacity-40 tracking-wider">Precio</span>
-                                <input type="number" value="${i.price}" class="w-full bg-white/50 dark:bg-black/20 rounded-2xl pt-6 pb-3 px-4 text-sm font-bold border border-white/30 dark:border-white/5 text-center outline-none focus:border-primary/50 transition-colors" oninput="App.updateItem('incomes', ${i.id}, 'price', this.value)">
-                             </div>
-                             <div class="w-1/2 relative group">
-                                <span class="absolute left-4 top-2 text-[8px] uppercase font-bold opacity-40 text-danger tracking-wider">Costo</span>
-                                <input type="number" value="${i.cost}" class="w-full bg-white/50 dark:bg-black/20 rounded-2xl pt-6 pb-3 px-4 text-sm font-bold border border-white/30 dark:border-white/5 text-center outline-none focus:border-danger/50 text-danger transition-colors" oninput="App.updateItem('incomes', ${i.id}, 'cost', this.value)">
-                             </div>
-                        </div>
-                        <div class="bg-white/40 dark:bg-black/20 p-4 rounded-2xl border border-white/20 dark:border-white/5 shadow-sm">
-                            <div class="flex justify-between items-center mb-3">
-                                <span class="text-[9px] font-bold text-text-muted-light uppercase tracking-widest">Cantidad</span>
-                                <span id="qty-label-${i.id}" class="text-[9px] font-bold bg-primary/10 text-primary px-2 py-0.5 rounded-lg border border-primary/20">${i.qty} Unid.</span>
+                        <div class="flex items-center gap-3">
+                            <div class="flex items-center gap-1 bg-black/20 rounded-lg px-2 py-1">
+                                <span class="text-xs text-text-muted">$</span>
+                                <input type="number" value="${item.amount}" onchange="App.updateItemAmount('${currentWalletTab}', ${item.id}, this.value)" class="bg-transparent font-mono font-medium text-white text-right w-16 p-0 border-none focus:ring-0 text-sm">
                             </div>
-                            <input type="range" min="1" max="100" value="${i.qty}" class="w-full h-1 bg-stone-200 dark:bg-stone-700 rounded-lg appearance-none cursor-pointer mb-3" oninput="App.updateItem('incomes', ${i.id}, 'qty', this.value)">
-                            <div class="flex justify-between items-center border-t border-dashed border-white/30 dark:border-white/10 pt-3">
-                                <span class="text-[10px] opacity-60 font-bold uppercase">Total Neto</span>
-                                <span id="sub-${i.id}" class="text-lg font-black text-success tracking-tight">+${Utils.formatMoney(sub)}</span>
-                            </div>
-                            <span class="help-text text-right mt-1">Precio x Cantidad - Costo</span>
+                            <button onclick="App.deleteItem('${currentWalletTab}', ${item.id})" class="text-text-muted hover:text-accent-red transition-colors p-1">
+                                <span class="material-symbols-rounded text-lg">delete</span>
+                            </button>
                         </div>
                     </div>`;
                 });
-            },
-
-            renderExpenses: () => {
-                const container = Utils.$('expensesList'); 
-                container.innerHTML = '';
-                state.expenses.forEach(e => {
-                    const icon = Utils.getSmartIcon(e.name);
-                    container.innerHTML += `
-                    <div class="flex items-center bg-white/50 dark:bg-white/5 p-5 rounded-[2rem] border border-white/30 dark:border-white/5 card-glass fade-in justify-between hover:border-danger/30 gap-4">
-                        <div class="flex items-center gap-4 flex-1 overflow-hidden">
-                            <div class="w-12 h-12 rounded-2xl bg-danger/5 flex items-center justify-center text-danger shrink-0 border border-danger/10 shadow-sm">
-                                <span class="material-symbols-rounded">${icon}</span>
-                            </div>
-                            <div class="w-full overflow-hidden">
-                                <span class="text-[8px] block opacity-40 uppercase font-bold pl-1 tracking-widest mb-0.5">Concepto</span>
-                                <input value="${e.name}" class="bg-transparent font-bold text-sm focus:ring-0 border-none p-0 outline-none w-full cursor-pointer placeholder-stone-400 text-truncate-input" oninput="App.updateItem('expenses', ${e.id}, 'name', this.value)" placeholder="Nombre del gasto...">
-                                <span class="help-text mt-1 text-truncate-input">¿Necesario?</span>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-3 shrink-0">
-                            <div class="flex items-center bg-white/50 dark:bg-black/20 px-4 py-3 rounded-2xl border border-white/30 dark:border-white/5 shadow-sm">
-                                <span class="text-xs mr-1 opacity-40 font-serif">$</span>
-                                <input type="number" value="${e.amount}" class="w-20 bg-transparent text-right font-bold focus:ring-0 border-none p-0 outline-none" oninput="App.updateItem('expenses', ${e.id}, 'amount', this.value)">
-                            </div>
-                            <button onclick="App.deleteItem('expenses', ${e.id})" class="text-text-muted-light hover:text-danger opacity-40 hover:opacity-100 transition-opacity"><span class="material-symbols-rounded text-xl">close</span></button>
-                        </div>
-                    </div>`;
-                });
+                
+                // Botón para añadir item en lista vacía o llena
+                list.innerHTML += `
+                    <button onclick="App.addListItem('${currentWalletTab}')" class="w-full py-3 rounded-xl border border-dashed border-white/20 text-xs text-text-muted font-bold hover:bg-white/5 transition-colors uppercase tracking-widest mt-4">
+                        + Agregar ${currentWalletTab === 'income' ? 'Ingreso' : 'Gasto'} Fijo
+                    </button>
+                `;
             },
 
             renderChart: () => {
                 const ctx = Utils.$('mainChart');
                 if(!ctx) return;
                 
-                const sorted = [...state.history].sort((a,b) => a.id - b.id);
-                const labels = ['Inicio'];
-                const dataPoints = [0];
-                let runningBalance = 0;
-                
-                sorted.forEach((h) => {
-                    const change = h.type === 'add' ? h.amount : -h.amount;
-                    runningBalance = Math.max(0, runningBalance + change); 
-                    let labelName = h.desc || 'Mov';
-                    if(labelName.length > 8) labelName = labelName.substring(0, 8) + '..'; 
-                    labels.push(labelName); 
-                    dataPoints.push(runningBalance);
-                });
-                
-                labels.push('Hoy'); 
-                dataPoints.push(state.accumulated);
-                
+                // Preparar datos
+                const history = [...state.history].sort((a,b) => a.id - b.id); // Cronológico
+                const labels = history.map(h => new Date(h.date).toLocaleDateString(undefined, {day:'2-digit', month:'short'}));
+                const dataPoints = history.map(h => h.amount); // Solo magnitud por ahora, o acumulado
+
                 if(chartInstance) chartInstance.destroy();
-                
-                const gradient = ctx.getContext('2d').createLinearGradient(0, 0, 0, 300);
-                gradient.addColorStop(0, 'rgba(176, 137, 104, 0.4)'); 
-                gradient.addColorStop(1, 'rgba(176, 137, 104, 0.0)');
-                
+
                 chartInstance = new Chart(ctx, {
                     type: 'line',
                     data: {
                         labels: labels,
                         datasets: [{
-                            label: 'Fondo', data: dataPoints, borderColor: '#b08968', backgroundColor: gradient,
-                            borderWidth: 3, pointBackgroundColor: '#fff', pointBorderColor: '#b08968', pointRadius: 4, pointHoverRadius: 8,
-                            fill: true, tension: 0.4 
+                            label: 'Movimientos',
+                            data: dataPoints,
+                            borderColor: '#d4a373',
+                            backgroundColor: 'rgba(212, 163, 115, 0.1)',
+                            borderWidth: 2,
+                            tension: 0.4,
+                            pointRadius: 3,
+                            fill: true
                         }]
                     },
                     options: {
-                        responsive: true, maintainAspectRatio: false,
-                        layout: { padding: { top: 20, bottom: 10, left: 10, right: 10 } },
-                        plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false, backgroundColor: 'rgba(0,0,0,0.8)', titleFont: {family: 'Plus Jakarta Sans'}, bodyFont: {family: 'Inter'} } },
-                        scales: { x: { display: false }, y: { display: false, min: 0 } },
-                        interaction: { mode: 'nearest', axis: 'x', intersect: false }
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            x: { display: false },
+                            y: { display: false }
+                        }
                     }
                 });
-            },
 
-            updateThermometer: (income, expense) => {
-                const indicator = Utils.$('healthIndicator');
-                const badge = Utils.$('healthBadge');
-                const desc = Utils.$('healthDescText');
-                
-                let savingsRate = income > 0 ? ((income - expense) / income) * 100 : 0;
-                let sliderPos = income <= expense ? 15 : 30 + Math.min((savingsRate / 50) * 70, 70);
-                
-                if(indicator) indicator.style.left = `${sliderPos}%`;
-                
-                if (sliderPos < 35) {
-                    badge.textContent = "ALERTA ROJA"; badge.className = "px-3 py-1 bg-danger/10 text-danger border border-danger/30 rounded-full text-[9px] font-black uppercase";
-                    desc.textContent = "Houston, tenemos un problema. Estás gastando de más.";
-                } else if (sliderPos < 65) {
-                    badge.textContent = "AHÍ VAMOS"; badge.className = "px-3 py-1 bg-warning/10 text-warning border border-warning/30 rounded-full text-[9px] font-black uppercase";
-                    desc.textContent = "Estás al límite. Un gasto extra y adiós planes.";
-                } else {
-                    badge.textContent = "COMO JEFE"; badge.className = "px-3 py-1 bg-success/10 text-success border border-success/30 rounded-full text-[9px] font-black uppercase";
-                    desc.textContent = "Vas sobrado. Así es como se construye un imperio.";
-                }
+                // Lista historial
+                const hList = Utils.$('historyList');
+                hList.innerHTML = '';
+                [...state.history].sort((a,b) => b.id - a.id).slice(0, 10).forEach(h => {
+                    const isExp = h.type === 'expense';
+                    hList.innerHTML += `
+                    <div class="flex justify-between items-center py-3 border-b border-white/5 last:border-0">
+                        <div>
+                            <p class="text-sm font-bold text-white">${h.desc || 'Sin descripción'}</p>
+                            <p class="text-xs text-text-muted">${new Date(h.date).toLocaleDateString()}</p>
+                        </div>
+                        <span class="font-mono font-bold ${isExp ? 'text-accent-red' : 'text-accent-green'}">
+                            ${isExp ? '-' : '+'}${Utils.formatMoney(h.amount)}
+                        </span>
+                    </div>`;
+                });
             }
         };
 
-        // 6. CONTROLADOR DE LA APLICACIÓN (LÓGICA)
+        // --- APP LOGIC ---
         const App = {
             init: () => {
                 Auth.init();
-                UI.renderAll();
-                App.checkTutorial();
             },
 
-            // Navegación
+            renderAll: () => {
+                UI.updateDashboard();
+                UI.renderWalletList();
+                UI.renderChart();
+            },
+
             navigateTo: (viewId) => {
-                document.querySelectorAll('[id^="view-"]').forEach(el => el.classList.add('hidden'));
+                document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
                 Utils.$(`view-${viewId}`).classList.remove('hidden');
                 
-                const titles = { home: 'DASHBOARD', goal: 'LA META', incomes: 'INGRESOS', expenses: 'GASTOS' };
-                Utils.setText('pageTitleLabel', titles[viewId]);
-                
-                const btn = Utils.$('backBtn');
-                if(viewId === 'home') btn.classList.add('hidden'); 
-                else btn.classList.remove('hidden');
-                
-                App.calculateGlobal(); 
+                // Nav styles
+                document.querySelectorAll('.nav-btn').forEach(btn => {
+                    btn.classList.remove('text-primary');
+                    btn.classList.add('text-text-muted');
+                    if(btn.dataset.target === viewId) {
+                        btn.classList.remove('text-text-muted');
+                        btn.classList.add('text-primary');
+                    }
+                });
+
+                if (viewId === 'wallet') UI.renderWalletList();
+                if (viewId === 'chart') UI.renderChart();
             },
 
-            // Lógica Global de Finanzas
-            calculateGlobal: () => {
-                let varIncome = state.incomes.reduce((acc, i) => acc + ((i.price - i.cost) * i.qty), 0);
-                let totalIncome = state.salary + varIncome;
-                let totalExpense = state.expenses.reduce((acc, e) => acc + e.amount, 0);
-                let surplus = totalIncome - totalExpense;
-                let remaining = Math.max(0, state.goal - state.accumulated);
-
-                // Actualizar Textos Home
-                Utils.setText('homeGoalDisplay', Utils.formatMoney(state.goal));
-                Utils.setHTML('homeSavedDisplay', `<span class="material-symbols-rounded text-base">savings</span><span>Disponible: ${Utils.formatMoney(state.accumulated)}</span>`);
-                Utils.setText('homeIncomeDisplay', Utils.formatMoney(totalIncome));
-                Utils.setText('homeExpenseDisplay', Utils.formatMoney(totalExpense));
-
-                // Actualizar Inputs y Detalles
-                Utils.setVal('inputGoal', state.goal);
-                Utils.setVal('inputSalary', state.salary);
-                Utils.setText('detailSavedDisplay', Utils.formatMoney(state.accumulated));
-                Utils.setText('totalIncomeDisplay', Utils.formatMoney(totalIncome));
-                Utils.setText('totalExpenseDisplay', Utils.formatMoney(totalExpense));
-
-                // Componentes Visuales
-                App.updateBottomBar(surplus, totalIncome, remaining);
-                UI.updateThermometer(totalIncome, totalExpense);
-                UI.renderChart();
+            // --- Wallet Logic ---
+            switchWalletTab: (tab) => {
+                currentWalletTab = tab;
+                UI.renderWalletList();
+            },
+            
+            addListItem: (type) => {
+                const newItem = { id: Date.now(), name: '', amount: 0 };
+                if (type === 'income') state.incomes.push(newItem);
+                else state.expenses.push(newItem);
+                UI.renderWalletList();
                 Data.save();
             },
 
-            updateBottomBar: (surplus, totalIncome, remaining) => {
-                const elBar = Utils.$('barProgress');
-                const elTime = Utils.$('barTime');
-                const elSurplus = Utils.$('barSurplus');
-                
-                Utils.setText('barGoalText', `Faltan: ${Utils.formatCompact(remaining)}`);
-                elSurplus.innerText = (surplus > 0 ? '+' : '') + Utils.formatMoney(surplus);
-                
-                if (surplus > 0) {
-                    elSurplus.classList.remove('text-danger'); elSurplus.classList.add('text-success');
-                    let progress = (surplus / totalIncome) * 100 * 2; 
-                    elBar.style.width = Math.min(progress, 100) + '%';
-                    elBar.className = 'h-full bg-success w-0 transition-all duration-1000 ease-out rounded-full shadow-[0_0_15px_rgba(106,153,78,0.6)]';
-                    
-                    let months = remaining / surplus;
-                    elTime.innerHTML = `<span class="material-symbols-rounded text-primary text-sm">timer</span><span>${App.formatTimeRemaining(months)}</span>`;
-                } else {
-                    elSurplus.classList.remove('text-success'); elSurplus.classList.add('text-danger');
-                    elBar.style.width = '100%';
-                    elBar.className = 'h-full bg-danger w-0 transition-all duration-1000 ease-out rounded-full shadow-[0_0_15px_rgba(188,71,73,0.6)]';
-                    elTime.innerHTML = `<span class="material-symbols-rounded text-text-muted-light text-sm">timer_off</span><span>Ni en sueños</span>`;
-                }
+            updateItemName: (type, id, val) => {
+                const list = type === 'income' ? state.incomes : state.expenses;
+                const item = list.find(i => i.id === id);
+                if(item) { item.name = val; Data.save(); }
             },
 
-            formatTimeRemaining: (totalMonths) => {
-                if (totalMonths === Infinity) return "Nunca jamás";
-                if (totalMonths <= 0) return "¡Logrado!";
-                const years = Math.floor(totalMonths / 12);
-                const months = Math.floor(totalMonths % 12);
-                let parts = [];
-                if (years > 0) parts.push(`${years}a`);
-                if (months > 0) parts.push(`${months}m`);
-                return parts.length > 0 ? parts.join(' ') : "Hoy";
+            updateItemAmount: (type, id, val) => {
+                const list = type === 'income' ? state.incomes : state.expenses;
+                const item = list.find(i => i.id === id);
+                if(item) { item.amount = parseFloat(val) || 0; Data.save(); UI.updateDashboard(); }
             },
 
-            // Acciones de Usuario
-            updateVal: (key, val) => { 
-                state[key] = parseFloat(val) || 0; 
-                App.calculateGlobal(); 
+            deleteItem: (type, id) => {
+                if (type === 'income') state.incomes = state.incomes.filter(i => i.id !== id);
+                else state.expenses = state.expenses.filter(i => i.id !== id);
+                UI.renderWalletList();
+                UI.updateDashboard();
+                Data.save();
             },
 
-            toggleTheme: () => {
-                document.documentElement.classList.toggle('dark');
-                UI.renderChart();
-            },
-
-            // Modales y Formularios
-            openProfileModal: () => {
-                const modal = Utils.$('profileModal');
-                const card = Utils.$('profileCard');
-                Utils.$('inputUserName').value = state.userName || (firebaseAuth.currentUser ? firebaseAuth.currentUser.displayName : '');
-                modal.classList.remove('hidden');
-                setTimeout(() => { card.classList.remove('scale-95', 'opacity-0'); card.classList.add('scale-100', 'opacity-100'); }, 10);
-            },
-            closeProfileModal: () => {
-                const modal = Utils.$('profileModal');
-                const card = Utils.$('profileCard');
-                card.classList.remove('scale-100', 'opacity-100'); card.classList.add('scale-95', 'opacity-0');
-                setTimeout(() => modal.classList.add('hidden'), 300);
-            },
-            saveProfile: () => {
-                const newName = Utils.$('inputUserName').value.trim();
-                if (newName) {
-                    state.userName = newName;
-                    Data.save();
-                    App.updateGreeting();
-                    App.closeProfileModal();
-                    UI.showToast(`¡Listo, ${newName}!`);
-                }
-            },
-            updateGreeting: () => {
-                const el = Utils.$('userGreetingName');
-                if(el) el.innerText = state.userName || 'Amiga';
-            },
-
-            // Gestión de Transacciones Manuales
-            modifyFund: (type) => {
-                const elInput = Utils.$('fundInput');
-                const amount = parseFloat(elInput.value);
-                if(!amount || amount <= 0) { elInput.focus(); return; }
-                pendingTransaction = { type, amount };
-                App.openTransactionModal();
-            },
+            // --- Transaction Modal ---
             openTransactionModal: () => {
-                if(!pendingTransaction) return;
-                const type = pendingTransaction.type;
-                const inputField = Utils.$('transactionDesc');
-                const helpText = Utils.$('modalHelpText');
-                
-                if(type === 'add') {
-                    Utils.setText('modalTitle', '¡Ka-ching! Ingreso');
-                    Utils.$('modalIcon').innerText = 'arrow_downward';
-                    Utils.$('modalIcon').className = `material-symbols-rounded text-3xl text-success`;
-                    inputField.placeholder = "Ej: Bono, Regalo, Ahorro extra...";
-                    helpText.innerText = "¡Bien hecho! ¿De dónde salió este dinero?";
-                } else {
-                    Utils.setText('modalTitle', 'Retiro de fondos');
-                    Utils.$('modalIcon').innerText = 'warning';
-                    Utils.$('modalIcon').className = `material-symbols-rounded text-3xl text-warning`;
-                    inputField.placeholder = "Ej: Emergencia, Antojo, Imprevisto...";
-                    helpText.innerText = "Piénsalo bien: ¿Es una emergencia o un capricho?";
-                }
-                Utils.setText('modalAmountDisplay', Utils.formatMoney(pendingTransaction.amount));
-                
-                const btn = Utils.$('modalConfirmBtn');
-                btn.className = `py-4 rounded-2xl text-xs font-bold text-white shadow-lg active:scale-95 transition-transform uppercase tracking-wider ${type === 'add' ? 'bg-success shadow-success/30' : 'bg-danger shadow-danger/30'}`;
-                
-                inputField.value = "";
                 Utils.$('transactionModal').classList.remove('hidden');
-                setTimeout(() => { Utils.$('transactionCard').classList.remove('scale-95', 'opacity-0'); Utils.$('transactionCard').classList.add('scale-100', 'opacity-100'); }, 10);
+                setTimeout(() => Utils.$('transactionPanel').classList.remove('translate-y-full'), 10);
             },
             closeTransactionModal: () => {
-                const card = Utils.$('transactionCard');
-                card.classList.remove('scale-100', 'opacity-100'); card.classList.add('scale-95', 'opacity-0');
-                setTimeout(() => Utils.$('transactionModal').classList.add('hidden'), 300);
+                Utils.$('transactionPanel').classList.add('translate-y-full');
+                setTimeout(() => {
+                    Utils.$('transactionModal').classList.add('hidden');
+                    Utils.$('modalAmountInput').value = '';
+                    Utils.$('modalDescInput').value = '';
+                }, 300);
             },
-            confirmTransaction: () => {
-                if(!pendingTransaction) return;
-                const desc = Utils.$('transactionDesc').value || (pendingTransaction.type === 'add' ? 'Ahorro Manual' : 'Retiro Manual');
+            confirmTransaction: (type) => {
+                const amount = parseFloat(Utils.$('modalAmountInput').value);
+                const desc = Utils.$('modalDescInput').value || (type === 'income' ? 'Ingreso Extra' : 'Gasto Varios');
+
+                if(!amount) return;
+
+                // Actualizar acumulado (Meta)
+                if(type === 'income') state.accumulated += amount;
+                else state.accumulated = Math.max(0, state.accumulated - amount);
+
+                // Agregar a historial
+                state.history.push({
+                    id: Date.now(),
+                    date: new Date().toISOString(),
+                    desc: desc,
+                    amount: amount,
+                    type: type
+                });
+
+                Data.save();
+                UI.updateDashboard();
+                App.closeTransactionModal();
                 
-                if(pendingTransaction.type === 'add') { 
-                    state.accumulated += pendingTransaction.amount; 
-                    UI.triggerConfetti(); 
-                    UI.showToast("¡Ka-ching! Dinero en la bolsa. 💰");
-                } else { 
-                    state.accumulated = Math.max(0, state.accumulated - pendingTransaction.amount);
-                    UI.showToast("Anotado. (Respira, todo va a estar bien). 🧘", "warn");
-                }
-                
-                state.history.unshift({ id: Date.now(), date: new Date().toISOString(), desc, amount: pendingTransaction.amount, type: pendingTransaction.type });
-                Utils.$('fundInput').value = '';
-                UI.renderHistory(); App.calculateGlobal(); App.closeTransactionModal();
-            },
-
-            // CRUD Items
-            addItem: (type) => {
-                const id = Date.now();
-                if(type === 'incomes') { 
-                    state.incomes.push({ id, name: 'Extra', price: 0, cost: 0, qty: 1 }); 
-                    UI.renderIncomes(); 
-                } else { 
-                    state.expenses.push({ id, name: 'Gasto', amount: 0 }); 
-                    UI.renderExpenses(); 
-                }
-                App.calculateGlobal();
-            },
-            deleteItem: (type, id) => {
-                if(type === 'history') { 
-                    const item = state.history.find(x => x.id === id); 
-                    if(item) { 
-                        if(item.type === 'add') state.accumulated = Math.max(0, state.accumulated - item.amount); 
-                        else state.accumulated += item.amount; 
-                        state.history = state.history.filter(x => x.id !== id); 
-                        UI.renderHistory(); 
-                    } 
-                } else if(type === 'incomes') { 
-                    state.incomes = state.incomes.filter(x => x.id !== id); 
-                    UI.renderIncomes(); 
-                } else { 
-                    state.expenses = state.expenses.filter(x => x.id !== id); 
-                    UI.renderExpenses(); 
-                } 
-                App.calculateGlobal(); 
-                UI.showToast("¡Poof! Desapareció. ✨", "neutral");
-            },
-            updateItem: (type, id, field, val) => {
-                const arr = state[type];
-                const item = arr.find(x => x.id === id);
-                if(item) {
-                    item[field] = (field === 'name' || field === 'desc') ? val : (parseFloat(val) || 0);
-                    if(type === 'incomes' && field !== 'name') {
-                        const sub = (item.price - item.cost) * item.qty;
-                        Utils.setText(`sub-${id}`, `+${Utils.formatMoney(sub)}`);
-                        Utils.setText(`qty-label-${id}`, item.qty + ' Unid.');
-                    }
-                    App.calculateGlobal();
+                // Efecto visual
+                if(type === 'income') {
+                    confetti({ particleCount: 50, spread: 60, origin: { y: 0.8 }, colors: ['#4ade80', '#ffffff'] });
                 }
             },
 
-            toggleHistory: () => {
-                const cont = Utils.$('historyContainer');
-                const chev = Utils.$('historyChevron');
-                cont.classList.toggle('hidden');
-                chev.classList.toggle('rotate-180');
+            // --- Goal & Profile Modals ---
+            openGoalModal: () => {
+                Utils.$('goalInput').value = state.goal;
+                Utils.$('goalModal').classList.remove('hidden');
+            },
+            closeGoalModal: () => Utils.$('goalModal').classList.add('hidden'),
+            saveGoal: () => {
+                const val = parseFloat(Utils.$('goalInput').value);
+                if(val) { state.goal = val; Data.save(); UI.updateDashboard(); }
+                App.closeGoalModal();
             },
 
-            checkTutorial: () => {
-                if(!localStorage.getItem(CONFIG.tutorialKey)) {
-                    setTimeout(() => {
-                        const driver = window.driver.js.driver({
-                            showProgress: true, popoverClass: 'driverjs-theme',
-                            nextBtnText: 'Siguiente', prevBtnText: 'Atrás', doneBtnText: '¡Vamos!',
-                            steps: [
-                                { popover: { title: 'Hola, Marie', description: 'Bienvenida a tu centro de mando. Vamos a poner tus finanzas en forma.' } },
-                                { element: '#step1-target', popover: { title: 'Tu Colchón', description: 'Aquí vive tu tranquilidad. Cuanto más alto el número, mejor dormirás.' } },
-                                { element: '#step2-target', popover: { title: 'El Flujo', description: 'Lo que entra (¡bien!) y lo que sale (auch). Mantén la balanza a tu favor.' } },
-                                { element: '#step3-target', popover: { title: 'El Chequeo', description: 'Si esto está en rojo, Houston, tenemos un problema. Si está verde, eres imparable.' } }
-                            ]
-                        });
-                        driver.drive();
-                        localStorage.setItem(CONFIG.tutorialKey, 'true');
-                    }, 2000);
-                }
+            openProfileModal: () => {
+                Utils.$('profileNameInput').value = state.userName;
+                Utils.$('profileModal').classList.remove('hidden');
+            },
+            closeProfileModal: () => Utils.$('profileModal').classList.add('hidden'),
+            saveProfile: () => {
+                const val = Utils.$('profileNameInput').value.trim();
+                if(val) { state.userName = val; Data.save(); UI.updateDashboard(); }
+                App.closeProfileModal();
             }
         };
 
-        // Extensions to Utils for standard DOM operations not in UI class
-        Utils.setText = (id, txt) => { const el = Utils.$(id); if(el) el.innerText = txt; }
-        Utils.setHTML = (id, html) => { const el = Utils.$(id); if(el) el.innerHTML = html; }
-        Utils.setVal = (id, val) => { const el = Utils.$(id); if(el && document.activeElement !== el) el.value = val; }
-
-        // INICIALIZACIÓN
+        // Init
         document.addEventListener('DOMContentLoaded', App.init);
 
     </script>
