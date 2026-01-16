@@ -24,14 +24,14 @@
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#b08968",       
+                        "primary": "#b08968",        
                         "text-main-light": "#4a403a",
                         "text-muted-light": "#9c8c84",
                         "text-main-dark": "#e7e5e4",
                         "text-muted-dark": "#a8a29e",
-                        "success": "#6a994e",       
+                        "success": "#6a994e",        
                         "danger": "#bc4749",        
-                        "warning": "#e9c46a",       
+                        "warning": "#e9c46a",        
                     },
                     fontFamily: {
                         "display": ["Plus Jakarta Sans", "sans-serif"],
@@ -56,9 +56,17 @@
             },
         }
     </script>
+
     <style>
+        /* BASE & UTILIDADES */
         body { -webkit-tap-highlight-color: transparent; transition: color 0.5s ease; }
+        input:focus { outline: none; }
+        input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         
+        /* ANIMACIONES */
+        .fade-in { animation: fadeIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; opacity: 0; transform: translateY(12px); }
+        @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+
         /* FONDO ANIMADO */
         .animated-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
@@ -68,10 +76,9 @@
         }
         .dark .animated-bg {
             background: linear-gradient(-45deg, #1a120b, #2b1d16, #3e2723, #0c0a09);
-            background-size: 300% 300%;
         }
 
-        /* GLASSMORPHISM ÁUREO */
+        /* EFECTOS DE CRISTAL (GLASSMORPHISM) */
         .glass-panel { 
             background: rgba(255, 255, 255, 0.7); 
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
@@ -98,25 +105,20 @@
         }
         .card-glass:active { transform: scale(0.99); }
 
-        /* Tipografía Áurea - Escalas */
-        .text-hero { font-size: clamp(2rem, 5vw, 4.5rem); line-height: 1.1; } /* Para números grandes */
+        /* TIPOGRAFÍA */
+        .text-hero { font-size: clamp(2rem, 5vw, 4.5rem); line-height: 1.1; }
         .text-h1 { font-size: clamp(1.5rem, 3vw, 2.5rem); } 
         .text-body { font-size: 1rem; line-height: 1.618; }
         .text-small { font-size: 0.85rem; line-height: 1.5; }
         .text-micro { font-size: 0.7rem; letter-spacing: 0.05em; text-transform: uppercase; }
+        .text-truncate-input { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        input:focus { outline: none; }
-        input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-        .fade-in { animation: fadeIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; opacity: 0; transform: translateY(12px); }
-        @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
-
-        /* Scrollbar */
+        /* SCROLLBAR & INPUTS */
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #b08968; border-radius: 10px; opacity: 0.5; }
         .dark ::-webkit-scrollbar-thumb { background: #8d6e63; }
 
-        /* Inputs */
         input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
         input[type=range]::-webkit-slider-thumb {
             -webkit-appearance: none; height: 16px; width: 16px; border-radius: 50%;
@@ -128,6 +130,7 @@
 
         .help-text { font-size: 0.75rem; line-height: 1.4; opacity: 0.65; font-family: 'Inter', sans-serif; display: block; margin-top: 6px; font-style: italic; text-wrap: balance; }
         
+        /* COMPONENTES UI */
         #toast {
             visibility: hidden; min-width: 220px; max-width: 90%; background-color: rgba(43, 29, 22, 0.95);
             color: #fff; text-align: center; border-radius: 99px; padding: 12px 24px; position: fixed;
@@ -138,11 +141,9 @@
         }
         #toast.show { visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0); }
         
-        /* Modal Backdrop */
         .modal-backdrop { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; padding: 1rem; }
         .modal-bg { position: absolute; inset: 0; background-color: rgba(0,0,0,0.4); backdrop-filter: blur(8px); transition: opacity 0.3s; }
         
-        /* Login Overlay */
         #loginOverlay {
             position: fixed; inset: 0; z-index: 999; 
             background: linear-gradient(-45deg, #efebe9, #e6dace);
@@ -152,20 +153,19 @@
         .dark #loginOverlay { background: linear-gradient(-45deg, #1a120b, #2b1d16); }
         .hidden-overlay { opacity: 0; pointer-events: none; }
 
-        /* Botones Prolijos */
+        /* CLASES UTILITARIAS DE BOTONES */
         .btn-header { width: 44px; height: 44px; flex-shrink: 0; border-radius: 14px; }
         .btn-control { width: 72px; height: 72px; flex-shrink: 0; border-radius: 20px; }
         .btn-action-lg { width: 64px; height: 64px; flex-shrink: 0; border-radius: 20px; }
         
-        .text-truncate-input { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        
-        /* Tutorial */
+        /* ESTILOS TUTORIAL */
         .driver-popover.driverjs-theme { background-color: rgba(255, 255, 255, 0.9); backdrop-filter: blur(15px); color: #4a403a; border: 1px solid rgba(176, 137, 104, 0.3); border-radius: 24px; font-family: 'Plus Jakarta Sans', sans-serif; }
         .dark .driver-popover.driverjs-theme { background-color: rgba(30, 25, 20, 0.95); color: #e7e5e4; border: 1px solid rgba(255, 255, 255, 0.1); }
         .driver-popover.driverjs-theme button.driver-popover-close-btn { background-color: transparent !important; color: #9c8c84; width: 24px; height: 24px; border-radius: 50%; transition: all 0.3s ease; }
         .driver-popover.driverjs-theme button.driver-popover-close-btn:hover { color: #bc4749 !important; transform: scale(1.1) rotate(90deg); }
     </style>
 </head>
+
 <body class="text-text-main-light dark:text-text-main-dark font-body min-h-screen flex flex-col selection:bg-primary selection:text-white overflow-x-hidden">
 
     <div class="animated-bg"></div>
@@ -177,7 +177,7 @@
             <span class="text-micro font-black text-primary mb-3 block tracking-widest">BIENVENIDA A</span>
             <h1 class="text-4xl font-display font-bold mb-6 text-text-main-light dark:text-white tracking-tight">Marie Finance</h1>
             <p class="text-small text-text-muted-light dark:text-text-muted-dark mb-10 leading-relaxed">Tus finanzas organizadas con proporción áurea. Sincroniza en la nube y mantén el control.</p>
-            <button onclick="loginWithGoogle()" class="w-full py-4 rounded-2xl bg-white dark:bg-white/10 text-text-main-light dark:text-white font-bold flex items-center justify-center gap-3 shadow-soft hover:scale-[1.02] active:scale-95 transition-all border border-black/5 dark:border-white/5 text-sm">
+            <button onclick="Auth.login()" class="w-full py-4 rounded-2xl bg-white dark:bg-white/10 text-text-main-light dark:text-white font-bold flex items-center justify-center gap-3 shadow-soft hover:scale-[1.02] active:scale-95 transition-all border border-black/5 dark:border-white/5 text-sm">
                 <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="G">
                 <span>Continuar con Google</span>
             </button>
@@ -185,7 +185,7 @@
     </div>
 
     <div id="profileModal" class="modal-backdrop hidden">
-        <div class="modal-bg" onclick="closeProfileModal()"></div>
+        <div class="modal-bg" onclick="App.closeProfileModal()"></div>
         <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-sm rounded-[2.5rem] p-8 shadow-golden relative z-10 transform transition-all scale-95 opacity-0" id="profileCard">
             <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-2xl bg-white dark:bg-[#1a1a1a] flex items-center justify-center border border-black/5 dark:border-white/10 shadow-lg">
                 <span class="material-symbols-rounded text-3xl text-primary">person_edit</span>
@@ -197,8 +197,8 @@
                 <input id="inputUserName" type="text" placeholder="Ej: Marie" class="w-full bg-black/5 dark:bg-white/5 rounded-2xl border-none py-4 px-5 text-sm focus:ring-2 focus:ring-primary/50 outline-none text-text-main-light dark:text-white placeholder-stone-400 font-medium transition-shadow text-center">
             </div>
             <div class="grid grid-cols-2 gap-4">
-                <button onclick="closeProfileModal()" class="py-4 rounded-2xl text-xs font-bold bg-black/5 dark:bg-white/5 text-text-muted-light hover:bg-black/10 dark:hover:bg-white/10 transition-colors uppercase tracking-wider">Cancelar</button>
-                <button onclick="saveProfile()" class="py-4 rounded-2xl text-xs font-bold bg-primary text-white shadow-lg shadow-primary/30 active:scale-95 transition-transform uppercase tracking-wider">Guardar</button>
+                <button onclick="App.closeProfileModal()" class="py-4 rounded-2xl text-xs font-bold bg-black/5 dark:bg-white/5 text-text-muted-light hover:bg-black/10 dark:hover:bg-white/10 transition-colors uppercase tracking-wider">Cancelar</button>
+                <button onclick="App.saveProfile()" class="py-4 rounded-2xl text-xs font-bold bg-primary text-white shadow-lg shadow-primary/30 active:scale-95 transition-transform uppercase tracking-wider">Guardar</button>
             </div>
         </div>
     </div>
@@ -206,22 +206,22 @@
     <div class="fixed top-0 w-full z-50 transition-all duration-300">
         <div class="glass-panel mx-auto w-full px-6 py-4 lg:px-12 flex items-center justify-between">
             <div class="flex items-center gap-4">
-                <button id="backBtn" onclick="navigateTo('home')" class="hidden btn-header bg-white/50 dark:bg-white/5 flex items-center justify-center text-text-muted-light dark:text-text-muted-dark hover:bg-white dark:hover:bg-white/10 active:scale-95 transition-all shadow-sm border border-white/20 dark:border-white/5">
+                <button id="backBtn" onclick="App.navigateTo('home')" class="hidden btn-header bg-white/50 dark:bg-white/5 flex items-center justify-center text-text-muted-light dark:text-text-muted-dark hover:bg-white dark:hover:bg-white/10 active:scale-95 transition-all shadow-sm border border-white/20 dark:border-white/5">
                     <span class="material-symbols-rounded">arrow_back</span>
                 </button>
-                <div class="flex flex-col cursor-pointer group" onclick="navigateTo('home')">
+                <div class="flex flex-col cursor-pointer group" onclick="App.navigateTo('home')">
                     <span id="pageTitleLabel" class="text-micro font-black text-primary group-hover:text-primary/80 transition-colors">FINANZAS</span>
                     <span id="pageTitleMain" class="text-lg font-bold font-display tracking-tight text-text-main-light dark:text-text-main-dark">Marie Finance</span>
                 </div>
             </div>
             <div class="flex gap-3">
-                <button onclick="openProfileModal()" class="btn-header border border-white/20 dark:border-white/10 text-text-muted-light dark:text-text-muted-dark flex items-center justify-center active:scale-95 hover:bg-white/20 dark:hover:bg-white/10 transition-all backdrop-blur-sm" title="Editar Perfil">
+                <button onclick="App.openProfileModal()" class="btn-header border border-white/20 dark:border-white/10 text-text-muted-light dark:text-text-muted-dark flex items-center justify-center active:scale-95 hover:bg-white/20 dark:hover:bg-white/10 transition-all backdrop-blur-sm" title="Editar Perfil">
                     <span class="material-symbols-rounded text-xl">account_circle</span>
                 </button>
-                <button onclick="logout()" class="btn-header border border-white/20 dark:border-white/10 text-text-muted-light dark:text-text-muted-dark flex items-center justify-center active:scale-95 hover:bg-danger/10 hover:text-danger hover:border-danger/30 transition-all backdrop-blur-sm" title="Cerrar Sesión">
+                <button onclick="Auth.logout()" class="btn-header border border-white/20 dark:border-white/10 text-text-muted-light dark:text-text-muted-dark flex items-center justify-center active:scale-95 hover:bg-danger/10 hover:text-danger hover:border-danger/30 transition-all backdrop-blur-sm" title="Cerrar Sesión">
                     <span class="material-symbols-rounded text-xl">logout</span>
                 </button>
-                <button onclick="toggleTheme()" class="btn-header bg-primary text-white flex items-center justify-center active:scale-95 transition-transform hover:shadow-lg hover:shadow-primary/30 shadow-md border-2 border-white/20 dark:border-white/10">
+                <button onclick="App.toggleTheme()" class="btn-header bg-primary text-white flex items-center justify-center active:scale-95 transition-transform hover:shadow-lg hover:shadow-primary/30 shadow-md border-2 border-white/20 dark:border-white/10">
                      <span class="material-symbols-rounded text-xl">contrast</span>
                 </button>
             </div>
@@ -241,7 +241,7 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch">
                 <div id="step1-target" class="lg:col-span-4 flex flex-col fade-in delay-100">
-                    <button onclick="navigateTo('goal')" class="w-full flex-1 card-glass p-8 rounded-[2.5rem] shadow-soft text-center relative overflow-hidden group flex flex-col justify-center items-center min-h-[360px]">
+                    <button onclick="App.navigateTo('goal')" class="w-full flex-1 card-glass p-8 rounded-[2.5rem] shadow-soft text-center relative overflow-hidden group flex flex-col justify-center items-center min-h-[360px]">
                         <div class="absolute top-[-20%] right-[-10%] w-48 h-48 bg-primary/10 rounded-full blur-3xl opacity-50 group-hover:opacity-80 transition-opacity"></div>
                         <div class="relative z-10 w-full flex flex-col items-center">
                             <p class="text-micro text-text-muted-light dark:text-text-muted-dark font-bold opacity-70 mb-4">Meta Global</p>
@@ -262,7 +262,7 @@
 
                 <div id="step2-target" class="lg:col-span-4 flex flex-col fade-in delay-200">
                     <div class="flex flex-col gap-6 h-full">
-                        <button onclick="navigateTo('incomes')" class="flex-1 card-glass p-8 rounded-[2.5rem] shadow-soft text-left relative overflow-hidden group flex flex-col justify-between min-h-[170px]">
+                        <button onclick="App.navigateTo('incomes')" class="flex-1 card-glass p-8 rounded-[2.5rem] shadow-soft text-left relative overflow-hidden group flex flex-col justify-between min-h-[170px]">
                             <div class="flex justify-between items-start w-full">
                                 <div>
                                     <div class="w-12 h-12 rounded-2xl bg-success/10 flex items-center justify-center text-success mb-3 group-hover:scale-110 transition-transform"><span class="material-symbols-rounded text-2xl">trending_up</span></div>
@@ -275,7 +275,7 @@
                                 <span class="help-text">Ingresos totales del mes.</span>
                             </div>
                         </button>
-                        <button onclick="navigateTo('expenses')" class="flex-1 card-glass p-8 rounded-[2.5rem] shadow-soft text-left relative overflow-hidden group flex flex-col justify-between min-h-[170px]">
+                        <button onclick="App.navigateTo('expenses')" class="flex-1 card-glass p-8 rounded-[2.5rem] shadow-soft text-left relative overflow-hidden group flex flex-col justify-between min-h-[170px]">
                             <div class="flex justify-between items-start w-full">
                                 <div>
                                     <div class="w-12 h-12 rounded-2xl bg-danger/10 flex items-center justify-center text-danger mb-3 group-hover:scale-110 transition-transform"><span class="material-symbols-rounded text-2xl">trending_down</span></div>
@@ -325,7 +325,7 @@
                     </div>
                 </div>
             </div>
-            <p class="text-center text-micro text-text-muted-light/40 dark:text-text-muted-dark/40 mt-16 mb-4 font-mono opacity-50 hover:opacity-100 transition-opacity">MARIE FINANCE v28.0</p>
+            <p class="text-center text-micro text-text-muted-light/40 dark:text-text-muted-dark/40 mt-16 mb-4 font-mono opacity-50 hover:opacity-100 transition-opacity">MARIE FINANCE v28.1 (Refactored)</p>
         </div>
 
         <div id="view-goal" class="fade-in hidden w-full max-w-4xl mx-auto">
@@ -334,7 +334,7 @@
                 <div class="flex items-center justify-center gap-1 group relative flex-col">
                     <div class="flex items-center justify-center w-full">
                         <span class="text-4xl lg:text-6xl text-text-muted-light/30 dark:text-text-muted-dark/30 font-light group-hover:text-primary transition-colors">$</span>
-                        <input id="inputGoal" type="number" class="w-full max-w-[300px] lg:max-w-[500px] bg-transparent text-center text-6xl lg:text-8xl font-black border-none p-0 focus:ring-0 text-text-main-light dark:text-text-main-dark outline-none tracking-tighter placeholder-black/10 dark:placeholder-white/10 transition-all focus:scale-105" placeholder="0" oninput="updateVal('goal', this.value)">
+                        <input id="inputGoal" type="number" class="w-full max-w-[300px] lg:max-w-[500px] bg-transparent text-center text-6xl lg:text-8xl font-black border-none p-0 focus:ring-0 text-text-main-light dark:text-text-main-dark outline-none tracking-tighter placeholder-black/10 dark:placeholder-white/10 transition-all focus:scale-105" placeholder="0" oninput="App.updateVal('goal', this.value)">
                     </div>
                     <span class="help-text mt-2 text-primary">Toca el número para editar.</span>
                 </div>
@@ -348,16 +348,16 @@
                     <span id="detailSavedDisplay" class="text-6xl lg:text-7xl font-black text-success tracking-tighter w-full md:w-auto text-right">$0</span>
                 </div>
                 <div class="flex gap-6 mb-10 items-stretch h-auto min-h-[140px]">
-                    <button onclick="modifyFund('sub')" class="btn-control bg-danger/5 text-danger flex items-center justify-center text-4xl active:scale-90 transition-all border border-danger/20 hover:bg-danger hover:text-white hover:shadow-lg hover:shadow-danger/30"><span class="material-symbols-rounded">remove</span></button>
+                    <button onclick="App.modifyFund('sub')" class="btn-control bg-danger/5 text-danger flex items-center justify-center text-4xl active:scale-90 transition-all border border-danger/20 hover:bg-danger hover:text-white hover:shadow-lg hover:shadow-danger/30"><span class="material-symbols-rounded">remove</span></button>
                     <div class="flex-1 relative bg-white/30 dark:bg-black/20 rounded-[2rem] border border-white/20 dark:border-white/5 overflow-hidden flex items-center justify-center flex-col p-6">
                         <span class="text-micro font-bold opacity-40 mb-2">Monto a operar</span>
                         <input id="fundInput" type="number" placeholder="0" class="w-full bg-transparent text-center font-bold text-5xl lg:text-6xl focus:ring-0 border-none outline-none text-text-main-light dark:text-text-main-dark z-10 mb-2">
                         <span class="help-text text-center max-w-[200px]">Ingresa cantidad para sumar o restar.</span>
                     </div>
-                    <button onclick="modifyFund('add')" class="btn-control bg-success/5 text-success flex items-center justify-center text-4xl active:scale-90 transition-all border border-success/20 hover:bg-success hover:text-white hover:shadow-lg hover:shadow-success/30"><span class="material-symbols-rounded">add</span></button>
+                    <button onclick="App.modifyFund('add')" class="btn-control bg-success/5 text-success flex items-center justify-center text-4xl active:scale-90 transition-all border border-success/20 hover:bg-success hover:text-white hover:shadow-lg hover:shadow-success/30"><span class="material-symbols-rounded">add</span></button>
                 </div>
                 <div class="pt-4 border-t border-white/20 dark:border-white/5">
-                     <button onclick="toggleHistory()" class="w-full flex items-center justify-between p-6 bg-white/40 dark:bg-black/20 rounded-[2rem] text-xs font-bold uppercase text-text-muted-light dark:text-text-muted-dark hover:bg-white/60 dark:hover:bg-white/5 transition-all group border border-white/20 dark:border-white/5">
+                     <button onclick="App.toggleHistory()" class="w-full flex items-center justify-between p-6 bg-white/40 dark:bg-black/20 rounded-[2rem] text-xs font-bold uppercase text-text-muted-light dark:text-text-muted-dark hover:bg-white/60 dark:hover:bg-white/5 transition-all group border border-white/20 dark:border-white/5">
                         <div class="flex flex-col items-start text-left">
                             <span class="tracking-widest">Historial</span>
                             <span class="help-text mt-0.5 normal-case opacity-50">Movimientos recientes.</span>
@@ -381,7 +381,7 @@
                         </div>
                         <p id="totalIncomeDisplay" class="text-5xl lg:text-7xl font-black text-success tracking-tighter">$0</p>
                     </div>
-                    <button onclick="addItem('incomes')" class="btn-action-lg bg-success text-white flex items-center justify-center active:scale-90 transition-all hover:shadow-xl hover:shadow-success/40 border-4 border-white/20"><span class="material-symbols-rounded text-4xl">add</span></button>
+                    <button onclick="App.addItem('incomes')" class="btn-action-lg bg-success text-white flex items-center justify-center active:scale-90 transition-all hover:shadow-xl hover:shadow-success/40 border-4 border-white/20"><span class="material-symbols-rounded text-4xl">add</span></button>
                 </div>
                 <div class="flex flex-col md:flex-row justify-between items-center bg-white/30 dark:bg-black/20 p-6 lg:p-8 rounded-[2rem] mb-8 border border-white/20 dark:border-white/5 shadow-inner gap-6">
                     <div class="flex items-center gap-5 w-full md:w-auto">
@@ -393,7 +393,7 @@
                     </div>
                     <div class="flex items-center bg-white/50 dark:bg-white/5 px-8 py-4 rounded-2xl border border-white/30 dark:border-white/5 shadow-sm w-full md:w-auto justify-end">
                          <span class="text-lg mr-2 opacity-40 font-serif italic">$</span>
-                        <input id="inputSalary" type="number" class="w-40 bg-transparent text-right font-black text-3xl focus:ring-0 border-none p-0 outline-none" oninput="updateVal('salary', this.value)">
+                        <input id="inputSalary" type="number" class="w-40 bg-transparent text-right font-black text-3xl focus:ring-0 border-none p-0 outline-none" oninput="App.updateVal('salary', this.value)">
                     </div>
                 </div>
                 <div id="incomesList" class="space-y-4 lg:space-y-0 lg:grid lg:grid-cols-2 xl:grid-cols-3 lg:gap-6"></div>
@@ -410,7 +410,7 @@
                         </div>
                         <p id="totalExpenseDisplay" class="text-5xl lg:text-7xl font-black text-danger tracking-tighter">$0</p>
                     </div>
-                    <button onclick="addItem('expenses')" class="btn-action-lg bg-danger text-white flex items-center justify-center active:scale-90 transition-all hover:shadow-xl hover:shadow-danger/40 border-4 border-white/20"><span class="material-symbols-rounded text-4xl">add</span></button>
+                    <button onclick="App.addItem('expenses')" class="btn-action-lg bg-danger text-white flex items-center justify-center active:scale-90 transition-all hover:shadow-xl hover:shadow-danger/40 border-4 border-white/20"><span class="material-symbols-rounded text-4xl">add</span></button>
                 </div>
                 <div id="expensesList" class="space-y-4 lg:space-y-0 lg:grid lg:grid-cols-2 xl:grid-cols-3 lg:gap-6"></div>
             </div>
@@ -419,7 +419,7 @@
     </div>
 
     <div id="transactionModal" class="modal-backdrop hidden">
-        <div onclick="closeTransactionModal()" class="modal-bg"></div>
+        <div onclick="App.closeTransactionModal()" class="modal-bg"></div>
         <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-sm rounded-[2.5rem] p-8 shadow-golden relative z-10 transform transition-all scale-95 opacity-0" id="transactionCard">
             <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-2xl bg-white dark:bg-[#1a1a1a] flex items-center justify-center border border-black/5 dark:border-white/10 shadow-lg">
                 <span class="material-symbols-rounded text-3xl text-primary" id="modalIcon">payments</span>
@@ -432,8 +432,8 @@
                 <span class="help-text mt-2 text-center" id="modalHelpText">Descripción.</span>
             </div>
             <div class="grid grid-cols-2 gap-4">
-                <button onclick="closeTransactionModal()" class="py-4 rounded-2xl text-xs font-bold bg-black/5 dark:bg-white/5 text-text-muted-light hover:bg-black/10 dark:hover:bg-white/10 transition-colors uppercase tracking-wider">Cancelar</button>
-                <button onclick="confirmTransaction()" id="modalConfirmBtn" class="py-4 rounded-2xl text-xs font-bold bg-primary text-white shadow-lg shadow-primary/30 active:scale-95 transition-transform uppercase tracking-wider">Confirmar</button>
+                <button onclick="App.closeTransactionModal()" class="py-4 rounded-2xl text-xs font-bold bg-black/5 dark:bg-white/5 text-text-muted-light hover:bg-black/10 dark:hover:bg-white/10 transition-colors uppercase tracking-wider">Cancelar</button>
+                <button onclick="App.confirmTransaction()" id="modalConfirmBtn" class="py-4 rounded-2xl text-xs font-bold bg-primary text-white shadow-lg shadow-primary/30 active:scale-95 transition-transform uppercase tracking-wider">Confirmar</button>
             </div>
         </div>
     </div>
@@ -464,26 +464,27 @@
     </div>
 
     <script>
-        // CONFIGURACIÓN DE FIREBASE (PEGA TUS DATOS AQUÍ)
-        const firebaseConfig = {
-            apiKey: "AIzaSyANBc8ziutAX47V_iJpgdn-7O3S3kvI3Tc",
-            authDomain: "marie-finance.firebaseapp.com",
-            projectId: "marie-finance",
-            storageBucket: "marie-finance.firebasestorage.app",
-            messagingSenderId: "754175935134",
-            appId: "1:754175935134:web:d159ae64d6ce56f51f318f",
-            measurementId: "G-NX06QJHXL9"
+        /**
+         * MARIE FINANCE LOGIC - REFACTORED
+         * Organización modular para mantenibilidad.
+         */
+
+        // 1. CONFIGURACIÓN & CONSTANTES
+        const CONFIG = {
+            firebase: {
+                apiKey: "AIzaSyANBc8ziutAX47V_iJpgdn-7O3S3kvI3Tc",
+                authDomain: "marie-finance.firebaseapp.com",
+                projectId: "marie-finance",
+                storageBucket: "marie-finance.firebasestorage.app",
+                messagingSenderId: "754175935134",
+                appId: "1:754175935134:web:d159ae64d6ce56f51f318f",
+                measurementId: "G-NX06QJHXL9"
+            },
+            tutorialKey: 'marie_v28_tut_completed',
+            collections: { users: 'users' }
         };
 
-        let auth, db;
-        try {
-            firebase.initializeApp(firebaseConfig);
-            auth = firebase.auth();
-            db = firebase.firestore();
-        } catch (e) {
-            console.error("Firebase no configurado aún.");
-        }
-
+        // Estado Global
         let state = {
             userName: '',
             goal: 5000,
@@ -494,439 +495,549 @@
             history: []   
         };
 
-        // --- GESTIÓN DE SESIÓN ---
-        function checkAuth() {
-            if(!auth) return;
-            auth.onAuthStateChanged(user => {
-                const overlay = document.getElementById('loginOverlay');
-                if (user) {
-                    overlay.classList.add('hidden-overlay');
-                    loadDataFromCloud(user.uid);
-                } else {
-                    overlay.classList.remove('hidden-overlay');
-                }
-            });
-        }
+        let pendingTransaction = null;
+        let chartInstance = null;
+        let firebaseAuth = null;
+        let firestoreDb = null;
 
-        function loginWithGoogle() {
-            if(!auth) { alert("Configura Firebase."); return; }
-            const provider = new firebase.auth.GoogleAuthProvider();
-            auth.signInWithPopup(provider).catch(error => alert(error.message));
-        }
-
-        function logout() {
-            if(confirm("¿Cerrar sesión?")) {
-                auth.signOut();
-                location.reload();
+        // 2. UTILIDADES
+        const Utils = {
+            $: (id) => document.getElementById(id),
+            formatMoney: (v) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(v),
+            formatCompact: (v) => new Intl.NumberFormat('en-US', { notation: "compact", maximumFractionDigits: 1 }).format(v),
+            getSmartIcon: (name) => {
+                const n = (name || '').toLowerCase();
+                const icons = {
+                    'comida': 'restaurant', 'cena': 'restaurant', 'uber': 'local_gas_station', 
+                    'transporte': 'local_gas_station', 'casa': 'cottage', 'alquiler': 'cottage', 
+                    'internet': 'wifi', 'wifi': 'wifi', 'netflix': 'subscriptions', 'spotify': 'subscriptions'
+                };
+                for (let key in icons) if (n.includes(key)) return icons[key];
+                return 'credit_card';
             }
-        }
-
-        async function loadDataFromCloud(uid) {
-            const docRef = db.collection('users').doc(uid);
-            const doc = await docRef.get();
-            if (doc.exists) {
-                state = { ...state, ...doc.data() };
-                updateGreeting();
-            } else {
-                const user = auth.currentUser;
-                state.userName = user.displayName ? user.displayName.split(' ')[0] : '';
-                saveDataToCloud();
-                openProfileModal(); // Pedir nombre al inicio
-            }
-            renderAllLists();
-        }
-
-        function saveDataToCloud() {
-            const user = auth.currentUser;
-            if (user && db) {
-                db.collection('users').doc(user.uid).set(state, { merge: true });
-            }
-        }
-
-        // --- PROFILE MODAL ---
-        function openProfileModal() {
-            const modal = document.getElementById('profileModal');
-            const card = document.getElementById('profileCard');
-            const input = document.getElementById('inputUserName');
-            input.value = state.userName || (auth.currentUser ? auth.currentUser.displayName : '');
-            modal.classList.remove('hidden');
-            setTimeout(() => { card.classList.remove('scale-95', 'opacity-0'); card.classList.add('scale-100', 'opacity-100'); }, 10);
-        }
-
-        function closeProfileModal() {
-            const modal = document.getElementById('profileModal');
-            const card = document.getElementById('profileCard');
-            card.classList.remove('scale-100', 'opacity-100');
-            card.classList.add('scale-95', 'opacity-0');
-            setTimeout(() => modal.classList.add('hidden'), 300);
-        }
-
-        function saveProfile() {
-            const input = document.getElementById('inputUserName');
-            const newName = input.value.trim();
-            if (newName) {
-                state.userName = newName;
-                saveDataToCloud();
-                updateGreeting();
-                closeProfileModal();
-                showToast(`¡Listo, ${newName}!`);
-            }
-        }
-
-        function updateGreeting() {
-            const el = document.getElementById('userGreetingName');
-            if(el) el.innerText = state.userName || 'Amiga';
-        }
-
-        // --- LOGIC APP ---
-        const getSmartIcon = (name) => {
-            const n = name.toLowerCase();
-            if(n.includes('comida') || n.includes('cena')) return 'restaurant';
-            if(n.includes('transporte') || n.includes('uber')) return 'local_gas_station';
-            if(n.includes('casa') || n.includes('alquiler')) return 'cottage';
-            if(n.includes('internet') || n.includes('wifi')) return 'wifi';
-            if(n.includes('netflix') || n.includes('spotify')) return 'subscriptions';
-            return 'credit_card';
         };
 
-        document.addEventListener('DOMContentLoaded', () => {
-            checkAuth();
-            renderAllLists();
-            if(!localStorage.getItem('marie_v28_tut')) { setTimeout(startTutorial, 2000); localStorage.setItem('marie_v28_tut', 'true'); }
-        });
-
-        function updateGlobalState() {
-            let varIncome = state.incomes.reduce((acc, i) => acc + ((i.price - i.cost) * i.qty), 0);
-            let totalIncome = state.salary + varIncome;
-            let totalExpense = state.expenses.reduce((acc, e) => acc + e.amount, 0);
-            let surplus = totalIncome - totalExpense;
-            let remaining = Math.max(0, state.goal - state.accumulated);
-
-            setText('homeGoalDisplay', formatMoney(state.goal));
-            setHTML('homeSavedDisplay', `<span class="material-symbols-rounded text-base">savings</span><span>Disponible: ${formatMoney(state.accumulated)}</span>`);
-            setText('homeIncomeDisplay', formatMoney(totalIncome));
-            setText('homeExpenseDisplay', formatMoney(totalExpense));
-
-            setVal('inputGoal', state.goal);
-            setVal('inputSalary', state.salary);
-            setText('detailSavedDisplay', formatMoney(state.accumulated));
-            setText('totalIncomeDisplay', formatMoney(totalIncome));
-            setText('totalExpenseDisplay', formatMoney(totalExpense));
-
-            updateBottomBar(surplus, totalIncome, remaining);
-            updateHealthThermometer(totalIncome, totalExpense);
-            renderChart();
-            saveDataToCloud();
-        }
-
-        function formatTimeRemaining(totalMonths) {
-            if (totalMonths === Infinity) return "Nunca jamás";
-            if (totalMonths <= 0) return "¡Logrado!";
-            const years = Math.floor(totalMonths / 12);
-            const months = Math.floor(totalMonths % 12);
-            const days = Math.ceil((totalMonths - Math.floor(totalMonths)) * 30);
-            let parts = [];
-            if (years > 0) parts.push(`${years}a`);
-            if (months > 0) parts.push(`${months}m`);
-            return parts.length > 0 ? parts.join(' ') : "Hoy";
-        }
-
-        function updateBottomBar(surplus, totalIncome, remaining) {
-            const elBar = document.getElementById('barProgress');
-            const elTime = document.getElementById('barTime');
-            const elSurplus = document.getElementById('barSurplus');
-            setText('barGoalText', `Faltan: ${formatCompact(remaining)}`);
-            elSurplus.innerText = (surplus > 0 ? '+' : '') + formatMoney(surplus);
-            if (surplus > 0) {
-                elSurplus.classList.remove('text-danger'); elSurplus.classList.add('text-success');
-                let progress = (surplus / totalIncome) * 100 * 2; 
-                elBar.style.width = Math.min(progress, 100) + '%';
-                elBar.className = 'h-full bg-success w-0 transition-all duration-1000 ease-out rounded-full shadow-[0_0_15px_rgba(106,153,78,0.6)]';
-                let months = remaining / surplus;
-                elTime.innerHTML = `<span class="material-symbols-rounded text-primary text-sm">timer</span><span>${formatTimeRemaining(months)}</span>`;
-            } else {
-                elSurplus.classList.remove('text-success'); elSurplus.classList.add('text-danger');
-                elBar.style.width = '100%';
-                elBar.className = 'h-full bg-danger w-0 transition-all duration-1000 ease-out rounded-full shadow-[0_0_15px_rgba(188,71,73,0.6)]';
-                elTime.innerHTML = `<span class="material-symbols-rounded text-text-muted-light text-sm">timer_off</span><span>Ni en sueños</span>`;
-            }
-        }
-
-        function updateHealthThermometer(income, expense) {
-            const indicator = document.getElementById('healthIndicator');
-            const badge = document.getElementById('healthBadge');
-            const desc = document.getElementById('healthDescText');
-            let savingsRate = income > 0 ? ((income - expense) / income) * 100 : 0;
-            let sliderPos = income <= expense ? 15 : 30 + Math.min((savingsRate / 50) * 70, 70);
-            if(indicator) indicator.style.left = `${sliderPos}%`;
-            if (sliderPos < 35) {
-                badge.textContent = "ALERTA ROJA"; badge.className = "px-3 py-1 bg-danger/10 text-danger border border-danger/30 rounded-full text-[9px] font-black uppercase";
-                desc.textContent = "Houston, tenemos un problema. Estás gastando de más.";
-            } else if (sliderPos < 65) {
-                badge.textContent = "AHÍ VAMOS"; badge.className = "px-3 py-1 bg-warning/10 text-warning border border-warning/30 rounded-full text-[9px] font-black uppercase";
-                desc.textContent = "Estás al límite. Un gasto extra y adiós planes.";
-            } else {
-                badge.textContent = "COMO JEFE"; badge.className = "px-3 py-1 bg-success/10 text-success border border-success/30 rounded-full text-[9px] font-black uppercase";
-                desc.textContent = "Vas sobrado. Así es como se construye un imperio.";
-            }
-        }
-
-        let chartInstance = null;
-        function renderChart() {
-            const ctx = document.getElementById('mainChart');
-            if(!ctx) return;
-            const sorted = [...state.history].sort((a,b) => a.id - b.id);
-            const labels = ['Inicio'];
-            const dataPoints = [0];
-            let runningBalance = 0;
-            sorted.forEach((h) => {
-                const change = h.type === 'add' ? h.amount : -h.amount;
-                runningBalance = Math.max(0, runningBalance + change); 
-                let labelName = h.desc || 'Mov';
-                if(labelName.length > 8) labelName = labelName.substring(0, 8) + '..'; 
-                labels.push(labelName); 
-                dataPoints.push(runningBalance);
-            });
-            labels.push('Hoy'); dataPoints.push(state.accumulated);
-            if(chartInstance) chartInstance.destroy();
-            const gradient = ctx.getContext('2d').createLinearGradient(0, 0, 0, 300);
-            gradient.addColorStop(0, 'rgba(176, 137, 104, 0.4)'); 
-            gradient.addColorStop(1, 'rgba(176, 137, 104, 0.0)');
-            chartInstance = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Fondo', data: dataPoints, borderColor: '#b08968', backgroundColor: gradient,
-                        borderWidth: 3, pointBackgroundColor: '#fff', pointBorderColor: '#b08968', pointRadius: 4, pointHoverRadius: 8,
-                        fill: true, tension: 0.4 
-                    }]
-                },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    layout: { padding: { top: 20, bottom: 10, left: 10, right: 10 } },
-                    plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false, backgroundColor: 'rgba(0,0,0,0.8)', titleFont: {family: 'Plus Jakarta Sans'}, bodyFont: {family: 'Inter'} } },
-                    scales: { x: { display: false }, y: { display: false, min: 0 } },
-                    interaction: { mode: 'nearest', axis: 'x', intersect: false }
+        // 3. MÓDULO DE AUTENTICACIÓN Y FIREBASE
+        const Auth = {
+            init: () => {
+                try {
+                    firebase.initializeApp(CONFIG.firebase);
+                    firebaseAuth = firebase.auth();
+                    firestoreDb = firebase.firestore();
+                    Auth.monitor();
+                } catch (e) {
+                    console.error("Firebase Error:", e);
+                    alert("Error inicializando la base de datos.");
                 }
-            });
-        }
-
-        function updateVal(key, val) { state[key] = parseFloat(val) || 0; updateGlobalState(); }
-
-        let pendingTransaction = null;
-        function modifyFund(type) {
-            const elInput = document.getElementById('fundInput');
-            const amount = parseFloat(elInput.value);
-            if(!amount || amount <= 0) { elInput.focus(); return; }
-            pendingTransaction = { type, amount };
-            openTransactionModal();
-        }
-
-        function openTransactionModal() {
-            if(!pendingTransaction) return;
-            const type = pendingTransaction.type;
-            const inputField = document.getElementById('transactionDesc');
-            const helpText = document.getElementById('modalHelpText');
-            if(type === 'add') {
-                setText('modalTitle', '¡Ka-ching! Ingreso');
-                setText('modalIcon', 'arrow_downward');
-                document.getElementById('modalIcon').className = `material-symbols-rounded text-3xl text-success`;
-                inputField.placeholder = "Ej: Bono, Regalo, Ahorro extra...";
-                helpText.innerText = "¡Bien hecho! ¿De dónde salió este dinero?";
-            } else {
-                setText('modalTitle', 'Retiro de fondos');
-                setText('modalIcon', 'warning');
-                document.getElementById('modalIcon').className = `material-symbols-rounded text-3xl text-warning`;
-                inputField.placeholder = "Ej: Emergencia, Antojo, Imprevisto...";
-                helpText.innerText = "Piénsalo bien: ¿Es una emergencia o un capricho?";
+            },
+            monitor: () => {
+                firebaseAuth.onAuthStateChanged(user => {
+                    const overlay = Utils.$('loginOverlay');
+                    if (user) {
+                        overlay.classList.add('hidden-overlay');
+                        Data.load(user.uid);
+                    } else {
+                        overlay.classList.remove('hidden-overlay');
+                    }
+                });
+            },
+            login: () => {
+                const provider = new firebase.auth.GoogleAuthProvider();
+                firebaseAuth.signInWithPopup(provider).catch(error => alert(error.message));
+            },
+            logout: () => {
+                if(confirm("¿Cerrar sesión?")) {
+                    firebaseAuth.signOut();
+                    location.reload();
+                }
             }
-            setText('modalAmountDisplay', formatMoney(pendingTransaction.amount));
-            const btn = document.getElementById('modalConfirmBtn');
-            btn.className = `py-4 rounded-2xl text-xs font-bold text-white shadow-lg active:scale-95 transition-transform uppercase tracking-wider ${type === 'add' ? 'bg-success shadow-success/30' : 'bg-danger shadow-danger/30'}`;
-            inputField.value = "";
-            document.getElementById('transactionModal').classList.remove('hidden');
-            setTimeout(() => { document.getElementById('transactionCard').classList.remove('scale-95', 'opacity-0'); document.getElementById('transactionCard').classList.add('scale-100', 'opacity-100'); }, 10);
-        }
+        };
 
-        function closeTransactionModal() {
-            const card = document.getElementById('transactionCard');
-            card.classList.remove('scale-100', 'opacity-100');
-            card.classList.add('scale-95', 'opacity-0');
-            setTimeout(() => document.getElementById('transactionModal').classList.add('hidden'), 300);
-        }
-
-        function showToast(message, type = 'normal') {
-            const toast = document.getElementById('toast');
-            toast.innerText = message;
-            toast.style.animation = 'none'; toast.offsetHeight; toast.style.animation = null; 
-            if(type === 'warn') { toast.style.backgroundColor = 'rgba(188, 71, 73, 0.95)'; } 
-            else if (type === 'neutral') { toast.style.backgroundColor = 'rgba(43, 29, 22, 0.95)'; }
-            else { toast.style.backgroundColor = 'rgba(106, 153, 78, 0.95)'; }
-            toast.className = "show";
-            setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
-        }
-
-        function confirmTransaction() {
-            if(!pendingTransaction) return;
-            const desc = document.getElementById('transactionDesc').value || (pendingTransaction.type === 'add' ? 'Ahorro Manual' : 'Retiro Manual');
-            if(pendingTransaction.type === 'add') { 
-                state.accumulated += pendingTransaction.amount; 
-                triggerConfetti(); 
-                showToast("¡Ka-ching! Dinero en la bolsa. 💰");
-            } else { 
-                state.accumulated = Math.max(0, state.accumulated - pendingTransaction.amount);
-                showToast("Anotado. (Respira, todo va a estar bien). 🧘", "warn");
+        // 4. MÓDULO DE DATOS
+        const Data = {
+            load: async (uid) => {
+                try {
+                    const docRef = firestoreDb.collection(CONFIG.collections.users).doc(uid);
+                    const doc = await docRef.get();
+                    if (doc.exists) {
+                        state = { ...state, ...doc.data() };
+                        App.updateGreeting();
+                    } else {
+                        const user = firebaseAuth.currentUser;
+                        state.userName = user.displayName ? user.displayName.split(' ')[0] : '';
+                        Data.save();
+                        App.openProfileModal();
+                    }
+                    UI.renderAll();
+                } catch (e) { console.error("Error loading data", e); }
+            },
+            save: () => {
+                const user = firebaseAuth.currentUser;
+                if (user && firestoreDb) {
+                    firestoreDb.collection(CONFIG.collections.users).doc(user.uid).set(state, { merge: true });
+                }
+            },
+            updateHistoryDesc: (id, val) => {
+                const item = state.history.find(h => h.id === id);
+                if(item) { item.desc = val; Data.save(); UI.renderChart(); }
             }
-            state.history.unshift({ id: Date.now(), date: new Date().toISOString(), desc, amount: pendingTransaction.amount, type: pendingTransaction.type });
-            document.getElementById('fundInput').value = '';
-            renderHistoryList(); updateGlobalState(); closeTransactionModal();
-        }
+        };
 
-        function updateHistoryDesc(id, val) { const item = state.history.find(h => h.id === id); if(item) { item.desc = val; saveDataToCloud(); renderChart(); } }
-        function addItem(type) { const id = Date.now(); if(type === 'incomes') { state.incomes.push({ id, name: 'Extra', price: 0, cost: 0, qty: 1 }); renderIncomeList(); } else { state.expenses.push({ id, name: 'Gasto', amount: 0 }); renderExpenseList(); } updateGlobalState(); }
-        function deleteItem(type, id) { 
-            if(type === 'history') { 
-                const item = state.history.find(x => x.id === id); 
-                if(item) { 
-                    if(item.type === 'add') state.accumulated = Math.max(0, state.accumulated - item.amount); 
-                    else state.accumulated += item.amount; 
-                    state.history = state.history.filter(x => x.id !== id); 
-                    renderHistoryList(); 
+        // 5. MÓDULO DE INTERFAZ (UI RENDERING)
+        const UI = {
+            renderAll: () => {
+                UI.renderIncomes();
+                UI.renderExpenses();
+                UI.renderHistory();
+                App.calculateGlobal();
+            },
+            
+            showToast: (message, type = 'normal') => {
+                const toast = Utils.$('toast');
+                toast.innerText = message;
+                toast.style.animation = 'none'; toast.offsetHeight; toast.style.animation = null; 
+                const colors = { 'warn': 'rgba(188, 71, 73, 0.95)', 'neutral': 'rgba(43, 29, 22, 0.95)', 'success': 'rgba(106, 153, 78, 0.95)' };
+                toast.style.backgroundColor = colors[type] || colors['success'];
+                toast.className = "show";
+                setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
+            },
+
+            triggerConfetti: () => {
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#b08968', '#6a994e', '#e9c46a'] });
+            },
+
+            renderHistory: () => {
+                const container = Utils.$('historyContainer'); 
+                container.innerHTML = '';
+                const sorted = [...state.history].sort((a,b) => b.id - a.id).slice(0, 30);
+                
+                if(sorted.length === 0) { 
+                    container.innerHTML = '<p class="text-center text-[10px] opacity-40 py-6 italic">Aquí aparecerá tu historia.</p>'; 
+                    return; 
+                }
+
+                sorted.forEach(h => {
+                    const isAdd = h.type === 'add';
+                    // Usamos template literals para limpieza
+                    container.innerHTML += `
+                    <div class="flex justify-between items-center p-4 bg-white/50 dark:bg-white/5 rounded-2xl border border-white/30 dark:border-white/5 group hover:border-primary/30 transition-all hover:shadow-sm">
+                        <div class="flex items-center gap-3 w-full overflow-hidden">
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${isAdd ? 'bg-success/10 text-success' : 'bg-danger/10 text-danger'}">
+                                <span class="material-symbols-rounded text-xl">${isAdd ? 'arrow_downward' : 'arrow_upward'}</span>
+                            </div>
+                            <div class="w-full overflow-hidden">
+                                <input value="${h.desc}" class="bg-transparent font-bold text-sm w-full border-none p-0 focus:ring-0 outline-none text-text-main-light dark:text-text-main-dark cursor-pointer placeholder-stone-400 text-truncate-input" oninput="Data.updateHistoryDesc(${h.id}, this.value)">
+                                <p class="text-[10px] opacity-50 font-medium font-mono tracking-wide">${new Date(h.date).toLocaleDateString()}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2 shrink-0">
+                            <span class="font-black font-display ${isAdd ? 'text-success' : 'text-danger'} whitespace-nowrap text-sm">${isAdd ? '+' : '-'}${Utils.formatMoney(h.amount)}</span>
+                            <button onclick="App.deleteItem('history', ${h.id})" class="opacity-0 group-hover:opacity-100 transition-opacity text-text-muted-light hover:text-danger p-2"><span class="material-symbols-rounded text-lg">delete</span></button>
+                        </div>
+                    </div>`;
+                });
+            },
+
+            renderIncomes: () => {
+                const container = Utils.$('incomesList'); 
+                container.innerHTML = '';
+                state.incomes.forEach(i => {
+                    const sub = (i.price - i.cost) * i.qty;
+                    container.innerHTML += `
+                    <div class="bg-white/50 dark:bg-white/5 p-5 rounded-[2rem] border border-white/30 dark:border-white/5 card-glass fade-in hover:border-success/30">
+                        <div class="flex justify-between mb-4">
+                            <input value="${i.name}" class="bg-transparent font-bold w-full text-base focus:ring-0 border-none p-0 outline-none cursor-pointer text-truncate-input" oninput="App.updateItem('incomes', ${i.id}, 'name', this.value)" placeholder="Nombre del proyecto...">
+                            <button onclick="App.deleteItem('incomes', ${i.id})" class="text-text-muted-light hover:text-danger opacity-40 hover:opacity-100 transition-opacity"><span class="material-symbols-rounded text-xl">close</span></button>
+                        </div>
+                        <div class="flex gap-4 mb-4">
+                             <div class="w-1/2 relative group">
+                                <span class="absolute left-4 top-2 text-[8px] uppercase font-bold opacity-40 tracking-wider">Precio</span>
+                                <input type="number" value="${i.price}" class="w-full bg-white/50 dark:bg-black/20 rounded-2xl pt-6 pb-3 px-4 text-sm font-bold border border-white/30 dark:border-white/5 text-center outline-none focus:border-primary/50 transition-colors" oninput="App.updateItem('incomes', ${i.id}, 'price', this.value)">
+                             </div>
+                             <div class="w-1/2 relative group">
+                                <span class="absolute left-4 top-2 text-[8px] uppercase font-bold opacity-40 text-danger tracking-wider">Costo</span>
+                                <input type="number" value="${i.cost}" class="w-full bg-white/50 dark:bg-black/20 rounded-2xl pt-6 pb-3 px-4 text-sm font-bold border border-white/30 dark:border-white/5 text-center outline-none focus:border-danger/50 text-danger transition-colors" oninput="App.updateItem('incomes', ${i.id}, 'cost', this.value)">
+                             </div>
+                        </div>
+                        <div class="bg-white/40 dark:bg-black/20 p-4 rounded-2xl border border-white/20 dark:border-white/5 shadow-sm">
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-[9px] font-bold text-text-muted-light uppercase tracking-widest">Cantidad</span>
+                                <span id="qty-label-${i.id}" class="text-[9px] font-bold bg-primary/10 text-primary px-2 py-0.5 rounded-lg border border-primary/20">${i.qty} Unid.</span>
+                            </div>
+                            <input type="range" min="1" max="100" value="${i.qty}" class="w-full h-1 bg-stone-200 dark:bg-stone-700 rounded-lg appearance-none cursor-pointer mb-3" oninput="App.updateItem('incomes', ${i.id}, 'qty', this.value)">
+                            <div class="flex justify-between items-center border-t border-dashed border-white/30 dark:border-white/10 pt-3">
+                                <span class="text-[10px] opacity-60 font-bold uppercase">Total Neto</span>
+                                <span id="sub-${i.id}" class="text-lg font-black text-success tracking-tight">+${Utils.formatMoney(sub)}</span>
+                            </div>
+                            <span class="help-text text-right mt-1">Precio x Cantidad - Costo</span>
+                        </div>
+                    </div>`;
+                });
+            },
+
+            renderExpenses: () => {
+                const container = Utils.$('expensesList'); 
+                container.innerHTML = '';
+                state.expenses.forEach(e => {
+                    const icon = Utils.getSmartIcon(e.name);
+                    container.innerHTML += `
+                    <div class="flex items-center bg-white/50 dark:bg-white/5 p-5 rounded-[2rem] border border-white/30 dark:border-white/5 card-glass fade-in justify-between hover:border-danger/30 gap-4">
+                        <div class="flex items-center gap-4 flex-1 overflow-hidden">
+                            <div class="w-12 h-12 rounded-2xl bg-danger/5 flex items-center justify-center text-danger shrink-0 border border-danger/10 shadow-sm">
+                                <span class="material-symbols-rounded">${icon}</span>
+                            </div>
+                            <div class="w-full overflow-hidden">
+                                <span class="text-[8px] block opacity-40 uppercase font-bold pl-1 tracking-widest mb-0.5">Concepto</span>
+                                <input value="${e.name}" class="bg-transparent font-bold text-sm focus:ring-0 border-none p-0 outline-none w-full cursor-pointer placeholder-stone-400 text-truncate-input" oninput="App.updateItem('expenses', ${e.id}, 'name', this.value)" placeholder="Nombre del gasto...">
+                                <span class="help-text mt-1 text-truncate-input">¿Necesario?</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 shrink-0">
+                            <div class="flex items-center bg-white/50 dark:bg-black/20 px-4 py-3 rounded-2xl border border-white/30 dark:border-white/5 shadow-sm">
+                                <span class="text-xs mr-1 opacity-40 font-serif">$</span>
+                                <input type="number" value="${e.amount}" class="w-20 bg-transparent text-right font-bold focus:ring-0 border-none p-0 outline-none" oninput="App.updateItem('expenses', ${e.id}, 'amount', this.value)">
+                            </div>
+                            <button onclick="App.deleteItem('expenses', ${e.id})" class="text-text-muted-light hover:text-danger opacity-40 hover:opacity-100 transition-opacity"><span class="material-symbols-rounded text-xl">close</span></button>
+                        </div>
+                    </div>`;
+                });
+            },
+
+            renderChart: () => {
+                const ctx = Utils.$('mainChart');
+                if(!ctx) return;
+                
+                const sorted = [...state.history].sort((a,b) => a.id - b.id);
+                const labels = ['Inicio'];
+                const dataPoints = [0];
+                let runningBalance = 0;
+                
+                sorted.forEach((h) => {
+                    const change = h.type === 'add' ? h.amount : -h.amount;
+                    runningBalance = Math.max(0, runningBalance + change); 
+                    let labelName = h.desc || 'Mov';
+                    if(labelName.length > 8) labelName = labelName.substring(0, 8) + '..'; 
+                    labels.push(labelName); 
+                    dataPoints.push(runningBalance);
+                });
+                
+                labels.push('Hoy'); 
+                dataPoints.push(state.accumulated);
+                
+                if(chartInstance) chartInstance.destroy();
+                
+                const gradient = ctx.getContext('2d').createLinearGradient(0, 0, 0, 300);
+                gradient.addColorStop(0, 'rgba(176, 137, 104, 0.4)'); 
+                gradient.addColorStop(1, 'rgba(176, 137, 104, 0.0)');
+                
+                chartInstance = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Fondo', data: dataPoints, borderColor: '#b08968', backgroundColor: gradient,
+                            borderWidth: 3, pointBackgroundColor: '#fff', pointBorderColor: '#b08968', pointRadius: 4, pointHoverRadius: 8,
+                            fill: true, tension: 0.4 
+                        }]
+                    },
+                    options: {
+                        responsive: true, maintainAspectRatio: false,
+                        layout: { padding: { top: 20, bottom: 10, left: 10, right: 10 } },
+                        plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false, backgroundColor: 'rgba(0,0,0,0.8)', titleFont: {family: 'Plus Jakarta Sans'}, bodyFont: {family: 'Inter'} } },
+                        scales: { x: { display: false }, y: { display: false, min: 0 } },
+                        interaction: { mode: 'nearest', axis: 'x', intersect: false }
+                    }
+                });
+            },
+
+            updateThermometer: (income, expense) => {
+                const indicator = Utils.$('healthIndicator');
+                const badge = Utils.$('healthBadge');
+                const desc = Utils.$('healthDescText');
+                
+                let savingsRate = income > 0 ? ((income - expense) / income) * 100 : 0;
+                let sliderPos = income <= expense ? 15 : 30 + Math.min((savingsRate / 50) * 70, 70);
+                
+                if(indicator) indicator.style.left = `${sliderPos}%`;
+                
+                if (sliderPos < 35) {
+                    badge.textContent = "ALERTA ROJA"; badge.className = "px-3 py-1 bg-danger/10 text-danger border border-danger/30 rounded-full text-[9px] font-black uppercase";
+                    desc.textContent = "Houston, tenemos un problema. Estás gastando de más.";
+                } else if (sliderPos < 65) {
+                    badge.textContent = "AHÍ VAMOS"; badge.className = "px-3 py-1 bg-warning/10 text-warning border border-warning/30 rounded-full text-[9px] font-black uppercase";
+                    desc.textContent = "Estás al límite. Un gasto extra y adiós planes.";
+                } else {
+                    badge.textContent = "COMO JEFE"; badge.className = "px-3 py-1 bg-success/10 text-success border border-success/30 rounded-full text-[9px] font-black uppercase";
+                    desc.textContent = "Vas sobrado. Así es como se construye un imperio.";
+                }
+            }
+        };
+
+        // 6. CONTROLADOR DE LA APLICACIÓN (LÓGICA)
+        const App = {
+            init: () => {
+                Auth.init();
+                UI.renderAll();
+                App.checkTutorial();
+            },
+
+            // Navegación
+            navigateTo: (viewId) => {
+                document.querySelectorAll('[id^="view-"]').forEach(el => el.classList.add('hidden'));
+                Utils.$(`view-${viewId}`).classList.remove('hidden');
+                
+                const titles = { home: 'DASHBOARD', goal: 'LA META', incomes: 'INGRESOS', expenses: 'GASTOS' };
+                Utils.setText('pageTitleLabel', titles[viewId]);
+                
+                const btn = Utils.$('backBtn');
+                if(viewId === 'home') btn.classList.add('hidden'); 
+                else btn.classList.remove('hidden');
+                
+                App.calculateGlobal(); 
+            },
+
+            // Lógica Global de Finanzas
+            calculateGlobal: () => {
+                let varIncome = state.incomes.reduce((acc, i) => acc + ((i.price - i.cost) * i.qty), 0);
+                let totalIncome = state.salary + varIncome;
+                let totalExpense = state.expenses.reduce((acc, e) => acc + e.amount, 0);
+                let surplus = totalIncome - totalExpense;
+                let remaining = Math.max(0, state.goal - state.accumulated);
+
+                // Actualizar Textos Home
+                Utils.setText('homeGoalDisplay', Utils.formatMoney(state.goal));
+                Utils.setHTML('homeSavedDisplay', `<span class="material-symbols-rounded text-base">savings</span><span>Disponible: ${Utils.formatMoney(state.accumulated)}</span>`);
+                Utils.setText('homeIncomeDisplay', Utils.formatMoney(totalIncome));
+                Utils.setText('homeExpenseDisplay', Utils.formatMoney(totalExpense));
+
+                // Actualizar Inputs y Detalles
+                Utils.setVal('inputGoal', state.goal);
+                Utils.setVal('inputSalary', state.salary);
+                Utils.setText('detailSavedDisplay', Utils.formatMoney(state.accumulated));
+                Utils.setText('totalIncomeDisplay', Utils.formatMoney(totalIncome));
+                Utils.setText('totalExpenseDisplay', Utils.formatMoney(totalExpense));
+
+                // Componentes Visuales
+                App.updateBottomBar(surplus, totalIncome, remaining);
+                UI.updateThermometer(totalIncome, totalExpense);
+                UI.renderChart();
+                Data.save();
+            },
+
+            updateBottomBar: (surplus, totalIncome, remaining) => {
+                const elBar = Utils.$('barProgress');
+                const elTime = Utils.$('barTime');
+                const elSurplus = Utils.$('barSurplus');
+                
+                Utils.setText('barGoalText', `Faltan: ${Utils.formatCompact(remaining)}`);
+                elSurplus.innerText = (surplus > 0 ? '+' : '') + Utils.formatMoney(surplus);
+                
+                if (surplus > 0) {
+                    elSurplus.classList.remove('text-danger'); elSurplus.classList.add('text-success');
+                    let progress = (surplus / totalIncome) * 100 * 2; 
+                    elBar.style.width = Math.min(progress, 100) + '%';
+                    elBar.className = 'h-full bg-success w-0 transition-all duration-1000 ease-out rounded-full shadow-[0_0_15px_rgba(106,153,78,0.6)]';
+                    
+                    let months = remaining / surplus;
+                    elTime.innerHTML = `<span class="material-symbols-rounded text-primary text-sm">timer</span><span>${App.formatTimeRemaining(months)}</span>`;
+                } else {
+                    elSurplus.classList.remove('text-success'); elSurplus.classList.add('text-danger');
+                    elBar.style.width = '100%';
+                    elBar.className = 'h-full bg-danger w-0 transition-all duration-1000 ease-out rounded-full shadow-[0_0_15px_rgba(188,71,73,0.6)]';
+                    elTime.innerHTML = `<span class="material-symbols-rounded text-text-muted-light text-sm">timer_off</span><span>Ni en sueños</span>`;
+                }
+            },
+
+            formatTimeRemaining: (totalMonths) => {
+                if (totalMonths === Infinity) return "Nunca jamás";
+                if (totalMonths <= 0) return "¡Logrado!";
+                const years = Math.floor(totalMonths / 12);
+                const months = Math.floor(totalMonths % 12);
+                let parts = [];
+                if (years > 0) parts.push(`${years}a`);
+                if (months > 0) parts.push(`${months}m`);
+                return parts.length > 0 ? parts.join(' ') : "Hoy";
+            },
+
+            // Acciones de Usuario
+            updateVal: (key, val) => { 
+                state[key] = parseFloat(val) || 0; 
+                App.calculateGlobal(); 
+            },
+
+            toggleTheme: () => {
+                document.documentElement.classList.toggle('dark');
+                UI.renderChart();
+            },
+
+            // Modales y Formularios
+            openProfileModal: () => {
+                const modal = Utils.$('profileModal');
+                const card = Utils.$('profileCard');
+                Utils.$('inputUserName').value = state.userName || (firebaseAuth.currentUser ? firebaseAuth.currentUser.displayName : '');
+                modal.classList.remove('hidden');
+                setTimeout(() => { card.classList.remove('scale-95', 'opacity-0'); card.classList.add('scale-100', 'opacity-100'); }, 10);
+            },
+            closeProfileModal: () => {
+                const modal = Utils.$('profileModal');
+                const card = Utils.$('profileCard');
+                card.classList.remove('scale-100', 'opacity-100'); card.classList.add('scale-95', 'opacity-0');
+                setTimeout(() => modal.classList.add('hidden'), 300);
+            },
+            saveProfile: () => {
+                const newName = Utils.$('inputUserName').value.trim();
+                if (newName) {
+                    state.userName = newName;
+                    Data.save();
+                    App.updateGreeting();
+                    App.closeProfileModal();
+                    UI.showToast(`¡Listo, ${newName}!`);
+                }
+            },
+            updateGreeting: () => {
+                const el = Utils.$('userGreetingName');
+                if(el) el.innerText = state.userName || 'Amiga';
+            },
+
+            // Gestión de Transacciones Manuales
+            modifyFund: (type) => {
+                const elInput = Utils.$('fundInput');
+                const amount = parseFloat(elInput.value);
+                if(!amount || amount <= 0) { elInput.focus(); return; }
+                pendingTransaction = { type, amount };
+                App.openTransactionModal();
+            },
+            openTransactionModal: () => {
+                if(!pendingTransaction) return;
+                const type = pendingTransaction.type;
+                const inputField = Utils.$('transactionDesc');
+                const helpText = Utils.$('modalHelpText');
+                
+                if(type === 'add') {
+                    Utils.setText('modalTitle', '¡Ka-ching! Ingreso');
+                    Utils.$('modalIcon').innerText = 'arrow_downward';
+                    Utils.$('modalIcon').className = `material-symbols-rounded text-3xl text-success`;
+                    inputField.placeholder = "Ej: Bono, Regalo, Ahorro extra...";
+                    helpText.innerText = "¡Bien hecho! ¿De dónde salió este dinero?";
+                } else {
+                    Utils.setText('modalTitle', 'Retiro de fondos');
+                    Utils.$('modalIcon').innerText = 'warning';
+                    Utils.$('modalIcon').className = `material-symbols-rounded text-3xl text-warning`;
+                    inputField.placeholder = "Ej: Emergencia, Antojo, Imprevisto...";
+                    helpText.innerText = "Piénsalo bien: ¿Es una emergencia o un capricho?";
+                }
+                Utils.setText('modalAmountDisplay', Utils.formatMoney(pendingTransaction.amount));
+                
+                const btn = Utils.$('modalConfirmBtn');
+                btn.className = `py-4 rounded-2xl text-xs font-bold text-white shadow-lg active:scale-95 transition-transform uppercase tracking-wider ${type === 'add' ? 'bg-success shadow-success/30' : 'bg-danger shadow-danger/30'}`;
+                
+                inputField.value = "";
+                Utils.$('transactionModal').classList.remove('hidden');
+                setTimeout(() => { Utils.$('transactionCard').classList.remove('scale-95', 'opacity-0'); Utils.$('transactionCard').classList.add('scale-100', 'opacity-100'); }, 10);
+            },
+            closeTransactionModal: () => {
+                const card = Utils.$('transactionCard');
+                card.classList.remove('scale-100', 'opacity-100'); card.classList.add('scale-95', 'opacity-0');
+                setTimeout(() => Utils.$('transactionModal').classList.add('hidden'), 300);
+            },
+            confirmTransaction: () => {
+                if(!pendingTransaction) return;
+                const desc = Utils.$('transactionDesc').value || (pendingTransaction.type === 'add' ? 'Ahorro Manual' : 'Retiro Manual');
+                
+                if(pendingTransaction.type === 'add') { 
+                    state.accumulated += pendingTransaction.amount; 
+                    UI.triggerConfetti(); 
+                    UI.showToast("¡Ka-ching! Dinero en la bolsa. 💰");
+                } else { 
+                    state.accumulated = Math.max(0, state.accumulated - pendingTransaction.amount);
+                    UI.showToast("Anotado. (Respira, todo va a estar bien). 🧘", "warn");
+                }
+                
+                state.history.unshift({ id: Date.now(), date: new Date().toISOString(), desc, amount: pendingTransaction.amount, type: pendingTransaction.type });
+                Utils.$('fundInput').value = '';
+                UI.renderHistory(); App.calculateGlobal(); App.closeTransactionModal();
+            },
+
+            // CRUD Items
+            addItem: (type) => {
+                const id = Date.now();
+                if(type === 'incomes') { 
+                    state.incomes.push({ id, name: 'Extra', price: 0, cost: 0, qty: 1 }); 
+                    UI.renderIncomes(); 
+                } else { 
+                    state.expenses.push({ id, name: 'Gasto', amount: 0 }); 
+                    UI.renderExpenses(); 
+                }
+                App.calculateGlobal();
+            },
+            deleteItem: (type, id) => {
+                if(type === 'history') { 
+                    const item = state.history.find(x => x.id === id); 
+                    if(item) { 
+                        if(item.type === 'add') state.accumulated = Math.max(0, state.accumulated - item.amount); 
+                        else state.accumulated += item.amount; 
+                        state.history = state.history.filter(x => x.id !== id); 
+                        UI.renderHistory(); 
+                    } 
+                } else if(type === 'incomes') { 
+                    state.incomes = state.incomes.filter(x => x.id !== id); 
+                    UI.renderIncomes(); 
+                } else { 
+                    state.expenses = state.expenses.filter(x => x.id !== id); 
+                    UI.renderExpenses(); 
                 } 
-            } else if(type === 'incomes') { state.incomes = state.incomes.filter(x => x.id !== id); renderIncomeList(); } else { state.expenses = state.expenses.filter(x => x.id !== id); renderExpenseList(); } 
-            updateGlobalState(); 
-            showToast("¡Poof! Desapareció. ✨", "neutral");
-        }
-        function updateItem(type, id, field, val) { const arr = state[type]; const item = arr.find(x => x.id === id); if(item) { item[field] = field === 'name' || field === 'desc' ? val : (parseFloat(val) || 0); if(type === 'incomes' && field !== 'name') { const sub = (item.price - item.cost) * item.qty; setText(`sub-${id}`, `+${formatMoney(sub)}`); setText(`qty-label-${id}`, item.qty + ' Unid.'); } updateGlobalState(); } }
-        function toggleHistory() { const cont = document.getElementById('historyContainer'); const chev = document.getElementById('historyChevron'); cont.classList.toggle('hidden'); chev.classList.toggle('rotate-180'); }
+                App.calculateGlobal(); 
+                UI.showToast("¡Poof! Desapareció. ✨", "neutral");
+            },
+            updateItem: (type, id, field, val) => {
+                const arr = state[type];
+                const item = arr.find(x => x.id === id);
+                if(item) {
+                    item[field] = (field === 'name' || field === 'desc') ? val : (parseFloat(val) || 0);
+                    if(type === 'incomes' && field !== 'name') {
+                        const sub = (item.price - item.cost) * item.qty;
+                        Utils.setText(`sub-${id}`, `+${Utils.formatMoney(sub)}`);
+                        Utils.setText(`qty-label-${id}`, item.qty + ' Unid.');
+                    }
+                    App.calculateGlobal();
+                }
+            },
 
-        // --- RENDER LISTS ---
-        function renderAllLists() { renderIncomeList(); renderExpenseList(); renderHistoryList(); updateGlobalState(); }
-        function renderHistoryList() {
-            const container = document.getElementById('historyContainer'); container.innerHTML = '';
-            const sorted = [...state.history].sort((a,b) => b.id - a.id).slice(0, 30);
-            if(sorted.length === 0) { container.innerHTML = '<p class="text-center text-[10px] opacity-40 py-6 italic">Aquí aparecerá tu historia.</p>'; return; }
-            sorted.forEach(h => {
-                const isAdd = h.type === 'add';
-                container.innerHTML += `
-                <div class="flex justify-between items-center p-4 bg-white/50 dark:bg-white/5 rounded-2xl border border-white/30 dark:border-white/5 group hover:border-primary/30 transition-all hover:shadow-sm">
-                    <div class="flex items-center gap-3 w-full overflow-hidden">
-                        <div class="w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${isAdd ? 'bg-success/10 text-success' : 'bg-danger/10 text-danger'}">
-                            <span class="material-symbols-rounded text-xl">${isAdd ? 'arrow_downward' : 'arrow_upward'}</span>
-                        </div>
-                        <div class="w-full overflow-hidden">
-                            <input value="${h.desc}" class="bg-transparent font-bold text-sm w-full border-none p-0 focus:ring-0 outline-none text-text-main-light dark:text-text-main-dark cursor-pointer placeholder-stone-400 text-truncate-input" oninput="updateHistoryDesc(${h.id}, this.value)">
-                            <p class="text-[10px] opacity-50 font-medium font-mono tracking-wide">${new Date(h.date).toLocaleDateString()}</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-2 shrink-0">
-                        <span class="font-black font-display ${isAdd ? 'text-success' : 'text-danger'} whitespace-nowrap text-sm">${isAdd ? '+' : '-'}${formatMoney(h.amount)}</span>
-                        <button onclick="deleteItem('history', ${h.id})" class="opacity-0 group-hover:opacity-100 transition-opacity text-text-muted-light hover:text-danger p-2"><span class="material-symbols-rounded text-lg">delete</span></button>
-                    </div>
-                </div>`;
-            });
-        }
-        function renderIncomeList() {
-            const container = document.getElementById('incomesList'); container.innerHTML = '';
-            state.incomes.forEach(i => {
-                const sub = (i.price - i.cost) * i.qty;
-                container.innerHTML += `
-                <div class="bg-white/50 dark:bg-white/5 p-5 rounded-[2rem] border border-white/30 dark:border-white/5 card-glass fade-in hover:border-success/30">
-                    <div class="flex justify-between mb-4">
-                        <input value="${i.name}" class="bg-transparent font-bold w-full text-base focus:ring-0 border-none p-0 outline-none cursor-pointer text-truncate-input" oninput="updateItem('incomes', ${i.id}, 'name', this.value)" placeholder="Nombre del proyecto...">
-                        <button onclick="deleteItem('incomes', ${i.id})" class="text-text-muted-light hover:text-danger opacity-40 hover:opacity-100 transition-opacity"><span class="material-symbols-rounded text-xl">close</span></button>
-                    </div>
-                    <div class="flex gap-4 mb-4">
-                         <div class="w-1/2 relative group">
-                            <span class="absolute left-4 top-2 text-[8px] uppercase font-bold opacity-40 tracking-wider">Precio</span>
-                            <input type="number" value="${i.price}" class="w-full bg-white/50 dark:bg-black/20 rounded-2xl pt-6 pb-3 px-4 text-sm font-bold border border-white/30 dark:border-white/5 text-center outline-none focus:border-primary/50 transition-colors" oninput="updateItem('incomes', ${i.id}, 'price', this.value)">
-                         </div>
-                         <div class="w-1/2 relative group">
-                            <span class="absolute left-4 top-2 text-[8px] uppercase font-bold opacity-40 text-danger tracking-wider">Costo</span>
-                            <input type="number" value="${i.cost}" class="w-full bg-white/50 dark:bg-black/20 rounded-2xl pt-6 pb-3 px-4 text-sm font-bold border border-white/30 dark:border-white/5 text-center outline-none focus:border-danger/50 text-danger transition-colors" oninput="updateItem('incomes', ${i.id}, 'cost', this.value)">
-                         </div>
-                    </div>
-                    <div class="bg-white/40 dark:bg-black/20 p-4 rounded-2xl border border-white/20 dark:border-white/5 shadow-sm">
-                        <div class="flex justify-between items-center mb-3">
-                            <span class="text-[9px] font-bold text-text-muted-light uppercase tracking-widest">Cantidad</span>
-                            <span id="qty-label-${i.id}" class="text-[9px] font-bold bg-primary/10 text-primary px-2 py-0.5 rounded-lg border border-primary/20">${i.qty} Unid.</span>
-                        </div>
-                        <input type="range" min="1" max="100" value="${i.qty}" class="w-full h-1 bg-stone-200 dark:bg-stone-700 rounded-lg appearance-none cursor-pointer mb-3" oninput="updateItem('incomes', ${i.id}, 'qty', this.value)">
-                        <div class="flex justify-between items-center border-t border-dashed border-white/30 dark:border-white/10 pt-3">
-                            <span class="text-[10px] opacity-60 font-bold uppercase">Total Neto</span>
-                            <span id="sub-${i.id}" class="text-lg font-black text-success tracking-tight">+${formatMoney(sub)}</span>
-                        </div>
-                        <span class="help-text text-right mt-1">Precio x Cantidad - Costo</span>
-                    </div>
-                </div>`;
-            });
-        }
-        function renderExpenseList() {
-            const container = document.getElementById('expensesList'); container.innerHTML = '';
-            state.expenses.forEach(e => {
-                const icon = getSmartIcon(e.name);
-                container.innerHTML += `
-                <div class="flex items-center bg-white/50 dark:bg-white/5 p-5 rounded-[2rem] border border-white/30 dark:border-white/5 card-glass fade-in justify-between hover:border-danger/30 gap-4">
-                    <div class="flex items-center gap-4 flex-1 overflow-hidden">
-                        <div class="w-12 h-12 rounded-2xl bg-danger/5 flex items-center justify-center text-danger shrink-0 border border-danger/10 shadow-sm">
-                            <span class="material-symbols-rounded">${icon}</span>
-                        </div>
-                        <div class="w-full overflow-hidden">
-                            <span class="text-[8px] block opacity-40 uppercase font-bold pl-1 tracking-widest mb-0.5">Concepto</span>
-                            <input value="${e.name}" class="bg-transparent font-bold text-sm focus:ring-0 border-none p-0 outline-none w-full cursor-pointer placeholder-stone-400 text-truncate-input" oninput="updateItem('expenses', ${e.id}, 'name', this.value)" placeholder="Nombre del gasto...">
-                            <span class="help-text mt-1 text-truncate-input">¿Necesario?</span>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-3 shrink-0">
-                        <div class="flex items-center bg-white/50 dark:bg-black/20 px-4 py-3 rounded-2xl border border-white/30 dark:border-white/5 shadow-sm">
-                            <span class="text-xs mr-1 opacity-40 font-serif">$</span>
-                            <input type="number" value="${e.amount}" class="w-20 bg-transparent text-right font-bold focus:ring-0 border-none p-0 outline-none" oninput="updateItem('expenses', ${e.id}, 'amount', this.value)">
-                        </div>
-                        <button onclick="deleteItem('expenses', ${e.id})" class="text-text-muted-light hover:text-danger opacity-40 hover:opacity-100 transition-opacity"><span class="material-symbols-rounded text-xl">close</span></button>
-                    </div>
-                </div>`;
-            });
-        }
+            toggleHistory: () => {
+                const cont = Utils.$('historyContainer');
+                const chev = Utils.$('historyChevron');
+                cont.classList.toggle('hidden');
+                chev.classList.toggle('rotate-180');
+            },
 
-        function navigateTo(viewId) {
-            document.querySelectorAll('[id^="view-"]').forEach(el => el.classList.add('hidden'));
-            document.getElementById(`view-${viewId}`).classList.remove('hidden');
-            const titles = { home: 'DASHBOARD', goal: 'LA META', incomes: 'INGRESOS', expenses: 'GASTOS' };
-            setText('pageTitleLabel', titles[viewId]);
-            const btn = document.getElementById('backBtn');
-            const bar = document.getElementById('bottomBar');
-            if(viewId === 'home') { 
-                btn.classList.add('hidden'); 
-            } else { 
-                btn.classList.remove('hidden'); 
+            checkTutorial: () => {
+                if(!localStorage.getItem(CONFIG.tutorialKey)) {
+                    setTimeout(() => {
+                        const driver = window.driver.js.driver({
+                            showProgress: true, popoverClass: 'driverjs-theme',
+                            nextBtnText: 'Siguiente', prevBtnText: 'Atrás', doneBtnText: '¡Vamos!',
+                            steps: [
+                                { popover: { title: 'Hola, Marie', description: 'Bienvenida a tu centro de mando. Vamos a poner tus finanzas en forma.' } },
+                                { element: '#step1-target', popover: { title: 'Tu Colchón', description: 'Aquí vive tu tranquilidad. Cuanto más alto el número, mejor dormirás.' } },
+                                { element: '#step2-target', popover: { title: 'El Flujo', description: 'Lo que entra (¡bien!) y lo que sale (auch). Mantén la balanza a tu favor.' } },
+                                { element: '#step3-target', popover: { title: 'El Chequeo', description: 'Si esto está en rojo, Houston, tenemos un problema. Si está verde, eres imparable.' } }
+                            ]
+                        });
+                        driver.drive();
+                        localStorage.setItem(CONFIG.tutorialKey, 'true');
+                    }, 2000);
+                }
             }
-            updateGlobalState(); 
-        }
+        };
 
-        function startTutorial() {
-            const driver = window.driver.js.driver({
-                showProgress: true, popoverClass: 'driverjs-theme',
-                nextBtnText: 'Siguiente', prevBtnText: 'Atrás', doneBtnText: '¡Vamos!',
-                steps: [
-                    { popover: { title: 'Hola, Marie', description: 'Bienvenida a tu centro de mando. Vamos a poner tus finanzas en forma.' } },
-                    { element: '#step1-target', popover: { title: 'Tu Colchón', description: 'Aquí vive tu tranquilidad. Cuanto más alto el número, mejor dormirás.' } },
-                    { element: '#step2-target', popover: { title: 'El Flujo', description: 'Lo que entra (¡bien!) y lo que sale (auch). Mantén la balanza a tu favor.' } },
-                    { element: '#step3-target', popover: { title: 'El Chequeo', description: 'Si esto está en rojo, Houston, tenemos un problema. Si está verde, eres imparable.' } }
-                ]
-            });
-            driver.drive();
-        }
+        // Extensions to Utils for standard DOM operations not in UI class
+        Utils.setText = (id, txt) => { const el = Utils.$(id); if(el) el.innerText = txt; }
+        Utils.setHTML = (id, html) => { const el = Utils.$(id); if(el) el.innerHTML = html; }
+        Utils.setVal = (id, val) => { const el = Utils.$(id); if(el && document.activeElement !== el) el.value = val; }
 
-        function loadState() { const saved = localStorage.getItem('marieFin_v28_tut'); if(saved) { try { state = { ...state, ...JSON.parse(saved) }; if(!state.history) state.history=[]; } catch(e) {} } }
-        function saveState() { localStorage.setItem('marieFin_v28_tut', JSON.stringify(state)); }
-        function toggleTheme() { document.documentElement.classList.toggle('dark'); saveState(); renderChart(); }
-        function setText(id, txt) { const el = document.getElementById(id); if(el) el.innerText = txt; }
-        function setHTML(id, html) { const el = document.getElementById(id); if(el) el.innerHTML = html; }
-        function setVal(id, val) { const el = document.getElementById(id); if(el && document.activeElement !== el) el.value = val; }
-        const formatMoney = (v) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(v);
-        const formatCompact = (v) => new Intl.NumberFormat('en-US', { notation: "compact", maximumFractionDigits: 1 }).format(v);
-        function triggerConfetti() { confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#b08968', '#6a994e', '#e9c46a'] }); }
+        // INICIALIZACIÓN
+        document.addEventListener('DOMContentLoaded', App.init);
+
     </script>
 </body>
 </html>
