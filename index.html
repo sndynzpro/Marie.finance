@@ -317,7 +317,7 @@
                     </div>
                 </div>
             </div>
-            <p class="text-center text-micro text-text-muted-light/40 dark:text-text-muted-dark/40 mt-16 mb-4 font-mono opacity-50 hover:opacity-100 transition-opacity">MARIE FINANCE v28.3 (Dashboard Layout)</p>
+            <p class="text-center text-micro text-text-muted-light/40 dark:text-text-muted-dark/40 mt-16 mb-4 font-mono opacity-50 hover:opacity-100 transition-opacity">MARIE FINANCE v28.4 (Explanatory Mode)</p>
         </div>
 
         <div id="view-goal" class="fade-in hidden w-full max-w-4xl mx-auto">
@@ -342,24 +342,14 @@
                     <h2 id="detailSavedDisplay" class="text-6xl lg:text-7xl font-black text-success tracking-tighter scale-100 hover:scale-105 transition-transform cursor-default">$0</h2>
                 </div>
 
-                <div class="grid grid-cols-3 gap-4 mb-8 border-y border-dashed border-black/10 dark:border-white/10 py-6">
-                    <div class="flex flex-col items-center border-r border-black/5 dark:border-white/5">
-                        <span class="text-[10px] font-bold uppercase opacity-40 mb-1">Falta</span>
-                        <span id="goalGapDisplay" class="text-lg lg:text-xl font-bold text-text-main-light dark:text-text-main-dark">$0</span>
-                    </div>
-                    <div class="flex flex-col items-center border-r border-black/5 dark:border-white/5">
-                        <span class="text-[10px] font-bold uppercase opacity-40 mb-1">Progreso</span>
-                        <span id="goalProgressDisplay" class="text-lg lg:text-xl font-bold text-primary">0%</span>
-                    </div>
-                    <div class="flex flex-col items-center">
-                        <span class="text-[10px] font-bold uppercase opacity-40 mb-1">Tiempo</span>
-                        <span id="goalTimeDisplay" class="text-lg lg:text-xl font-bold text-text-main-light dark:text-text-main-dark">--</span>
-                    </div>
+                <div class="mb-8 border-y border-dashed border-black/10 dark:border-white/10 py-6 text-center">
+                    <p class="text-sm font-medium text-text-muted-light dark:text-text-muted-dark leading-relaxed max-w-md mx-auto">
+                        <span class="material-symbols-rounded text-primary align-bottom mr-1 text-base">info</span>
+                        Mantén actualizados tus movimientos manuales (ingresos o retiros) para visualizar tu saldo real y ver qué tan cerca estás de llegar a tu meta.
+                    </p>
                 </div>
 
                 <div class="flex flex-col items-center">
-                    <span class="text-[9px] font-bold text-text-muted-light uppercase tracking-widest mb-4 opacity-60">Movimiento Manual</span>
-                    
                     <div class="flex gap-6 items-center w-full max-w-md justify-center">
                         <div class="flex flex-col items-center gap-2">
                              <button onclick="App.modifyFund('sub')" class="btn-control bg-danger/5 text-danger flex items-center justify-center text-4xl active:scale-90 transition-all border border-danger/20 hover:bg-danger hover:text-white hover:shadow-lg hover:shadow-danger/30"><span class="material-symbols-rounded">remove</span></button>
@@ -848,19 +838,9 @@
                 Utils.setText('totalExpenseDisplay', Utils.formatMoney(totalExpense));
 
                 // === NUEVO: Actualizar la Dashboard de Metas ===
-                const elGap = Utils.$('goalGapDisplay');
-                const elProg = Utils.$('goalProgressDisplay');
-                const elTimeDash = Utils.$('goalTimeDisplay');
                 const elProgBar = Utils.$('goalProgressBar');
-
-                if (elGap) elGap.innerText = Utils.formatCompact(remaining);
-                
                 let progPct = state.goal > 0 ? (state.accumulated / state.goal) * 100 : 0;
-                if(elProg) elProg.innerText = Math.min(progPct, 100).toFixed(0) + '%';
                 if(elProgBar) elProgBar.style.width = Math.min(progPct, 100) + '%';
-
-                let months = surplus > 0 ? remaining / surplus : Infinity;
-                if(elTimeDash) elTimeDash.innerText = App.formatTimeRemaining(months);
                 // ===============================================
 
                 // Componentes Visuales
