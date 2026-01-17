@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html class="light" lang="es"> <head>
+<html class="light" lang="es">
+<head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-    <title>Marie Finance - Organic</title>
+    <title>Marie Finance - Estrategia</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Mulish:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Mulish:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20,400,1,0" rel="stylesheet" />
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -22,16 +23,17 @@
             theme: {
                 extend: {
                     colors: {
-                        "bg-cream": "#fdfbf7", /* Fondo crema de la foto */
-                        "primary": "#8f8673",  /* Verde Oliva/Tierra del círculo */
+                        "bg-cream": "#fdfbf7", 
+                        "primary": "#8f8673",  
                         "primary-dark": "#5e574d",
-                        "text-main": "#2c2420", /* Marrón oscuro casi negro */
+                        "text-main": "#2c2420",
                         "text-muted": "#9ca3af",
                         "paper": "#ffffff",
-                        "accent-line": "#e6dace", /* Lineas suaves */
-                        "success": "#738c75",  /* Verde botánico */
-                        "danger": "#bc6c6c",   /* Rojo terracota suave */
-                        "warning": "#d4a373",  /* Ocre */
+                        "accent-line": "#e6dace",
+                        "success": "#738c75",  
+                        "danger": "#bc6c6c",   
+                        "warning": "#d4a373", 
+                        "note-bg": "#f4f1ea", /* Color para notas explicativas */
                     },
                     fontFamily: {
                         "display": ["Playfair Display", "serif"],
@@ -54,10 +56,9 @@
             color: #2c2420;
         }
         input:focus { outline: none; }
-        /* Eliminar flechas de inputs numero */
         input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         
-        .fade-in { animation: fadeIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; opacity: 0; transform: translateY(10px); }
+        .fade-in { animation: fadeIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; opacity: 0; transform: translateY(8px); }
         @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
 
         /* FONDO ORGÁNICO */
@@ -71,29 +72,23 @@
         
         /* TARJETAS ESTILO PAPEL */
         .card-paper {
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(143, 134, 115, 0.15);
-            box-shadow: 0 4px 20px rgba(143, 134, 115, 0.05);
+            box-shadow: 0 4px 15px rgba(143, 134, 115, 0.05);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
         .dark .card-paper {
-            background: rgba(30, 25, 20, 0.8);
+            background: rgba(30, 25, 20, 0.9);
             border-color: rgba(255, 255, 255, 0.05);
         }
 
-        .card-paper:active { transform: scale(0.99); }
-
-        /* TEXTOS */
         .text-hero { font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1; letter-spacing: -0.03em; }
-        .text-serif { font-family: "Playfair Display", serif; }
         .text-truncate-input { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        /* SCROLLBAR */
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-thumb { background: #8f8673; border-radius: 10px; opacity: 0.3; }
 
-        /* RANGE INPUT CUSTOM */
         input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
         input[type=range]::-webkit-slider-thumb {
             -webkit-appearance: none; height: 16px; width: 16px; border-radius: 50%;
@@ -106,7 +101,7 @@
         #toast {
             visibility: hidden; min-width: 200px; max-width: 80%; 
             background-color: #2c2420; color: #fdfbf7; 
-            text-align: center; border-radius: 99px; padding: 12px 24px; position: fixed;
+            text-align: center; border-radius: 99px; padding: 10px 20px; position: fixed;
             z-index: 100; left: 50%; bottom: 100px; transform: translateX(-50%) translateY(20px);
             font-size: 12px; font-weight: 600; letter-spacing: 0.5px;
             opacity: 0; transition: all 0.3s ease;
@@ -116,24 +111,54 @@
         .modal-backdrop { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; padding: 1rem; }
         .modal-bg { position: absolute; inset: 0; background-color: rgba(44, 36, 32, 0.4); backdrop-filter: blur(4px); transition: opacity 0.3s; }
         
-        .btn-control { width: 50px; height: 50px; flex-shrink: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .btn-control { width: 48px; height: 48px; flex-shrink: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
         .touch-target { min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
         
-        /* EXPLAINER BOX */
-        .info-box {
-            font-size: 0.75rem; line-height: 1.5; 
-            background: #f4f1ea; 
+        /* NOTAS EXPLICATIVAS (ESTILO PAPEL) */
+        .explainer-note {
+            background-color: #f4f1ea;
             border-left: 3px solid #8f8673;
-            border-radius: 0 12px 12px 0; 
-            padding: 12px 16px;
             color: #5e574d;
-            font-family: 'Mulish', sans-serif;
+            font-size: 0.75rem;
+            line-height: 1.5;
+            padding: 12px 16px;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 10px;
+            align-items: start;
         }
-        .dark .info-box { background: rgba(255,255,255,0.05); color: #d1d5db; }
+        .dark .explainer-note { background: rgba(255,255,255,0.05); color: #ccc; }
+        
+        /* GRID DE NAVEGACION COMPACTA */
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            background: rgba(255,255,255,0.8);
+            padding: 4px;
+            border-radius: 16px;
+            border: 1px solid rgba(143, 134, 115, 0.15);
+        }
+        .nav-btn {
+            padding: 8px;
+            text-align: center;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #8f8673;
+            transition: all 0.2s;
+        }
+        .nav-btn.active {
+            background: #2c2420;
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(44, 36, 32, 0.15);
+        }
     </style>
 </head>
 
-<body class="font-body min-h-screen flex flex-col selection:bg-primary selection:text-white overflow-x-hidden text-text-main dark:text-gray-100 dark:bg-zinc-900">
+<body class="font-body min-h-screen flex flex-col selection:bg-primary selection:text-white overflow-x-hidden text-text-main dark:text-gray-100 dark:bg-zinc-950">
 
     <div class="organic-bg"></div>
     <div id="toast">Notificación</div>
@@ -141,239 +166,205 @@
     <div id="loginOverlay" class="fixed inset-0 z-[999] bg-[#fdfbf7] dark:bg-zinc-950 flex items-center justify-center transition-opacity duration-500">
         <div class="card-paper p-10 rounded-[2.5rem] shadow-soft text-center max-w-xs mx-6 relative overflow-hidden">
             <div class="absolute top-[-40px] left-1/2 -translate-x-1/2 w-32 h-32 bg-primary/20 rounded-full blur-2xl"></div>
-            
-            <span class="text-[10px] font-bold text-primary mb-3 block tracking-[0.2em] uppercase">Bienvenida a</span>
+            <span class="text-[10px] font-bold text-primary mb-3 block tracking-[0.2em] uppercase">Estrategia</span>
             <h1 class="text-4xl text-serif font-bold mb-4 text-text-main dark:text-white">Marie<br><span class="text-primary italic">Finance</span></h1>
-            <p class="text-xs text-primary-dark/70 dark:text-gray-400 mb-8 leading-relaxed">Gestión financiera con estilo y claridad.</p>
+            <p class="text-xs text-primary-dark/70 dark:text-gray-400 mb-8 leading-relaxed">Tu bóveda, tu flujo y tu meta en un solo lugar.</p>
             <button onclick="Auth.login()" class="w-full py-4 rounded-full bg-primary text-white font-bold flex items-center justify-center gap-3 shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all text-xs tracking-wide">
                 <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-4 h-4 brightness-0 invert" alt="G"> CONTINUAR
             </button>
         </div>
     </div>
 
-    <div id="profileModal" class="modal-backdrop hidden">
-        <div class="modal-bg" onclick="App.closeProfileModal()"></div>
-        <div class="card-paper bg-white dark:bg-zinc-900 w-full max-w-xs rounded-[2rem] p-8 shadow-soft relative z-10 transform scale-95 opacity-0 transition-all" id="profileCard">
-            <h3 class="text-xl text-serif font-bold text-center mb-1">Tu Identidad</h3>
-            <p class="text-xs text-center text-primary-dark/60 mb-6">¿Cómo quieres que te llamemos?</p>
-            <input id="inputUserName" type="text" placeholder="Ej: Marie" class="w-full bg-[#f4f1ea] dark:bg-zinc-800 rounded-xl py-4 px-4 text-sm font-bold text-center mb-6 focus:ring-1 ring-primary outline-none text-primary-dark">
-            <div class="grid grid-cols-2 gap-3">
-                <button onclick="App.closeProfileModal()" class="py-3 rounded-xl text-[10px] font-bold bg-gray-100 dark:bg-zinc-800 text-gray-500 hover:bg-gray-200">CANCELAR</button>
-                <button onclick="App.saveProfile()" class="py-3 rounded-xl text-[10px] font-bold bg-primary text-white shadow-lg shadow-primary/30">GUARDAR</button>
+    <div class="fixed top-0 w-full z-50">
+        <div class="bg-bg-cream/90 dark:bg-zinc-950/90 backdrop-blur-md mx-auto w-full px-5 py-3 flex items-center justify-between border-b border-primary/10 shadow-sm">
+            <div class="flex flex-col">
+                <span class="text-[9px] font-bold text-primary tracking-widest uppercase">Hola, <span id="userGreetingName">...</span></span>
+                <span class="text-lg font-bold text-serif text-text-main dark:text-white leading-none">Mi Balance</span>
+            </div>
+            <div class="flex gap-2">
+                <button onclick="App.toggleTheme()" class="w-9 h-9 rounded-full border border-primary/20 flex items-center justify-center text-primary-dark active:scale-95"><span class="material-symbols-rounded text-lg">contrast</span></button>
+                <button onclick="Auth.logout()" class="w-9 h-9 rounded-full border border-primary/20 flex items-center justify-center text-primary-dark active:scale-95 hover:text-danger"><span class="material-symbols-rounded text-lg">logout</span></button>
+            </div>
+        </div>
+        
+        <div class="px-5 pt-3 pb-2 bg-bg-cream/50 dark:bg-zinc-950/50 backdrop-blur-sm">
+            <div class="nav-grid max-w-md mx-auto">
+                <button onclick="App.navigateTo('goal')" id="nav-goal" class="nav-btn active">Bóveda (Meta)</button>
+                <button onclick="App.navigateTo('incomes')" id="nav-incomes" class="nav-btn">Ingresos</button>
+                <button onclick="App.navigateTo('expenses')" id="nav-expenses" class="nav-btn">Deberes</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex-1 w-full max-w-[800px] mx-auto px-5 pt-36 pb-40 overflow-visible" id="mainContainer">
+        
+        <div id="view-goal" class="fade-in w-full">
+            <div class="explainer-note">
+                <span class="material-symbols-rounded text-primary text-lg">lock</span>
+                <div>
+                    <strong class="block text-primary-dark uppercase text-[10px] tracking-widest mb-1">Tu Bóveda Real</strong>
+                    Aquí registras <strong>el dinero que ya tienes</strong> ahorrado. Usa los botones de abajo para ingresar ahorros reales o retirar para emergencias/imprevistos.
+                </div>
+            </div>
+
+            <div class="card-paper p-6 rounded-[2rem] text-center shadow-soft mb-6 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/30 to-transparent"></div>
+                
+                <div class="mb-6">
+                    <p class="text-[9px] font-bold text-text-muted uppercase tracking-widest mb-2">Meta Final (Objetivo)</p>
+                    <div class="flex justify-center items-center">
+                        <span class="text-xl text-primary/40 mr-1 font-serif">$</span>
+                        <input id="inputGoal" type="number" step="0.01" class="bg-transparent text-center text-3xl font-bold font-serif w-full max-w-[150px] focus:ring-0 border-b border-dashed border-primary/20 p-0 outline-none text-text-muted transition-colors focus:border-primary focus:text-primary" placeholder="0" oninput="App.updateVal('goal', this.value)">
+                    </div>
+                </div>
+
+                <div class="relative w-48 h-48 mx-auto mb-6 flex items-center justify-center">
+                    <svg class="w-full h-full transform -rotate-90">
+                        <circle cx="96" cy="96" r="88" stroke="currentColor" stroke-width="8" fill="transparent" class="text-gray-100 dark:text-zinc-800" />
+                        <circle id="circleProgress" cx="96" cy="96" r="88" stroke="currentColor" stroke-width="8" fill="transparent" stroke-dasharray="552" stroke-dashoffset="552" class="text-primary transition-all duration-1000 ease-out" stroke-linecap="round" />
+                    </svg>
+                    <div class="absolute flex flex-col items-center">
+                        <span class="text-[10px] font-bold uppercase text-primary-dark/50">Saldo Actual</span>
+                        <h2 id="detailSavedDisplay" class="text-4xl font-bold text-text-main dark:text-white font-serif tracking-tight my-1">$0</h2>
+                        <span id="percentDisplay" class="text-xs font-bold bg-primary/10 text-primary px-2 py-0.5 rounded">0%</span>
+                    </div>
+                </div>
+
+                <div class="bg-note-bg dark:bg-zinc-800/50 rounded-2xl p-4 border border-primary/5">
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="text-[9px] font-bold text-danger uppercase">Retiro (Imprevisto)</span>
+                        <span class="text-[9px] font-bold text-success uppercase">Depósito (Ahorro)</span>
+                    </div>
+                    <div class="flex items-center justify-between gap-4">
+                        <button onclick="App.modifyFund('sub')" class="btn-control bg-white shadow-sm border border-danger/10 text-danger hover:bg-danger hover:text-white"><span class="material-symbols-rounded">remove</span></button>
+                        <div class="flex-1 border-b border-primary/20">
+                            <input id="fundInput" type="number" step="0.01" placeholder="Monto..." class="w-full bg-transparent text-center font-bold text-xl outline-none text-text-main dark:text-white py-2">
+                        </div>
+                        <button onclick="App.modifyFund('add')" class="btn-control bg-white shadow-sm border border-success/10 text-success hover:bg-success hover:text-white"><span class="material-symbols-rounded">add</span></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8">
+                <div class="flex justify-between items-center px-2 mb-3">
+                    <span class="text-xs font-bold text-primary-dark uppercase tracking-widest">Historial de Bóveda</span>
+                    <span class="text-[9px] text-text-muted">Últimos movimientos</span>
+                </div>
+                <div id="historyContainer" class="space-y-3 pb-4"></div>
+            </div>
+        </div>
+
+        <div id="view-incomes" class="fade-in hidden w-full">
+            <div class="explainer-note">
+                <span class="material-symbols-rounded text-success text-lg">trending_up</span>
+                <div>
+                    <strong class="block text-success uppercase text-[10px] tracking-widest mb-1">Tu Motor Financiero</strong>
+                    Suma aquí todo lo que entra. <strong>Sueldo fijo</strong> (si tienes) y cada <strong>producto o servicio extra</strong>. El total define tu potencia para cubrir gastos y ahorrar.
+                </div>
+            </div>
+
+            <div class="card-paper p-5 rounded-[2rem] mb-5 flex justify-between items-center bg-white border-l-4 border-success">
+                <div>
+                    <p class="text-[9px] font-bold uppercase text-text-muted mb-1">Total Percibido Mensual</p>
+                    <p id="totalIncomeDisplay" class="text-3xl font-bold text-success font-serif tracking-tight">$0</p>
+                </div>
+                <div class="text-right">
+                    <p class="text-[9px] font-bold uppercase text-primary-dark/50 mb-1">Base Fija / Sueldo</p>
+                    <div class="flex items-center justify-end bg-bg-cream dark:bg-zinc-800 px-3 py-1 rounded-lg">
+                        <span class="text-xs mr-1 opacity-50">$</span>
+                        <input id="inputSalary" type="number" step="0.01" class="w-20 bg-transparent text-right font-bold text-lg focus:ring-0 border-none outline-none p-0" oninput="App.updateVal('salary', this.value)">
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-between items-center mb-4 px-2">
+                <span class="text-xs font-bold text-primary-dark uppercase tracking-widest">Ventas / Servicios</span>
+                <button onclick="App.addItem('incomes')" class="px-4 py-2 bg-text-main text-white rounded-xl text-[10px] font-bold shadow-md hover:scale-105 transition-transform flex items-center gap-1"><span class="material-symbols-rounded text-sm">add</span> NUEVO</button>
+            </div>
+
+            <div id="incomesList" class="grid grid-cols-1 gap-3"></div>
+        </div>
+
+        <div id="view-expenses" class="fade-in hidden w-full">
+            <div class="explainer-note">
+                <span class="material-symbols-rounded text-danger text-lg">trending_down</span>
+                <div>
+                    <strong class="block text-danger uppercase text-[10px] tracking-widest mb-1">Tus Deberes Mensuales</strong>
+                    Registra lo que <strong>sí o sí hay que cancelar</strong> (Alquiler, Servicios, Comida). Esto se restará de tus ingresos para ver cuánto te queda realmente para ahorrar.
+                </div>
+            </div>
+
+            <div class="card-paper p-5 rounded-[2rem] mb-5 flex justify-between items-center bg-white border-l-4 border-danger">
+                <div>
+                    <p class="text-[9px] font-bold uppercase text-text-muted mb-1">Total Deberes Mensual</p>
+                    <p id="totalExpenseDisplay" class="text-3xl font-bold text-danger font-serif tracking-tight">$0</p>
+                </div>
+                <div class="w-10 h-10 rounded-full bg-danger/10 flex items-center justify-center text-danger">
+                    <span class="material-symbols-rounded">priority_high</span>
+                </div>
+            </div>
+
+            <div class="flex justify-between items-center mb-4 px-2">
+                <span class="text-xs font-bold text-primary-dark uppercase tracking-widest">Lista de Compromisos</span>
+                <button onclick="App.addItem('expenses')" class="px-4 py-2 bg-text-main text-white rounded-xl text-[10px] font-bold shadow-md hover:scale-105 transition-transform flex items-center gap-1"><span class="material-symbols-rounded text-sm">add</span> NUEVO</button>
+            </div>
+
+            <div id="expensesList" class="grid grid-cols-1 gap-3"></div>
+        </div>
+
+    </div>
+
+    <div id="bottomBar" class="fixed bottom-0 w-full z-40 p-4 pb-6 flex justify-center pointer-events-none">
+        <div class="pointer-events-auto bg-text-main text-[#fdfbf7] shadow-2xl rounded-2xl w-full max-w-md px-5 py-4 flex flex-col gap-3 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2"></div>
+            
+            <div class="flex justify-between items-start relative z-10">
+                <div>
+                    <span class="text-[9px] font-bold text-white/50 uppercase tracking-widest block mb-1">Capacidad de Ahorro (Mes)</span>
+                    <span id="barSurplus" class="text-2xl font-bold font-serif leading-none">$0</span>
+                </div>
+                <div class="text-right">
+                    <span class="text-[9px] font-bold text-white/50 uppercase block mb-1">Tiempo para Meta</span>
+                    <div id="barTime" class="text-xs font-bold bg-white/10 px-3 py-1 rounded-lg text-white inline-block border border-white/10">--</div>
+                </div>
+            </div>
+            
+            <div class="w-full bg-white/10 h-1.5 rounded-full overflow-hidden flex items-center mt-1">
+                <div id="barProgress" class="h-full bg-success w-0 transition-all duration-1000 rounded-full shadow-[0_0_10px_rgba(255,255,255,0.3)]"></div>
+            </div>
+            
+            <div class="flex justify-between text-[9px] font-bold text-white/40 mt-0.5">
+                <span id="barGoalText">Falta: $0</span>
+                <span class="text-white/30 italic">Balance de Flujo</span>
             </div>
         </div>
     </div>
 
     <div id="transactionModal" class="modal-backdrop hidden">
         <div onclick="App.closeTransactionModal()" class="modal-bg"></div>
-        <div class="card-paper bg-white dark:bg-zinc-900 w-full max-w-xs rounded-[2rem] p-8 shadow-soft relative z-10 transform scale-95 opacity-0 transition-all" id="transactionCard">
-            <div class="flex justify-center mb-4"><span class="material-symbols-rounded text-4xl text-primary" id="modalIcon">payments</span></div>
-            <h3 class="text-xl text-serif font-bold text-center mb-1" id="modalTitle">Movimiento</h3>
-            <p class="text-lg text-center text-primary font-serif italic mb-6" id="modalAmountDisplay">$0.00</p>
+        <div class="card-paper bg-white dark:bg-zinc-900 w-full max-w-xs rounded-[2rem] p-8 shadow-soft relative z-10 transform scale-95 opacity-0 transition-all">
+            <h3 class="text-lg font-bold text-center mb-1" id="modalTitle">Registro</h3>
+            <p class="text-2xl text-center text-text-main font-serif font-bold mb-6" id="modalAmountDisplay">$0.00</p>
             <div class="mb-6">
-                <label class="text-[10px] font-bold uppercase text-primary-dark/50 block mb-2 pl-1">Concepto</label>
-                <input id="transactionDesc" type="text" placeholder="..." class="w-full bg-[#f4f1ea] dark:bg-zinc-800 rounded-xl py-3 px-4 text-sm outline-none font-medium">
+                <label class="text-[10px] font-bold uppercase text-text-muted block mb-2 pl-1">Motivo</label>
+                <input id="transactionDesc" type="text" placeholder="Ej: Ahorro extra / Emergencia" class="w-full bg-note-bg dark:bg-zinc-800 rounded-xl py-3 px-4 text-sm outline-none font-medium">
             </div>
             <div class="grid grid-cols-2 gap-3">
-                <button onclick="App.closeTransactionModal()" class="py-3 rounded-xl text-[10px] font-bold bg-gray-100 dark:bg-zinc-800 text-gray-500">CANCELAR</button>
-                <button onclick="App.confirmTransaction()" id="modalConfirmBtn" class="py-3 rounded-xl text-[10px] font-bold bg-primary text-white shadow-md">CONFIRMAR</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="fixed top-0 w-full z-50">
-        <div class="bg-white/80 dark:bg-zinc-900/90 backdrop-blur-md mx-auto w-full px-5 py-4 flex items-center justify-between border-b border-primary/10">
-            <div class="flex items-center gap-3">
-                <button id="backBtn" onclick="App.navigateTo('home')" class="hidden w-10 h-10 rounded-full bg-[#f4f1ea] dark:bg-zinc-800 flex items-center justify-center hover:bg-primary/20 transition-all text-primary-dark">
-                    <span class="material-symbols-rounded text-lg">arrow_back</span>
-                </button>
-                <div class="flex flex-col cursor-pointer" onclick="App.navigateTo('home')">
-                    <span id="pageTitleLabel" class="text-[9px] font-bold text-primary tracking-widest uppercase">Resumen</span>
-                    <span id="pageTitleMain" class="text-lg font-bold text-serif text-text-main dark:text-white">Marie Finance</span>
-                </div>
-            </div>
-            <div class="flex gap-2">
-                <button onclick="App.openProfileModal()" class="w-10 h-10 rounded-full border border-primary/20 flex items-center justify-center text-primary-dark active:scale-95"><span class="material-symbols-rounded">account_circle</span></button>
-                <button onclick="Auth.logout()" class="w-10 h-10 rounded-full border border-primary/20 flex items-center justify-center text-primary-dark active:scale-95 hover:text-danger"><span class="material-symbols-rounded">logout</span></button>
-            </div>
-        </div>
-    </div>
-
-    <div class="flex-1 w-full max-w-[1000px] mx-auto px-5 pt-28 pb-36 overflow-visible" id="mainContainer">
-        
-        <div id="view-home" class="w-full">
-            <div class="mb-8 fade-in">
-                <h1 class="text-3xl text-serif font-bold text-text-main dark:text-white leading-tight">
-                    Hola, <span id="userGreetingName" class="italic text-primary">...</span>
-                </h1>
-                <p class="text-xs text-primary-dark/60 mt-1">Aquí tienes el panorama de hoy.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                
-                <div class="card-paper p-6 rounded-[2rem] relative overflow-hidden group cursor-pointer md:col-span-2" onclick="App.navigateTo('goal')">
-                    <div class="absolute right-0 top-0 w-32 h-32 bg-primary/5 rounded-full translate-x-1/3 -translate-y-1/3"></div>
-                    
-                    <div class="flex justify-between items-end relative z-10">
-                        <div>
-                            <p class="text-[10px] font-bold text-primary tracking-widest uppercase mb-1">Tu Objetivo</p>
-                            <div class="flex items-baseline gap-1">
-                                <span id="homeGoalDisplay" class="text-4xl text-serif font-bold text-text-main dark:text-white">0</span>
-                            </div>
-                        </div>
-                        <div class="text-right">
-                            <span class="text-[9px] font-bold text-primary-dark/50 uppercase block mb-1">Disponible Real</span>
-                            <div class="text-2xl font-bold text-success" id="homeSavedDisplay">$0</div>
-                        </div>
-                    </div>
-                    <div class="mt-4 pt-3 border-t border-primary/10 flex items-center gap-2 text-[10px] text-primary-dark/60">
-                        <span class="material-symbols-rounded text-sm">touch_app</span>
-                        <span>Toca para ajustar tu meta o registrar movimientos manuales.</span>
-                    </div>
-                </div>
-
-                <div class="card-paper p-5 rounded-[2rem] cursor-pointer hover:border-success/30 transition-all" onclick="App.navigateTo('incomes')">
-                    <div class="w-10 h-10 rounded-full bg-success/10 flex items-center justify-center text-success mb-3"><span class="material-symbols-rounded">trending_up</span></div>
-                    <p class="text-[10px] font-bold text-primary-dark/50 uppercase">Ingresos Totales</p>
-                    <div id="homeIncomeDisplay" class="text-2xl font-bold text-success mt-1">$0</div>
-                    <p class="text-[10px] mt-2 opacity-60">Sueldo + Proyectos</p>
-                </div>
-
-                <div class="card-paper p-5 rounded-[2rem] cursor-pointer hover:border-danger/30 transition-all" onclick="App.navigateTo('expenses')">
-                    <div class="w-10 h-10 rounded-full bg-danger/10 flex items-center justify-center text-danger mb-3"><span class="material-symbols-rounded">trending_down</span></div>
-                    <p class="text-[10px] font-bold text-primary-dark/50 uppercase">Gastos Totales</p>
-                    <div id="homeExpenseDisplay" class="text-2xl font-bold text-danger mt-1">$0</div>
-                    <p class="text-[10px] mt-2 opacity-60">Fijos + Variables</p>
-                </div>
-
-                <div class="card-paper p-6 rounded-[2rem] md:col-span-2">
-                    <div class="flex justify-between items-center mb-4">
-                        <div class="flex items-center gap-2">
-                            <span class="material-symbols-rounded text-warning">cardiology</span>
-                            <h3 class="font-bold text-xs uppercase tracking-wide text-primary-dark">Salud Financiera</h3>
-                        </div>
-                        <div id="healthBadge" class="px-3 py-1 bg-[#f4f1ea] rounded-full text-[9px] font-bold uppercase text-primary-dark">--</div>
-                    </div>
-                    <p class="text-xs text-primary-dark/60 mb-4" id="healthDescText">Calculando...</p>
-                    <div class="h-[120px] w-full"><canvas id="mainChart"></canvas></div>
-                </div>
-            </div>
-        </div>
-
-        <div id="view-goal" class="fade-in hidden w-full max-w-2xl mx-auto">
-            <div class="info-box mb-6">
-                <strong>¿Cómo funciona?</strong> Define tu META (el dinero que quieres tener). Abajo, usa los botones <strong>+</strong> y <strong>-</strong> para registrar manualmente lo que entra o sale de tu bolsillo hoy (efectivo, cuentas). Así sabrás tu DISPONIBLE REAL.
-            </div>
-
-            <div class="card-paper p-8 rounded-[2.5rem] text-center shadow-soft">
-                <div class="mb-8">
-                    <p class="text-[10px] font-bold text-primary uppercase tracking-widest mb-2">Define tu Meta</p>
-                    <div class="flex justify-center items-center">
-                        <span class="text-3xl text-primary/30 mr-2 font-serif">$</span>
-                        <input id="inputGoal" type="number" step="0.01" class="bg-transparent text-center text-5xl font-bold font-serif w-full max-w-[240px] focus:ring-0 border-none p-0 outline-none text-text-main dark:text-white placeholder-primary/20" placeholder="0" oninput="App.updateVal('goal', this.value)">
-                    </div>
-                </div>
-
-                <div class="border-t border-primary/10 pt-8">
-                    <p class="text-[10px] font-bold uppercase text-primary-dark/50 mb-4">Operar Saldo (Manual)</p>
-                    <div class="flex items-center justify-center gap-6">
-                        <button onclick="App.modifyFund('sub')" class="btn-control bg-danger/10 text-danger hover:bg-danger hover:text-white shadow-sm"><span class="material-symbols-rounded">remove</span></button>
-                        <div class="bg-[#f4f1ea] dark:bg-zinc-800 rounded-2xl px-4 py-3 w-36">
-                            <input id="fundInput" type="number" step="0.01" placeholder="0" class="w-full bg-transparent text-center font-bold text-2xl outline-none text-text-main dark:text-white">
-                        </div>
-                        <button onclick="App.modifyFund('add')" class="btn-control bg-success/10 text-success hover:bg-success hover:text-white shadow-sm"><span class="material-symbols-rounded">add</span></button>
-                    </div>
-                </div>
-
-                <div class="mt-8 pt-6 border-t border-primary/10">
-                    <h2 id="detailSavedDisplay" class="text-4xl font-bold text-success font-serif tracking-tight mb-1">$0</h2>
-                    <span class="text-[10px] uppercase font-bold text-primary-dark/40">Disponible Real Actual</span>
-                    
-                    <button onclick="App.toggleHistory()" class="mx-auto mt-6 flex items-center gap-2 px-5 py-2 bg-[#f4f1ea] dark:bg-zinc-800 rounded-full text-[10px] font-bold text-primary-dark hover:bg-primary/10 transition-all">
-                        <span>VER HISTORIAL</span> <span id="historyChevron" class="material-symbols-rounded text-sm transition-transform">expand_more</span>
-                    </button>
-                    <div id="historyContainer" class="hidden mt-4 space-y-2 text-left max-h-60 overflow-y-auto custom-scroll"></div>
-                </div>
-            </div>
-        </div>
-
-        <div id="view-incomes" class="fade-in hidden w-full max-w-3xl mx-auto">
-            <div class="info-box mb-6">
-                <strong>Calculadora de Potencial:</strong> Introduce tu sueldo base (si tienes). Luego, añade cada producto, servicio o proyecto extra. Indica su precio, costo y cuántos vendes al mes. La app calculará tu ganancia neta total.
-            </div>
-
-            <div class="card-paper p-6 rounded-[2rem] mb-6 flex justify-between items-center bg-success/5 border-success/20">
-                <div>
-                    <p class="text-[10px] font-bold uppercase text-success">Total Entradas (Estimado)</p>
-                    <p id="totalIncomeDisplay" class="text-3xl font-bold text-success font-serif tracking-tight">$0</p>
-                </div>
-                <div class="text-right">
-                    <p class="text-[9px] font-bold uppercase text-primary-dark/50 mb-1">Base Fija</p>
-                    <div class="flex items-center justify-end">
-                        <span class="text-xs mr-1 opacity-50">$</span>
-                        <input id="inputSalary" type="number" step="0.01" class="w-24 bg-transparent text-right font-bold text-xl focus:ring-0 border-b border-dashed border-primary/30 outline-none p-0" oninput="App.updateVal('salary', this.value)">
-                    </div>
-                </div>
-            </div>
-
-            <div class="flex justify-between items-center mb-4 px-2">
-                <span class="text-xs font-bold text-primary-dark uppercase tracking-widest">Proyectos / Extras</span>
-                <button onclick="App.addItem('incomes')" class="px-4 py-2 bg-text-main text-white rounded-full text-xs font-bold shadow-md hover:scale-105 transition-transform flex items-center gap-2"><span class="material-symbols-rounded text-sm">add</span> AÑADIR</button>
-            </div>
-
-            <div id="incomesList" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-        </div>
-
-        <div id="view-expenses" class="fade-in hidden w-full max-w-3xl mx-auto">
-            <div class="info-box mb-6">
-                <strong>Registro de Fugas:</strong> Aquí anota todo lo que tienes que pagar sí o sí (alquiler, internet) y tus gastos hormiga. Sé sincera, esto es solo para ti.
-            </div>
-
-            <div class="card-paper p-6 rounded-[2rem] mb-6 flex justify-between items-center bg-danger/5 border-danger/20">
-                <div>
-                    <p class="text-[10px] font-bold uppercase text-danger">Total Salidas</p>
-                    <p id="totalExpenseDisplay" class="text-3xl font-bold text-danger font-serif tracking-tight">$0</p>
-                </div>
-                <button onclick="App.addItem('expenses')" class="w-12 h-12 rounded-full bg-danger text-white flex items-center justify-center shadow-lg hover:scale-105 transition-transform"><span class="material-symbols-rounded text-2xl">add</span></button>
-            </div>
-
-            <p class="text-xs font-bold text-primary-dark uppercase tracking-widest mb-4 px-2">Tus Compromisos</p>
-            <div id="expensesList" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-        </div>
-
-    </div>
-
-    <div id="bottomBar" class="fixed bottom-0 w-full z-40 p-4 pb-6 flex justify-center pointer-events-none">
-        <div class="pointer-events-auto bg-text-main text-[#fdfbf7] shadow-xl rounded-2xl w-full max-w-md px-6 py-4 flex flex-col gap-2">
-            <div class="flex justify-between items-end">
-                <div>
-                    <span class="text-[9px] font-bold text-white/50 uppercase tracking-widest block mb-1">Capacidad Real</span>
-                    <span id="barSurplus" class="text-2xl font-bold font-serif leading-none">$0</span>
-                </div>
-                <div class="text-right">
-                    <span class="text-[9px] font-bold text-white/50 uppercase block mb-1">Tiempo Estimado</span>
-                    <div id="barTime" class="text-xs font-bold bg-white/10 px-3 py-1 rounded-full text-white inline-block">--</div>
-                </div>
-            </div>
-            <div class="w-full bg-white/10 h-1.5 rounded-full overflow-hidden flex items-center mt-1">
-                <div id="barProgress" class="h-full bg-success w-0 transition-all duration-1000 rounded-full"></div>
-            </div>
-            <div class="flex justify-between text-[9px] font-bold text-white/40 mt-0.5">
-                <span>Progreso</span>
-                <span id="barGoalText">Falta: $0</span>
+                <button onclick="App.closeTransactionModal()" class="py-3 rounded-xl text-[10px] font-bold bg-gray-100 text-gray-500">CANCELAR</button>
+                <button onclick="App.confirmTransaction()" id="modalConfirmBtn" class="py-3 rounded-xl text-[10px] font-bold bg-primary text-white shadow-md">GUARDAR</button>
             </div>
         </div>
     </div>
 
     <script>
-        // CONFIGURACIÓN & LÓGICA REFINADA
+        // CONFIGURACIÓN
         const CONFIG = {
             firebase: { apiKey: "AIzaSyANBc8ziutAX47V_iJpgdn-7O3S3kvI3Tc", authDomain: "marie-finance.firebaseapp.com", projectId: "marie-finance", storageBucket: "marie-finance.firebasestorage.app", messagingSenderId: "754175935134", appId: "1:754175935134:web:d159ae64d6ce56f51f318f" },
             collections: { users: 'users' }
         };
 
         let state = { userName: '', goal: 5000, accumulated: 0, salary: 600, incomes: [], expenses: [], history: [] };
-        let pendingTransaction = null, chartInstance = null, firebaseAuth = null, firestoreDb = null;
+        let pendingTransaction = null, firebaseAuth = null, firestoreDb = null;
 
         const Utils = {
             $: (id) => document.getElementById(id),
@@ -381,9 +372,9 @@
             formatCompact: (v) => new Intl.NumberFormat('en-US', { notation: "compact", maximumFractionDigits: 1 }).format(v),
             getSmartIcon: (name) => {
                 const n = (name || '').toLowerCase();
-                const icons = { 'comida': 'restaurant', 'uber': 'local_gas_station', 'casa': 'cottage', 'wifi': 'wifi', 'netflix': 'movie', 'gym': 'fitness_center', 'luz': 'lightbulb' };
+                const icons = { 'alquiler': 'home', 'casa': 'cottage', 'comida': 'restaurant', 'mercado': 'shopping_cart', 'luz': 'lightbulb', 'agua': 'water_drop', 'internet': 'wifi', 'gym': 'fitness_center', 'transporte': 'directions_car' };
                 for (let key in icons) if (n.includes(key)) return icons[key];
-                return 'credit_card';
+                return 'receipt_long';
             }
         };
 
@@ -407,7 +398,7 @@
             load: async (uid) => {
                 const doc = await firestoreDb.collection(CONFIG.collections.users).doc(uid).get();
                 if (doc.exists) { state = { ...state, ...doc.data() }; App.updateGreeting(); } 
-                else { const u = firebaseAuth.currentUser; state.userName = u.displayName ? u.displayName.split(' ')[0] : ''; Data.save(); App.openProfileModal(); }
+                else { const u = firebaseAuth.currentUser; state.userName = u.displayName ? u.displayName.split(' ')[0] : ''; Data.save(); }
                 UI.renderAll();
             },
             save: () => { const u = firebaseAuth.currentUser; if(u) firestoreDb.collection(CONFIG.collections.users).doc(u.uid).set(state, { merge: true }); },
@@ -428,71 +419,57 @@
             },
             renderHistory: () => {
                 const container = Utils.$('historyContainer'); container.innerHTML = '';
-                const sorted = [...state.history].sort((a,b) => b.id - a.id).slice(0, 15);
-                if(sorted.length === 0) { container.innerHTML = '<p class="text-xs opacity-40 text-center py-4">Sin movimientos recientes.</p>'; return; }
+                const sorted = [...state.history].sort((a,b) => b.id - a.id).slice(0, 10);
+                if(sorted.length === 0) { container.innerHTML = '<p class="text-xs opacity-40 text-center py-4 italic">Bóveda vacía. Empieza a ahorrar.</p>'; return; }
                 sorted.forEach(h => {
                     const isAdd = h.type === 'add';
                     container.innerHTML += `
-                    <div class="flex justify-between items-center p-3 bg-white/50 dark:bg-white/5 rounded-xl border border-primary/10 text-xs">
+                    <div class="flex justify-between items-center p-3 bg-white border border-primary/5 rounded-xl shadow-sm text-xs">
                         <div class="flex items-center gap-3 w-full overflow-hidden">
-                            <div class="w-8 h-8 rounded-full flex items-center justify-center ${isAdd ? 'bg-success/10 text-success' : 'bg-danger/10 text-danger'}"><span class="material-symbols-rounded text-sm">${isAdd ? 'arrow_downward' : 'arrow_upward'}</span></div>
-                            <input value="${h.desc}" class="bg-transparent font-medium w-full outline-none text-primary-dark" oninput="Data.updateHistoryDesc(${h.id}, this.value)">
+                            <div class="w-8 h-8 rounded-full flex items-center justify-center ${isAdd ? 'bg-success/10 text-success' : 'bg-danger/10 text-danger'} shrink-0"><span class="material-symbols-rounded text-sm">${isAdd ? 'arrow_downward' : 'arrow_upward'}</span></div>
+                            <input value="${h.desc}" class="bg-transparent font-bold text-text-main w-full outline-none text-truncate-input" oninput="Data.updateHistoryDesc(${h.id}, this.value)">
                         </div>
-                        <span class="font-bold ${isAdd ? 'text-success' : 'text-danger'}">${isAdd ? '+' : '-'}${Utils.formatMoney(h.amount)}</span>
+                        <span class="font-bold ${isAdd ? 'text-success' : 'text-danger'} whitespace-nowrap ml-2">${isAdd ? '+' : '-'}${Utils.formatMoney(h.amount)}</span>
+                        <button onclick="App.deleteItem('history', ${h.id})" class="ml-2 text-text-muted hover:text-danger"><span class="material-symbols-rounded text-sm">delete</span></button>
                     </div>`;
                 });
             },
             renderIncomes: () => {
                 const container = Utils.$('incomesList'); container.innerHTML = '';
-                if(state.incomes.length === 0) { container.innerHTML = `<div class="col-span-full py-8 text-center opacity-40"><p class="text-xs">Añade tu primer proyecto.</p></div>`; return; }
+                if(state.incomes.length === 0) { container.innerHTML = `<div class="py-8 text-center opacity-40 text-xs italic">Añade proyectos o ventas extras.</div>`; return; }
                 state.incomes.forEach(i => {
                     const sub = (i.price - i.cost) * i.qty;
                     container.innerHTML += `
-                    <div class="bg-white/60 dark:bg-white/5 p-5 rounded-[1.5rem] border border-primary/10 card-paper">
-                        <div class="flex justify-between mb-3">
-                            <input value="${i.name}" class="bg-transparent font-bold text-sm w-full outline-none text-text-main border-b border-transparent focus:border-primary/30 transition-colors" oninput="App.updateItem('incomes', ${i.id}, 'name', this.value)" placeholder="Nombre del proyecto...">
-                            <button onclick="App.deleteItem('incomes', ${i.id})" class="text-primary-dark/30 hover:text-danger touch-target flex justify-center items-center"><span class="material-symbols-rounded text-lg">close</span></button>
+                    <div class="bg-white p-4 rounded-2xl border border-success/10 shadow-sm">
+                        <div class="flex justify-between mb-2">
+                            <input value="${i.name}" class="bg-transparent font-bold text-sm w-full outline-none text-text-main border-b border-transparent focus:border-success/30 transition-colors" oninput="App.updateItem('incomes', ${i.id}, 'name', this.value)" placeholder="Producto/Servicio...">
+                            <button onclick="App.deleteItem('incomes', ${i.id})" class="text-text-muted hover:text-danger touch-target flex items-center justify-center"><span class="material-symbols-rounded text-lg">close</span></button>
                         </div>
-                        <div class="flex gap-3 mb-3">
-                             <div class="w-1/2 group relative"><span class="text-[8px] absolute top-1 left-3 opacity-50 font-bold uppercase">Precio</span><input type="number" step="0.01" value="${i.price}" class="w-full bg-[#f4f1ea] dark:bg-zinc-800 rounded-xl pt-4 pb-2 px-3 text-xs font-bold text-center outline-none" oninput="App.updateItem('incomes', ${i.id}, 'price', this.value)"></div>
-                             <div class="w-1/2 group relative"><span class="text-[8px] absolute top-1 left-3 opacity-50 font-bold uppercase text-danger">Costo</span><input type="number" step="0.01" value="${i.cost}" class="w-full bg-[#f4f1ea] dark:bg-zinc-800 rounded-xl pt-4 pb-2 px-3 text-xs font-bold text-danger text-center outline-none" oninput="App.updateItem('incomes', ${i.id}, 'cost', this.value)"></div>
+                        <div class="flex gap-2 mb-3">
+                             <div class="w-1/2 group relative"><span class="text-[8px] absolute top-1 left-2 opacity-50 font-bold uppercase">Precio</span><input type="number" step="0.01" value="${i.price}" class="w-full bg-note-bg rounded-lg pt-3 pb-1 px-2 text-xs font-bold text-center outline-none" oninput="App.updateItem('incomes', ${i.id}, 'price', this.value)"></div>
+                             <div class="w-1/2 group relative"><span class="text-[8px] absolute top-1 left-2 opacity-50 font-bold uppercase text-danger">Costo</span><input type="number" step="0.01" value="${i.cost}" class="w-full bg-note-bg rounded-lg pt-3 pb-1 px-2 text-xs font-bold text-danger text-center outline-none" oninput="App.updateItem('incomes', ${i.id}, 'cost', this.value)"></div>
                         </div>
-                        <div class="flex items-center gap-3">
-                            <input type="range" min="1" max="50" value="${i.qty}" class="w-full" oninput="App.updateItem('incomes', ${i.id}, 'qty', this.value)">
-                            <span id="qty-${i.id}" class="text-[9px] font-bold whitespace-nowrap bg-primary/10 text-primary-dark px-2 py-1 rounded">${i.qty} Unid.</span>
+                        <div class="flex items-center gap-2">
+                            <input type="range" min="1" max="100" value="${i.qty}" class="w-full" oninput="App.updateItem('incomes', ${i.id}, 'qty', this.value)">
+                            <span id="qty-${i.id}" class="text-[9px] font-bold whitespace-nowrap bg-success/10 text-success px-2 py-1 rounded">${i.qty} Unid.</span>
                         </div>
-                        <div class="text-right mt-3 pt-3 border-t border-dashed border-primary/10 text-success font-bold text-sm tracking-tight">Neto: <span id="sub-${i.id}">+${Utils.formatMoney(sub)}</span></div>
+                        <div class="text-right mt-2 pt-2 border-t border-dashed border-success/10 text-success font-bold text-sm">Ganancia: <span id="sub-${i.id}">+${Utils.formatMoney(sub)}</span></div>
                     </div>`;
                 });
             },
             renderExpenses: () => {
                 const container = Utils.$('expensesList'); container.innerHTML = '';
-                if(state.expenses.length === 0) { container.innerHTML = `<div class="col-span-full py-8 text-center opacity-40"><p class="text-xs">¡Sin gastos! (Por ahora).</p></div>`; return; }
+                if(state.expenses.length === 0) { container.innerHTML = `<div class="py-8 text-center opacity-40 text-xs italic">Registra tus deberes mensuales.</div>`; return; }
                 state.expenses.forEach(e => {
                     container.innerHTML += `
-                    <div class="flex items-center gap-4 bg-white/60 dark:bg-white/5 p-4 rounded-[1.5rem] border border-primary/10 card-paper">
-                        <div class="w-10 h-10 rounded-full bg-danger/5 flex items-center justify-center text-danger shrink-0 border border-danger/10"><span class="material-symbols-rounded text-lg">${Utils.getSmartIcon(e.name)}</span></div>
+                    <div class="flex items-center gap-3 bg-white p-3 rounded-2xl border border-danger/10 shadow-sm">
+                        <div class="w-10 h-10 rounded-xl bg-danger/5 flex items-center justify-center text-danger shrink-0"><span class="material-symbols-rounded text-lg">${Utils.getSmartIcon(e.name)}</span></div>
                         <div class="flex-1 w-full overflow-hidden">
-                            <input value="${e.name}" class="bg-transparent font-bold text-xs w-full outline-none text-text-main text-truncate-input mb-1" oninput="App.updateItem('expenses', ${e.id}, 'name', this.value)" placeholder="Concepto...">
+                            <input value="${e.name}" class="bg-transparent font-bold text-xs w-full outline-none text-text-main text-truncate-input mb-1" oninput="App.updateItem('expenses', ${e.id}, 'name', this.value)" placeholder="Concepto (ej: Alquiler)">
                             <div class="flex items-center"><span class="text-[10px] opacity-50 mr-1">$</span><input type="number" step="0.01" value="${e.amount}" class="bg-transparent font-bold text-sm w-24 outline-none text-text-main" oninput="App.updateItem('expenses', ${e.id}, 'amount', this.value)"></div>
                         </div>
-                        <button onclick="App.deleteItem('expenses', ${e.id})" class="text-primary-dark/30 hover:text-danger p-2 touch-target"><span class="material-symbols-rounded text-lg">close</span></button>
+                        <button onclick="App.deleteItem('expenses', ${e.id})" class="text-text-muted hover:text-danger p-2 touch-target"><span class="material-symbols-rounded text-lg">close</span></button>
                     </div>`;
-                });
-            },
-            renderChart: () => {
-                const ctx = Utils.$('mainChart'); if(!ctx) return;
-                const sorted = [...state.history].sort((a,b) => a.id - b.id);
-                const labels = ['Inicio'], dataPoints = [0];
-                let bal = 0;
-                sorted.forEach(h => { bal = Math.max(0, bal + (h.type === 'add' ? h.amount : -h.amount)); labels.push('.'); dataPoints.push(bal); });
-                labels.push('Hoy'); dataPoints.push(state.accumulated);
-                if(chartInstance) chartInstance.destroy();
-                const grad = ctx.getContext('2d').createLinearGradient(0, 0, 0, 150);
-                grad.addColorStop(0, 'rgba(143, 134, 115, 0.4)'); grad.addColorStop(1, 'rgba(143, 134, 115, 0.0)');
-                chartInstance = new Chart(ctx, {
-                    type: 'line', data: { labels, datasets: [{ data: dataPoints, borderColor: '#8f8673', backgroundColor: grad, borderWidth: 2, pointRadius: 0, fill: true, tension: 0.4 }] },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display:false}, tooltip: {enabled: false} }, scales: { x: {display:false}, y: {display:false} } }
                 });
             },
         };
@@ -500,93 +477,143 @@
         const App = {
             init: () => { Auth.init(); UI.renderAll(); },
             navigateTo: (id) => { 
-                document.querySelectorAll('[id^="view-"]').forEach(el => el.classList.add('hidden')); Utils.$(`view-${id}`).classList.remove('hidden'); 
-                const btn = Utils.$('backBtn'); if(id === 'home') btn.classList.add('hidden'); else btn.classList.remove('hidden');
+                document.querySelectorAll('[id^="view-"]').forEach(el => el.classList.add('hidden')); 
+                Utils.$(`view-${id}`).classList.remove('hidden'); 
+                
+                // Actualizar estilo botones nav
+                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                const activeBtn = document.getElementById(`nav-${id}`);
+                if(activeBtn) activeBtn.classList.add('active');
+
                 App.calculateGlobal();
             },
             calculateGlobal: () => {
                 let varInc = state.incomes.reduce((a, i) => a + ((i.price - i.cost) * i.qty), 0);
                 let totInc = state.salary + varInc;
                 let totExp = state.expenses.reduce((a, e) => a + e.amount, 0);
-                let sur = totInc - totExp;
-                let rem = Math.max(0, state.goal - state.accumulated);
+                let surplus = totInc - totExp; // Capacidad de Ahorro Mensual
+                let remaining = Math.max(0, state.goal - state.accumulated); // Falta para la Meta
 
-                UI.animateNum('homeGoalDisplay', state.goal);
-                Utils.setHTML('homeSavedDisplay', `$${Utils.formatCompact(state.accumulated)}`);
-                UI.animateNum('homeIncomeDisplay', totInc);
-                UI.animateNum('homeExpenseDisplay', totExp);
+                // Actualizar Displays Numéricos
+                UI.animateNum('homeSavedDisplay', state.accumulated); // En Home (no usado en este layout pero por si acaso)
+                UI.animateNum('detailSavedDisplay', state.accumulated); // En Meta View
+                UI.animateNum('totalIncomeDisplay', totInc);
+                UI.animateNum('totalExpenseDisplay', totExp);
                 
-                Utils.setVal('inputGoal', state.goal); Utils.setVal('inputSalary', state.salary);
-                UI.animateNum('detailSavedDisplay', state.accumulated);
-                Utils.setText('totalIncomeDisplay', Utils.formatMoney(totInc));
-                Utils.setText('totalExpenseDisplay', Utils.formatMoney(totExp));
+                Utils.setVal('inputGoal', state.goal); 
+                Utils.setVal('inputSalary', state.salary);
 
-                App.updateBottomBar(sur, totInc, rem); UI.renderChart(); Data.save();
+                // Actualizar Circulo de Progreso
+                const circle = Utils.$('circleProgress');
+                const percentDisp = Utils.$('percentDisplay');
+                const radius = 88;
+                const circumference = 2 * Math.PI * radius;
+                const percentage = state.goal > 0 ? Math.min((state.accumulated / state.goal) * 100, 100) : 0;
+                
+                if(circle) {
+                    const offset = circumference - (percentage / 100) * circumference;
+                    circle.style.strokeDashoffset = offset;
+                }
+                if(percentDisp) percentDisp.innerText = percentage.toFixed(1) + '%';
+
+                App.updateBottomBar(surplus, remaining); 
+                Data.save();
             },
-            updateBottomBar: (sur, tot, rem) => {
-                const bar = Utils.$('barProgress'); const time = Utils.$('barTime'); const surDisp = Utils.$('barSurplus');
-                Utils.setText('barGoalText', `Falta: ${Utils.formatCompact(rem)}`);
-                surDisp.innerText = (sur > 0 ? '+' : '') + Utils.formatMoney(sur);
-                surDisp.className = `text-2xl font-bold font-serif leading-none ${sur > 0 ? 'text-success' : 'text-danger'}`;
+            updateBottomBar: (surplus, remaining) => {
+                const bar = Utils.$('barProgress'); 
+                const time = Utils.$('barTime'); 
+                const surDisp = Utils.$('barSurplus');
                 
-                if (sur > 0) {
-                    bar.style.width = Math.min(((sur/tot)*100)*2, 100) + '%'; bar.className = 'h-full bg-success w-0 transition-all duration-1000 rounded-full';
-                    time.innerText = App.formatTime(rem/sur);
+                Utils.setText('barGoalText', `Falta: ${Utils.formatCompact(remaining)}`);
+                surDisp.innerText = (surplus > 0 ? '+' : '') + Utils.formatMoney(surplus);
+                surDisp.className = `text-2xl font-bold font-serif leading-none ${surplus > 0 ? 'text-success' : 'text-danger'}`;
+                
+                if (surplus > 0) {
+                    // Calculo de tiempo: Falta / Capacidad Mensual
+                    let months = remaining / surplus;
+                    time.innerText = App.formatTime(months);
+                    
+                    // Barra de progreso visual (relativa a la meta total o un factor visual)
+                    // Haremos que la barra represente cuanto cubre el surplus del restante (velocidad visual)
+                    // O mejor, progreso de la meta global para consistencia
+                    let totalProg = state.goal > 0 ? (state.accumulated/state.goal)*100 : 0;
+                    bar.style.width = Math.min(totalProg, 100) + '%'; 
+                    bar.className = 'h-full bg-success w-0 transition-all duration-1000 rounded-full';
                 } else {
-                    bar.style.width = '100%'; bar.className = 'h-full bg-danger w-0 transition-all duration-1000 rounded-full';
-                    time.innerText = "Nunca";
+                    time.innerText = "Estancado";
+                    bar.style.width = '100%'; 
+                    bar.className = 'h-full bg-danger w-0 transition-all duration-1000 rounded-full';
                 }
             },
-            formatTime: (m) => { if(m === Infinity) return "Nunca"; if(m <= 0) return "Listo"; const y = Math.floor(m/12); const mo = Math.floor(m%12); return y > 0 ? `${y}a ${mo}m` : `${mo}m`; },
+            formatTime: (m) => { 
+                if(m === Infinity) return "Nunca"; 
+                if(m <= 0) return "¡Listo!"; 
+                const y = Math.floor(m/12); 
+                const mo = Math.floor(m%12); 
+                if (y>0) return `${y} año${y>1?'s':''} ${mo} mes${mo!=1?'es':''}`;
+                return `${mo.toFixed(1)} meses`;
+            },
             updateVal: (k, v) => { state[k] = parseFloat(v)||0; App.calculateGlobal(); },
             
-            // FIX: Actualizar UI específica para evitar error de inputs
             updateItem: (t, id, f, v) => { 
                 const arr = state[t]; const i = arr.find(x=>x.id===id); if(i) { 
                     i[f] = (f==='name'||f==='desc')?v:(parseFloat(v)||0); 
-                    
-                    // Actualización visual inmediata de la fila
                     if(t === 'incomes') {
                         const sub = (i.price - i.cost) * i.qty;
-                        const el = Utils.$(`sub-${id}`);
-                        if(el) el.innerText = '+' + Utils.formatMoney(sub);
-                        const elQty = Utils.$(`qty-${id}`);
-                        if(elQty) elQty.innerText = i.qty + ' Unid.';
+                        const el = Utils.$(`sub-${id}`); if(el) el.innerText = '+' + Utils.formatMoney(sub);
+                        const elQty = Utils.$(`qty-${id}`); if(elQty) elQty.innerText = i.qty + ' Unid.';
                     }
                     App.calculateGlobal(); 
                 }
             },
             
-            // Modales & Helpers
-            openProfileModal: () => { Utils.$('profileModal').classList.remove('hidden'); setTimeout(() => { Utils.$('profileCard').classList.remove('scale-95', 'opacity-0'); Utils.$('profileCard').classList.add('scale-100', 'opacity-100'); }, 10); Utils.$('inputUserName').value = state.userName; },
-            closeProfileModal: () => { Utils.$('profileCard').classList.remove('scale-100', 'opacity-100'); setTimeout(() => Utils.$('profileModal').classList.add('hidden'), 200); },
-            saveProfile: () => { const n = Utils.$('inputUserName').value.trim(); if(n) { state.userName = n; Data.save(); App.updateGreeting(); App.closeProfileModal(); } },
-            updateGreeting: () => { Utils.$('userGreetingName').innerText = state.userName || 'Amiga'; },
-
+            // Logica Transacciones Manuales (Bóveda)
             modifyFund: (t) => { const i = Utils.$('fundInput'); const a = parseFloat(i.value); if(!a) { i.focus(); return; } pendingTransaction = { type: t, amount: a }; App.openTxModal(); },
             openTxModal: () => { 
-                const t = pendingTransaction.type; Utils.$('modalTitle').innerText = t==='add'?'Ingreso Manual':'Retiro Manual'; 
-                Utils.$('modalIcon').innerText = t==='add'?'arrow_downward':'warning'; Utils.$('modalIcon').className = `material-symbols-rounded text-4xl ${t==='add'?'text-success':'text-warning'}`;
+                const t = pendingTransaction.type; 
+                Utils.$('modalTitle').innerText = t==='add'?'Ingreso a Bóveda':'Retiro de Emergencia'; 
                 Utils.$('modalAmountDisplay').innerText = Utils.formatMoney(pendingTransaction.amount);
+                Utils.$('modalAmountDisplay').className = `text-2xl text-center font-serif font-bold mb-6 ${t==='add'?'text-success':'text-danger'}`;
                 Utils.$('modalConfirmBtn').className = `py-3 rounded-xl text-[10px] font-bold text-white shadow-md touch-target ${t==='add'?'bg-success':'bg-danger'}`;
-                Utils.$('transactionDesc').value = ""; Utils.$('transactionModal').classList.remove('hidden'); setTimeout(() => { Utils.$('transactionCard').classList.remove('scale-95', 'opacity-0'); Utils.$('transactionCard').classList.add('scale-100', 'opacity-100'); }, 10);
+                Utils.$('transactionDesc').value = ""; 
+                
+                const modal = Utils.$('transactionModal');
+                modal.classList.remove('hidden'); 
+                setTimeout(() => { modal.lastElementChild.classList.remove('scale-95', 'opacity-0'); modal.lastElementChild.classList.add('scale-100', 'opacity-100'); }, 10);
             },
-            closeTransactionModal: () => { Utils.$('transactionCard').classList.remove('scale-100', 'opacity-100'); setTimeout(() => Utils.$('transactionModal').classList.add('hidden'), 200); },
+            closeTransactionModal: () => { 
+                const modal = Utils.$('transactionModal');
+                modal.lastElementChild.classList.remove('scale-100', 'opacity-100'); 
+                setTimeout(() => modal.classList.add('hidden'), 200); 
+            },
             confirmTransaction: () => {
-                if(!pendingTransaction) return; const d = Utils.$('transactionDesc').value || (pendingTransaction.type === 'add' ? 'Ahorro' : 'Retiro');
-                if(pendingTransaction.type === 'add') { state.accumulated += pendingTransaction.amount; UI.triggerConfetti(); } else { state.accumulated = Math.max(0, state.accumulated - pendingTransaction.amount); }
+                if(!pendingTransaction) return; 
+                const d = Utils.$('transactionDesc').value || (pendingTransaction.type === 'add' ? 'Ahorro Manual' : 'Retiro Manual');
+                
+                if(pendingTransaction.type === 'add') { 
+                    state.accumulated += pendingTransaction.amount; 
+                    UI.triggerConfetti(); 
+                } else { 
+                    state.accumulated = Math.max(0, state.accumulated - pendingTransaction.amount); 
+                }
+                
                 state.history.unshift({ id: Date.now(), date: new Date().toISOString(), desc: d, amount: pendingTransaction.amount, type: pendingTransaction.type });
-                Utils.$('fundInput').value = ''; UI.renderHistory(); App.calculateGlobal(); App.closeTransactionModal();
+                Utils.$('fundInput').value = ''; 
+                UI.renderHistory(); 
+                App.calculateGlobal(); 
+                App.closeTransactionModal();
             },
 
-            addItem: (t) => { const id = Date.now(); if(t==='incomes') state.incomes.push({id, name:'Nuevo', price:0, cost:0, qty:1}); else state.expenses.push({id, name:'Nuevo', amount:0}); App.calculateGlobal(); UI.renderAll(); },
+            // CRUD Genérico
+            addItem: (t) => { const id = Date.now(); if(t==='incomes') state.incomes.push({id, name:'', price:0, cost:0, qty:1}); else state.expenses.push({id, name:'', amount:0}); App.calculateGlobal(); UI.renderAll(); },
             deleteItem: (t, id) => { 
                 if(t==='history') { const x = state.history.find(i=>i.id===id); if(x) { state.accumulated += (x.type==='add' ? -x.amount : x.amount); state.history = state.history.filter(i=>i.id!==id); UI.renderHistory(); }}
                 else if(t==='incomes') { state.incomes = state.incomes.filter(i=>i.id!==id); UI.renderIncomes(); }
                 else { state.expenses = state.expenses.filter(i=>i.id!==id); UI.renderExpenses(); }
                 App.calculateGlobal(); UI.showToast("Eliminado");
             },
-            toggleHistory: () => { Utils.$('historyContainer').classList.toggle('hidden'); Utils.$('historyChevron').classList.toggle('rotate-180'); }
+            toggleTheme: () => { document.documentElement.classList.toggle('dark'); },
+            updateGreeting: () => { Utils.$('userGreetingName').innerText = state.userName || 'Amiga'; },
         };
 
         // Extensions
