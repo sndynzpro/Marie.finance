@@ -11,6 +11,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.0.7/countUp.umd.js"></script>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
@@ -24,7 +25,7 @@
                     colors: {
                         "primary": "#b08968",        
                         "text-main-light": "#4a403a",
-                        "text-muted-light": "#9c8c84",
+                        "text-muted-light": "#8a7a72", /* Contraste mejorado */
                         "text-main-dark": "#e7e5e4",
                         "text-muted-dark": "#a8a29e",
                         "success": "#6a994e",        
@@ -126,7 +127,7 @@
         input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; cursor: pointer; background: #e5e5e5; border-radius: 99px; }
         .dark input[type=range]::-webkit-slider-runnable-track { background: #4e342e; }
 
-        .help-text { font-size: 0.75rem; line-height: 1.4; opacity: 0.65; font-family: 'Inter', sans-serif; display: block; margin-top: 6px; font-style: italic; text-wrap: balance; }
+        .help-text { font-size: 0.75rem; line-height: 1.4; opacity: 0.75; font-family: 'Inter', sans-serif; display: block; margin-top: 6px; font-style: italic; text-wrap: balance; }
         
         /* COMPONENTES UI */
         #toast {
@@ -155,6 +156,9 @@
         .btn-header { width: 44px; height: 44px; flex-shrink: 0; border-radius: 14px; }
         .btn-control { width: 72px; height: 72px; flex-shrink: 0; border-radius: 20px; }
         .btn-action-lg { width: 64px; height: 64px; flex-shrink: 0; border-radius: 20px; }
+        
+        /* TOUCH TARGET SIZE (ACCESIBILIDAD) */
+        .touch-target { min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
     </style>
 </head>
 
@@ -204,8 +208,8 @@
             <h3 class="text-xl font-bold mb-2 text-text-main-light dark:text-text-main-dark">¿Cerrar Sesión?</h3>
             <p class="text-small text-text-muted-light dark:text-text-muted-dark mb-8 leading-relaxed px-4">Tus datos quedarán guardados de forma segura hasta que vuelvas.</p>
             <div class="grid grid-cols-2 gap-4">
-                <button onclick="Auth.closeLogoutModal()" class="py-4 rounded-2xl text-xs font-bold bg-black/5 dark:bg-white/5 text-text-muted-light hover:bg-black/10 dark:hover:bg-white/10 transition-colors uppercase tracking-wider">Cancelar</button>
-                <button onclick="Auth.confirmLogout()" class="py-4 rounded-2xl text-xs font-bold bg-danger text-white shadow-lg shadow-danger/30 active:scale-95 transition-transform uppercase tracking-wider">Salir</button>
+                <button onclick="Auth.closeLogoutModal()" class="py-4 rounded-2xl text-xs font-bold bg-black/5 dark:bg-white/5 text-text-muted-light hover:bg-black/10 dark:hover:bg-white/10 transition-colors uppercase tracking-wider touch-target">Cancelar</button>
+                <button onclick="Auth.confirmLogout()" class="py-4 rounded-2xl text-xs font-bold bg-danger text-white shadow-lg shadow-danger/30 active:scale-95 transition-transform uppercase tracking-wider touch-target">Salir</button>
             </div>
         </div>
     </div>
@@ -332,7 +336,7 @@
                     </div>
                 </div>
             </div>
-            <p class="text-center text-micro text-text-muted-light/40 dark:text-text-muted-dark/40 mt-16 mb-4 font-mono opacity-50 hover:opacity-100 transition-opacity">MARIE FINANCE v28.4 (Explanatory Mode)</p>
+            <p class="text-center text-micro text-text-muted-light/40 dark:text-text-muted-dark/40 mt-16 mb-4 font-mono opacity-50 hover:opacity-100 transition-opacity">MARIE FINANCE v28.5 (UX Polish)</p>
         </div>
 
         <div id="view-goal" class="fade-in hidden w-full max-w-4xl mx-auto">
@@ -453,8 +457,8 @@
                 <span class="help-text mt-2 text-center" id="modalHelpText">Descripción.</span>
             </div>
             <div class="grid grid-cols-2 gap-4">
-                <button onclick="App.closeTransactionModal()" class="py-4 rounded-2xl text-xs font-bold bg-black/5 dark:bg-white/5 text-text-muted-light hover:bg-black/10 dark:hover:bg-white/10 transition-colors uppercase tracking-wider">Cancelar</button>
-                <button onclick="App.confirmTransaction()" id="modalConfirmBtn" class="py-4 rounded-2xl text-xs font-bold bg-primary text-white shadow-lg shadow-primary/30 active:scale-95 transition-transform uppercase tracking-wider">Confirmar</button>
+                <button onclick="App.closeTransactionModal()" class="py-4 rounded-2xl text-xs font-bold bg-black/5 dark:bg-white/5 text-text-muted-light hover:bg-black/10 dark:hover:bg-white/10 transition-colors uppercase tracking-wider touch-target">Cancelar</button>
+                <button onclick="App.confirmTransaction()" id="modalConfirmBtn" class="py-4 rounded-2xl text-xs font-bold bg-primary text-white shadow-lg shadow-primary/30 active:scale-95 transition-transform uppercase tracking-wider touch-target">Confirmar</button>
             </div>
         </div>
     </div>
@@ -566,7 +570,6 @@
                 firebaseAuth.signInWithPopup(provider).catch(error => alert(error.message));
             },
             logout: () => {
-                // Nuevo Modal de Logout
                 const modal = Utils.$('logoutModal');
                 const card = Utils.$('logoutCard');
                 modal.classList.remove('hidden');
@@ -637,6 +640,29 @@
                 confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#b08968', '#6a994e', '#e9c46a'] });
             },
 
+            // Función de Animación de Números (Micro-interacción)
+            animateNum: (id, endVal, isCurrency = true) => {
+                const el = Utils.$(id);
+                if (!el) return;
+                const options = {
+                    duration: 1,
+                    separator: ',',
+                    decimal: '.',
+                    prefix: isCurrency ? '$' : ''
+                };
+                // Si el elemento ya tiene una animación en curso, CountUp la maneja, pero aquí reiniciamos simple
+                if(!el.countUpInstance) {
+                    el.countUpInstance = new countUp.CountUp(id, endVal, options);
+                } else {
+                    el.countUpInstance.update(endVal);
+                }
+                if (!el.countUpInstance.error) {
+                    el.countUpInstance.start();
+                } else {
+                    el.innerText = (isCurrency ? '$' : '') + endVal;
+                }
+            },
+
             renderHistory: () => {
                 const container = Utils.$('historyContainer'); 
                 container.innerHTML = '';
@@ -663,7 +689,7 @@
                         </div>
                         <div class="flex items-center gap-2 shrink-0">
                             <span class="font-black font-display ${isAdd ? 'text-success' : 'text-danger'} whitespace-nowrap text-sm">${isAdd ? '+' : '-'}${Utils.formatMoney(h.amount)}</span>
-                            <button onclick="App.deleteItem('history', ${h.id})" class="opacity-0 group-hover:opacity-100 transition-opacity text-text-muted-light hover:text-danger p-2"><span class="material-symbols-rounded text-lg">delete</span></button>
+                            <button onclick="App.deleteItem('history', ${h.id})" class="opacity-0 group-hover:opacity-100 transition-opacity text-text-muted-light hover:text-danger touch-target flex items-center justify-center"><span class="material-symbols-rounded text-lg">delete</span></button>
                         </div>
                     </div>`;
                 });
@@ -672,13 +698,25 @@
             renderIncomes: () => {
                 const container = Utils.$('incomesList'); 
                 container.innerHTML = '';
+
+                // EMPTY STATE
+                if(state.incomes.length === 0) {
+                     container.innerHTML = `
+                     <div class="col-span-full flex flex-col items-center justify-center py-10 opacity-50">
+                        <span class="material-symbols-rounded text-4xl mb-2">savings_off</span>
+                        <p class="text-sm font-bold">No hay ingresos extras aún</p>
+                        <p class="text-xs">¡Añade tu primer proyecto o venta!</p>
+                     </div>`;
+                     return;
+                }
+
                 state.incomes.forEach(i => {
                     const sub = (i.price - i.cost) * i.qty;
                     container.innerHTML += `
                     <div class="bg-white/50 dark:bg-white/5 p-5 rounded-[2rem] border border-white/30 dark:border-white/5 card-glass fade-in hover:border-success/30">
                         <div class="flex justify-between mb-4">
-                            <input value="${i.name}" class="bg-transparent font-bold w-full text-base focus:ring-0 border-none p-0 outline-none cursor-pointer text-truncate-input" oninput="App.updateItem('incomes', ${i.id}, 'name', this.value)" placeholder="Nombre del proyecto...">
-                            <button onclick="App.deleteItem('incomes', ${i.id})" class="text-text-muted-light hover:text-danger opacity-40 hover:opacity-100 transition-opacity"><span class="material-symbols-rounded text-xl">close</span></button>
+                            <input value="${i.name}" class="bg-transparent font-bold w-full text-base focus:ring-0 border-none p-0 outline-none cursor-pointer text-truncate-input" oninput="App.updateItem('incomes', ${i.id}, 'name', this.value)" onblur="App.validateInput(this, 'Proyecto Nuevo')" placeholder="Nombre del proyecto...">
+                            <button onclick="App.deleteItem('incomes', ${i.id})" class="text-text-muted-light hover:text-danger opacity-40 hover:opacity-100 transition-opacity touch-target flex items-center justify-center"><span class="material-symbols-rounded text-xl">close</span></button>
                         </div>
                         <div class="flex gap-4 mb-4">
                              <div class="w-1/2 relative group">
@@ -709,6 +747,18 @@
             renderExpenses: () => {
                 const container = Utils.$('expensesList'); 
                 container.innerHTML = '';
+
+                // EMPTY STATE
+                if(state.expenses.length === 0) {
+                     container.innerHTML = `
+                     <div class="col-span-full flex flex-col items-center justify-center py-10 opacity-50">
+                        <span class="material-symbols-rounded text-4xl mb-2 text-success">check_circle</span>
+                        <p class="text-sm font-bold">Todo limpio</p>
+                        <p class="text-xs">¿No hay gastos? ¡Increíble!</p>
+                     </div>`;
+                     return;
+                }
+
                 state.expenses.forEach(e => {
                     const icon = Utils.getSmartIcon(e.name);
                     container.innerHTML += `
@@ -726,6 +776,7 @@
                                     <input value="${e.name}" 
                                            class="bg-transparent font-bold text-sm w-full focus:ring-0 border-none p-0 outline-none text-text-main-light dark:text-text-main-dark placeholder-stone-400 text-truncate-input" 
                                            oninput="App.updateItem('expenses', ${e.id}, 'name', this.value)" 
+                                           onblur="App.validateInput(this, 'Gasto')"
                                            placeholder="Ej: Netflix">
                                 </div>
                                 <span class="help-text text-[10px] mt-1">Toca para renombrar</span>
@@ -742,7 +793,7 @@
                                            oninput="App.updateItem('expenses', ${e.id}, 'amount', this.value)">
                                  </div>
                             </div>
-                            <button onclick="App.deleteItem('expenses', ${e.id})" class="w-8 h-8 rounded-full bg-danger/10 text-danger flex items-center justify-center hover:bg-danger hover:text-white transition-all">
+                            <button onclick="App.deleteItem('expenses', ${e.id})" class="w-10 h-10 rounded-full bg-danger/10 text-danger flex items-center justify-center hover:bg-danger hover:text-white transition-all touch-target">
                                 <span class="material-symbols-rounded text-base">close</span>
                             </button>
                         </div>
@@ -850,16 +901,25 @@
                 let surplus = totalIncome - totalExpense;
                 let remaining = Math.max(0, state.goal - state.accumulated);
 
-                // Actualizar Textos Home
-                Utils.setText('homeGoalDisplay', Utils.formatMoney(state.goal));
+                // Actualizar Textos Home con Animación
+                // Utils.setText('homeGoalDisplay', Utils.formatMoney(state.goal));
+                UI.animateNum('homeGoalDisplay', state.goal);
+                
                 Utils.setHTML('homeSavedDisplay', `<span class="material-symbols-rounded text-base">savings</span><span>Disponible: ${Utils.formatMoney(state.accumulated)}</span>`);
-                Utils.setText('homeIncomeDisplay', Utils.formatMoney(totalIncome));
-                Utils.setText('homeExpenseDisplay', Utils.formatMoney(totalExpense));
+                
+                // Utils.setText('homeIncomeDisplay', Utils.formatMoney(totalIncome));
+                UI.animateNum('homeIncomeDisplay', totalIncome);
+                
+                // Utils.setText('homeExpenseDisplay', Utils.formatMoney(totalExpense));
+                UI.animateNum('homeExpenseDisplay', totalExpense);
 
                 // Actualizar Inputs y Detalles
                 Utils.setVal('inputGoal', state.goal);
                 Utils.setVal('inputSalary', state.salary);
-                Utils.setText('detailSavedDisplay', Utils.formatMoney(state.accumulated));
+                
+                // Utils.setText('detailSavedDisplay', Utils.formatMoney(state.accumulated));
+                UI.animateNum('detailSavedDisplay', state.accumulated);
+                
                 Utils.setText('totalIncomeDisplay', Utils.formatMoney(totalIncome));
                 Utils.setText('totalExpenseDisplay', Utils.formatMoney(totalExpense));
 
@@ -915,6 +975,16 @@
             updateVal: (key, val) => { 
                 state[key] = parseFloat(val) || 0; 
                 App.calculateGlobal(); 
+            },
+            
+            // UX: Validación de Inputs (Blur)
+            validateInput: (el, fallbackText) => {
+                if(!el.value.trim()) {
+                    el.value = fallbackText || "Sin nombre";
+                    // Disparamos el evento input manualmente para guardar
+                    const event = new Event('input', { bubbles: true });
+                    el.dispatchEvent(event);
+                }
             },
 
             toggleTheme: () => {
