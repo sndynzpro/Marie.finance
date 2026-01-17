@@ -17,7 +17,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
-    <script id="tailwind-config">
+    <script>
         tailwind.config = {
             darkMode: "class",
             theme: {
@@ -57,12 +57,13 @@
     </script>
 
     <style>
-        /* BASE & UTILIDADES */
-        body { -webkit-tap-highlight-color: transparent; transition: color 0.5s ease; }
+        * { box-sizing: border-box; }
+        html, body { height: 100%; overflow: hidden; }
+        body { -webkit-tap-highlight-color: transparent; }
         input:focus { outline: none; }
         input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         
-        .fade-in { animation: fadeIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; opacity: 0; transform: translateY(8px); }
+        .fade-in { animation: fadeIn 0.4s ease forwards; opacity: 0; transform: translateY(5px); }
         @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
 
         .animated-bg {
@@ -89,332 +90,551 @@
             background: rgba(255, 255, 255, 0.65);
             backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.6);
-            transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: all 0.2s ease;
         }
         .dark .card-glass {
             background: rgba(40, 30, 25, 0.6); 
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        @media (hover: hover) {
-            .card-glass:hover { transform: translateY(-2px); box-shadow: 0 15px 30px -5px rgba(60, 40, 30, 0.1); border-color: rgba(176, 137, 104, 0.4); }
-        }
         .card-glass:active { transform: scale(0.99); }
 
-        .text-hero { font-size: clamp(1.75rem, 4vw, 3rem); line-height: 1; }
-        .text-truncate-input { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar { width: 3px; height: 3px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #b08968; border-radius: 10px; opacity: 0.5; }
-        .dark ::-webkit-scrollbar-thumb { background: #8d6e63; }
+        ::-webkit-scrollbar-thumb { background: #b08968; border-radius: 10px; }
 
         input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
         input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none; height: 14px; width: 14px; border-radius: 50%;
-            background: #b08968; cursor: pointer; margin-top: -5px; 
+            -webkit-appearance: none; height: 12px; width: 12px; border-radius: 50%;
+            background: #b08968; cursor: pointer; margin-top: -4px; 
             box-shadow: 0 1px 3px rgba(0,0,0,0.2); border: 2px solid white;
         }
         input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; cursor: pointer; background: #e5e5e5; border-radius: 99px; }
         .dark input[type=range]::-webkit-slider-runnable-track { background: #4e342e; }
 
         #toast {
-            visibility: hidden; min-width: 200px; max-width: 80%; background-color: rgba(43, 29, 22, 0.95);
-            color: #fff; text-align: center; border-radius: 99px; padding: 10px 20px; position: fixed;
-            z-index: 100; left: 50%; bottom: 90px; transform: translateX(-50%) translateY(20px);
-            font-size: 12px; font-weight: 600; backdrop-filter: blur(8px);
+            visibility: hidden; min-width: 180px; background-color: rgba(43, 29, 22, 0.95);
+            color: #fff; text-align: center; border-radius: 99px; padding: 8px 16px; position: fixed;
+            z-index: 100; left: 50%; bottom: 80px; transform: translateX(-50%) translateY(20px);
+            font-size: 11px; font-weight: 600; backdrop-filter: blur(8px);
             box-shadow: 0 5px 20px rgba(0,0,0,0.2); opacity: 0; transition: all 0.3s ease;
-            border: 1px solid rgba(255,255,255,0.1); pointer-events: none;
         }
         #toast.show { visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0); }
         
         .modal-backdrop { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; padding: 1rem; }
-        .modal-bg { position: absolute; inset: 0; background-color: rgba(0,0,0,0.5); backdrop-filter: blur(4px); transition: opacity 0.3s; }
+        .modal-bg { position: absolute; inset: 0; background-color: rgba(0,0,0,0.5); backdrop-filter: blur(4px); }
         
-        .btn-header { width: 40px; height: 40px; flex-shrink: 0; border-radius: 12px; }
-        .btn-control { width: 56px; height: 56px; flex-shrink: 0; border-radius: 16px; }
-        .btn-action-lg { width: 50px; height: 50px; flex-shrink: 0; border-radius: 16px; }
-        .touch-target { min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
-        
-        /* Compact Explainer Box Style */
-        .info-box {
-            font-size: 0.7rem; line-height: 1.4; 
-            background: rgba(176, 137, 104, 0.08); 
-            border: 1px dashed rgba(176, 137, 104, 0.25);
-            border-radius: 12px; padding: 10px 14px;
-            color: #4a403a;
+        .btn-header { width: 36px; height: 36px; flex-shrink: 0; border-radius: 10px; }
+        .btn-control { width: 48px; height: 48px; flex-shrink: 0; border-radius: 14px; }
+
+        .view-container { 
+            height: calc(100vh - 130px); 
+            overflow-y: auto; 
+            overflow-x: hidden;
+            padding-bottom: 20px;
         }
-        .dark .info-box { background: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.1); color: #a8a29e; }
+
+        .help-card {
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 16px;
+            padding: 14px;
+            transition: all 0.2s ease;
+        }
+        .dark .help-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .help-card:hover { transform: translateY(-2px); }
+
+        .step-number {
+            width: 24px; height: 24px; border-radius: 50%;
+            background: linear-gradient(135deg, #b08968, #8d6e63);
+            color: white; font-size: 11px; font-weight: 700;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
     </style>
 </head>
 
-<body class="text-text-main-light dark:text-text-main-dark font-body min-h-screen flex flex-col selection:bg-primary selection:text-white overflow-x-hidden">
+<body class="text-text-main-light dark:text-text-main-dark font-body flex flex-col selection:bg-primary selection:text-white">
 
     <div class="animated-bg"></div>
     <div id="toast">Notificación</div>
 
+    <!-- LOGIN OVERLAY -->
     <div id="loginOverlay" class="fixed inset-0 z-[999] bg-gradient-to-br from-[#efebe9] to-[#e6dace] dark:from-[#1a120b] dark:to-[#0c0a09] flex items-center justify-center transition-opacity duration-500">
-        <div class="card-glass p-8 rounded-3xl shadow-golden text-center max-w-xs mx-6 border border-white/20 relative">
+        <div class="card-glass p-8 rounded-3xl shadow-golden text-center max-w-xs mx-6">
             <span class="text-[10px] font-black text-primary mb-2 block tracking-widest">MARIE FINANCE</span>
-            <h1 class="text-3xl font-display font-bold mb-4">Bienvenida</h1>
-            <p class="text-xs text-text-muted-light dark:text-text-muted-dark mb-8">Finanzas compactas y claras.</p>
+            <h1 class="text-3xl font-display font-bold mb-3">Bienvenida</h1>
+            <p class="text-xs text-text-muted-light dark:text-text-muted-dark mb-6">Finanzas compactas y claras.</p>
             <button onclick="Auth.login()" class="w-full py-3 rounded-xl bg-white dark:bg-white/10 font-bold flex items-center justify-center gap-2 shadow-sm text-xs border border-black/5">
                 <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-4 h-4" alt="G"> Continuar con Google
             </button>
         </div>
     </div>
 
+    <!-- PROFILE MODAL -->
     <div id="profileModal" class="modal-backdrop hidden">
         <div class="modal-bg" onclick="App.closeProfileModal()"></div>
-        <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-xs rounded-3xl p-6 shadow-golden relative z-10 transform scale-95 opacity-0 transition-all" id="profileCard">
-            <h3 class="text-lg font-bold text-center mb-1">Identidad</h3>
-            <p class="text-xs text-center text-text-muted-light mb-6">¿Cómo te llamamos?</p>
-            <input id="inputUserName" type="text" placeholder="Ej: Marie" class="w-full bg-black/5 dark:bg-white/5 rounded-xl py-3 px-4 text-sm font-medium text-center mb-6 focus:ring-1 ring-primary/50 outline-none">
-            <div class="grid grid-cols-2 gap-3">
-                <button onclick="App.closeProfileModal()" class="py-3 rounded-xl text-[10px] font-bold bg-black/5 text-text-muted-light">CANCELAR</button>
-                <button onclick="App.saveProfile()" class="py-3 rounded-xl text-[10px] font-bold bg-primary text-white shadow-lg shadow-primary/30">GUARDAR</button>
+        <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-xs rounded-2xl p-5 shadow-golden relative z-10 transform scale-95 opacity-0 transition-all" id="profileCard">
+            <h3 class="text-base font-bold text-center mb-1">Identidad</h3>
+            <p class="text-xs text-center text-text-muted-light mb-4">¿Cómo te llamamos?</p>
+            <input id="inputUserName" type="text" placeholder="Ej: Marie" class="w-full bg-black/5 dark:bg-white/5 rounded-xl py-2.5 px-4 text-sm font-medium text-center mb-4 outline-none">
+            <div class="grid grid-cols-2 gap-2">
+                <button onclick="App.closeProfileModal()" class="py-2.5 rounded-xl text-[10px] font-bold bg-black/5">CANCELAR</button>
+                <button onclick="App.saveProfile()" class="py-2.5 rounded-xl text-[10px] font-bold bg-primary text-white">GUARDAR</button>
             </div>
         </div>
     </div>
 
+    <!-- LOGOUT MODAL -->
     <div id="logoutModal" class="modal-backdrop hidden">
         <div class="modal-bg" onclick="Auth.closeLogoutModal()"></div>
-        <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-xs rounded-3xl p-6 shadow-golden relative z-10 transform scale-95 opacity-0 text-center transition-all" id="logoutCard">
-            <h3 class="text-lg font-bold mb-2">¿Cerrar Sesión?</h3>
-            <p class="text-xs text-text-muted-light mb-6 px-2">Tus datos están seguros.</p>
-            <div class="grid grid-cols-2 gap-3">
-                <button onclick="Auth.closeLogoutModal()" class="py-3 rounded-xl text-[10px] font-bold bg-black/5 text-text-muted-light">VOLVER</button>
-                <button onclick="Auth.confirmLogout()" class="py-3 rounded-xl text-[10px] font-bold bg-danger text-white shadow-lg shadow-danger/30">SALIR</button>
+        <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-xs rounded-2xl p-5 shadow-golden relative z-10 transform scale-95 opacity-0 text-center transition-all" id="logoutCard">
+            <h3 class="text-base font-bold mb-2">¿Cerrar Sesión?</h3>
+            <p class="text-xs text-text-muted-light mb-4">Tus datos están seguros.</p>
+            <div class="grid grid-cols-2 gap-2">
+                <button onclick="Auth.closeLogoutModal()" class="py-2.5 rounded-xl text-[10px] font-bold bg-black/5">VOLVER</button>
+                <button onclick="Auth.confirmLogout()" class="py-2.5 rounded-xl text-[10px] font-bold bg-danger text-white">SALIR</button>
             </div>
         </div>
     </div>
 
+    <!-- TRANSACTION MODAL -->
     <div id="transactionModal" class="modal-backdrop hidden">
         <div onclick="App.closeTransactionModal()" class="modal-bg"></div>
-        <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-xs rounded-3xl p-6 shadow-golden relative z-10 transform scale-95 opacity-0 transition-all" id="transactionCard">
-            <div class="flex justify-center mb-4"><span class="material-symbols-rounded text-3xl text-primary" id="modalIcon">payments</span></div>
-            <h3 class="text-lg font-bold text-center mb-1" id="modalTitle">Movimiento</h3>
-            <p class="text-sm text-center text-text-muted-light mb-6 font-mono font-bold" id="modalAmountDisplay">$0.00</p>
-            <div class="mb-6">
-                <label class="text-[10px] font-bold uppercase text-text-muted-light block mb-2 pl-1">Concepto</label>
-                <input id="transactionDesc" type="text" placeholder="..." class="w-full bg-black/5 dark:bg-white/5 rounded-xl py-3 px-4 text-sm outline-none">
+        <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-xs rounded-2xl p-5 shadow-golden relative z-10 transform scale-95 opacity-0 transition-all" id="transactionCard">
+            <div class="flex justify-center mb-3"><span class="material-symbols-rounded text-2xl text-primary" id="modalIcon">payments</span></div>
+            <h3 class="text-base font-bold text-center mb-1" id="modalTitle">Movimiento</h3>
+            <p class="text-sm text-center text-text-muted-light mb-4 font-mono font-bold" id="modalAmountDisplay">$0</p>
+            <div class="mb-4">
+                <label class="text-[9px] font-bold uppercase text-text-muted-light block mb-1.5 pl-1">Concepto</label>
+                <input id="transactionDesc" type="text" placeholder="Descripción..." class="w-full bg-black/5 dark:bg-white/5 rounded-xl py-2.5 px-3 text-sm outline-none">
             </div>
-            <div class="grid grid-cols-2 gap-3">
-                <button onclick="App.closeTransactionModal()" class="py-3 rounded-xl text-[10px] font-bold bg-black/5 text-text-muted-light">CANCELAR</button>
-                <button onclick="App.confirmTransaction()" id="modalConfirmBtn" class="py-3 rounded-xl text-[10px] font-bold bg-primary text-white shadow-md">CONFIRMAR</button>
+            <div class="grid grid-cols-2 gap-2">
+                <button onclick="App.closeTransactionModal()" class="py-2.5 rounded-xl text-[10px] font-bold bg-black/5">CANCELAR</button>
+                <button onclick="App.confirmTransaction()" id="modalConfirmBtn" class="py-2.5 rounded-xl text-[10px] font-bold bg-primary text-white">CONFIRMAR</button>
             </div>
         </div>
     </div>
 
-    <div class="fixed top-0 w-full z-50 transition-all duration-300">
-        <div class="glass-panel mx-auto w-full px-5 py-3 lg:px-12 flex items-center justify-between shadow-sm">
-            <div class="flex items-center gap-3">
-                <button id="backBtn" onclick="App.navigateTo('home')" class="hidden btn-header bg-white/50 dark:bg-white/5 flex items-center justify-center hover:bg-white active:scale-95 transition-all border border-white/20">
-                    <span class="material-symbols-rounded text-lg">arrow_back</span>
+    <!-- HEADER -->
+    <div class="fixed top-0 w-full z-50">
+        <div class="glass-panel w-full px-4 py-2.5 flex items-center justify-between shadow-sm">
+            <div class="flex items-center gap-2">
+                <button id="backBtn" onclick="App.navigateTo('home')" class="hidden btn-header bg-white/50 dark:bg-white/5 flex items-center justify-center active:scale-95 transition-all border border-white/20">
+                    <span class="material-symbols-rounded text-base">arrow_back</span>
                 </button>
                 <div class="flex flex-col cursor-pointer leading-tight" onclick="App.navigateTo('home')">
-                    <span id="pageTitleLabel" class="text-[9px] font-black text-primary tracking-widest">DASHBOARD</span>
-                    <span id="pageTitleMain" class="text-sm font-bold font-display text-text-main-light dark:text-text-main-dark">Marie Finance</span>
+                    <span id="pageTitleLabel" class="text-[8px] font-black text-primary tracking-widest">DASHBOARD</span>
+                    <span id="pageTitleMain" class="text-xs font-bold font-display">Marie Finance</span>
                 </div>
             </div>
-            <div class="flex gap-2">
-                <button onclick="App.openProfileModal()" class="btn-header border border-white/20 flex items-center justify-center active:scale-95 hover:bg-white/20 transition-all"><span class="material-symbols-rounded text-lg">account_circle</span></button>
-                <button onclick="Auth.logout()" class="btn-header border border-white/20 flex items-center justify-center active:scale-95 hover:bg-danger/10 hover:text-danger transition-all"><span class="material-symbols-rounded text-lg">logout</span></button>
-                <button onclick="App.toggleTheme()" class="btn-header bg-primary text-white flex items-center justify-center active:scale-95 hover:shadow-lg transition-all"><span class="material-symbols-rounded text-lg">contrast</span></button>
+            <div class="flex gap-1.5">
+                <button onclick="App.navigateTo('help')" class="btn-header border border-white/20 flex items-center justify-center active:scale-95 hover:bg-primary/10 transition-all" title="Ayuda">
+                    <span class="material-symbols-rounded text-base text-primary">help</span>
+                </button>
+                <button onclick="App.openProfileModal()" class="btn-header border border-white/20 flex items-center justify-center active:scale-95 transition-all">
+                    <span class="material-symbols-rounded text-base">account_circle</span>
+                </button>
+                <button onclick="Auth.logout()" class="btn-header border border-white/20 flex items-center justify-center active:scale-95 hover:bg-danger/10 hover:text-danger transition-all">
+                    <span class="material-symbols-rounded text-base">logout</span>
+                </button>
+                <button onclick="App.toggleTheme()" class="btn-header bg-primary text-white flex items-center justify-center active:scale-95 transition-all">
+                    <span class="material-symbols-rounded text-base">contrast</span>
+                </button>
             </div>
         </div>
     </div>
 
-    <div class="flex-1 w-full max-w-[1200px] mx-auto px-4 pt-24 pb-32 lg:px-8 overflow-visible" id="mainContainer">
+    <!-- MAIN CONTAINER -->
+    <div class="flex-1 w-full max-w-[900px] mx-auto px-3 pt-14" id="mainContainer">
         
-        <div id="view-home" class="w-full">
-            <div class="mb-6 fade-in flex justify-between items-end">
+        <!-- VIEW: HOME -->
+        <div id="view-home" class="view-container fade-in">
+            <div class="mb-3 flex justify-between items-end pt-2">
                 <div>
-                    <h1 class="text-2xl font-display font-black text-text-main-light dark:text-white"><span class="text-primary">Hola, </span><span id="userGreetingName">...</span></h1>
-                    <p class="text-xs text-text-muted-light opacity-80 mt-1">Tu resumen compacto de hoy.</p>
+                    <h1 class="text-lg font-display font-black"><span class="text-primary">Hola, </span><span id="userGreetingName">...</span></h1>
+                    <p class="text-[10px] text-text-muted-light opacity-80">Tu resumen compacto.</p>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="grid grid-cols-2 gap-2.5">
                 
-                <div class="card-glass p-5 rounded-3xl shadow-soft relative overflow-hidden group flex flex-col justify-between min-h-[160px] md:col-span-2" onclick="App.navigateTo('goal')">
-                    <div class="absolute top-0 right-0 p-4 opacity-10"><span class="material-symbols-rounded text-6xl">savings</span></div>
-                    
-                    <div class="flex justify-between items-start z-10 relative">
+                <!-- Meta Card -->
+                <div class="card-glass p-3 rounded-2xl shadow-soft relative overflow-hidden col-span-2 cursor-pointer" onclick="App.navigateTo('goal')">
+                    <div class="absolute top-0 right-0 p-2 opacity-10"><span class="material-symbols-rounded text-4xl">savings</span></div>
+                    <div class="flex justify-between items-center">
                         <div>
-                            <p class="text-[10px] font-black text-text-muted-light tracking-widest uppercase mb-1">Tu Objetivo (Meta)</p>
-                            <div class="flex items-baseline gap-1">
-                                <span id="homeGoalDisplay" class="text-4xl font-black text-text-main-light dark:text-white tracking-tighter">0</span>
-                            </div>
+                            <p class="text-[9px] font-black text-text-muted-light tracking-widest uppercase mb-0.5">Tu Meta</p>
+                            <span id="homeGoalDisplay" class="text-2xl font-black tracking-tighter">0</span>
                         </div>
                         <div class="text-right">
-                            <span class="text-[10px] font-bold block opacity-60">Disponible Real</span>
-                            <div class="text-xl font-bold text-success" id="homeSavedDisplay">$0</div>
+                            <span class="text-[9px] font-bold block opacity-60">Disponible</span>
+                            <div class="text-lg font-bold text-success" id="homeSavedDisplay">$0</div>
                         </div>
-                    </div>
-                    
-                    <div class="mt-4 pt-4 border-t border-black/5 dark:border-white/5 flex items-center gap-2 text-[10px] opacity-70">
-                        <span class="material-symbols-rounded text-sm text-primary">info</span>
-                        <span>Configura aquí cuánto dinero tienes realmente y cuánto quieres tener.</span>
+                        <span class="material-symbols-rounded text-lg opacity-30">chevron_right</span>
                     </div>
                 </div>
 
-                <div class="card-glass p-5 rounded-3xl shadow-soft relative overflow-hidden group cursor-pointer hover:border-success/30 transition-all" onclick="App.navigateTo('incomes')">
-                    <div class="flex justify-between items-start mb-2">
-                        <div class="w-10 h-10 rounded-xl bg-success/10 flex items-center justify-center text-success"><span class="material-symbols-rounded">trending_up</span></div>
-                        <span class="material-symbols-rounded text-lg opacity-30">arrow_outward</span>
+                <!-- Ingresos Card -->
+                <div class="card-glass p-3 rounded-2xl shadow-soft cursor-pointer" onclick="App.navigateTo('incomes')">
+                    <div class="flex justify-between items-start mb-1">
+                        <div class="w-8 h-8 rounded-lg bg-success/10 flex items-center justify-center text-success"><span class="material-symbols-rounded text-base">trending_up</span></div>
+                        <span class="material-symbols-rounded text-sm opacity-30">chevron_right</span>
                     </div>
-                    <p class="text-[10px] font-bold text-text-muted-light uppercase">Ingresos Totales</p>
-                    <div id="homeIncomeDisplay" class="text-2xl font-black text-success tracking-tight mt-1">$0</div>
-                    <div class="mt-3 text-[9px] leading-tight opacity-60 bg-success/5 p-2 rounded-lg">
-                        <strong>¿Qué va aquí?</strong> Sueldo fijo + proyectos extras (ventas, freelance).
-                    </div>
+                    <p class="text-[9px] font-bold text-text-muted-light uppercase">Ingresos</p>
+                    <div id="homeIncomeDisplay" class="text-xl font-black text-success tracking-tight">$0</div>
                 </div>
 
-                <div class="card-glass p-5 rounded-3xl shadow-soft relative overflow-hidden group cursor-pointer hover:border-danger/30 transition-all" onclick="App.navigateTo('expenses')">
-                    <div class="flex justify-between items-start mb-2">
-                        <div class="w-10 h-10 rounded-xl bg-danger/10 flex items-center justify-center text-danger"><span class="material-symbols-rounded">trending_down</span></div>
-                        <span class="material-symbols-rounded text-lg opacity-30">arrow_outward</span>
+                <!-- Gastos Card -->
+                <div class="card-glass p-3 rounded-2xl shadow-soft cursor-pointer" onclick="App.navigateTo('expenses')">
+                    <div class="flex justify-between items-start mb-1">
+                        <div class="w-8 h-8 rounded-lg bg-danger/10 flex items-center justify-center text-danger"><span class="material-symbols-rounded text-base">trending_down</span></div>
+                        <span class="material-symbols-rounded text-sm opacity-30">chevron_right</span>
                     </div>
-                    <p class="text-[10px] font-bold text-text-muted-light uppercase">Gastos Totales</p>
-                    <div id="homeExpenseDisplay" class="text-2xl font-black text-danger tracking-tight mt-1">$0</div>
-                    <div class="mt-3 text-[9px] leading-tight opacity-60 bg-danger/5 p-2 rounded-lg">
-                        <strong>¿Qué va aquí?</strong> Todo lo que sale de tu bolsillo (fijo y hormiga).
-                    </div>
+                    <p class="text-[9px] font-bold text-text-muted-light uppercase">Gastos</p>
+                    <div id="homeExpenseDisplay" class="text-xl font-black text-danger tracking-tight">$0</div>
                 </div>
 
-                <div class="card-glass p-5 rounded-3xl shadow-soft relative overflow-hidden md:col-span-2 min-h-[200px]">
-                    <div class="flex justify-between items-center mb-4">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-lg bg-warning/10 flex items-center justify-center text-warning"><span class="material-symbols-rounded text-base">cardiology</span></div>
-                            <h3 class="font-bold text-xs uppercase tracking-wide">Salud Financiera</h3>
+                <!-- Health Card -->
+                <div class="card-glass p-3 rounded-2xl shadow-soft col-span-2">
+                    <div class="flex justify-between items-center mb-2">
+                        <div class="flex items-center gap-2">
+                            <div class="w-7 h-7 rounded-lg bg-warning/10 flex items-center justify-center text-warning"><span class="material-symbols-rounded text-sm">cardiology</span></div>
+                            <h3 class="font-bold text-[10px] uppercase tracking-wide">Salud Financiera</h3>
                         </div>
-                        <div id="healthBadge" class="px-3 py-1 bg-black/5 rounded-full text-[9px] font-black uppercase">--</div>
+                        <div id="healthBadge" class="px-2 py-0.5 bg-black/5 rounded-full text-[8px] font-black uppercase">--</div>
                     </div>
-                    
-                    <p class="text-[10px] opacity-60 mb-4 px-1" id="healthDescText">Calculando...</p>
-                    
-                    <div class="h-[100px] w-full relative">
-                        <canvas id="mainChart"></canvas>
-                    </div>
+                    <p class="text-[9px] opacity-60 mb-2" id="healthDescText">Calculando...</p>
+                    <div class="h-[60px] w-full"><canvas id="mainChart"></canvas></div>
                 </div>
             </div>
         </div>
 
-        <div id="view-goal" class="fade-in hidden w-full max-w-2xl mx-auto">
-            <div class="info-box mb-6 flex gap-3 items-start">
-                <span class="material-symbols-rounded text-primary text-lg shrink-0">help</span>
-                <div>
-                    <strong>Tu Centro de Mando:</strong> Aquí defines tu META (a dónde quieres llegar) y registras manualmente los cambios en tu dinero LÍQUIDO (lo que tienes hoy).
-                    <br><span class="opacity-70 mt-1 block">Usa los botones + y - cuando recibas dinero o gastes, para ver si te acercas o alejas de la meta.</span>
-                </div>
-            </div>
-
-            <div class="card-glass p-6 rounded-3xl shadow-golden text-center">
-                <div class="mb-6">
-                    <p class="text-[10px] font-black text-primary uppercase tracking-widest mb-2">Tu Meta (El Norte)</p>
+        <!-- VIEW: GOAL -->
+        <div id="view-goal" class="view-container fade-in hidden">
+            <div class="card-glass p-4 rounded-2xl shadow-golden text-center mt-2">
+                <div class="mb-4">
+                    <p class="text-[9px] font-black text-primary uppercase tracking-widest mb-1">Tu Meta</p>
                     <div class="flex justify-center items-center">
-                        <span class="text-2xl text-muted-light/30 mr-1">$</span>
-                        <input id="inputGoal" type="number" class="bg-transparent text-center text-5xl font-black w-full max-w-[200px] focus:ring-0 border-none p-0 outline-none text-text-main-light dark:text-white" placeholder="0" oninput="App.updateVal('goal', this.value)">
+                        <span class="text-xl text-muted-light/30 mr-1">$</span>
+                        <input id="inputGoal" type="number" class="bg-transparent text-center text-4xl font-black w-full max-w-[180px] outline-none" placeholder="0" oninput="App.updateVal('goal', this.value)">
                     </div>
-                    <div class="w-full max-w-xs mx-auto h-1 bg-black/5 rounded-full mt-2 overflow-hidden"><div id="goalProgressBar" class="h-full bg-primary w-0 transition-all duration-1000"></div></div>
+                    <div class="w-full max-w-xs mx-auto h-1 bg-black/5 rounded-full mt-2 overflow-hidden">
+                        <div id="goalProgressBar" class="h-full bg-primary w-0 transition-all duration-1000"></div>
+                    </div>
                 </div>
 
-                <div class="border-t border-dashed border-black/10 dark:border-white/10 pt-6">
-                    <p class="text-[10px] font-bold uppercase text-text-muted-light mb-4">Operar Saldo Real (Manual)</p>
-                    <div class="flex items-center justify-center gap-4">
-                        <button onclick="App.modifyFund('sub')" class="btn-control bg-danger/5 text-danger flex items-center justify-center text-2xl active:scale-90 transition-all hover:bg-danger hover:text-white"><span class="material-symbols-rounded">remove</span></button>
-                        <div class="bg-black/5 dark:bg-white/5 rounded-2xl px-4 py-2 w-32">
-                            <input id="fundInput" type="number" placeholder="0" class="w-full bg-transparent text-center font-bold text-2xl outline-none">
+                <div class="border-t border-dashed border-black/10 dark:border-white/10 pt-4">
+                    <p class="text-[9px] font-bold uppercase text-text-muted-light mb-3">Operar Saldo Real</p>
+                    <div class="flex items-center justify-center gap-3">
+                        <button onclick="App.modifyFund('sub')" class="btn-control bg-danger/10 text-danger flex items-center justify-center text-xl active:scale-90 transition-all hover:bg-danger hover:text-white">
+                            <span class="material-symbols-rounded">remove</span>
+                        </button>
+                        <div class="bg-black/5 dark:bg-white/5 rounded-xl px-3 py-1.5 w-28">
+                            <input id="fundInput" type="number" placeholder="0" class="w-full bg-transparent text-center font-bold text-xl outline-none">
                         </div>
-                        <button onclick="App.modifyFund('add')" class="btn-control bg-success/5 text-success flex items-center justify-center text-2xl active:scale-90 transition-all hover:bg-success hover:text-white"><span class="material-symbols-rounded">add</span></button>
+                        <button onclick="App.modifyFund('add')" class="btn-control bg-success/10 text-success flex items-center justify-center text-xl active:scale-90 transition-all hover:bg-success hover:text-white">
+                            <span class="material-symbols-rounded">add</span>
+                        </button>
                     </div>
-                    <div class="flex justify-between px-10 text-[9px] font-bold text-text-muted-light mt-2 uppercase opacity-60">
+                    <div class="flex justify-between px-8 text-[8px] font-bold text-text-muted-light mt-1 uppercase opacity-60">
                         <span>Retirar</span>
                         <span>Ingresar</span>
                     </div>
                 </div>
 
-                <div class="mt-6 pt-4 border-t border-black/5 dark:border-white/5">
-                    <h2 id="detailSavedDisplay" class="text-4xl font-black text-success tracking-tight mb-1">$0</h2>
-                    <span class="text-[10px] uppercase font-bold opacity-50">Disponible Real Actual</span>
+                <div class="mt-4 pt-3 border-t border-black/5 dark:border-white/5">
+                    <h2 id="detailSavedDisplay" class="text-3xl font-black text-success tracking-tight mb-0.5">$0</h2>
+                    <span class="text-[9px] uppercase font-bold opacity-50">Disponible Actual</span>
                     
-                    <button onclick="App.toggleHistory()" class="mx-auto mt-4 flex items-center gap-2 px-4 py-2 bg-black/5 rounded-full text-[10px] font-bold hover:bg-black/10 transition-all">
-                        <span>Ver Historial</span> <span id="historyChevron" class="material-symbols-rounded text-sm transition-transform">expand_more</span>
+                    <button onclick="App.toggleHistory()" class="mx-auto mt-3 flex items-center gap-1.5 px-3 py-1.5 bg-black/5 rounded-full text-[9px] font-bold hover:bg-black/10 transition-all">
+                        <span>Historial</span> <span id="historyChevron" class="material-symbols-rounded text-xs transition-transform">expand_more</span>
                     </button>
-                    <div id="historyContainer" class="hidden mt-4 space-y-2 text-left max-h-60 overflow-y-auto custom-scroll"></div>
+                    <div id="historyContainer" class="hidden mt-3 space-y-1.5 text-left max-h-32 overflow-y-auto"></div>
                 </div>
             </div>
         </div>
 
-        <div id="view-incomes" class="fade-in hidden w-full max-w-4xl mx-auto">
-            <div class="info-box mb-4 flex gap-3 items-center">
-                <span class="material-symbols-rounded text-success text-lg shrink-0">trending_up</span>
+        <!-- VIEW: INCOMES -->
+        <div id="view-incomes" class="view-container fade-in hidden">
+            <div class="card-glass p-3 rounded-2xl shadow-golden mb-3 flex justify-between items-center mt-2">
                 <div>
-                    <strong>Tus Motores:</strong> Define tu sueldo base (lo seguro) y agrega abajo cada "extra" o proyecto variable. Esto calcula tu potencia financiera total.
-                </div>
-            </div>
-
-            <div class="card-glass p-5 rounded-3xl shadow-golden mb-4 flex justify-between items-center bg-white/40 dark:bg-white/5">
-                <div>
-                    <p class="text-[10px] font-bold uppercase text-text-muted-light">Total Entradas</p>
-                    <p id="totalIncomeDisplay" class="text-3xl font-black text-success tracking-tight">$0</p>
+                    <p class="text-[9px] font-bold uppercase text-text-muted-light">Total Entradas</p>
+                    <p id="totalIncomeDisplay" class="text-2xl font-black text-success tracking-tight">$0</p>
                 </div>
                 <div class="text-right">
-                    <p class="text-[9px] font-bold uppercase opacity-50 mb-1">Base Fija Mensual</p>
+                    <p class="text-[8px] font-bold uppercase opacity-50 mb-0.5">Base Fija</p>
                     <div class="flex items-center justify-end">
                         <span class="text-xs mr-1 opacity-50">$</span>
-                        <input id="inputSalary" type="number" class="w-24 bg-transparent text-right font-black text-xl focus:ring-0 border-b border-dashed border-black/20 outline-none p-0" oninput="App.updateVal('salary', this.value)">
+                        <input id="inputSalary" type="number" class="w-20 bg-transparent text-right font-black text-lg border-b border-dashed border-black/20 outline-none" oninput="App.updateVal('salary', this.value)">
                     </div>
                 </div>
             </div>
 
-            <div class="flex justify-between items-center mb-4 px-2">
-                <span class="text-xs font-bold opacity-60">Proyectos Variables</span>
-                <button onclick="App.addItem('incomes')" class="px-4 py-2 bg-success text-white rounded-xl text-xs font-bold shadow-md hover:scale-105 transition-transform flex items-center gap-1"><span class="material-symbols-rounded text-sm">add</span> Nuevo</button>
+            <div class="flex justify-between items-center mb-2 px-1">
+                <span class="text-[10px] font-bold opacity-60">Proyectos Variables</span>
+                <button onclick="App.addItem('incomes')" class="px-3 py-1.5 bg-success text-white rounded-lg text-[10px] font-bold shadow-md flex items-center gap-1">
+                    <span class="material-symbols-rounded text-xs">add</span> Nuevo
+                </button>
             </div>
 
-            <div id="incomesList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+            <div id="incomesList" class="grid grid-cols-1 md:grid-cols-2 gap-2 max-h-[calc(100vh-280px)] overflow-y-auto"></div>
         </div>
 
-        <div id="view-expenses" class="fade-in hidden w-full max-w-4xl mx-auto">
-            <div class="info-box mb-4 flex gap-3 items-center">
-                <span class="material-symbols-rounded text-danger text-lg shrink-0">trending_down</span>
+        <!-- VIEW: EXPENSES -->
+        <div id="view-expenses" class="view-container fade-in hidden">
+            <div class="card-glass p-3 rounded-2xl shadow-golden mb-3 flex justify-between items-center mt-2">
                 <div>
-                    <strong>Fugas de Capital:</strong> Registra aquí tus compromisos mensuales. No juzgues, solo anota. Ver la realidad es el primer paso para controlarla.
+                    <p class="text-[9px] font-bold uppercase text-text-muted-light">Total Salidas</p>
+                    <p id="totalExpenseDisplay" class="text-2xl font-black text-danger tracking-tight">$0</p>
+                </div>
+                <button onclick="App.addItem('expenses')" class="w-10 h-10 bg-danger text-white flex items-center justify-center rounded-xl shadow-lg">
+                    <span class="material-symbols-rounded text-xl">add</span>
+                </button>
+            </div>
+
+            <p class="text-[10px] font-bold opacity-60 mb-2 px-1">Lista de Gastos</p>
+            <div id="expensesList" class="grid grid-cols-1 md:grid-cols-2 gap-2 max-h-[calc(100vh-250px)] overflow-y-auto"></div>
+        </div>
+
+        <!-- VIEW: HELP - NUEVA SECCIÓN -->
+        <div id="view-help" class="view-container fade-in hidden">
+            <div class="mt-2 mb-4">
+                <div class="flex items-center gap-3 mb-1">
+                    <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                        <span class="material-symbols-rounded text-xl text-primary">menu_book</span>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-display font-black">Guía de Uso</h1>
+                        <p class="text-[10px] text-text-muted-light">Aprende a dominar tus finanzas</p>
+                    </div>
                 </div>
             </div>
 
-            <div class="card-glass p-5 rounded-3xl shadow-golden mb-4 flex justify-between items-center bg-white/40 dark:bg-white/5">
-                <div>
-                    <p class="text-[10px] font-bold uppercase text-text-muted-light">Total Salidas</p>
-                    <p id="totalExpenseDisplay" class="text-3xl font-black text-danger tracking-tight">$0</p>
+            <div class="space-y-3">
+                
+                <!-- Sección 1: Dashboard -->
+                <div class="help-card">
+                    <div class="flex items-start gap-3">
+                        <div class="step-number">1</div>
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-1.5">
+                                <span class="material-symbols-rounded text-lg text-primary">dashboard</span>
+                                <h3 class="font-bold text-sm">Dashboard Principal</h3>
+                            </div>
+                            <p class="text-[11px] text-text-muted-light leading-relaxed">
+                                El dashboard te muestra un <strong>resumen completo</strong> de tu situación financiera:
+                            </p>
+                            <ul class="mt-2 space-y-1.5 text-[10px]">
+                                <li class="flex items-center gap-2">
+                                    <span class="material-symbols-rounded text-xs text-success">savings</span>
+                                    <span><strong>Tu Meta:</strong> El objetivo de ahorro que quieres alcanzar</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <span class="material-symbols-rounded text-xs text-success">trending_up</span>
+                                    <span><strong>Ingresos:</strong> Todo el dinero que entra (sueldo + extras)</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <span class="material-symbols-rounded text-xs text-danger">trending_down</span>
+                                    <span><strong>Gastos:</strong> Todo el dinero que sale mensualmente</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <span class="material-symbols-rounded text-xs text-warning">cardiology</span>
+                                    <span><strong>Salud:</strong> Indicador de qué tan bien vas financieramente</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-                <button onclick="App.addItem('expenses')" class="btn-action-lg bg-danger text-white flex items-center justify-center shadow-lg shadow-danger/30 hover:scale-105 transition-transform"><span class="material-symbols-rounded text-2xl">add</span></button>
-            </div>
 
-            <p class="text-xs font-bold opacity-60 mb-4 px-2">Lista de Compromisos</p>
-            <div id="expensesList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+                <!-- Sección 2: Meta y Saldo -->
+                <div class="help-card">
+                    <div class="flex items-start gap-3">
+                        <div class="step-number">2</div>
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-1.5">
+                                <span class="material-symbols-rounded text-lg text-success">savings</span>
+                                <h3 class="font-bold text-sm">Tu Objetivo (Meta)</h3>
+                            </div>
+                            <p class="text-[11px] text-text-muted-light leading-relaxed mb-2">
+                                Aquí configuras <strong>cuánto quieres ahorrar</strong> y registras los movimientos de tu dinero real:
+                            </p>
+                            <div class="bg-success/5 rounded-lg p-2.5 mb-2">
+                                <p class="text-[10px] font-bold text-success mb-1">💰 Botón + (Ingresar)</p>
+                                <p class="text-[10px] text-text-muted-light">Úsalo cuando <strong>recibes dinero</strong>: cobras tu sueldo, te pagan un proyecto, vendes algo, etc.</p>
+                            </div>
+                            <div class="bg-danger/5 rounded-lg p-2.5">
+                                <p class="text-[10px] font-bold text-danger mb-1">💸 Botón - (Retirar)</p>
+                                <p class="text-[10px] text-text-muted-light">Úsalo cuando <strong>gastas dinero</strong>: pagas renta, compras algo, retiras del cajero, etc.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección 3: Ingresos -->
+                <div class="help-card">
+                    <div class="flex items-start gap-3">
+                        <div class="step-number">3</div>
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-1.5">
+                                <span class="material-symbols-rounded text-lg text-success">trending_up</span>
+                                <h3 class="font-bold text-sm">Gestionar Ingresos</h3>
+                            </div>
+                            <p class="text-[11px] text-text-muted-light leading-relaxed mb-2">
+                                Registra todas tus <strong>fuentes de dinero</strong>:
+                            </p>
+                            <ul class="space-y-1.5 text-[10px]">
+                                <li class="flex items-start gap-2">
+                                    <span class="text-success font-bold">•</span>
+                                    <span><strong>Base Fija:</strong> Tu sueldo mensual seguro</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-success font-bold">•</span>
+                                    <span><strong>Proyectos:</strong> Trabajos extras, ventas, freelance</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-success font-bold">•</span>
+                                    <span><strong>Precio vs Costo:</strong> Si vendes algo, pon el precio de venta y cuánto te costó a ti</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-success font-bold">•</span>
+                                    <span><strong>Cantidad:</strong> Cuántas unidades vendes o proyectos haces</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección 4: Gastos -->
+                <div class="help-card">
+                    <div class="flex items-start gap-3">
+                        <div class="step-number">4</div>
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-1.5">
+                                <span class="material-symbols-rounded text-lg text-danger">trending_down</span>
+                                <h3 class="font-bold text-sm">Controlar Gastos</h3>
+                            </div>
+                            <p class="text-[11px] text-text-muted-light leading-relaxed mb-2">
+                                Anota <strong>todos tus compromisos mensuales</strong>:
+                            </p>
+                            <div class="grid grid-cols-2 gap-2 text-[10px]">
+                                <div class="bg-black/5 dark:bg-white/5 rounded-lg p-2">
+                                    <span class="material-symbols-rounded text-xs text-danger">cottage</span>
+                                    <span class="ml-1">Renta/Hipoteca</span>
+                                </div>
+                                <div class="bg-black/5 dark:bg-white/5 rounded-lg p-2">
+                                    <span class="material-symbols-rounded text-xs text-danger">wifi</span>
+                                    <span class="ml-1">Internet/Tel</span>
+                                </div>
+                                <div class="bg-black/5 dark:bg-white/5 rounded-lg p-2">
+                                    <span class="material-symbols-rounded text-xs text-danger">restaurant</span>
+                                    <span class="ml-1">Comida</span>
+                                </div>
+                                <div class="bg-black/5 dark:bg-white/5 rounded-lg p-2">
+                                    <span class="material-symbols-rounded text-xs text-danger">directions_car</span>
+                                    <span class="ml-1">Transporte</span>
+                                </div>
+                            </div>
+                            <p class="text-[10px] text-text-muted-light mt-2 italic">
+                                💡 Tip: No juzgues, solo anota. Ver la realidad es el primer paso.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección 5: Barra Inferior -->
+                <div class="help-card">
+                    <div class="flex items-start gap-3">
+                        <div class="step-number">5</div>
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-1.5">
+                                <span class="material-symbols-rounded text-lg text-primary">analytics</span>
+                                <h3 class="font-bold text-sm">Barra de Progreso</h3>
+                            </div>
+                            <p class="text-[11px] text-text-muted-light leading-relaxed mb-2">
+                                La barra inferior te muestra:
+                            </p>
+                            <ul class="space-y-1.5 text-[10px]">
+                                <li class="flex items-start gap-2">
+                                    <span class="text-primary font-bold">→</span>
+                                    <span><strong>Capacidad Real:</strong> Ingresos menos Gastos = lo que puedes ahorrar</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-primary font-bold">→</span>
+                                    <span><strong>Estimado:</strong> Cuánto tiempo te falta para alcanzar tu meta</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-primary font-bold">→</span>
+                                    <span><strong>Progreso:</strong> Barra visual de cuánto llevas vs cuánto falta</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tips Finales -->
+                <div class="help-card bg-primary/5 border-primary/20">
+                    <div class="flex items-start gap-3">
+                        <span class="material-symbols-rounded text-xl text-primary">lightbulb</span>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-sm mb-2">Tips para el Éxito</h3>
+                            <ul class="space-y-1.5 text-[10px]">
+                                <li class="flex items-start gap-2">
+                                    <span class="text-primary">✓</span>
+                                    <span>Actualiza tus movimientos <strong>cada vez que recibes o gastas</strong> dinero</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-primary">✓</span>
+                                    <span>Revisa el dashboard <strong>al menos una vez por semana</strong></span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-primary">✓</span>
+                                    <span>Pon metas <strong>realistas y alcanzables</strong></span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-primary">✓</span>
+                                    <span>Si la salud está en "ALERTA", <strong>reduce gastos o aumenta ingresos</strong></span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-primary">✓</span>
+                                    <span>Celebra cada logro, <strong>¡el confetti aparece por algo!</strong> 🎉</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botón Volver -->
+                <button onclick="App.navigateTo('home')" class="w-full py-3 bg-primary text-white rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-lg mt-2">
+                    <span class="material-symbols-rounded text-base">home</span>
+                    Volver al Dashboard
+                </button>
+
+            </div>
         </div>
 
     </div>
 
-    <div id="bottomBar" class="fixed bottom-0 w-full z-40 p-3 pb-6 flex justify-center pointer-events-none">
-        <div class="pointer-events-auto bg-white/90 dark:bg-black/90 backdrop-blur-xl border border-white/20 shadow-golden rounded-2xl w-full max-w-md px-5 py-3">
-            <div class="flex justify-between items-center mb-2">
+    <!-- BOTTOM BAR -->
+    <div id="bottomBar" class="fixed bottom-0 w-full z-40 p-2 pb-4 flex justify-center pointer-events-none">
+        <div class="pointer-events-auto bg-white/90 dark:bg-black/90 backdrop-blur-xl border border-white/20 shadow-golden rounded-xl w-full max-w-md px-4 py-2.5">
+            <div class="flex justify-between items-center mb-1.5">
                 <div class="flex flex-col">
-                    <span class="text-[9px] font-black text-text-muted-light uppercase tracking-widest">Capacidad Real</span>
-                    <span id="barSurplus" class="text-xl font-black text-text-main-light dark:text-white leading-none">$0</span>
+                    <span class="text-[8px] font-black text-text-muted-light uppercase tracking-widest">Capacidad Real</span>
+                    <span id="barSurplus" class="text-lg font-black leading-none">$0</span>
                 </div>
                 <div class="text-right flex flex-col items-end">
-                    <span class="text-[9px] font-bold opacity-50 uppercase mb-0.5">Estimado</span>
-                    <div id="barTime" class="text-xs font-bold bg-primary/10 text-primary px-2 py-0.5 rounded-md">--</div>
+                    <span class="text-[8px] font-bold opacity-50 uppercase">Estimado</span>
+                    <div id="barTime" class="text-[10px] font-bold bg-primary/10 text-primary px-2 py-0.5 rounded">--</div>
                 </div>
             </div>
-            <div class="w-full bg-black/5 h-1.5 rounded-full overflow-hidden flex items-center">
+            <div class="w-full bg-black/5 h-1 rounded-full overflow-hidden">
                 <div id="barProgress" class="h-full bg-black/80 dark:bg-white w-0 transition-all duration-1000 rounded-full"></div>
             </div>
-            <div class="flex justify-between text-[9px] font-bold opacity-50 mt-1">
+            <div class="flex justify-between text-[8px] font-bold opacity-50 mt-0.5">
                 <span>Progreso</span>
                 <span id="barGoalText">Falta: $0</span>
             </div>
@@ -422,7 +642,6 @@
     </div>
 
     <script>
-        // CONFIGURACIÓN & LÓGICA PRINCIPAL
         const CONFIG = {
             firebase: { apiKey: "AIzaSyANBc8ziutAX47V_iJpgdn-7O3S3kvI3Tc", authDomain: "marie-finance.firebaseapp.com", projectId: "marie-finance", storageBucket: "marie-finance.firebasestorage.app", messagingSenderId: "754175935134", appId: "1:754175935134:web:d159ae64d6ce56f51f318f" },
             collections: { users: 'users' }
@@ -437,7 +656,7 @@
             formatCompact: (v) => new Intl.NumberFormat('en-US', { notation: "compact", maximumFractionDigits: 1 }).format(v),
             getSmartIcon: (name) => {
                 const n = (name || '').toLowerCase();
-                const icons = { 'comida': 'restaurant', 'uber': 'local_gas_station', 'casa': 'cottage', 'wifi': 'wifi', 'netflix': 'movie', 'gym': 'fitness_center' };
+                const icons = { 'comida': 'restaurant', 'uber': 'local_gas_station', 'casa': 'cottage', 'wifi': 'wifi', 'netflix': 'movie', 'gym': 'fitness_center', 'renta': 'cottage', 'luz': 'bolt', 'agua': 'water_drop', 'gas': 'local_fire_department' };
                 for (let key in icons) if (n.includes(key)) return icons[key];
                 return 'credit_card';
             },
@@ -453,270 +672,146 @@
                     firebaseAuth = firebase.auth(); 
                     firestoreDb = firebase.firestore(); 
                     Auth.monitor(); 
-                } catch (e) { 
-                    console.error("Error inicializando Firebase:", e); 
-                }
+                } catch (e) { console.error(e); }
             },
             monitor: () => {
                 firebaseAuth.onAuthStateChanged(user => {
                     const overlay = Utils.$('loginOverlay');
-                    if (user) { 
-                        overlay.classList.add('opacity-0', 'pointer-events-none'); 
-                        Data.load(user.uid); 
-                    } else { 
-                        overlay.classList.remove('opacity-0', 'pointer-events-none'); 
-                    }
+                    if (user) { overlay.classList.add('opacity-0', 'pointer-events-none'); Data.load(user.uid); } 
+                    else { overlay.classList.remove('opacity-0', 'pointer-events-none'); }
                 });
             },
             login: () => firebaseAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider()),
             logout: () => { 
-                const modal = Utils.$('logoutModal'); 
-                const card = Utils.$('logoutCard');
+                const modal = Utils.$('logoutModal'); const card = Utils.$('logoutCard');
                 modal.classList.remove('hidden'); 
-                setTimeout(() => { 
-                    card.classList.remove('scale-95', 'opacity-0'); 
-                    card.classList.add('scale-100', 'opacity-100'); 
-                }, 10);
+                setTimeout(() => { card.classList.remove('scale-95', 'opacity-0'); card.classList.add('scale-100', 'opacity-100'); }, 10);
             },
             closeLogoutModal: () => {
-                const modal = Utils.$('logoutModal'); 
-                const card = Utils.$('logoutCard');
-                card.classList.remove('scale-100', 'opacity-100'); 
-                card.classList.add('scale-95', 'opacity-0');
-                setTimeout(() => modal.classList.add('hidden'), 200);
+                const card = Utils.$('logoutCard'); card.classList.add('scale-95', 'opacity-0');
+                setTimeout(() => Utils.$('logoutModal').classList.add('hidden'), 200);
             },
-            confirmLogout: () => { 
-                firebaseAuth.signOut(); 
-                location.reload(); 
-            }
+            confirmLogout: () => { firebaseAuth.signOut(); location.reload(); }
         };
 
         const Data = {
             load: async (uid) => {
                 try {
                     const doc = await firestoreDb.collection(CONFIG.collections.users).doc(uid).get();
-                    if (doc.exists) { 
-                        state = { ...state, ...doc.data() }; 
-                        App.updateGreeting(); 
-                    } else { 
-                        const u = firebaseAuth.currentUser; 
-                        state.userName = u.displayName ? u.displayName.split(' ')[0] : ''; 
-                        Data.save(); 
-                        App.openProfileModal(); 
-                    }
+                    if (doc.exists) { state = { ...state, ...doc.data() }; App.updateGreeting(); } 
+                    else { const u = firebaseAuth.currentUser; state.userName = u.displayName ? u.displayName.split(' ')[0] : ''; Data.save(); App.openProfileModal(); }
                     UI.renderAll();
-                } catch(e) {
-                    console.error("Error cargando datos:", e);
-                }
+                } catch(e) { console.error(e); }
             },
             save: () => { 
                 const u = firebaseAuth.currentUser; 
-                if(u) {
-                    firestoreDb.collection(CONFIG.collections.users).doc(u.uid).set(state, { merge: true })
-                        .then(() => console.log("Datos guardados correctamente"))
-                        .catch(e => console.error("Error guardando:", e));
-                }
+                if(u) firestoreDb.collection(CONFIG.collections.users).doc(u.uid).set(state, { merge: true }).catch(e => console.error(e));
             },
-            updateHistoryDesc: (id, val) => { 
-                const item = state.history.find(h => h.id === id); 
-                if(item) { 
-                    item.desc = val; 
-                    Data.save(); 
-                    UI.renderChart(); 
-                } 
-            }
+            updateHistoryDesc: (id, val) => { const item = state.history.find(h => h.id === id); if(item) { item.desc = val; Data.save(); } }
         };
 
         const UI = {
-            renderAll: () => { 
-                UI.renderIncomes(); 
-                UI.renderExpenses(); 
-                UI.renderHistory(); 
-                App.calculateGlobal(); 
-            },
-            showToast: (msg) => {
-                const toast = Utils.$('toast'); 
-                toast.innerText = msg; 
-                toast.className = "show";
-                setTimeout(() => { toast.className = ""; }, 2500);
-            },
-            // ✅ FUNCIÓN CORREGIDA - triggerConfetti ahora está definida
-            triggerConfetti: () => {
-                if (typeof confetti === 'function') {
-                    confetti({
-                        particleCount: 100,
-                        spread: 70,
-                        origin: { y: 0.6 },
-                        colors: ['#b08968', '#6a994e', '#e9c46a', '#bc4749']
-                    });
-                }
-            },
+            renderAll: () => { UI.renderIncomes(); UI.renderExpenses(); UI.renderHistory(); App.calculateGlobal(); },
+            showToast: (msg) => { const toast = Utils.$('toast'); toast.innerText = msg; toast.className = "show"; setTimeout(() => { toast.className = ""; }, 2500); },
+            triggerConfetti: () => { if (typeof confetti === 'function') confetti({ particleCount: 80, spread: 60, origin: { y: 0.7 }, colors: ['#b08968', '#6a994e', '#e9c46a'] }); },
             animateNum: (id, endVal) => {
-                const el = Utils.$(id); 
-                if (!el) return;
+                const el = Utils.$(id); if (!el) return;
                 try {
-                    if(!el.countUpInstance) {
-                        el.countUpInstance = new countUp.CountUp(id, endVal, { duration: 1, prefix: '$' });
-                    } else {
-                        el.countUpInstance.update(endVal);
-                    }
-                    if (!el.countUpInstance.error) {
-                        el.countUpInstance.start();
-                    } else {
-                        el.innerText = '$' + endVal;
-                    }
-                } catch(e) {
-                    el.innerText = '$' + endVal;
-                }
+                    if(!el.countUpInstance) el.countUpInstance = new countUp.CountUp(id, endVal, { duration: 0.8, prefix: '$' });
+                    else el.countUpInstance.update(endVal);
+                    if (!el.countUpInstance.error) el.countUpInstance.start(); else el.innerText = '$' + endVal;
+                } catch(e) { el.innerText = '$' + endVal; }
             },
             renderHistory: () => {
-                const container = Utils.$('historyContainer'); 
-                if (!container) return;
-                container.innerHTML = '';
-                const sorted = [...state.history].sort((a,b) => b.id - a.id).slice(0, 15);
-                if(sorted.length === 0) { 
-                    container.innerHTML = '<p class="text-xs opacity-40 text-center py-4">Sin movimientos recientes.</p>'; 
-                    return; 
-                }
+                const container = Utils.$('historyContainer'); if (!container) return; container.innerHTML = '';
+                const sorted = [...state.history].sort((a,b) => b.id - a.id).slice(0, 10);
+                if(sorted.length === 0) { container.innerHTML = '<p class="text-[10px] opacity-40 text-center py-3">Sin movimientos.</p>'; return; }
                 sorted.forEach(h => {
                     const isAdd = h.type === 'add';
                     container.innerHTML += `
-                    <div class="flex justify-between items-center p-3 bg-white/50 dark:bg-white/5 rounded-xl border border-white/20 text-xs">
-                        <div class="flex items-center gap-2 w-full overflow-hidden">
-                            <span class="material-symbols-rounded text-sm ${isAdd ? 'text-success' : 'text-danger'}">${isAdd ? 'arrow_downward' : 'arrow_upward'}</span>
-                            <input value="${h.desc || ''}" class="bg-transparent font-medium w-full outline-none text-truncate-input" oninput="Data.updateHistoryDesc(${h.id}, this.value)">
+                    <div class="flex justify-between items-center p-2 bg-white/50 dark:bg-white/5 rounded-lg text-[10px]">
+                        <div class="flex items-center gap-1.5 flex-1 overflow-hidden">
+                            <span class="material-symbols-rounded text-xs ${isAdd ? 'text-success' : 'text-danger'}">${isAdd ? 'arrow_downward' : 'arrow_upward'}</span>
+                            <input value="${h.desc || ''}" class="bg-transparent font-medium flex-1 outline-none truncate" oninput="Data.updateHistoryDesc(${h.id}, this.value)">
                         </div>
-                        <div class="flex items-center gap-2 shrink-0">
+                        <div class="flex items-center gap-1.5 shrink-0">
                             <span class="font-bold ${isAdd ? 'text-success' : 'text-danger'}">${isAdd ? '+' : '-'}${Utils.formatMoney(h.amount)}</span>
-                            <button onclick="App.deleteItem('history', ${h.id})" class="text-danger opacity-50 hover:opacity-100"><span class="material-symbols-rounded text-sm">delete</span></button>
+                            <button onclick="App.deleteItem('history', ${h.id})" class="text-danger opacity-50 hover:opacity-100"><span class="material-symbols-rounded text-xs">close</span></button>
                         </div>
                     </div>`;
                 });
             },
             renderIncomes: () => {
-                const container = Utils.$('incomesList'); 
-                if (!container) return;
-                container.innerHTML = '';
-                if(state.incomes.length === 0) { 
-                    container.innerHTML = `<div class="col-span-full py-8 text-center opacity-40"><p class="text-xs">Añade tu primer proyecto.</p></div>`; 
-                    return; 
-                }
+                const container = Utils.$('incomesList'); if (!container) return; container.innerHTML = '';
+                if(state.incomes.length === 0) { container.innerHTML = `<div class="col-span-full py-6 text-center opacity-40"><p class="text-[10px]">Añade tu primer proyecto.</p></div>`; return; }
                 state.incomes.forEach(i => {
                     const sub = (i.price - i.cost) * i.qty;
                     container.innerHTML += `
-                    <div class="bg-white/50 dark:bg-white/5 p-4 rounded-2xl border border-white/20 card-glass">
-                        <div class="flex justify-between mb-2">
-                            <input value="${i.name}" class="bg-transparent font-bold text-sm w-full outline-none" oninput="App.updateItem('incomes', ${i.id}, 'name', this.value)" onblur="App.validateInput(this, 'Proyecto')" placeholder="Nombre...">
-                            <button onclick="App.deleteItem('incomes', ${i.id})" class="text-text-muted-light hover:text-danger"><span class="material-symbols-rounded text-base">close</span></button>
+                    <div class="bg-white/50 dark:bg-white/5 p-3 rounded-xl border border-white/20">
+                        <div class="flex justify-between mb-1.5">
+                            <input value="${i.name}" class="bg-transparent font-bold text-xs flex-1 outline-none" oninput="App.updateItem('incomes', ${i.id}, 'name', this.value)" placeholder="Nombre...">
+                            <button onclick="App.deleteItem('incomes', ${i.id})" class="text-text-muted-light hover:text-danger ml-2"><span class="material-symbols-rounded text-sm">close</span></button>
                         </div>
-                        <div class="flex gap-2 mb-2">
-                             <div class="w-1/2 group relative"><span class="text-[8px] absolute top-1 left-2 opacity-50 font-bold">PRECIO</span><input type="number" value="${i.price}" class="w-full bg-black/5 dark:bg-black/20 rounded-lg pt-3 pb-1 px-2 text-xs font-bold text-center outline-none" oninput="App.updateItem('incomes', ${i.id}, 'price', this.value)"></div>
-                             <div class="w-1/2 group relative"><span class="text-[8px] absolute top-1 left-2 opacity-50 font-bold text-danger">COSTO</span><input type="number" value="${i.cost}" class="w-full bg-black/5 dark:bg-black/20 rounded-lg pt-3 pb-1 px-2 text-xs font-bold text-danger text-center outline-none" oninput="App.updateItem('incomes', ${i.id}, 'cost', this.value)"></div>
+                        <div class="flex gap-1.5 mb-1.5">
+                             <div class="w-1/2 relative"><span class="text-[7px] absolute top-0.5 left-1.5 opacity-50 font-bold">PRECIO</span><input type="number" value="${i.price}" class="w-full bg-black/5 dark:bg-black/20 rounded-lg pt-3 pb-1 px-2 text-[10px] font-bold text-center outline-none" oninput="App.updateItem('incomes', ${i.id}, 'price', this.value)"></div>
+                             <div class="w-1/2 relative"><span class="text-[7px] absolute top-0.5 left-1.5 opacity-50 font-bold text-danger">COSTO</span><input type="number" value="${i.cost}" class="w-full bg-black/5 dark:bg-black/20 rounded-lg pt-3 pb-1 px-2 text-[10px] font-bold text-danger text-center outline-none" oninput="App.updateItem('incomes', ${i.id}, 'cost', this.value)"></div>
                         </div>
-                        <div class="flex items-center gap-2">
-                            <input type="range" min="1" max="50" value="${i.qty}" class="w-full" oninput="App.updateItem('incomes', ${i.id}, 'qty', this.value)">
-                            <span class="text-[10px] font-bold whitespace-nowrap bg-primary/10 px-2 rounded">${i.qty} Unid.</span>
+                        <div class="flex items-center gap-1.5">
+                            <input type="range" min="1" max="50" value="${i.qty}" class="flex-1" oninput="App.updateItem('incomes', ${i.id}, 'qty', this.value)">
+                            <span class="text-[9px] font-bold bg-primary/10 px-1.5 rounded">${i.qty}u</span>
                         </div>
-                        <div class="text-right mt-2 pt-2 border-t border-dashed border-white/20 text-success font-black text-sm">+${Utils.formatMoney(sub)}</div>
+                        <div class="text-right mt-1.5 pt-1.5 border-t border-dashed border-white/20 text-success font-black text-xs">+${Utils.formatMoney(sub)}</div>
                     </div>`;
                 });
             },
             renderExpenses: () => {
-                const container = Utils.$('expensesList'); 
-                if (!container) return;
-                container.innerHTML = '';
-                if(state.expenses.length === 0) { 
-                    container.innerHTML = `<div class="col-span-full py-8 text-center opacity-40"><p class="text-xs">¡Sin gastos! (Por ahora).</p></div>`; 
-                    return; 
-                }
+                const container = Utils.$('expensesList'); if (!container) return; container.innerHTML = '';
+                if(state.expenses.length === 0) { container.innerHTML = `<div class="col-span-full py-6 text-center opacity-40"><p class="text-[10px]">¡Sin gastos!</p></div>`; return; }
                 state.expenses.forEach(e => {
                     container.innerHTML += `
-                    <div class="flex items-center gap-3 bg-white/50 dark:bg-white/5 p-3 rounded-2xl border border-white/20 card-glass">
-                        <div class="w-10 h-10 rounded-xl bg-danger/5 flex items-center justify-center text-danger shrink-0"><span class="material-symbols-rounded text-lg">${Utils.getSmartIcon(e.name)}</span></div>
-                        <div class="flex-1 w-full overflow-hidden">
-                            <input value="${e.name}" class="bg-transparent font-bold text-xs w-full outline-none text-truncate-input" oninput="App.updateItem('expenses', ${e.id}, 'name', this.value)" onblur="App.validateInput(this, 'Gasto')" placeholder="Concepto...">
-                            <div class="flex items-center mt-0.5"><span class="text-[10px] opacity-50 mr-1">$</span><input type="number" value="${e.amount}" class="bg-transparent font-bold text-sm w-20 outline-none" oninput="App.updateItem('expenses', ${e.id}, 'amount', this.value)"></div>
+                    <div class="flex items-center gap-2 bg-white/50 dark:bg-white/5 p-2.5 rounded-xl border border-white/20">
+                        <div class="w-8 h-8 rounded-lg bg-danger/5 flex items-center justify-center text-danger shrink-0"><span class="material-symbols-rounded text-base">${Utils.getSmartIcon(e.name)}</span></div>
+                        <div class="flex-1 overflow-hidden">
+                            <input value="${e.name}" class="bg-transparent font-bold text-[10px] w-full outline-none truncate" oninput="App.updateItem('expenses', ${e.id}, 'name', this.value)" placeholder="Concepto...">
+                            <div class="flex items-center"><span class="text-[9px] opacity-50 mr-0.5">$</span><input type="number" value="${e.amount}" class="bg-transparent font-bold text-xs w-16 outline-none" oninput="App.updateItem('expenses', ${e.id}, 'amount', this.value)"></div>
                         </div>
-                        <button onclick="App.deleteItem('expenses', ${e.id})" class="text-text-muted-light hover:text-danger p-2"><span class="material-symbols-rounded text-base">close</span></button>
+                        <button onclick="App.deleteItem('expenses', ${e.id})" class="text-text-muted-light hover:text-danger p-1"><span class="material-symbols-rounded text-sm">close</span></button>
                     </div>`;
                 });
             },
             renderChart: () => {
-                const ctx = Utils.$('mainChart'); 
-                if(!ctx) return;
+                const ctx = Utils.$('mainChart'); if(!ctx) return;
                 const sorted = [...state.history].sort((a,b) => a.id - b.id);
-                const labels = ['Inicio'], dataPoints = [0];
-                let bal = 0;
-                sorted.forEach(h => { 
-                    bal = Math.max(0, bal + (h.type === 'add' ? h.amount : -h.amount)); 
-                    labels.push('.'); 
-                    dataPoints.push(bal); 
-                });
-                labels.push('Hoy'); 
-                dataPoints.push(state.accumulated);
+                const labels = [''], dataPoints = [0]; let bal = 0;
+                sorted.slice(-8).forEach(h => { bal = Math.max(0, bal + (h.type === 'add' ? h.amount : -h.amount)); labels.push(''); dataPoints.push(bal); });
+                labels.push(''); dataPoints.push(state.accumulated);
                 if(chartInstance) chartInstance.destroy();
-                const context = ctx.getContext('2d');
-                const grad = context.createLinearGradient(0, 0, 0, 100);
-                grad.addColorStop(0, 'rgba(176, 137, 104, 0.4)'); 
-                grad.addColorStop(1, 'rgba(176, 137, 104, 0.0)');
+                const grad = ctx.getContext('2d').createLinearGradient(0, 0, 0, 60);
+                grad.addColorStop(0, 'rgba(176, 137, 104, 0.3)'); grad.addColorStop(1, 'rgba(176, 137, 104, 0.0)');
                 chartInstance = new Chart(ctx, {
-                    type: 'line', 
-                    data: { 
-                        labels, 
-                        datasets: [{ 
-                            data: dataPoints, 
-                            borderColor: '#b08968', 
-                            backgroundColor: grad, 
-                            borderWidth: 2, 
-                            pointRadius: 0, 
-                            fill: true, 
-                            tension: 0.4 
-                        }] 
-                    },
-                    options: { 
-                        responsive: true, 
-                        maintainAspectRatio: false, 
-                        plugins: { legend: {display:false}, tooltip: {enabled: false} }, 
-                        scales: { x: {display:false}, y: {display:false} } 
-                    }
+                    type: 'line', data: { labels, datasets: [{ data: dataPoints, borderColor: '#b08968', backgroundColor: grad, borderWidth: 2, pointRadius: 0, fill: true, tension: 0.4 }] },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display:false}, tooltip: {enabled: false} }, scales: { x: {display:false}, y: {display:false} } }
                 });
             },
             updateThermometer: (inc, exp) => {
-                const badge = Utils.$('healthBadge'); 
-                const desc = Utils.$('healthDescText');
-                if (!badge || !desc) return;
-                
-                let rate = inc > 0 ? ((inc - exp) / inc) * 100 : 0; 
-                let pos = inc <= exp ? 10 : 30 + Math.min((rate/50)*70, 70);
-                
-                if(pos < 35) { 
-                    badge.innerText = "ALERTA"; 
-                    badge.className = "px-3 py-1 bg-danger/20 text-danger rounded-full text-[9px] font-black"; 
-                    desc.innerText = "Gastos muy altos."; 
-                } else if(pos < 65) { 
-                    badge.innerText = "OK"; 
-                    badge.className = "px-3 py-1 bg-warning/20 text-warning rounded-full text-[9px] font-black"; 
-                    desc.innerText = "Estás al límite."; 
-                } else { 
-                    badge.innerText = "BIEN"; 
-                    badge.className = "px-3 py-1 bg-success/20 text-success rounded-full text-[9px] font-black"; 
-                    desc.innerText = "Construyendo futuro."; 
-                }
+                const badge = Utils.$('healthBadge'); const desc = Utils.$('healthDescText'); if (!badge || !desc) return;
+                let rate = inc > 0 ? ((inc - exp) / inc) * 100 : 0; let pos = inc <= exp ? 10 : 30 + Math.min((rate/50)*70, 70);
+                if(pos < 35) { badge.innerText = "ALERTA"; badge.className="px-2 py-0.5 bg-danger/20 text-danger rounded-full text-[8px] font-black"; desc.innerText = "Gastos muy altos."; }
+                else if(pos < 65) { badge.innerText = "OK"; badge.className="px-2 py-0.5 bg-warning/20 text-warning rounded-full text-[8px] font-black"; desc.innerText = "Estás al límite."; }
+                else { badge.innerText = "BIEN"; badge.className="px-2 py-0.5 bg-success/20 text-success rounded-full text-[8px] font-black"; desc.innerText = "Construyendo futuro."; }
             }
         };
 
         const App = {
-            init: () => { 
-                Auth.init(); 
-                UI.renderAll(); 
-            },
+            init: () => { Auth.init(); UI.renderAll(); },
             navigateTo: (id) => { 
                 document.querySelectorAll('[id^="view-"]').forEach(el => el.classList.add('hidden')); 
-                const view = Utils.$(`view-${id}`);
-                if (view) view.classList.remove('hidden'); 
+                const view = Utils.$(`view-${id}`); if (view) view.classList.remove('hidden'); 
                 const btn = Utils.$('backBtn'); 
-                if(id === 'home') btn.classList.add('hidden'); 
-                else btn.classList.remove('hidden');
+                const label = Utils.$('pageTitleLabel');
+                const titles = { home: 'DASHBOARD', goal: 'OBJETIVO', incomes: 'INGRESOS', expenses: 'GASTOS', help: 'AYUDA' };
+                if(label) label.innerText = titles[id] || 'DASHBOARD';
+                if(id === 'home') btn.classList.add('hidden'); else btn.classList.remove('hidden');
                 App.calculateGlobal();
             },
             calculateGlobal: () => {
@@ -731,243 +826,64 @@
                 UI.animateNum('homeIncomeDisplay', totInc);
                 UI.animateNum('homeExpenseDisplay', totExp);
                 
-                Utils.setVal('inputGoal', state.goal); 
-                Utils.setVal('inputSalary', state.salary);
+                Utils.setVal('inputGoal', state.goal); Utils.setVal('inputSalary', state.salary);
                 UI.animateNum('detailSavedDisplay', state.accumulated);
                 Utils.setText('totalIncomeDisplay', Utils.formatMoney(totInc));
                 Utils.setText('totalExpenseDisplay', Utils.formatMoney(totExp));
 
-                const pb = Utils.$('goalProgressBar'); 
-                if(pb) pb.style.width = Math.min((state.accumulated/state.goal)*100, 100) + '%';
-                App.updateBottomBar(sur, totInc, rem); 
-                UI.updateThermometer(totInc, totExp); 
-                UI.renderChart(); 
-                Data.save();
+                const pb = Utils.$('goalProgressBar'); if(pb) pb.style.width = Math.min((state.accumulated/state.goal)*100, 100) + '%';
+                App.updateBottomBar(sur, totInc, rem); UI.updateThermometer(totInc, totExp); UI.renderChart(); Data.save();
             },
             updateBottomBar: (sur, tot, rem) => {
-                const bar = Utils.$('barProgress'); 
-                const time = Utils.$('barTime'); 
-                const surDisp = Utils.$('barSurplus');
-                
+                const bar = Utils.$('barProgress'); const time = Utils.$('barTime'); const surDisp = Utils.$('barSurplus');
                 Utils.setText('barGoalText', `Falta: ${Utils.formatCompact(rem)}`);
-                if (surDisp) {
-                    surDisp.innerText = (sur > 0 ? '+' : '') + Utils.formatMoney(sur);
-                    surDisp.className = `text-xl font-black leading-none ${sur > 0 ? 'text-success' : 'text-danger'}`;
-                }
-                
+                if (surDisp) { surDisp.innerText = (sur > 0 ? '+' : '') + Utils.formatMoney(sur); surDisp.className = `text-lg font-black leading-none ${sur > 0 ? 'text-success' : 'text-danger'}`; }
                 if (bar && time) {
-                    if (sur > 0) {
-                        bar.style.width = Math.min(((sur/tot)*100)*2, 100) + '%'; 
-                        bar.className = 'h-full bg-success w-0 transition-all duration-1000 rounded-full';
-                        time.innerText = App.formatTime(rem/sur);
-                    } else {
-                        bar.style.width = '100%'; 
-                        bar.className = 'h-full bg-danger w-0 transition-all duration-1000 rounded-full';
-                        time.innerText = "Nunca";
-                    }
+                    if (sur > 0) { bar.style.width = Math.min(((sur/tot)*100)*2, 100) + '%'; bar.className = 'h-full bg-success transition-all duration-1000 rounded-full'; time.innerText = App.formatTime(rem/sur); } 
+                    else { bar.style.width = '100%'; bar.className = 'h-full bg-danger transition-all duration-1000 rounded-full'; time.innerText = "Nunca"; }
                 }
             },
-            formatTime: (m) => { 
-                if(m === Infinity) return "Nunca"; 
-                if(m <= 0) return "Listo"; 
-                const y = Math.floor(m/12); 
-                const mo = Math.floor(m%12); 
-                return y > 0 ? `${y}a ${mo}m` : `${mo}m`; 
-            },
-            updateVal: (k, v) => { 
-                state[k] = parseFloat(v) || 0; 
-                App.calculateGlobal(); 
-            },
-            validateInput: (el, fb) => { 
-                if(!el.value.trim()) { 
-                    el.value = fb; 
-                    el.dispatchEvent(new Event('input')); 
-                } 
-            },
-            toggleTheme: () => { 
-                document.documentElement.classList.toggle('dark'); 
-                UI.renderChart(); 
-            },
+            formatTime: (m) => { if(m === Infinity) return "Nunca"; if(m <= 0) return "¡Listo!"; const y = Math.floor(m/12); const mo = Math.floor(m%12); return y > 0 ? `${y}a ${mo}m` : `${mo}m`; },
+            updateVal: (k, v) => { state[k] = parseFloat(v)||0; App.calculateGlobal(); },
+            toggleTheme: () => { document.documentElement.classList.toggle('dark'); UI.renderChart(); },
             
-            // Modales
-            openProfileModal: () => { 
-                Utils.$('profileModal').classList.remove('hidden'); 
-                setTimeout(() => { 
-                    Utils.$('profileCard').classList.remove('scale-95', 'opacity-0'); 
-                    Utils.$('profileCard').classList.add('scale-100', 'opacity-100'); 
-                }, 10); 
-                Utils.$('inputUserName').value = state.userName; 
-            },
-            closeProfileModal: () => { 
-                Utils.$('profileCard').classList.remove('scale-100', 'opacity-100'); 
-                Utils.$('profileCard').classList.add('scale-95', 'opacity-0');
-                setTimeout(() => Utils.$('profileModal').classList.add('hidden'), 200); 
-            },
-            saveProfile: () => { 
-                const n = Utils.$('inputUserName').value.trim(); 
-                if(n) { 
-                    state.userName = n; 
-                    Data.save(); 
-                    App.updateGreeting(); 
-                    App.closeProfileModal(); 
-                } 
-            },
-            updateGreeting: () => { 
-                Utils.$('userGreetingName').innerText = state.userName || 'Amiga'; 
-            },
+            openProfileModal: () => { Utils.$('profileModal').classList.remove('hidden'); setTimeout(() => { Utils.$('profileCard').classList.remove('scale-95', 'opacity-0'); Utils.$('profileCard').classList.add('scale-100', 'opacity-100'); }, 10); Utils.$('inputUserName').value = state.userName; },
+            closeProfileModal: () => { Utils.$('profileCard').classList.add('scale-95', 'opacity-0'); setTimeout(() => Utils.$('profileModal').classList.add('hidden'), 200); },
+            saveProfile: () => { const n = Utils.$('inputUserName').value.trim(); if(n) { state.userName = n; Data.save(); App.updateGreeting(); App.closeProfileModal(); } },
+            updateGreeting: () => { Utils.$('userGreetingName').innerText = state.userName || 'Amiga'; },
 
-            // ✅ FUNCIONES DE TRANSACCIONES CORREGIDAS
-            modifyFund: (t) => { 
-                const input = Utils.$('fundInput'); 
-                const amount = parseFloat(input.value); 
-                
-                if(!amount || amount <= 0) { 
-                    input.focus(); 
-                    UI.showToast("Ingresa un monto válido");
-                    return; 
-                } 
-                
-                pendingTransaction = { type: t, amount: amount }; 
-                App.openTxModal(); 
-            },
-            
+            modifyFund: (t) => { const input = Utils.$('fundInput'); const amount = parseFloat(input.value); if(!amount || amount <= 0) { input.focus(); UI.showToast("Ingresa un monto"); return; } pendingTransaction = { type: t, amount: amount }; App.openTxModal(); },
             openTxModal: () => { 
                 const t = pendingTransaction.type; 
-                
-                Utils.$('modalTitle').innerText = t === 'add' ? 'Ingreso Manual' : 'Retiro Manual'; 
+                Utils.$('modalTitle').innerText = t === 'add' ? 'Ingreso' : 'Retiro'; 
                 Utils.$('modalIcon').innerText = t === 'add' ? 'arrow_downward' : 'arrow_upward'; 
-                Utils.$('modalIcon').className = `material-symbols-rounded text-3xl ${t === 'add' ? 'text-success' : 'text-danger'}`;
+                Utils.$('modalIcon').className = `material-symbols-rounded text-2xl ${t === 'add' ? 'text-success' : 'text-danger'}`;
                 Utils.$('modalAmountDisplay').innerText = Utils.formatMoney(pendingTransaction.amount);
-                Utils.$('modalConfirmBtn').className = `py-3 rounded-xl text-[10px] font-bold text-white shadow-md touch-target ${t === 'add' ? 'bg-success' : 'bg-danger'}`;
-                Utils.$('transactionDesc').value = ""; 
-                Utils.$('transactionModal').classList.remove('hidden'); 
-                
-                setTimeout(() => { 
-                    Utils.$('transactionCard').classList.remove('scale-95', 'opacity-0'); 
-                    Utils.$('transactionCard').classList.add('scale-100', 'opacity-100'); 
-                }, 10);
+                Utils.$('modalConfirmBtn').className = `py-2.5 rounded-xl text-[10px] font-bold text-white ${t === 'add' ? 'bg-success' : 'bg-danger'}`;
+                Utils.$('transactionDesc').value = ""; Utils.$('transactionModal').classList.remove('hidden'); 
+                setTimeout(() => { Utils.$('transactionCard').classList.remove('scale-95', 'opacity-0'); Utils.$('transactionCard').classList.add('scale-100', 'opacity-100'); }, 10);
             },
-            
-            closeTransactionModal: () => { 
-                Utils.$('transactionCard').classList.remove('scale-100', 'opacity-100'); 
-                Utils.$('transactionCard').classList.add('scale-95', 'opacity-0');
-                setTimeout(() => Utils.$('transactionModal').classList.add('hidden'), 200); 
-            },
-            
-            // ✅ FUNCIÓN PRINCIPAL CORREGIDA
+            closeTransactionModal: () => { Utils.$('transactionCard').classList.add('scale-95', 'opacity-0'); setTimeout(() => Utils.$('transactionModal').classList.add('hidden'), 200); },
             confirmTransaction: () => {
-                console.log("confirmTransaction llamada"); // Debug
-                
-                if(!pendingTransaction) {
-                    console.log("No hay transacción pendiente");
-                    return;
-                }
-                
-                const desc = Utils.$('transactionDesc').value.trim() || 
-                             (pendingTransaction.type === 'add' ? 'Ingreso' : 'Retiro');
-                
-                console.log("Tipo:", pendingTransaction.type);
-                console.log("Monto:", pendingTransaction.amount);
-                console.log("Descripción:", desc);
-                console.log("Accumulated antes:", state.accumulated);
-                
-                // Actualizar el saldo acumulado
-                if(pendingTransaction.type === 'add') { 
-                    state.accumulated += pendingTransaction.amount;
-                    console.log("Suma realizada. Nuevo accumulated:", state.accumulated);
-                    // Llamar confetti solo si existe
-                    try {
-                        UI.triggerConfetti();
-                    } catch(e) {
-                        console.log("Confetti no disponible");
-                    }
-                } else { 
-                    state.accumulated = Math.max(0, state.accumulated - pendingTransaction.amount);
-                    console.log("Resta realizada. Nuevo accumulated:", state.accumulated);
-                }
-                
-                // Crear el registro de historial
-                const historyEntry = { 
-                    id: Date.now(), 
-                    date: new Date().toISOString(), 
-                    desc: desc, 
-                    amount: pendingTransaction.amount, 
-                    type: pendingTransaction.type 
-                };
-                
-                console.log("Entrada de historial:", historyEntry);
-                
-                // Agregar al historial
-                if (!state.history) {
-                    state.history = [];
-                }
-                state.history.unshift(historyEntry);
-                
-                console.log("Historial actualizado:", state.history.length, "entradas");
-                
-                // Limpiar input
-                Utils.$('fundInput').value = '';
-                
-                // Limpiar transacción pendiente
-                pendingTransaction = null;
-                
-                // Actualizar UI
-                UI.renderHistory();
-                App.calculateGlobal();
-                
-                // Cerrar modal
-                App.closeTransactionModal();
-                
-                // Mostrar confirmación
-                UI.showToast("✓ Movimiento registrado");
-                
-                console.log("Transacción completada exitosamente");
+                if(!pendingTransaction) return;
+                const desc = Utils.$('transactionDesc').value.trim() || (pendingTransaction.type === 'add' ? 'Ingreso' : 'Retiro');
+                if(pendingTransaction.type === 'add') { state.accumulated += pendingTransaction.amount; try { UI.triggerConfetti(); } catch(e) {} } 
+                else { state.accumulated = Math.max(0, state.accumulated - pendingTransaction.amount); }
+                if (!state.history) state.history = [];
+                state.history.unshift({ id: Date.now(), date: new Date().toISOString(), desc: desc, amount: pendingTransaction.amount, type: pendingTransaction.type });
+                Utils.$('fundInput').value = ''; pendingTransaction = null;
+                UI.renderHistory(); App.calculateGlobal(); App.closeTransactionModal(); UI.showToast("✓ Registrado");
             },
 
-            // CRUD
-            addItem: (t) => { 
-                const id = Date.now(); 
-                if(t === 'incomes') {
-                    state.incomes.push({id, name:'Nuevo Proyecto', price:0, cost:0, qty:1});
-                } else {
-                    state.expenses.push({id, name:'Nuevo Gasto', amount:0});
-                }
-                App.calculateGlobal(); 
-                UI.renderAll(); 
-            },
-            
+            addItem: (t) => { const id = Date.now(); if(t === 'incomes') state.incomes.push({id, name:'Nuevo', price:0, cost:0, qty:1}); else state.expenses.push({id, name:'Nuevo', amount:0}); App.calculateGlobal(); UI.renderAll(); },
             deleteItem: (t, id) => { 
-                if(t === 'history') { 
-                    const x = state.history.find(i => i.id === id); 
-                    if(x) { 
-                        // Revertir el efecto en accumulated
-                        state.accumulated += (x.type === 'add' ? -x.amount : x.amount); 
-                        state.accumulated = Math.max(0, state.accumulated); // No permitir negativo
-                        state.history = state.history.filter(i => i.id !== id); 
-                    }
-                } else if(t === 'incomes') {
-                    state.incomes = state.incomes.filter(i => i.id !== id);
-                } else {
-                    state.expenses = state.expenses.filter(i => i.id !== id);
-                }
-                App.calculateGlobal(); 
-                UI.renderAll(); 
-                UI.showToast("Eliminado");
+                if(t === 'history') { const x = state.history.find(i => i.id === id); if(x) { state.accumulated += (x.type === 'add' ? -x.amount : x.amount); state.accumulated = Math.max(0, state.accumulated); state.history = state.history.filter(i => i.id !== id); }}
+                else if(t === 'incomes') state.incomes = state.incomes.filter(i => i.id !== id); 
+                else state.expenses = state.expenses.filter(i => i.id !== id); 
+                App.calculateGlobal(); UI.renderAll(); UI.showToast("Eliminado");
             },
-            
-            updateItem: (t, id, f, v) => { 
-                const arr = state[t]; 
-                const i = arr.find(x => x.id === id); 
-                if(i) { 
-                    i[f] = (f === 'name' || f === 'desc') ? v : (parseFloat(v) || 0); 
-                    App.calculateGlobal(); 
-                }
-            },
-            
-            toggleHistory: () => { 
-                Utils.$('historyContainer').classList.toggle('hidden'); 
-                Utils.$('historyChevron').classList.toggle('rotate-180'); 
-            }
+            updateItem: (t, id, f, v) => { const arr = state[t]; const i = arr.find(x => x.id === id); if(i) { i[f] = (f === 'name') ? v : (parseFloat(v) || 0); App.calculateGlobal(); } },
+            toggleHistory: () => { Utils.$('historyContainer').classList.toggle('hidden'); Utils.$('historyChevron').classList.toggle('rotate-180'); }
         };
 
         document.addEventListener('DOMContentLoaded', App.init);
