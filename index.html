@@ -4,9 +4,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
     <meta name="theme-color" content="#b08968">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Marie Finance - Ultimate</title>
+    <title>Marie Finance - Ultimate UX</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20,400,1,0" rel="stylesheet" />
@@ -42,17 +40,9 @@
         html, body { height: 100%; overflow: hidden; }
         body { -webkit-tap-highlight-color: transparent; }
         input:focus { outline: none; }
-        input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         
-        .fade-in { animation: fadeIn 0.5s ease-out forwards; opacity: 0; transform: translateY(10px); }
+        .fade-in { animation: fadeIn 0.4s ease-out forwards; opacity: 0; transform: translateY(10px); }
         @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
-
-        /* Noise Texture */
-        .noise-bg {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;
-            opacity: 0.03;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-        }
 
         .animated-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
@@ -61,30 +51,30 @@
         }
         .dark .animated-bg { background: linear-gradient(-45deg, #1f1b18, #2e2622, #3b2f29, #12100f); }
 
-        .glass-panel { 
-            background: rgba(255, 255, 255, 0.90); backdrop-filter: blur(25px); border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-        }
-        .dark .glass-panel { background: rgba(25, 20, 15, 0.90); border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+        .glass-panel { background: rgba(255, 255, 255, 0.94); backdrop-filter: blur(25px); border-bottom: 1px solid rgba(255, 255, 255, 0.5); }
+        .dark .glass-panel { background: rgba(25, 20, 15, 0.96); border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
         
-        .card-glass { background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.7); }
-        .dark .card-glass { background: rgba(45, 35, 30, 0.6); border: 1px solid rgba(255, 255, 255, 0.08); }
+        .card-glass { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.7); }
+        .dark .card-glass { background: rgba(45, 35, 30, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); }
 
+        /* Scrollbar invisible */
         ::-webkit-scrollbar { width: 0px; background: transparent; }
         
+        /* Sliders */
         input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
         input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 16px; width: 16px; border-radius: 50%; background: #b08968; cursor: pointer; margin-top: -6px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); border: 2px solid white; }
         input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; cursor: pointer; background: #e5e5e5; border-radius: 99px; }
         .dark input[type=range]::-webkit-slider-runnable-track { background: #4e342e; }
 
-        #toast { visibility: hidden; min-width: 200px; background-color: rgba(43, 29, 22, 0.95); color: #fff; text-align: center; border-radius: 99px; padding: 12px 24px; position: fixed; z-index: 100; left: 50%; bottom: 120px; transform: translateX(-50%) translateY(20px); font-size: 13px; font-weight: 600; backdrop-filter: blur(8px); box-shadow: 0 5px 20px rgba(0,0,0,0.25); opacity: 0; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        #toast { visibility: hidden; min-width: 200px; background-color: rgba(43, 29, 22, 0.95); color: #fff; text-align: center; border-radius: 99px; padding: 12px 24px; position: fixed; z-index: 100; left: 50%; bottom: 120px; transform: translateX(-50%) translateY(20px); font-size: 13px; font-weight: 600; backdrop-filter: blur(8px); box-shadow: 0 5px 20px rgba(0,0,0,0.25); opacity: 0; transition: all 0.3s; }
         #toast.show { visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0); }
         
         .modal-backdrop { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; padding: 1.6rem; }
         .modal-bg { position: absolute; inset: 0; background-color: rgba(0,0,0,0.65); backdrop-filter: blur(6px); }
         
-        .btn-header { width: 32px; height: 32px; flex-shrink: 0; border-radius: 10px; opacity: 0.8; transition: all 0.2s ease; }
-        .btn-header:hover { opacity: 1; background-color: rgba(0,0,0,0.05); }
-        .dark .btn-header:hover { background-color: rgba(255,255,255,0.1); }
+        .btn-header { width: 34px; height: 34px; flex-shrink: 0; border-radius: 10px; opacity: 0.9; transition: all 0.2s ease; background-color: rgba(0,0,0,0.03); }
+        .btn-header:active { transform: scale(0.95); }
+        .dark .btn-header { background-color: rgba(255,255,255,0.05); }
         
         #mainContainer { position: fixed; top: 60px; left: 0; right: 0; bottom: 0; overflow: hidden; pointer-events: none; }
         .flex-view { display: flex; flex-direction: column; height: 100%; width: 100%; max-width: 900px; margin: 0 auto; pointer-events: auto; padding-left: 1rem; padding-right: 1rem; }
@@ -93,7 +83,6 @@
 
         .editable-input { border-bottom: 1.5px dashed rgba(176, 137, 104, 0.4) !important; transition: border-color 0.2s ease; padding-bottom: 2px; color: inherit; }
         .editable-input:focus { border-bottom-color: #b08968 !important; }
-        .editable-input::placeholder { color: rgba(138, 122, 114, 0.3); }
         .dark .editable-input { border-bottom-color: rgba(176, 137, 104, 0.3) !important; }
 
         .hint-text { font-size: 10px; letter-spacing: 0.05em; opacity: 0.7; text-transform: uppercase; font-weight: 700; }
@@ -104,130 +93,113 @@
         .page-btn.inactive { background: rgba(0,0,0,0.05); color: #8a7a72; border: 1px solid rgba(0,0,0,0.05); }
         .dark .page-btn.inactive { background: rgba(255,255,255,0.05); color: #a8a29e; border: 1px solid rgba(255,255,255,0.05); }
 
-        .compact-row { display: grid; grid-template-columns: 45px 1fr 75px; gap: 8px; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.04); }
+        .compact-row { display: grid; grid-template-columns: 45px 1fr 85px; gap: 8px; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.04); }
         .dark .compact-row { border-bottom: 1px solid rgba(255,255,255,0.04); }
         .compact-row:last-child { border-bottom: none; }
 
-        /* Zen Mode Blur */
+        .prose-mini p { margin-bottom: 0.8rem; line-height: 1.6; color: rgba(74, 64, 58, 0.9); }
+        .dark .prose-mini p { color: rgba(231, 229, 228, 0.9); }
+        .prose-mini h4 { font-weight: 800; margin-bottom: 0.4rem; color: #b08968; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 1rem; }
+        
         .zen-blur { filter: blur(6px); transition: filter 0.3s; }
         .zen-blur:hover { filter: blur(0); }
 
-        /* Calendar Grid */
-        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
-        .calendar-day { aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 10px; border-radius: 8px; background: rgba(255,255,255,0.3); position: relative; }
-        .dark .calendar-day { background: rgba(255,255,255,0.05); }
-        .dot { width: 4px; height: 4px; border-radius: 50%; margin-top: 2px; }
-
-        /* Badges */
-        .badge-icon { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; background: #e5e5e5; color: #999; filter: grayscale(1); transition: all 0.5s; }
-        .badge-icon.unlocked { background: #ffd700; color: #b45309; filter: grayscale(0); box-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
-
-        .prose-mini p { margin-bottom: 0.8rem; line-height: 1.6; }
-        .prose-mini h4 { font-weight: 800; margin-bottom: 0.4rem; color: #b08968; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 1rem; }
-        
+        /* Styles for date input */
         input[type="date"]::-webkit-calendar-picker-indicator { cursor: pointer; opacity: 0.6; filter: invert(0.5); }
         .dark input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); }
+
+        /* Dropdown Menu Animation */
+        #mainMenu { transform-origin: top right; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
+        #mainMenu.hidden { opacity: 0; transform: scale(0.95); pointer-events: none; }
+        #mainMenu:not(.hidden) { opacity: 1; transform: scale(1); pointer-events: auto; }
     </style>
 </head>
 
 <body class="text-text-main-light dark:text-text-main-dark font-body selection:bg-primary selection:text-white">
 
-    <div class="noise-bg"></div>
     <div class="animated-bg"></div>
     <div id="toast">Notificación</div>
 
     <div id="loginOverlay" class="fixed inset-0 z-[999] bg-gradient-to-br from-[#f5f0eb] to-[#e8dfd8] dark:from-[#1a120b] dark:to-[#0c0a09] flex items-center justify-center transition-opacity duration-500">
         <div class="card-glass p-10 rounded-[2rem] shadow-golden text-center max-w-sm mx-6 w-full relative overflow-hidden">
-            <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-primary to-[#d4a373]"></div>
-            <span class="text-[10px] font-black text-primary mb-3 block tracking-[0.25em] mt-2">MARIE FINANCE</span>
+            <span class="text-[10px] font-black text-primary mb-3 block tracking-[0.25em]">MARIE FINANCE</span>
             <h1 class="text-4xl font-display font-bold mb-4 text-[#3d342f] dark:text-white">¡Bienvenid@!</h1>
-            <p class="text-sm text-text-muted-light dark:text-text-muted-dark mb-4 leading-relaxed font-medium">
-                "Este es tu primer paso hacia la tranquilidad. Aquí venimos a organizar tu imperio con cariño."
+            <p class="text-sm text-text-muted-light dark:text-text-muted-dark mb-8 leading-relaxed font-medium">
+                "El orden financiero es el primer paso hacia la tranquilidad. Empecemos hoy."
             </p>
-            <p class="text-[11px] text-text-muted-light mb-8 italic opacity-80">
-                Tu futuro financiero empieza cuando le pierdes el miedo a tus números.
-            </p>
-            <button onclick="Auth.login()" class="w-full py-4 rounded-2xl bg-white dark:bg-white/10 font-bold flex items-center justify-center gap-3 shadow-soft text-sm border border-black/5 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300">
-                <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="G"> 
-                Iniciar mi viaje
+            <button onclick="Auth.login()" class="w-full py-4 rounded-2xl bg-white dark:bg-white/10 font-bold flex items-center justify-center gap-3 shadow-soft text-sm border border-black/5">
+                <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="G"> Iniciar
             </button>
         </div>
     </div>
 
+    <div id="mainMenu" class="hidden fixed top-16 right-4 w-48 bg-white/95 dark:bg-[#1a1a1a]/95 backdrop-blur-xl rounded-2xl shadow-golden z-[60] border border-white/20 p-2 flex flex-col gap-1">
+        <button onclick="App.openProfileModal(); App.toggleMenu()" class="w-full text-left px-3 py-2.5 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 text-xs font-bold flex items-center gap-2">
+            <span class="material-symbols-rounded text-base">account_circle</span> Mi Perfil
+        </button>
+        <button onclick="App.toggleTheme(); App.toggleMenu()" class="w-full text-left px-3 py-2.5 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 text-xs font-bold flex items-center gap-2">
+            <span class="material-symbols-rounded text-base">contrast</span> Tema Claro/Oscuro
+        </button>
+        <button onclick="App.navigateTo('help'); App.toggleMenu()" class="w-full text-left px-3 py-2.5 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 text-xs font-bold flex items-center gap-2">
+            <span class="material-symbols-rounded text-base">help</span> Guía de Uso
+        </button>
+        <div class="h-px bg-black/10 dark:bg-white/10 my-1"></div>
+        <button onclick="Auth.logout()" class="w-full text-left px-3 py-2.5 rounded-xl hover:bg-danger/10 text-danger text-xs font-bold flex items-center gap-2">
+            <span class="material-symbols-rounded text-base">logout</span> Cerrar Sesión
+        </button>
+    </div>
+
     <div id="profileModal" class="modal-backdrop hidden">
         <div class="modal-bg" onclick="App.closeProfileModal()"></div>
-        <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-[280px] rounded-[1.6rem] p-6 shadow-golden relative z-10 transform scale-95 opacity-0 transition-all" id="profileCard">
-            <h3 class="text-lg font-bold text-center mb-1">Ajustes Personales</h3>
+        <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-[280px] rounded-[1.6rem] p-6 shadow-golden relative z-10 scale-95 opacity-0 transition-all" id="profileCard">
+            <h3 class="text-lg font-bold text-center mb-1">Ajustes</h3>
             <div class="mb-4">
                 <label class="hint-text block mb-1 pl-1">Tu Nombre</label>
                 <input id="inputUserName" type="text" placeholder="Ej: Álex..." class="editable-input w-full bg-transparent py-1.5 px-2 text-sm font-medium text-center">
             </div>
-            <div class="mb-6">
+            <div class="mb-4">
                 <label class="hint-text block mb-1 pl-1">Tasa de Cambio (Bs/$)</label>
                 <input id="inputRate" type="number" placeholder="60.00" class="editable-input w-full bg-transparent py-1.5 px-2 text-sm font-medium text-center">
+                <p class="text-[9px] opacity-50 mt-1 text-center">Para ver montos en Bolívares</p>
             </div>
-            
-            <button onclick="App.exportData()" class="w-full mb-3 py-2 rounded-xl bg-primary/10 text-primary text-[10px] font-bold flex items-center justify-center gap-2 hover:bg-primary/20">
-                <span class="material-symbols-rounded text-sm">download</span> Descargar mis datos (Excel)
-            </button>
-
             <div class="grid grid-cols-2 gap-3">
-                <button onclick="App.closeProfileModal()" class="py-2.5 rounded-xl text-[10px] font-bold bg-black/5 hover:bg-black/10 transition-colors">CANCELAR</button>
-                <button onclick="App.saveProfile()" class="py-2.5 rounded-xl text-[10px] font-bold bg-primary text-white shadow-md hover:bg-primary/90 transition-colors">GUARDAR</button>
+                <button onclick="App.closeProfileModal()" class="py-2.5 rounded-xl text-[10px] font-bold bg-black/5 hover:bg-black/10">CANCELAR</button>
+                <button onclick="App.saveProfile()" class="py-2.5 rounded-xl text-[10px] font-bold bg-primary text-white shadow-md">GUARDAR</button>
             </div>
         </div>
     </div>
 
     <div id="logoutModal" class="modal-backdrop hidden">
         <div class="modal-bg" onclick="Auth.closeLogoutModal()"></div>
-        <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-[280px] rounded-[1.6rem] p-6 shadow-golden relative z-10 transform scale-95 opacity-0 text-center transition-all" id="logoutCard">
-            <h3 class="text-lg font-bold mb-1">¿Tan pronto te vas?</h3>
-            <p class="text-[11px] text-text-muted-light mb-6">Tranqui, todo queda guardado.</p>
+        <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-[280px] rounded-[1.6rem] p-6 shadow-golden relative z-10 scale-95 opacity-0 text-center transition-all" id="logoutCard">
+            <h3 class="text-lg font-bold mb-1">¿Cerrar sesión?</h3>
+            <p class="text-[11px] text-text-muted-light mb-6">Tus datos están seguros.</p>
             <div class="grid grid-cols-2 gap-3">
-                <button onclick="Auth.closeLogoutModal()" class="py-2.5 rounded-xl text-[10px] font-bold bg-black/5 hover:bg-black/10 transition-colors">ME QUEDO</button>
-                <button onclick="Auth.confirmLogout()" class="py-2.5 rounded-xl text-[10px] font-bold bg-danger text-white shadow-md hover:bg-danger/90 transition-colors">ADIÓS</button>
+                <button onclick="Auth.closeLogoutModal()" class="py-2.5 rounded-xl text-[10px] font-bold bg-black/5 hover:bg-black/10">VOLVER</button>
+                <button onclick="Auth.confirmLogout()" class="py-2.5 rounded-xl text-[10px] font-bold bg-danger text-white shadow-md">SALIR</button>
             </div>
         </div>
     </div>
 
     <div id="transactionModal" class="modal-backdrop hidden">
         <div onclick="App.closeTransactionModal()" class="modal-bg"></div>
-        <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-[280px] rounded-[1.6rem] p-5 shadow-golden relative z-10 transform scale-95 opacity-0 transition-all" id="transactionCard">
-            <div class="flex justify-center mb-2">
+        <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-[280px] rounded-[1.6rem] p-5 shadow-golden relative z-10 scale-95 opacity-0 transition-all" id="transactionCard">
+            <div class="flex justify-center mb-3">
                 <span class="material-symbols-rounded text-2xl text-primary bg-primary/10 p-3 rounded-full shadow-inner" id="modalIcon">payments</span>
             </div>
             <h3 class="text-xs font-bold text-center uppercase tracking-wide opacity-80" id="modalTitle">Registro</h3>
-            <p class="text-2xl text-center text-text-main-light dark:text-white mb-2 font-display font-black tracking-tight" id="modalAmountDisplay">$0</p>
+            <p class="text-[10px] text-center opacity-50 mb-1">Monto a registrar:</p>
+            <p class="text-2xl text-center text-text-main-light dark:text-white mb-4 font-display font-black tracking-tight zen-sensitive" id="modalAmountDisplay">$0</p>
             
-            <div class="mb-3">
-                <label class="hint-text block mb-1 pl-1">Categoría</label>
-                <select id="transactionCat" class="editable-input w-full bg-transparent py-1.5 px-2 text-sm font-medium">
-                    <option value="General">General</option>
-                    <option value="Comida">🍔 Comida</option>
-                    <option value="Transporte">🚗 Transporte</option>
-                    <option value="Casa">🏠 Casa / Servicios</option>
-                    <option value="Lujos">💎 Lujos / Antojos</option>
-                    <option value="Salud">💊 Salud</option>
-                    <option value="Trabajo">💼 Trabajo</option>
-                </select>
+            <div class="mb-4">
+                <label class="hint-text block mb-1 pl-1">Fecha</label>
+                <input id="transactionDate" type="date" class="editable-input w-full bg-transparent py-1.5 px-2 text-sm font-medium text-center">
             </div>
 
-            <div class="mb-3">
-                <label class="hint-text block mb-1 pl-1">Detalle</label>
-                <input id="transactionDesc" type="text" placeholder="Ej: Pizza, Uber..." class="editable-input w-full bg-transparent py-1.5 px-2 text-sm font-medium">
-            </div>
-
-            <div class="mb-4 flex gap-2">
-                <div class="w-1/2">
-                    <label class="hint-text block mb-1 pl-1">Fecha</label>
-                    <input id="transactionDate" type="date" class="editable-input w-full bg-transparent py-1 px-1 text-xs font-medium text-center">
-                </div>
-                <div class="w-1/2 flex items-end pb-1">
-                    <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="checkbox" id="transactionRecur" class="w-3 h-3 accent-primary rounded">
-                        <span class="text-[9px] font-bold opacity-70">Es Mensual</span>
-                    </label>
-                </div>
+            <div class="mb-6">
+                <label class="hint-text block mb-1 pl-1">Concepto</label>
+                <input id="transactionDesc" type="text" placeholder="" class="editable-input w-full bg-transparent py-2 px-2 text-sm font-medium">
+                <p class="text-[9px] opacity-40 mt-1 pl-1 italic">Ej: Compra semanal, Pago...</p>
             </div>
 
             <div class="grid grid-cols-2 gap-3">
@@ -240,7 +212,7 @@
     <div class="fixed top-0 w-full z-50">
         <div class="glass-panel w-full px-5 py-3 flex items-center justify-between shadow-soft">
             <div class="flex items-center gap-3">
-                <button id="backBtn" onclick="App.navigateTo('home')" class="hidden btn-header bg-black/5 dark:bg-white/10 flex items-center justify-center active:scale-95 transition-all">
+                <button id="backBtn" onclick="App.navigateTo('home')" class="hidden btn-header flex items-center justify-center">
                     <span class="material-symbols-rounded text-base">arrow_back</span>
                 </button>
                 <div class="flex flex-col cursor-pointer leading-tight" onclick="App.navigateTo('home')">
@@ -248,18 +220,15 @@
                     <span id="pageTitleMain" class="text-sm font-bold font-display">Marie Finance</span>
                 </div>
             </div>
-            <div class="flex gap-1">
-                <button onclick="App.toggleZen()" class="btn-header flex items-center justify-center active:scale-95 text-primary" title="Modo Zen (Privacidad)">
+            <div class="flex gap-2">
+                <button onclick="App.toggleZen()" class="btn-header flex items-center justify-center" title="Modo Privado">
                     <span class="material-symbols-rounded text-lg" id="zenIcon">visibility</span>
                 </button>
-                <button onclick="App.toggleCurrency()" class="btn-header flex items-center justify-center active:scale-95" title="Cambiar Moneda">
+                <button onclick="App.toggleCurrency()" class="btn-header flex items-center justify-center" title="Cambiar Moneda">
                     <span class="font-black text-xs" id="currencyIcon">$</span>
                 </button>
-                <button onclick="App.openProfileModal()" class="btn-header flex items-center justify-center active:scale-95" title="Perfil">
-                    <span class="material-symbols-rounded text-lg">account_circle</span>
-                </button>
-                <button onclick="Auth.logout()" class="btn-header flex items-center justify-center active:scale-95 hover:text-danger" title="Salir">
-                    <span class="material-symbols-rounded text-lg">logout</span>
+                <button onclick="App.toggleMenu()" class="btn-header flex items-center justify-center" title="Menú">
+                    <span class="material-symbols-rounded text-lg">menu</span>
                 </button>
             </div>
         </div>
@@ -268,25 +237,12 @@
     <div id="mainContainer">
         
         <div id="view-home" class="view-container scroll-full flex-view px-4 fade-in">
-            <div class="mb-4 flex justify-between items-end px-1 pt-2">
+            <div class="mb-6 flex justify-between items-end px-1 pt-2">
                 <div>
-                    <h1 class="text-xl font-display font-black tracking-tight"><span class="text-primary">¡Hola, </span><span id="userGreetingName">...</span>!</h1>
-                    <p class="text-[11px] text-text-muted-light font-medium mt-1">Hoy es un gran día para sumar éxitos.</p>
+                    <h1 class="text-xl font-display font-black tracking-tight"><span class="text-primary">Hola, </span><span id="userGreetingName">...</span></h1>
+                    <p class="text-[11px] text-text-muted-light font-medium mt-1">Hoy es un buen día para sumar.</p>
                 </div>
             </div>
-
-            <div class="mb-4 bg-gradient-to-r from-primary/10 to-transparent p-3 rounded-2xl border border-primary/10 flex items-start gap-3">
-                <div class="w-8 h-8 rounded-full bg-white dark:bg-white/10 flex items-center justify-center shadow-sm shrink-0">
-                    <span class="text-base">🤖</span>
-                </div>
-                <div>
-                    <h4 class="text-[9px] font-black text-primary uppercase tracking-wider mb-0.5">Marie Insight</h4>
-                    <p id="marieAiText" class="text-[10px] leading-tight opacity-80">Analizando tus finanzas...</p>
-                </div>
-            </div>
-
-            <div class="flex gap-3 mb-4 overflow-x-auto pb-2 no-scrollbar px-1" id="badgesContainer">
-                </div>
 
             <div class="space-y-phi-3 pb-8">
                 <div>
@@ -297,12 +253,12 @@
                             <div>
                                 <p class="hint-text mb-1.5">🎯 Meta Soñada</p>
                                 <span id="homeGoalDisplay" class="text-3xl font-black tracking-tighter zen-sensitive">0</span>
-                                <p class="text-[10px] opacity-60 mt-2 font-medium max-w-[160px] leading-tight">Define cuánto quieres y ve por ello.</p>
+                                <p class="text-[10px] opacity-60 mt-1 font-medium max-w-[160px] leading-tight">Tu objetivo financiero principal.</p>
                             </div>
                             <div class="text-right">
                                 <p class="hint-text mb-1.5">💰 Caja Chica (Hoy)</p>
                                 <div class="text-xl font-bold text-success zen-sensitive" id="homeSavedDisplay">$0</div>
-                                <p class="text-[9px] opacity-50 mt-1">Dinero a la mano.</p>
+                                <p class="text-[9px] opacity-50 mt-1">Dinero líquido disponible.</p>
                             </div>
                             <span class="material-symbols-rounded text-2xl opacity-30 group-hover:translate-x-1 transition-transform duration-300">chevron_right</span>
                         </div>
@@ -319,7 +275,7 @@
                             </div>
                             <p class="hint-text">📈 ¡Venga esa Plata!</p>
                             <div id="homeIncomeDisplay" class="text-xl font-black text-success tracking-tight mt-1 zen-sensitive">$0</div>
-                            <p class="text-[9px] opacity-60 mt-2 leading-tight">Proyecta tu abundancia.</p>
+                            <p class="text-[9px] opacity-60 mt-1 leading-tight">Tu techo de ingresos mensual.</p>
                         </div>
 
                         <div class="card-glass p-phi-3 rounded-[1.5rem] shadow-soft cursor-pointer group hover:border-danger/30 transition-all duration-300" onclick="App.navigateTo('expenses')">
@@ -329,7 +285,7 @@
                             </div>
                             <p class="hint-text">📉 Salidas Dolorosas</p>
                             <div id="homeExpenseDisplay" class="text-xl font-black text-danger tracking-tight mt-1 zen-sensitive">$0</div>
-                            <p class="text-[9px] opacity-60 mt-2 leading-tight">Identifica y recorta.</p>
+                            <p class="text-[9px] opacity-60 mt-1 leading-tight">Total de compromisos fijos.</p>
                         </div>
                     </div>
                 </div>
@@ -343,11 +299,11 @@
                                     <span class="material-symbols-rounded text-lg text-primary">monitoring</span>
                                     El Detector
                                 </h3>
-                                <p class="text-[9px] opacity-60 mt-0.5">Tus números no mienten.</p>
+                                <p class="text-[9px] opacity-60 mt-0.5">La verdad de tus números.</p>
                             </div>
                             <div class="flex gap-2">
-                                <select id="chartMonth" onchange="App.updateChart()" class="bg-black/5 dark:bg-white/10 text-[9px] font-bold rounded-lg px-2 py-0.5 border-none outline-none cursor-pointer"></select>
-                                <select id="chartYear" onchange="App.updateChart()" class="bg-black/5 dark:bg-white/10 text-[9px] font-bold rounded-lg px-2 py-0.5 border-none outline-none cursor-pointer"></select>
+                                <select id="chartMonth" onchange="App.updateChart()" class="appearance-none bg-black/5 dark:bg-white/10 text-[9px] font-bold rounded-lg px-2 py-0.5 border-none outline-none cursor-pointer"></select>
+                                <select id="chartYear" onchange="App.updateChart()" class="appearance-none bg-black/5 dark:bg-white/10 text-[9px] font-bold rounded-lg px-2 py-0.5 border-none outline-none cursor-pointer"></select>
                             </div>
                         </div>
                         
@@ -355,7 +311,7 @@
                         
                         <div class="flex justify-between items-center mt-3 pt-2 border-t border-black/5 dark:border-white/5">
                             <div id="healthBadge" class="px-2.5 py-0.5 bg-black/5 rounded-full text-[8px] font-black uppercase tracking-wider">--</div>
-                            <p class="text-[9px] opacity-50 italic" id="healthDescText">Déjame analizarte...</p>
+                            <p class="text-[9px] opacity-50 italic" id="healthDescText">Calculando salud...</p>
                         </div>
                     </div>
                 </div>
@@ -372,12 +328,12 @@
                                 <span class="text-lg text-muted-light/30 mr-1 font-bold" id="currencySym1">$</span>
                                 <input id="inputGoal" type="number" class="editable-input bg-transparent text-left text-3xl font-black w-32 zen-sensitive" placeholder="0" oninput="App.updateVal('goal', this.value)" onfocus="this.value=''">
                             </div>
-                            <p class="text-[9px] opacity-50 text-left mt-1">¿Qué precio tiene tu sueño?</p>
+                            <p class="text-[9px] opacity-50 text-left mt-1">Tu objetivo.</p>
                         </div>
                         <div class="text-right">
                              <p class="hint-text text-success mb-1">💰 Caja Chica</p>
                              <h2 id="detailSavedDisplay" class="text-3xl font-black text-success tracking-tight zen-sensitive">$0</h2>
-                             <p class="text-[9px] opacity-50 text-right mt-1">Saldo en tiempo real</p>
+                             <p class="text-[9px] opacity-50 text-right mt-1">Saldo real.</p>
                         </div>
                     </div>
                     
@@ -395,7 +351,7 @@
                         </button>
                         <div class="w-28 px-2 text-center">
                              <input id="fundInput" type="number" placeholder="0" class="editable-input w-full bg-transparent text-center font-bold text-2xl p-0 m-0" onfocus="this.value=''">
-                             <p class="text-[8px] opacity-40 mt-1">¿Cuánto?</p>
+                             <p class="text-[8px] opacity-40 mt-1">¿Monto?</p>
                         </div>
                         <button onclick="App.modifyFund('add')" class="flex-1 py-3 rounded-xl bg-success/5 text-success font-bold text-[10px] flex items-center justify-center gap-2 hover:bg-success hover:text-white transition-all shadow-sm group">
                             <span class="material-symbols-rounded text-base">add_circle</span>
@@ -421,24 +377,18 @@
                             <span class="material-symbols-rounded text-[10px] absolute right-1 top-1.5 pointer-events-none opacity-50">expand_more</span>
                         </div>
                     </div>
-                    <button onclick="App.toggleCalendarView()" class="w-6 h-6 rounded bg-black/5 flex items-center justify-center text-primary" title="Cambiar Vista">
-                        <span class="material-symbols-rounded text-xs" id="viewToggleIcon">calendar_month</span>
-                    </button>
                 </div>
             </div>
 
-            <div class="scroll-content px-1" id="historyWrapper">
-                <div class="grid grid-cols-[50px_1fr_70px] gap-2 px-2 mb-2 text-[8px] font-bold opacity-40 uppercase tracking-wider" id="listHeader">
-                    <span>Fecha</span>
-                    <span>¿Qué fue?</span>
+            <div class="scroll-content px-1">
+                <div class="grid grid-cols-[45px_1fr_85px] gap-2 px-2 mb-2 text-[8px] font-bold opacity-40 uppercase tracking-wider">
+                    <span>Día</span>
+                    <span>Detalle</span>
                     <span class="text-right">Monto</span>
                 </div>
 
                 <div id="historyContainer" class="bg-white/40 dark:bg-white/5 rounded-xl border border-white/20 p-2 shadow-sm min-h-[100px] mb-4"></div>
                 
-                <div id="calendarContainer" class="hidden bg-white/40 dark:bg-white/5 rounded-xl border border-white/20 p-3 shadow-sm mb-4">
-                    </div>
-
                 <div id="paginationControls" class="flex justify-center gap-2 mt-2 pb-4 flex-wrap"></div>
             </div>
         </div>
@@ -448,9 +398,9 @@
                 <div class="card-glass p-phi-3 rounded-[1.5rem] shadow-golden mb-4">
                     <div class="flex justify-between items-center">
                         <div>
-                            <p class="hint-text">📊 Capacidad de Fuego</p>
+                            <p class="hint-text">📊 Capacidad Total</p>
                             <p id="totalIncomeDisplay" class="text-3xl font-black text-success tracking-tight mt-1 zen-sensitive">$0</p>
-                            <p class="text-[10px] opacity-50 mt-1">Lo que puedes generar.</p>
+                            <p class="text-[10px] opacity-50 mt-1">Suma de sueldo y proyectos.</p>
                         </div>
                         <div class="text-right pl-6 border-l border-black/5">
                             <p class="hint-text mb-1">💼 Fijo / Base</p>
@@ -458,7 +408,7 @@
                                 <span class="text-sm mr-1 opacity-50 font-black" id="currencySym2">$</span>
                                 <input id="inputSalary" type="number" class="editable-input w-24 bg-transparent text-right font-black text-2xl zen-sensitive" oninput="App.updateVal('salary', this.value)" placeholder="0" onfocus="this.value=''">
                             </div>
-                            <p class="text-[9px] opacity-50 mt-1">Tu red de seguridad.</p>
+                            <p class="text-[9px] opacity-50 mt-1">Tu base segura.</p>
                         </div>
                     </div>
                 </div>
@@ -466,7 +416,7 @@
                 <div class="flex justify-between items-end mb-2 px-2">
                     <div>
                         <span class="text-xs font-bold opacity-80">Inventos & Tigritos</span>
-                        <p class="text-[10px] opacity-40 mt-0.5">Calcula tu ganancia real.</p>
+                        <p class="text-[10px] opacity-40 mt-0.5">Calcula tu ganancia real aquí.</p>
                     </div>
                     <button onclick="App.addItem('incomes')" class="px-4 py-2 bg-success text-white rounded-xl text-[10px] font-bold shadow-soft flex items-center gap-1.5 hover:bg-success/90 transition-all active:scale-95">
                         <span class="material-symbols-rounded text-base">add</span> Nuevo
@@ -483,7 +433,7 @@
                     <div>
                         <p class="hint-text">💸 Compromisos Totales</p>
                         <p id="totalExpenseDisplay" class="text-3xl font-black text-danger tracking-tight mt-1 zen-sensitive">$0</p>
-                        <p class="text-[10px] opacity-40 mt-0.5">Dinero con dueño.</p>
+                        <p class="text-[10px] opacity-40 mt-0.5">Lo que sale sí o sí.</p>
                     </div>
                     <button onclick="App.addItem('expenses')" class="w-12 h-12 bg-danger text-white flex items-center justify-center rounded-2xl shadow-lg hover:scale-105 active:scale-95 transition-all">
                         <span class="material-symbols-rounded text-2xl">add</span>
@@ -492,7 +442,7 @@
 
                 <div class="px-2 mb-2">
                     <p class="text-xs font-bold opacity-80 mb-0.5">Lista de Obligaciones</p>
-                    <p class="text-[10px] opacity-40">No dejes nada por fuera.</p>
+                    <p class="text-[10px] opacity-40">Anota todo.</p>
                 </div>
             </div>
             
@@ -506,32 +456,36 @@
                         <span class="material-symbols-rounded text-2xl text-primary">menu_book</span>
                     </div>
                     <div>
-                        <h1 class="text-xl font-display font-black">Tu Manual de Éxito</h1>
-                        <p class="text-[11px] text-text-muted-light mt-0.5">Domina tus finanzas fácil.</p>
+                        <h1 class="text-xl font-display font-black">Manual de Supervivencia</h1>
+                        <p class="text-[11px] text-text-muted-light mt-0.5">Entiende tus números.</p>
                     </div>
                 </div>
             </div>
 
             <div class="space-y-4 text-text-main-light dark:text-text-main-dark pb-8 text-[11px]">
                 <div class="help-card prose-mini">
-                    <h4>✨ La Mentalidad</h4>
-                    <p>El dinero es tu empleado, no tu jefe. Organízalo y verás como crece. Relájate, que aquí no juzgamos.</p>
+                    <h4>✨ La Idea</h4>
+                    <p>El dinero es tu empleado. Si no lo organizas, se va. Esta app es tu herramienta para domarlo. Sin estrés, paso a paso.</p>
                 </div>
                 <div class="help-card prose-mini">
                     <h4>📍 ETAPA 1: PLANEACIÓN</h4>
-                    <p>Tu <strong>Meta Soñada</strong> es tu norte. La <strong>Caja Chica</strong> es tu realidad hoy. Úsala para registrar cada movimiento real.</p>
+                    <p><strong>Meta Soñada:</strong> Pon aquí la cifra que quieres tener. Es tu norte.<br><strong>Caja Chica:</strong> Es tu dinero hoy. Úsala como un diario: ¿Gastaste? Anota "Salió". ¿Cobraste? Anota "Entró".</p>
                 </div>
                 <div class="help-card prose-mini">
                     <h4>🚀 ETAPA 2: ANÁLISIS</h4>
-                    <p>Calcula tu potencia. En <strong>Ingresos</strong> usa "Nuevo" para calcular ganancias reales de ventas. En <strong>Gastos</strong>, sé brutalmente honesto. <br><strong>¡Tip!</strong> Usa el check "Es Mensual" para no escribir lo mismo cada mes.</p>
+                    <p><strong>Ingresos:</strong> Suma tu sueldo. Usa "Nuevo" para calcular cuánto ganas realmente en tus ventas (Precio - Costo).<br><strong>Gastos:</strong> Anota todo lo fijo. Renta, luz, etc. Así sabrás cuánto te queda libre.</p>
                 </div>
                 <div class="help-card prose-mini">
                     <h4>📈 ETAPA 3: REGISTRO</h4>
-                    <p>El gráfico te dice la verdad. Úsalo para ver tendencias y corregir el rumbo a tiempo. Toca los puntos para ver detalles.</p>
+                    <p>El gráfico muestra tu progreso. Si la línea sube, vas bien. Si baja, revisa tus gastos. Usa el filtro de fecha para ver detalles.</p>
+                </div>
+                <div class="help-card bg-primary/5 border-primary/20 prose-mini">
+                    <h4>💡 Tip Rápido</h4>
+                    <p>Si la cifra es muy larga, activa el "Modo Zen" (el ojito arriba) para ocultarla en público. Si usas Bolívares, toca el símbolo de moneda.</p>
                 </div>
                 <button onclick="App.navigateTo('home')" class="w-full py-4 bg-primary text-white rounded-2xl font-bold text-xs flex items-center justify-center gap-2 shadow-soft hover:bg-primary/90 transition-all mt-6">
                     <span class="material-symbols-rounded text-lg">home</span>
-                    ¡Listo!
+                    ¡Listo, entendido!
                 </button>
             </div>
         </div>
@@ -568,36 +522,28 @@
 
         let state = { 
             userName: '', goal: 5000, accumulated: 0, salary: 600, incomes: [], expenses: [], history: [], 
-            historySettings: { limit: 15, page: 1, month: new Date().getMonth(), year: new Date().getFullYear(), view: 'list' },
+            historySettings: { limit: 15, page: 1, month: new Date().getMonth(), year: new Date().getFullYear() },
             chartSettings: { month: new Date().getMonth(), year: new Date().getFullYear() },
-            badges: [], zenMode: false, showVes: false, vesRate: 60
+            showVes: false, vesRate: 60, zenMode: false
         };
         let pendingTransaction = null, chartInstance = null, firebaseAuth = null, firestoreDb = null;
 
         const Utils = {
             $: (id) => document.getElementById(id),
             formatMoney: (v) => {
-                let val = v;
-                let currency = 'USD';
-                if(state.showVes) { val = v * state.vesRate; currency = 'VES'; }
-                return new Intl.NumberFormat('es-VE', { style: 'currency', currency: currency, maximumFractionDigits: 0 }).format(val);
+                let val = v; let curr = 'USD';
+                if(state.showVes) { val = v * state.vesRate; curr = 'VES'; }
+                return new Intl.NumberFormat('es-VE', { style: 'currency', currency: curr, maximumFractionDigits: 0 }).format(val);
             },
             formatCompact: (v) => {
-                let val = v;
-                if(state.showVes) { val = v * state.vesRate; }
+                let val = v; if(state.showVes) val = v * state.vesRate;
                 return new Intl.NumberFormat('en-US', { notation: "compact", maximumFractionDigits: 1 }).format(val);
-            },
-            getSmartIcon: (name) => {
-                const n = (name || '').toLowerCase();
-                const icons = { 'comida': 'restaurant', 'cena': 'restaurant', 'uber': 'local_taxi', 'casa': 'cottage', 'renta': 'cottage', 'alquiler': 'cottage', 'wifi': 'wifi', 'internet': 'wifi', 'netflix': 'movie', 'hbo': 'movie', 'spotify': 'music_note', 'gym': 'fitness_center', 'luz': 'bolt', 'electricidad': 'bolt', 'agua': 'water_drop', 'gas': 'local_fire_department', 'celular': 'phone_android', 'plan': 'phone_android', 'seguro': 'security', 'carro': 'directions_car', 'gasolina': 'local_gas_station', 'super': 'shopping_cart', 'mercado': 'shopping_cart' };
-                for (let key in icons) if (n.includes(key)) return icons[key];
-                return 'receipt_long';
             },
             setVal: (id, v) => { const e = Utils.$(id); if(e && document.activeElement !== e) e.value = v; },
             setText: (id, t) => { const e = Utils.$(id); if(e) e.innerText = t; },
             toLocalISO: (d) => { const offset = d.getTimezoneOffset() * 60000; return new Date(d.getTime() - offset).toISOString().split('T')[0]; },
             parseDate: (str) => { if(!str) return new Date(); const [y, m, d] = str.split('-').map(Number); return new Date(y, m - 1, d); },
-            vibrate: () => { if(navigator.vibrate) navigator.vibrate(10); }
+            getSmartIcon: (n) => 'receipt_long' // Simplified
         };
 
         const Auth = {
@@ -626,9 +572,13 @@
                     else { const u = firebaseAuth.currentUser; state.userName = u.displayName ? u.displayName.split(' ')[0] : ''; Data.save(); App.openProfileModal(); }
                     
                     const today = new Date();
-                    state.historySettings.month = today.getMonth(); state.historySettings.year = today.getFullYear();
-                    state.chartSettings.month = today.getMonth(); state.chartSettings.year = today.getFullYear();
+                    state.historySettings.month = today.getMonth(); 
+                    state.historySettings.year = today.getFullYear();
+                    state.chartSettings.month = today.getMonth(); 
+                    state.chartSettings.year = today.getFullYear();
+                    
                     if(state.vesRate) Utils.$('inputRate').value = state.vesRate;
+                    
                     UI.renderAll();
                 } catch(e) { console.error(e); }
             },
@@ -639,14 +589,18 @@
         const UI = {
             renderAll: () => { UI.renderIncomes(); UI.renderExpenses(); UI.renderHistory(); App.calculateGlobal(); },
             showToast: (msg) => { const toast = Utils.$('toast'); toast.innerText = msg; toast.className = "show"; setTimeout(() => { toast.className = ""; }, 2500); },
-            triggerConfetti: () => { if (typeof confetti === 'function') confetti({ particleCount: 100, spread: 70, origin: { y: 0.7 }, colors: ['#b08968', '#6a994e', '#e9c46a'], scalar: 1.2 }); },
             animateNum: (id, endVal) => {
                 const el = Utils.$(id); if (!el) return;
                 try {
-                    // Adjust endVal if VES mode
                     let displayVal = endVal;
                     if(state.showVes) displayVal = endVal * state.vesRate;
                     
+                    // Dynamic Font Sizing Logic
+                    const len = Math.round(displayVal).toString().length;
+                    if(len > 8) { el.classList.remove('text-3xl', 'text-2xl'); el.classList.add('text-xl'); }
+                    else if(len > 6) { el.classList.remove('text-3xl', 'text-xl'); el.classList.add('text-2xl'); }
+                    else { el.classList.remove('text-xl', 'text-2xl'); el.classList.add('text-3xl'); }
+
                     if(!el.countUpInstance) el.countUpInstance = new countUp.CountUp(id, displayVal, { duration: 1, prefix: state.showVes?'Bs.':'$' });
                     else el.countUpInstance.update(displayVal);
                     if (!el.countUpInstance.error) el.countUpInstance.start(); else el.innerText = Utils.formatMoney(endVal);
@@ -676,8 +630,6 @@
             renderHistory: () => {
                 const container = Utils.$('historyContainer'); 
                 const controls = Utils.$('paginationControls');
-                const calendarContainer = Utils.$('calendarContainer');
-                
                 if (!container) return; 
                 container.innerHTML = ''; controls.innerHTML = '';
                 
@@ -689,20 +641,6 @@
                            d.getFullYear() === parseInt(state.historySettings.year);
                 }).sort((a,b) => Utils.parseDate(b.date) - Utils.parseDate(a.date));
 
-                // View Toggle Logic
-                if(state.historySettings.view === 'calendar') {
-                    Utils.$('historyContainer').classList.add('hidden');
-                    Utils.$('listHeader').classList.add('hidden');
-                    calendarContainer.classList.remove('hidden');
-                    UI.renderCalendar(filtered);
-                    return;
-                } else {
-                    Utils.$('historyContainer').classList.remove('hidden');
-                    Utils.$('listHeader').classList.remove('hidden');
-                    calendarContainer.classList.add('hidden');
-                }
-
-                // List Logic
                 const totalItems = filtered.length;
                 const limit = 15;
                 const totalPages = Math.ceil(totalItems / limit);
@@ -723,10 +661,7 @@
                             <span>${d.getDate()}</span>
                             <span class="text-[7px]">DÍA</span>
                         </div>
-                        <div class="flex flex-col overflow-hidden">
-                            <input value="${h.desc || ''}" class="bg-transparent text-[10px] font-medium w-full truncate focus:outline-none focus:text-primary px-1" oninput="Data.updateHistoryDesc(${h.id}, this.value)" placeholder="Sin detalle...">
-                            <span class="text-[7px] opacity-40 px-1">${h.category || 'General'}</span>
-                        </div>
+                        <input value="${h.desc || ''}" class="bg-transparent text-[10px] font-medium w-full truncate focus:outline-none focus:text-primary px-1" oninput="Data.updateHistoryDesc(${h.id}, this.value)" placeholder="Sin detalle...">
                         <div class="text-right flex items-center justify-end gap-2">
                             <span class="text-[10px] font-bold ${isAdd ? 'text-success' : 'text-danger'}">${isAdd ? '+' : '-'}${Utils.formatCompact(h.amount)}</span>
                             <button onclick="App.deleteItem('history', ${h.id})" class="opacity-0 group-hover:opacity-100 text-danger text-[10px] transition-opacity"><span class="material-symbols-rounded text-xs">close</span></button>
@@ -744,39 +679,12 @@
                     }
                 }
             },
-            renderCalendar: (filteredItems) => {
-                const container = Utils.$('calendarContainer');
-                container.innerHTML = '<div class="calendar-grid"></div>';
-                const grid = container.querySelector('.calendar-grid');
-                
-                const y = parseInt(state.historySettings.year);
-                const m = parseInt(state.historySettings.month);
-                const daysInMonth = new Date(y, m + 1, 0).getDate();
-                const firstDayIndex = new Date(y, m, 1).getDay(); // 0 is Sun
-                
-                // Empty slots
-                for(let i=0; i<firstDayIndex; i++) grid.innerHTML += '<div></div>';
-                
-                // Days
-                for(let d=1; d<=daysInMonth; d++) {
-                    const dailyItems = filteredItems.filter(i => Utils.parseDate(i.date).getDate() === d);
-                    const hasIncome = dailyItems.some(i => i.type === 'add');
-                    const hasExpense = dailyItems.some(i => i.type === 'sub');
-                    
-                    let dotHtml = '';
-                    if(hasIncome) dotHtml += '<div class="dot bg-success"></div>';
-                    if(hasExpense) dotHtml += '<div class="dot bg-danger"></div>';
-                    
-                    grid.innerHTML += `<div class="calendar-day">${d}<div class="flex gap-0.5">${dotHtml}</div></div>`;
-                }
-            },
             renderIncomes: () => {
                 const container = Utils.$('incomesList'); if (!container) return; container.innerHTML = '';
-                if(state.incomes.length === 0) { container.innerHTML = `<div class="col-span-full py-10 text-center opacity-40 border-2 border-dashed border-black/5 rounded-xl"><p class="text-[10px] font-medium">Dale al botón "Nuevo" y empieza a sumar.</p></div>`; return; }
                 state.incomes.forEach(i => {
                     const sub = (i.price - i.cost) * i.qty;
                     container.innerHTML += `
-                    <div class="bg-white/50 dark:bg-white/5 p-3 rounded-2xl border border-white/20 hover:shadow-sm transition-all" id="income-card-${i.id}">
+                    <div class="bg-white/50 dark:bg-white/5 p-3 rounded-2xl border border-white/20 hover:shadow-sm transition-all">
                         <div class="flex justify-between items-center mb-2">
                             <input value="${i.name}" class="editable-input bg-transparent font-bold text-xs flex-1 text-primary" oninput="App.updateItem('incomes', ${i.id}, 'name', this.value)" placeholder="Nombre..." onfocus="this.value=''">
                             <button onclick="App.deleteItem('incomes', ${i.id})" class="text-text-muted-light hover:text-danger ml-2 p-1"><span class="material-symbols-rounded text-base">close</span></button>
@@ -805,11 +713,10 @@
             },
             renderExpenses: () => {
                 const container = Utils.$('expensesList'); if (!container) return; container.innerHTML = '';
-                if(state.expenses.length === 0) { container.innerHTML = `<div class="col-span-full py-10 text-center opacity-40 border-2 border-dashed border-black/5 rounded-xl"><p class="text-[10px] font-medium">Toca (+) para registrar gastos fijos.</p></div>`; return; }
                 state.expenses.forEach(e => {
                     container.innerHTML += `
                     <div class="flex items-center gap-3 bg-white/50 dark:bg-white/5 p-3 rounded-2xl border border-white/20 shadow-sm">
-                        <div class="w-9 h-9 rounded-xl bg-danger/5 flex items-center justify-center text-danger shrink-0"><span class="material-symbols-rounded text-base">${Utils.getSmartIcon(e.name)}</span></div>
+                        <div class="w-9 h-9 rounded-xl bg-danger/5 flex items-center justify-center text-danger shrink-0"><span class="material-symbols-rounded text-base">receipt_long</span></div>
                         <div class="flex-1 overflow-hidden">
                             <input value="${e.name}" class="editable-input bg-transparent font-bold text-[11px] w-full truncate" oninput="App.updateItem('expenses', ${e.id}, 'name', this.value)" placeholder="Concepto..." onfocus="this.value=''">
                             <div class="flex items-center mt-0.5">
@@ -847,24 +754,10 @@
                 }
 
                 if(chartInstance) chartInstance.destroy();
-                
                 chartInstance = new Chart(ctx, {
                     type: 'line', 
                     data: { labels, datasets: [{ data: dataPoints, borderColor: '#b08968', borderWidth: 2, pointRadius: 3, pointBackgroundColor: '#b08968', tension: 0, fill: false }] },
-                    options: { 
-                        responsive: true, maintainAspectRatio: false, 
-                        plugins: { 
-                            legend: {display:false}, 
-                            tooltip: {
-                                enabled: true, backgroundColor: 'rgba(255, 255, 255, 0.9)', titleColor: '#4a403a', bodyColor: '#4a403a', borderColor: 'rgba(176, 137, 104, 0.3)', borderWidth: 1, displayColors: false,
-                                callbacks: {
-                                    title: (context) => { const item = sorted[context[0].dataIndex]; return item ? Utils.parseDate(item.date).toLocaleDateString() : 'Inicio'; },
-                                    label: (context) => { const item = sorted[context.dataIndex]; if (!item) return ''; const typeSign = item.type === 'add' ? '+' : '-'; return [`📝 ${item.desc}`, `💵 ${typeSign}${Utils.formatMoney(item.amount)}`, `💰 Acum: ${Utils.formatMoney(context.raw)}`]; }
-                                }
-                            } 
-                        }, 
-                        scales: { x: { display: true, grid: {display:false}, ticks: {font:{size:9}, color:'#8a7a72', maxRotation:0} }, y: { display: false } } 
-                    }
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display:false}, tooltip: { enabled: true, backgroundColor: 'rgba(255, 255, 255, 0.9)', titleColor: '#4a403a', bodyColor: '#4a403a', borderColor: 'rgba(176, 137, 104, 0.3)', borderWidth: 1, displayColors: false } }, scales: { x: { display: true, grid: {display:false}, ticks: {font:{size:9}, color:'#8a7a72', maxRotation:0} }, y: { display: false } } }
                 });
             },
             updateThermometer: (inc, exp) => {
@@ -882,8 +775,7 @@
                 document.querySelectorAll('.flex-view, .scroll-full').forEach(el => { el.classList.add('hidden'); el.classList.remove('fade-in'); });
                 const view = Utils.$(`view-${id}`); if (view) { view.classList.remove('hidden'); view.classList.add('fade-in'); }
                 const btn = Utils.$('backBtn'); const label = Utils.$('pageTitleLabel');
-                const titles = { home: 'RESUMEN', goal: 'LA META', incomes: 'INGRESOS', expenses: 'GASTOS', help: 'MANUAL' };
-                if(label) label.innerText = titles[id] || 'PANEL';
+                if(label) label.innerText = id === 'home' ? 'PANEL' : 'SECCIÓN';
                 if(id === 'home') btn.classList.add('hidden'); else btn.classList.remove('hidden');
                 App.calculateGlobal();
             },
@@ -909,52 +801,23 @@
                 Utils.setText('barGoalText', `Faltan: ${Utils.formatCompact(rem)}`);
                 const bar = Utils.$('barProgress'); const time = Utils.$('barTime');
                 if (bar && time) {
-                    if (sur > 0) { bar.style.width = Math.min(((sur/totInc)*100)*2, 100) + '%'; bar.className = 'h-full bg-success transition-all duration-1000 rounded-full'; time.innerText = App.formatTime(rem/sur); } 
+                    if (sur > 0) { bar.style.width = Math.min(((sur/totInc)*100)*2, 100) + '%'; bar.className = 'h-full bg-success transition-all duration-1000 rounded-full'; time.innerText = "Calculando..."; } 
                     else { bar.style.width = '100%'; bar.className = 'h-full bg-danger transition-all duration-1000 rounded-full'; time.innerText = "Alerta"; }
                 }
                 
-                // Badges Logic
-                if(!state.badges) state.badges = [];
-                const checkBadge = (id, cond) => { if(cond && !state.badges.includes(id)) { state.badges.push(id); UI.showToast(`¡Logro desbloqueado! ${id}`); } }
-                checkBadge('Primer Paso', state.history.length > 0);
-                checkBadge('Ahorrador', state.accumulated > 100);
-                checkBadge('Visionario', state.goal > 0);
-                
-                // Marie AI Logic
-                const insight = Utils.$('marieAiText');
-                if(insight) {
-                    let msg = "Todo tranquilo por aquí.";
-                    if(sur < 0) msg = "⚠️ Gastas más de lo que ingresas. ¡Freno de mano!";
-                    else if(sur > totInc * 0.5) msg = "🚀 ¡Excelente! Estás guardando la mitad de lo que ganas.";
-                    else if(totExp > totInc * 0.8) msg = "😬 Estás al límite. Cuidado con los lujos.";
-                    insight.innerText = msg;
-                }
-
                 UI.updateThermometer(totInc, totExp); UI.renderChart(); Data.save();
             },
-            formatTime: (m) => { if(m === Infinity || isNaN(m)) return "∞"; if(m <= 0) return "¡YA!"; const y = Math.floor(m/12); const mo = Math.floor(m%12); return y > 0 ? `${y}a ${mo}m` : `${mo} mes(es)`; },
             updateVal: (k, v) => { state[k] = parseFloat(v)||0; App.calculateGlobal(); },
             toggleTheme: () => { document.documentElement.classList.toggle('dark'); UI.renderChart(); },
             toggleZen: () => { state.zenMode = !state.zenMode; document.querySelectorAll('.zen-sensitive').forEach(el => el.classList.toggle('zen-blur', state.zenMode)); Utils.$('zenIcon').innerText = state.zenMode ? 'visibility_off' : 'visibility'; },
-            toggleCurrency: () => { state.showVes = !state.showVes; Utils.$('currencyIcon').innerText = state.showVes ? 'Bs' : '$'; App.calculateGlobal(); UI.renderHistory(); },
-            toggleCalendarView: () => { 
-                state.historySettings.view = state.historySettings.view === 'list' ? 'calendar' : 'list'; 
-                Utils.$('viewToggleIcon').innerText = state.historySettings.view === 'list' ? 'calendar_month' : 'list';
-                UI.renderHistory(); 
-            },
+            toggleCurrency: () => { state.showVes = !state.showVes; Utils.$('currencyIcon').innerText = state.showVes ? 'Bs' : '$'; App.calculateGlobal(); UI.renderHistory(); UI.renderChart(); },
+            toggleMenu: () => { Utils.$('mainMenu').classList.toggle('hidden'); },
             openProfileModal: () => { Utils.$('profileModal').classList.remove('hidden'); setTimeout(() => { Utils.$('profileCard').classList.remove('scale-95', 'opacity-0'); Utils.$('profileCard').classList.add('scale-100', 'opacity-100'); }, 10); Utils.$('inputUserName').value = state.userName; },
             closeProfileModal: () => { Utils.$('profileCard').classList.add('scale-95', 'opacity-0'); setTimeout(() => Utils.$('profileModal').classList.add('hidden'), 200); },
             saveProfile: () => { 
                 const n = Utils.$('inputUserName').value.trim(); if(n) state.userName = n; 
                 const r = parseFloat(Utils.$('inputRate').value); if(r) state.vesRate = r;
                 Data.save(); App.updateGreeting(); App.closeProfileModal(); UI.showToast("✓ Perfil guardado"); 
-            },
-            exportData: () => {
-                let csv = "Fecha,Concepto,Categoria,Tipo,Monto\n";
-                state.history.forEach(h => { csv += `${h.date},"${h.desc}",${h.category},${h.type},${h.amount}\n`; });
-                const blob = new Blob([csv], { type: 'text/csv' });
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a'); a.href = url; a.download = 'marie_finance.csv'; a.click();
             },
             updateGreeting: () => { Utils.$('userGreetingName').innerText = state.userName || 'Líder'; },
 
@@ -967,7 +830,10 @@
                 Utils.$('modalAmountDisplay').innerText = Utils.formatMoney(pendingTransaction.amount);
                 Utils.$('modalConfirmBtn').className = `py-2.5 rounded-xl text-[10px] font-bold text-white shadow-md transition-all ${t === 'add' ? 'bg-success hover:bg-success/90' : 'bg-danger hover:bg-danger/90'}`;
                 
-                Utils.$('transactionDesc').value = ""; 
+                const inputDesc = Utils.$('transactionDesc');
+                inputDesc.value = ""; 
+                inputDesc.placeholder = t === 'add' ? 'Ej: Venta, Regalo...' : 'Ej: Comida, Transporte...';
+                
                 Utils.$('transactionDate').value = Utils.toLocalISO(new Date());
 
                 Utils.$('transactionModal').classList.remove('hidden'); 
@@ -976,14 +842,14 @@
             closeTransactionModal: () => { Utils.$('transactionCard').classList.add('scale-95', 'opacity-0'); setTimeout(() => Utils.$('transactionModal').classList.add('hidden'), 200); },
             confirmTransaction: () => {
                 if(!pendingTransaction) return;
-                const desc = Utils.$('transactionDesc').value.trim() || (pendingTransaction.type === 'add' ? 'Ingreso extra' : 'Gasto vario');
-                const cat = Utils.$('transactionCat').value;
+                const descVal = Utils.$('transactionDesc').value.trim();
+                const desc = descVal || (pendingTransaction.type === 'add' ? 'Ingreso extra' : 'Gasto vario');
                 const dateVal = Utils.$('transactionDate').value;
 
                 if(pendingTransaction.type === 'add') { state.accumulated += pendingTransaction.amount; try { UI.triggerConfetti(); } catch(e) {} } 
                 else { state.accumulated = Math.max(0, state.accumulated - pendingTransaction.amount); }
                 if (!state.history) state.history = [];
-                state.history.unshift({ id: Date.now(), date: dateVal, desc: desc, category: cat, amount: pendingTransaction.amount, type: pendingTransaction.type });
+                state.history.unshift({ id: Date.now(), date: dateVal, desc: desc, amount: pendingTransaction.amount, type: pendingTransaction.type });
                 
                 Utils.$('fundInput').value = ''; pendingTransaction = null;
                 
@@ -992,15 +858,14 @@
                 state.chartSettings.month = tDate.getMonth(); state.chartSettings.year = tDate.getFullYear();
                 
                 UI.renderHistory(); UI.renderChart(); App.calculateGlobal(); App.closeTransactionModal(); UI.showToast("✓ ¡Anotado!");
-                Utils.vibrate();
             },
 
-            addItem: (t) => { const id = Date.now(); if(t === 'incomes') state.incomes.push({id, name:'Nuevo Proyecto', price:0, cost:0, qty:1}); else state.expenses.push({id, name:'Nuevo Gasto', amount:0}); App.calculateGlobal(); UI.renderAll(); UI.showToast("✓ Agregado"); Utils.vibrate(); },
+            addItem: (t) => { const id = Date.now(); if(t === 'incomes') state.incomes.push({id, name:'Nuevo Proyecto', price:0, cost:0, qty:1}); else state.expenses.push({id, name:'Nuevo Gasto', amount:0}); App.calculateGlobal(); UI.renderAll(); UI.showToast("✓ Agregado"); },
             deleteItem: (t, id) => { 
                 if(t === 'history') { const x = state.history.find(i => i.id === id); if(x) { state.accumulated += (x.type === 'add' ? -x.amount : x.amount); state.accumulated = Math.max(0, state.accumulated); state.history = state.history.filter(i => i.id !== id); }}
                 else if(t === 'incomes') state.incomes = state.incomes.filter(i => i.id !== id); 
                 else state.expenses = state.expenses.filter(i => i.id !== id); 
-                App.calculateGlobal(); UI.renderAll(); UI.showToast("✓ Borrado"); Utils.vibrate();
+                App.calculateGlobal(); UI.renderAll(); UI.showToast("✓ Borrado");
             },
             updateItem: (t, id, f, v) => { const arr = state[t]; const i = arr.find(x => x.id === id); if(i) { i[f] = (f === 'name') ? v : (parseFloat(v) || 0); App.calculateGlobal(); } },
             updateSliderCalc: (id, f, v) => {
