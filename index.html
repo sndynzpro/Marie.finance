@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-    <title>Marie Finance - Life Changer</title>
+    <title>Marie Finance - Master Edition</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20,400,1,0" rel="stylesheet" />
@@ -11,10 +11,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.0.7/countUp.umd.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.0.7/countUp.umd.js"></script>
 
     <script>
         tailwind.config = {
@@ -56,7 +56,7 @@
         input:focus { outline: none; }
         input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         
-        .fade-in { animation: fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards; opacity: 0; transform: translateY(15px); }
+        .fade-in { animation: fadeIn 0.5s ease-out forwards; opacity: 0; transform: translateY(10px); }
         @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
 
         .animated-bg {
@@ -67,11 +67,11 @@
         .dark .animated-bg { background: linear-gradient(-45deg, #1f1b18, #2e2622, #3b2f29, #12100f); }
 
         .glass-panel { 
-            background: rgba(255, 255, 255, 0.92); 
+            background: rgba(255, 255, 255, 0.94); 
             backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.5);
         }
-        .dark .glass-panel { background: rgba(25, 20, 15, 0.95); border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+        .dark .glass-panel { background: rgba(25, 20, 15, 0.96); border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
         
         .card-glass {
             background: rgba(255, 255, 255, 0.85);
@@ -103,44 +103,50 @@
         .modal-backdrop { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; padding: 1.6rem; }
         .modal-bg { position: absolute; inset: 0; background-color: rgba(0,0,0,0.65); backdrop-filter: blur(6px); }
         
-        .btn-header { width: 32px; height: 32px; flex-shrink: 0; border-radius: 10px; opacity: 0.7; transition: all 0.2s ease; }
+        .btn-header { width: 32px; height: 32px; flex-shrink: 0; border-radius: 10px; opacity: 0.8; transition: all 0.2s ease; }
         .btn-header:hover { opacity: 1; background-color: rgba(0,0,0,0.05); }
         .dark .btn-header:hover { background-color: rgba(255,255,255,0.1); }
         
-        /* LAYOUT DASHBOARD SIN SWIPE (Ajuste Perfecto) */
         #mainContainer { position: fixed; top: 60px; left: 0; right: 0; bottom: 0; overflow: hidden; pointer-events: none; }
         
-        /* El Dashboard principal usa Flexbox vertical para distribuir espacio y evitar scroll */
-        #view-home {
-            display: flex; flex-direction: column; height: 100%; padding-bottom: 100px; /* Espacio para BottomBar */
-            pointer-events: auto; justify-content: space-evenly;
+        .flex-view {
+            display: flex; flex-direction: column; height: 100%; width: 100%; max-width: 900px; margin: 0 auto; pointer-events: auto; padding-left: 1rem; padding-right: 1rem;
         }
 
-        .flex-view { display: flex; flex-direction: column; height: 100%; width: 100%; max-width: 900px; margin: 0 auto; pointer-events: auto; padding-left: 1rem; padding-right: 1rem; }
-        .scroll-content { flex: 1; overflow-y: auto; overflow-x: hidden; padding-bottom: 160px; -webkit-overflow-scrolling: touch; }
-        /* El manual sí necesita scroll */
-        .scroll-full { overflow-y: auto; height: 100%; padding-bottom: 160px; pointer-events: auto; }
+        .scroll-content { flex: 1; overflow-y: auto; overflow-x: hidden; padding-bottom: 180px; -webkit-overflow-scrolling: touch; }
+        .scroll-full { overflow-y: auto; height: 100%; padding-bottom: 180px; }
 
         .editable-input {
             border-bottom: 1.5px dashed rgba(176, 137, 104, 0.4) !important; transition: border-color 0.2s ease; padding-bottom: 2px; color: inherit;
         }
         .editable-input:focus { border-bottom-color: #b08968 !important; }
-        .editable-input::placeholder { color: rgba(138, 122, 114, 0.4); font-style: italic; font-size: 0.9em; }
+        .editable-input::placeholder { color: rgba(138, 122, 114, 0.3); }
         .dark .editable-input { border-bottom-color: rgba(176, 137, 104, 0.3) !important; }
 
-        .hint-text { font-size: 10px; letter-spacing: 0.05em; opacity: 0.6; text-transform: uppercase; font-weight: 700; }
+        .hint-text { font-size: 10px; letter-spacing: 0.05em; opacity: 0.7; text-transform: uppercase; font-weight: 700; }
         
         .stage-label {
-            font-size: 9px; font-weight: 800; letter-spacing: 0.1em; color: #b08968; opacity: 0.9; margin-bottom: 0.4rem; display: inline-block; border-bottom: 2px solid rgba(176, 137, 104, 0.2); padding-bottom: 1px;
+            font-size: 9px; font-weight: 800; letter-spacing: 0.1em; color: #b08968; opacity: 0.9; margin-bottom: 0.6rem; display: inline-block; border-bottom: 2px solid rgba(176, 137, 104, 0.2); padding-bottom: 2px;
         }
 
-        .page-btn { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 9px; font-weight: bold; transition: all 0.2s; }
+        .page-btn {
+            width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;
+            border-radius: 8px; font-size: 10px; font-weight: bold; transition: all 0.2s;
+        }
         .page-btn.active { background: #b08968; color: white; box-shadow: 0 4px 6px -1px rgba(176, 137, 104, 0.3); }
         .page-btn.inactive { background: rgba(0,0,0,0.05); color: #8a7a72; }
         .dark .page-btn.inactive { background: rgba(255,255,255,0.05); color: #a8a29e; }
 
-        .compact-row { display: grid; grid-template-columns: 45px 1fr 60px; gap: 8px; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.03); }
-        .dark .compact-row { border-bottom: 1px solid rgba(255,255,255,0.03); }
+        .compact-row {
+            display: grid; grid-template-columns: 50px 1fr 70px; gap: 8px; align-items: center;
+            padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.04);
+        }
+        .dark .compact-row { border-bottom: 1px solid rgba(255,255,255,0.04); }
+        .compact-row:last-child { border-bottom: none; }
+
+        /* Typography utility for text */
+        .prose-mini p { margin-bottom: 0.8rem; line-height: 1.6; }
+        .prose-mini h4 { font-weight: 800; margin-bottom: 0.4rem; color: #b08968; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
     </style>
 </head>
 
@@ -153,13 +159,16 @@
         <div class="card-glass p-10 rounded-[2rem] shadow-golden text-center max-w-sm mx-6 w-full relative overflow-hidden">
             <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-primary to-[#d4a373]"></div>
             <span class="text-[10px] font-black text-primary mb-3 block tracking-[0.25em] mt-2">MARIE FINANCE</span>
-            <h1 class="text-4xl font-display font-bold mb-4 text-[#3d342f] dark:text-white">Bienvenido a tu nuevo comienzo</h1>
-            <p class="text-sm text-text-muted-light dark:text-text-muted-dark mb-10 leading-relaxed font-medium">
-                "El dinero es una herramienta para construir la vida que mereces. Hoy tomas el control. Respira, todo va a estar bien." ✨
+            <h1 class="text-4xl font-display font-bold mb-4 text-[#3d342f] dark:text-white">¡Bienvenid@ a tu futuro!</h1>
+            <p class="text-sm text-text-muted-light dark:text-text-muted-dark mb-4 leading-relaxed font-medium">
+                "Respira profundo. Estás a punto de tomar el control total de tu vida financiera."
+            </p>
+            <p class="text-[11px] text-text-muted-light mb-8 italic opacity-80">
+                Olvídate del estrés. Aquí vamos a organizar tus números con cariño, estrategia y sin juzgarte. Tu imperio empieza hoy.
             </p>
             <button onclick="Auth.login()" class="w-full py-4 rounded-2xl bg-white dark:bg-white/10 font-bold flex items-center justify-center gap-3 shadow-soft text-sm border border-black/5 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300">
                 <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="G"> 
-                Iniciar mi transformación
+                Empezar mi transformación
             </button>
         </div>
     </div>
@@ -167,12 +176,14 @@
     <div id="profileModal" class="modal-backdrop hidden">
         <div class="modal-bg" onclick="App.closeProfileModal()"></div>
         <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-[280px] rounded-[1.6rem] p-6 shadow-golden relative z-10 transform scale-95 opacity-0 transition-all" id="profileCard">
-            <h3 class="text-lg font-bold text-center mb-1">Identidad de Éxito</h3>
-            <p class="text-[11px] text-center text-text-muted-light mb-6">¿Cómo te llamas, futuro magnate?</p>
-            <input id="inputUserName" type="text" placeholder="Escribe tu nombre aquí..." class="editable-input w-full bg-transparent py-2 px-3 text-base font-medium text-center mb-6" onfocus="this.value=''">
+            <h3 class="text-lg font-bold text-center mb-1">Primero lo primero</h3>
+            <p class="text-[11px] text-center text-text-muted-light mb-6 leading-relaxed">
+                ¿Cómo te gustaría que te llamemos? Queremos que te sientas en casa cada vez que entres.
+            </p>
+            <input id="inputUserName" type="text" placeholder="Ej: Álex, Boss, Soñador..." class="editable-input w-full bg-transparent py-2 px-3 text-base font-medium text-center mb-6" onfocus="this.value=''">
             <div class="grid grid-cols-2 gap-3">
-                <button onclick="App.closeProfileModal()" class="py-2.5 rounded-xl text-[10px] font-bold bg-black/5 hover:bg-black/10 transition-colors">AHORA NO</button>
-                <button onclick="App.saveProfile()" class="py-2.5 rounded-xl text-[10px] font-bold bg-primary text-white shadow-md hover:bg-primary/90 transition-colors">GUARDAR</button>
+                <button onclick="App.closeProfileModal()" class="py-2.5 rounded-xl text-[10px] font-bold bg-black/5 hover:bg-black/10 transition-colors">DESPUÉS</button>
+                <button onclick="App.saveProfile()" class="py-2.5 rounded-xl text-[10px] font-bold bg-primary text-white shadow-md hover:bg-primary/90 transition-colors">¡LISTO!</button>
             </div>
         </div>
     </div>
@@ -180,11 +191,13 @@
     <div id="logoutModal" class="modal-backdrop hidden">
         <div class="modal-bg" onclick="Auth.closeLogoutModal()"></div>
         <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-[280px] rounded-[1.6rem] p-6 shadow-golden relative z-10 transform scale-95 opacity-0 text-center transition-all" id="logoutCard">
-            <h3 class="text-lg font-bold mb-1">¿Pausa por hoy?</h3>
-            <p class="text-[11px] text-text-muted-light mb-6">Descansa, tus metas siguen creciendo mientras duermes.</p>
+            <h3 class="text-lg font-bold mb-1">¿Ya nos dejas?</h3>
+            <p class="text-[11px] text-text-muted-light mb-6">
+                No te preocupes, tus números están a salvo en la nube esperando tu regreso. ¡Descansa!
+            </p>
             <div class="grid grid-cols-2 gap-3">
-                <button onclick="Auth.closeLogoutModal()" class="py-2.5 rounded-xl text-[10px] font-bold bg-black/5 hover:bg-black/10 transition-colors">SEGUIR</button>
-                <button onclick="Auth.confirmLogout()" class="py-2.5 rounded-xl text-[10px] font-bold bg-danger text-white shadow-md hover:bg-danger/90 transition-colors">SALIR</button>
+                <button onclick="Auth.closeLogoutModal()" class="py-2.5 rounded-xl text-[10px] font-bold bg-black/5 hover:bg-black/10 transition-colors">ME QUEDO</button>
+                <button onclick="Auth.confirmLogout()" class="py-2.5 rounded-xl text-[10px] font-bold bg-danger text-white shadow-md hover:bg-danger/90 transition-colors">ADIÓS</button>
             </div>
         </div>
     </div>
@@ -196,16 +209,18 @@
                 <span class="material-symbols-rounded text-2xl text-primary bg-primary/10 p-3 rounded-full shadow-inner" id="modalIcon">payments</span>
             </div>
             <h3 class="text-xs font-bold text-center uppercase tracking-wide opacity-80" id="modalTitle">Registro</h3>
-            <p class="text-2xl text-center text-text-main-light dark:text-white mb-4 font-display font-black tracking-tight mt-1" id="modalAmountDisplay">$0</p>
+            <p class="text-[10px] text-center opacity-50 mb-1">¿De cuánto estamos hablando?</p>
+            <p class="text-2xl text-center text-text-main-light dark:text-white mb-4 font-display font-black tracking-tight" id="modalAmountDisplay">$0</p>
             
             <div class="mb-6">
-                <label class="hint-text block mb-1 pl-1">Concepto (Sé honesto contigo)</label>
-                <input id="transactionDesc" type="text" placeholder="Ej: Inversión en mí, Capricho necesario..." class="editable-input w-full bg-transparent py-2 px-2 text-sm font-medium">
+                <label class="hint-text block mb-1 pl-1">Ponle nombre al movimiento</label>
+                <input id="transactionDesc" type="text" placeholder="" class="editable-input w-full bg-transparent py-2 px-2 text-sm font-medium">
+                <p class="text-[9px] opacity-40 mt-1 pl-1 italic">Ej: "Antojito", "Cliente Nuevo", "Taxi"...</p>
             </div>
 
             <div class="grid grid-cols-2 gap-3">
                 <button onclick="App.closeTransactionModal()" class="py-2.5 rounded-xl text-[10px] font-bold bg-black/5 hover:bg-black/10 transition-colors">CANCELAR</button>
-                <button onclick="App.confirmTransaction()" id="modalConfirmBtn" class="py-2.5 rounded-xl text-[10px] font-bold bg-primary text-white shadow-md hover:brightness-110 transition-all">ANOTAR</button>
+                <button onclick="App.confirmTransaction()" id="modalConfirmBtn" class="py-2.5 rounded-xl text-[10px] font-bold bg-primary text-white shadow-md hover:brightness-110 transition-all">ANOTARLO</button>
             </div>
         </div>
     </div>
@@ -222,17 +237,17 @@
                 </div>
             </div>
             <div class="flex gap-1">
-                <button onclick="App.navigateTo('help')" class="btn-header flex items-center justify-center active:scale-95 text-primary" title="Manual de Vida">
-                    <span class="material-symbols-rounded text-lg">menu_book</span>
+                <button onclick="App.navigateTo('help')" class="btn-header flex items-center justify-center active:scale-95 text-primary" title="Ayuda">
+                    <span class="material-symbols-rounded text-xl">help</span>
                 </button>
                 <button onclick="App.openProfileModal()" class="btn-header flex items-center justify-center active:scale-95" title="Tu perfil">
-                    <span class="material-symbols-rounded text-lg">account_circle</span>
+                    <span class="material-symbols-rounded text-xl">account_circle</span>
                 </button>
                 <button onclick="Auth.logout()" class="btn-header flex items-center justify-center active:scale-95 hover:text-danger transition-colors" title="Cerrar sesión">
-                    <span class="material-symbols-rounded text-lg">logout</span>
+                    <span class="material-symbols-rounded text-xl">logout</span>
                 </button>
                 <button onclick="App.toggleTheme()" class="btn-header flex items-center justify-center active:scale-95" title="Cambiar tema">
-                    <span class="material-symbols-rounded text-lg">contrast</span>
+                    <span class="material-symbols-rounded text-xl">contrast</span>
                 </button>
             </div>
         </div>
@@ -240,87 +255,91 @@
 
     <div id="mainContainer">
         
-        <div id="view-home" class="view-container px-4 fade-in">
-            <div class="mb-1 flex justify-between items-end px-1 pt-2 flex-none">
+        <div id="view-home" class="view-container scroll-full flex-view px-4 fade-in">
+            <div class="mb-6 flex justify-between items-end px-1 pt-2">
                 <div>
-                    <h1 class="text-lg font-display font-black tracking-tight"><span class="text-primary">Hola, </span><span id="userGreetingName">...</span></h1>
-                    <p class="text-[10px] text-text-muted-light font-medium">Hoy construyes tu libertad.</p>
+                    <h1 class="text-xl font-display font-black tracking-tight"><span class="text-primary">Hola, </span><span id="userGreetingName">...</span></h1>
+                    <p class="text-[11px] text-text-muted-light font-medium mt-1">Hoy es el mejor día para crecer.</p>
                 </div>
             </div>
 
-            <div class="flex-none">
-                <span class="stage-label">ETAPA 1: PLANEACIÓN</span>
-                <div class="card-glass p-3 rounded-[1.2rem] shadow-soft relative overflow-hidden cursor-pointer group hover:border-primary/30 transition-all duration-300" onclick="App.navigateTo('goal')">
-                    <div class="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity duration-300"><span class="material-symbols-rounded text-5xl">savings</span></div>
-                    <div class="flex justify-between items-center relative z-10">
-                        <div>
-                            <p class="hint-text mb-1">🎯 Meta Soñada</p>
-                            <span id="homeGoalDisplay" class="text-2xl font-black tracking-tighter">0</span>
-                            <p class="text-[9px] opacity-50 mt-1 font-medium italic">"Un deseo sin plan es solo un sueño"</p>
+            <div class="space-y-phi-3 pb-8">
+                <div>
+                    <span class="stage-label">ETAPA 1: PLANEACIÓN</span>
+                    <div class="card-glass p-phi-3 rounded-[1.5rem] shadow-soft relative overflow-hidden cursor-pointer group hover:border-primary/30 transition-all duration-300" onclick="App.navigateTo('goal')">
+                        <div class="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity duration-300"><span class="material-symbols-rounded text-6xl">savings</span></div>
+                        <div class="flex justify-between items-center relative z-10">
+                            <div>
+                                <p class="hint-text mb-1.5">🎯 Meta Soñada</p>
+                                <span id="homeGoalDisplay" class="text-3xl font-black tracking-tighter">0</span>
+                                <p class="text-[10px] opacity-60 mt-2 font-medium max-w-[150px] leading-tight">Visualízalo. Escríbelo. Consíguelo.</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="hint-text mb-1.5">💰 Caja Chica (Hoy)</p>
+                                <div class="text-xl font-bold text-success" id="homeSavedDisplay">$0</div>
+                                <p class="text-[9px] opacity-50 mt-1">Lo que tienes a mano</p>
+                            </div>
+                            <span class="material-symbols-rounded text-2xl opacity-30 group-hover:translate-x-1 transition-transform duration-300">chevron_right</span>
                         </div>
-                        <div class="text-right">
-                            <p class="hint-text mb-1">💰 Caja Chica</p>
-                            <div class="text-lg font-bold text-success" id="homeSavedDisplay">$0</div>
-                        </div>
-                        <span class="material-symbols-rounded text-xl opacity-30 group-hover:translate-x-1 transition-transform duration-300">chevron_right</span>
                     </div>
                 </div>
-            </div>
 
-            <div class="flex-none">
-                <span class="stage-label">ETAPA 2: ANÁLISIS</span>
-                <div class="grid grid-cols-2 gap-3">
-                    <div class="card-glass p-3 rounded-[1.2rem] shadow-soft cursor-pointer group hover:border-success/30 transition-all duration-300" onclick="App.navigateTo('incomes')">
+                <div>
+                    <span class="stage-label">ETAPA 2: ANÁLISIS</span>
+                    <div class="grid grid-cols-2 gap-phi-2">
+                        <div class="card-glass p-phi-3 rounded-[1.5rem] shadow-soft cursor-pointer group hover:border-success/30 transition-all duration-300" onclick="App.navigateTo('incomes')">
+                            <div class="flex justify-between items-start mb-3">
+                                <div class="w-10 h-10 rounded-2xl bg-success/10 flex items-center justify-center text-success"><span class="material-symbols-rounded text-xl">trending_up</span></div>
+                                <span class="material-symbols-rounded text-lg opacity-30 group-hover:text-success transition-colors">arrow_outward</span>
+                            </div>
+                            <p class="hint-text">📈 Potencial Mensual</p>
+                            <div id="homeIncomeDisplay" class="text-xl font-black text-success tracking-tight mt-1">$0</div>
+                            <p class="text-[9px] opacity-60 mt-2 leading-tight">Proyecta tu abundancia aquí.</p>
+                        </div>
+
+                        <div class="card-glass p-phi-3 rounded-[1.5rem] shadow-soft cursor-pointer group hover:border-danger/30 transition-all duration-300" onclick="App.navigateTo('expenses')">
+                            <div class="flex justify-between items-start mb-3">
+                                <div class="w-10 h-10 rounded-2xl bg-danger/10 flex items-center justify-center text-danger"><span class="material-symbols-rounded text-xl">trending_down</span></div>
+                                <span class="material-symbols-rounded text-lg opacity-30 group-hover:text-danger transition-colors">arrow_outward</span>
+                            </div>
+                            <p class="hint-text">📉 Egresos Fijos</p>
+                            <div id="homeExpenseDisplay" class="text-xl font-black text-danger tracking-tight mt-1">$0</div>
+                            <p class="text-[9px] opacity-60 mt-2 leading-tight">Mantén esto bajo control.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <span class="stage-label">ETAPA 3: REGISTRO</span>
+                    <div class="card-glass p-phi-3 rounded-[1.5rem] shadow-soft">
                         <div class="flex justify-between items-start mb-2">
-                            <div class="w-8 h-8 rounded-xl bg-success/10 flex items-center justify-center text-success"><span class="material-symbols-rounded text-lg">trending_up</span></div>
-                            <span class="material-symbols-rounded text-base opacity-30 group-hover:text-success transition-colors">arrow_outward</span>
-                        </div>
-                        <p class="hint-text">📈 Potencial</p>
-                        <div id="homeIncomeDisplay" class="text-lg font-black text-success tracking-tight mt-0.5">$0</div>
-                        <p class="text-[8px] opacity-60 mt-1 leading-tight">Tu máquina de hacer dinero.</p>
-                    </div>
-
-                    <div class="card-glass p-3 rounded-[1.2rem] shadow-soft cursor-pointer group hover:border-danger/30 transition-all duration-300" onclick="App.navigateTo('expenses')">
-                        <div class="flex justify-between items-start mb-2">
-                            <div class="w-8 h-8 rounded-xl bg-danger/10 flex items-center justify-center text-danger"><span class="material-symbols-rounded text-lg">trending_down</span></div>
-                            <span class="material-symbols-rounded text-base opacity-30 group-hover:text-danger transition-colors">arrow_outward</span>
-                        </div>
-                        <p class="hint-text">📉 Compromisos</p>
-                        <div id="homeExpenseDisplay" class="text-lg font-black text-danger tracking-tight mt-0.5">$0</div>
-                        <p class="text-[8px] opacity-60 mt-1 leading-tight">Gastos conscientes, vida tranquila.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="flex-none">
-                <span class="stage-label">ETAPA 3: REGISTRO</span>
-                <div class="card-glass p-3 rounded-[1.2rem] shadow-soft">
-                    <div class="flex justify-between items-start mb-1">
-                        <div>
-                            <h3 class="font-bold text-[10px] uppercase tracking-wide flex items-center gap-1">
-                                <span class="material-symbols-rounded text-base text-primary">monitoring</span>
-                                Pulso Financiero
-                            </h3>
-                        </div>
-                        <div class="flex gap-2 items-center">
-                            <div class="flex flex-col items-end">
-                                <div class="flex items-center gap-1 mb-0.5">
-                                    <span class="text-[7px] font-bold opacity-50 uppercase">De</span>
-                                    <input type="date" id="dateStart" onchange="App.updateChart()" class="bg-black/5 dark:bg-white/10 text-[8px] font-bold rounded-md px-1 py-0 border-none h-4 w-20">
-                                </div>
-                                <div class="flex items-center gap-1">
-                                    <span class="text-[7px] font-bold opacity-50 uppercase">A</span>
-                                    <input type="date" id="dateEnd" onchange="App.updateChart()" class="bg-black/5 dark:bg-white/10 text-[8px] font-bold rounded-md px-1 py-0 border-none h-4 w-20">
+                            <div>
+                                <h3 class="font-bold text-xs uppercase tracking-wide flex items-center gap-2">
+                                    <span class="material-symbols-rounded text-lg text-primary">monitoring</span>
+                                    Pulso Financiero
+                                </h3>
+                                <p class="text-[9px] opacity-60 mt-0.5">La verdad sin filtros.</p>
+                            </div>
+                            <div class="flex gap-2 items-center">
+                                <div class="flex flex-col items-end">
+                                    <div class="flex items-center gap-1 mb-1">
+                                        <span class="text-[8px] font-bold opacity-50 uppercase">Desde</span>
+                                        <input type="date" id="dateStart" onchange="App.updateChart()" class="bg-black/5 dark:bg-white/10 text-[9px] font-bold rounded-md px-1.5 py-0.5 border-none h-5 w-24 text-right">
+                                    </div>
+                                    <div class="flex items-center gap-1">
+                                        <span class="text-[8px] font-bold opacity-50 uppercase">Hasta</span>
+                                        <input type="date" id="dateEnd" onchange="App.updateChart()" class="bg-black/5 dark:bg-white/10 text-[9px] font-bold rounded-md px-1.5 py-0.5 border-none h-5 w-24 text-right">
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    
-                    <div class="h-[90px] w-full mt-1"><canvas id="mainChart"></canvas></div>
-                    
-                    <div class="flex justify-between items-center mt-1 pt-1 border-t border-black/5 dark:border-white/5">
-                        <div id="healthBadge" class="px-2 py-0.5 bg-black/5 rounded-full text-[7px] font-black uppercase tracking-wider">--</div>
-                        <p class="text-[8px] opacity-50 italic" id="healthDescText">Tu verdad en números.</p>
+                        
+                        <div class="h-[140px] w-full mt-3"><canvas id="mainChart"></canvas></div>
+                        
+                        <div class="flex justify-between items-center mt-3 pt-2 border-t border-black/5 dark:border-white/5">
+                            <div id="healthBadge" class="px-2.5 py-0.5 bg-black/5 rounded-full text-[8px] font-black uppercase tracking-wider">--</div>
+                            <p class="text-[9px] opacity-50 italic" id="healthDescText">Analizando tus movimientos...</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -328,44 +347,43 @@
 
         <div id="view-goal" class="flex-view hidden fade-in">
             <div class="flex-none pt-4 pb-2">
-                <div class="card-glass px-phi-3 py-phi-3 rounded-[1.5rem] shadow-golden text-center mb-4 relative">
-                    <div class="absolute top-2 right-3 text-[8px] opacity-40 font-mono">ETAPA 1: PLANEACIÓN</div>
+                <div class="card-glass px-phi-3 py-phi-3 rounded-[1.5rem] shadow-golden text-center mb-4">
                     <div class="flex justify-between items-end mb-4">
                         <div class="text-left">
-                            <p class="hint-text text-primary mb-1">🎯 Tu Gran Meta</p>
+                            <p class="hint-text text-primary mb-1">🎯 Meta Total</p>
                             <div class="flex items-center">
                                 <span class="text-lg text-muted-light/30 mr-1 font-bold">$</span>
                                 <input id="inputGoal" type="number" class="editable-input bg-transparent text-left text-3xl font-black w-32" placeholder="0" oninput="App.updateVal('goal', this.value)" onfocus="this.value=''">
                             </div>
-                            <p class="text-[9px] opacity-60 mt-1">Escríbelo y será real.</p>
+                            <p class="text-[9px] opacity-50 text-left mt-1">¿Cuánto cuesta tu sueño?</p>
                         </div>
                         <div class="text-right">
                              <p class="hint-text text-success mb-1">💰 Caja Chica</p>
                              <h2 id="detailSavedDisplay" class="text-3xl font-black text-success tracking-tight">$0</h2>
-                             <p class="text-[9px] opacity-60 mt-1">Dinero en mano.</p>
+                             <p class="text-[9px] opacity-50 text-right mt-1">Realidad actual</p>
                         </div>
                     </div>
                     
-                    <div class="w-full h-1.5 bg-black/5 rounded-full mt-2 overflow-hidden mb-5 relative group">
+                    <div class="w-full h-1.5 bg-black/5 rounded-full mt-2 overflow-hidden mb-5">
                         <div id="goalProgressBar" class="h-full bg-primary w-0 transition-all duration-1000"></div>
                     </div>
 
                     <div class="flex items-center justify-between gap-3 border-t border-dashed border-black/10 dark:border-white/10 pt-4">
                         <button onclick="App.modifyFund('sub')" class="flex-1 py-3 rounded-xl bg-danger/5 text-danger font-bold text-[10px] flex items-center justify-center gap-2 hover:bg-danger hover:text-white transition-all shadow-sm">
-                            <span class="material-symbols-rounded text-base">remove</span> SALIÓ
+                            <span class="material-symbols-rounded text-base">remove</span> GASTÉ
                         </button>
                         <div class="w-28 px-2">
                              <input id="fundInput" type="number" placeholder="0" class="editable-input w-full bg-transparent text-center font-bold text-2xl p-0 m-0" onfocus="this.value=''">
                         </div>
                         <button onclick="App.modifyFund('add')" class="flex-1 py-3 rounded-xl bg-success/5 text-success font-bold text-[10px] flex items-center justify-center gap-2 hover:bg-success hover:text-white transition-all shadow-sm">
-                            <span class="material-symbols-rounded text-base">add</span> ENTRÓ
+                            <span class="material-symbols-rounded text-base">add</span> COBRÉ
                         </button>
                     </div>
                 </div>
 
                 <div class="flex justify-between items-center px-1 mb-2 pb-2 border-b border-black/5">
                     <h3 class="text-xs font-bold opacity-70 flex items-center gap-1.5">
-                        <span class="material-symbols-rounded text-base">history</span> El Chisme (Movimientos)
+                        <span class="material-symbols-rounded text-base">history</span> El Chisme (Historial)
                     </h3>
                     <div class="flex gap-1.5">
                         <button onclick="App.setHistoryLimit(15)" id="btnLimit15" class="page-btn active">15</button>
@@ -377,26 +395,26 @@
             </div>
 
             <div class="scroll-content px-1">
-                <div class="grid grid-cols-[45px_1fr_60px] gap-2 px-2 mb-2 text-[8px] font-bold opacity-40 uppercase tracking-wider">
+                <div class="grid grid-cols-[50px_1fr_70px] gap-2 px-2 mb-2 text-[8px] font-bold opacity-40 uppercase tracking-wider">
                     <span>Fecha</span>
-                    <span>Detalle</span>
+                    <span>Concepto</span>
                     <span class="text-right">Monto</span>
                 </div>
 
-                <div id="historyContainer" class="bg-white/40 dark:bg-white/5 rounded-xl border border-white/20 p-2 shadow-sm min-h-[100px]"></div>
-                <div id="paginationControls" class="flex justify-center gap-2 mt-4 pb-4 flex-wrap"></div>
+                <div id="historyContainer" class="bg-white/40 dark:bg-white/5 rounded-xl border border-white/20 p-2 shadow-sm min-h-[100px] mb-4"></div>
+                
+                <div id="paginationControls" class="flex justify-center gap-2 mt-2 pb-4 flex-wrap"></div>
             </div>
         </div>
 
         <div id="view-incomes" class="flex-view hidden fade-in">
             <div class="flex-none pt-4 pb-2">
-                <div class="card-glass p-phi-3 rounded-[1.5rem] shadow-golden mb-4 relative">
-                    <div class="absolute top-2 right-3 text-[8px] opacity-40 font-mono">ETAPA 2: ANÁLISIS</div>
+                <div class="card-glass p-phi-3 rounded-[1.5rem] shadow-golden mb-4">
                     <div class="flex justify-between items-center">
                         <div>
-                            <p class="hint-text">📊 Potencial Total</p>
+                            <p class="hint-text">📊 Capacidad Total</p>
                             <p id="totalIncomeDisplay" class="text-3xl font-black text-success tracking-tight mt-1">$0</p>
-                            <p class="text-[9px] opacity-60 mt-1">Este es tu techo de cristal... ¡Rómpelo!</p>
+                            <p class="text-[10px] opacity-50 mt-1">Lo que podría entrar este mes.</p>
                         </div>
                         <div class="text-right pl-6 border-l border-black/5">
                             <p class="hint-text mb-1">💼 Fijo / Base</p>
@@ -404,17 +422,18 @@
                                 <span class="text-sm mr-1 opacity-50">$</span>
                                 <input id="inputSalary" type="number" class="editable-input w-24 bg-transparent text-right font-black text-2xl" oninput="App.updateVal('salary', this.value)" placeholder="0" onfocus="this.value=''">
                             </div>
+                            <p class="text-[9px] opacity-50 mt-1">Tu seguridad.</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="flex justify-between items-end mb-2 px-2">
                     <div>
-                        <span class="text-xs font-bold opacity-80">Proyectos / Tigritos</span>
-                        <p class="text-[10px] opacity-40 mt-0.5">La clave está en el margen. Desliza.</p>
+                        <span class="text-xs font-bold opacity-80">Proyectos & Variables</span>
+                        <p class="text-[10px] opacity-40 mt-0.5">Calcula tu rentabilidad real aquí.</p>
                     </div>
                     <button onclick="App.addItem('incomes')" class="px-4 py-2 bg-success text-white rounded-xl text-[10px] font-bold shadow-soft flex items-center gap-1.5 hover:bg-success/90 transition-all active:scale-95">
-                        <span class="material-symbols-rounded text-base">add</span> Nuevo Proyecto
+                        <span class="material-symbols-rounded text-base">add</span> Nuevo
                     </button>
                 </div>
             </div>
@@ -424,12 +443,11 @@
 
         <div id="view-expenses" class="flex-view hidden fade-in">
             <div class="flex-none pt-4 pb-2">
-                <div class="card-glass p-phi-3 rounded-[1.5rem] shadow-golden mb-4 flex justify-between items-center relative">
-                    <div class="absolute top-2 right-3 text-[8px] opacity-40 font-mono">ETAPA 2: ANÁLISIS</div>
+                <div class="card-glass p-phi-3 rounded-[1.5rem] shadow-golden mb-4 flex justify-between items-center">
                     <div>
-                        <p class="hint-text">💸 Total Egresos</p>
+                        <p class="hint-text">💸 Total Compromisos</p>
                         <p id="totalExpenseDisplay" class="text-3xl font-black text-danger tracking-tight mt-1">$0</p>
-                        <p class="text-[10px] opacity-40 mt-0.5">Conocer tus gastos te da poder sobre ellos.</p>
+                        <p class="text-[10px] opacity-40 mt-0.5">Dinero que ya tiene dueño.</p>
                     </div>
                     <button onclick="App.addItem('expenses')" class="w-12 h-12 bg-danger text-white flex items-center justify-center rounded-2xl shadow-lg hover:scale-105 active:scale-95 transition-all">
                         <span class="material-symbols-rounded text-2xl">add</span>
@@ -437,8 +455,8 @@
                 </div>
 
                 <div class="px-2 mb-2">
-                    <p class="text-xs font-bold opacity-80 mb-0.5">Lista de Compromisos</p>
-                    <p class="text-[10px] opacity-40">Aquí va lo que es innegociable.</p>
+                    <p class="text-xs font-bold opacity-80 mb-0.5">Lista de Salidas Fijas</p>
+                    <p class="text-[10px] opacity-40">No dejes nada por fuera.</p>
                 </div>
             </div>
             
@@ -446,57 +464,76 @@
         </div>
 
         <div id="view-help" class="view-container scroll-full flex-view px-4 fade-in">
-            <div class="mt-4 mb-6 px-2 text-center">
-                <div class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-primary/10 mb-2">
-                    <span class="material-symbols-rounded text-3xl text-primary">school</span>
-                </div>
-                <h1 class="text-2xl font-display font-black">Escuela de Vida Financiera</h1>
-                <p class="text-[11px] text-text-muted-light mt-1">Porque nadie nos enseñó esto en la escuela.</p>
-            </div>
-
-            <div class="space-y-6 text-text-main-light dark:text-text-main-dark pb-12">
-                
-                <div class="help-card border-l-4 border-primary">
-                    <h3 class="font-bold text-sm mb-2 text-primary uppercase tracking-wider">Capítulo 1: La Mentalidad</h3>
-                    <p class="text-[11px] leading-relaxed opacity-80 mb-3">
-                        El dinero no es el fin, es el medio. No se trata de sufrir ahorrando cada centavo, sino de gastar en lo que realmente te hace feliz y recortar sin piedad en lo que no.
-                    </p>
-                    <p class="text-[11px] leading-relaxed opacity-80 font-bold italic">
-                        "No trabajes por dinero, haz que el dinero trabaje para ti."
-                    </p>
-                </div>
-
-                <div class="help-card border-l-4 border-success">
-                    <h3 class="font-bold text-sm mb-2 text-success uppercase tracking-wider">Capítulo 2: El Arte de Ganar (Ingresos)</h3>
-                    <p class="text-[11px] leading-relaxed opacity-80 mb-2">
-                        En la sección de <strong>Ingresos</strong>, no solo sumes tu sueldo. La verdadera riqueza viene de diversificar. Usa los deslizadores para ver cómo pequeños "tigritos" o ventas, si controlas el costo, pueden superar a tu sueldo fijo.
-                    </p>
-                    <div class="bg-success/10 p-2 rounded-lg mt-2">
-                        <p class="text-[10px] font-bold text-success">💡 Tip de Oro:</p>
-                        <p class="text-[9px] opacity-70">Enfócate en aumentar la columna de "Ganancia", no solo la de "Venta". El costo oculto mata negocios.</p>
+            <div class="mt-4 mb-6 px-2">
+                <div class="flex items-center gap-4 mb-1">
+                    <div class="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center">
+                        <span class="material-symbols-rounded text-2xl text-primary">menu_book</span>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-display font-black">Manual de Éxito</h1>
+                        <p class="text-[11px] text-text-muted-light mt-0.5">Tu mapa hacia la libertad.</p>
                     </div>
                 </div>
+            </div>
 
-                <div class="help-card border-l-4 border-danger">
-                    <h3 class="font-bold text-sm mb-2 text-danger uppercase tracking-wider">Capítulo 3: El Arte de Cuidar (Gastos)</h3>
-                    <p class="text-[11px] leading-relaxed opacity-80 mb-2">
-                        Los gastos fijos son como una mochila pesada. Mientras más ligera, más rápido corres hacia tu meta. Revisa la lista de <strong>Compromisos</strong>: ¿realmente necesitas esa suscripción que no usas?
+            <div class="space-y-4 text-text-main-light dark:text-text-main-dark pb-8 text-[11px]">
+                
+                <div class="help-card prose-mini">
+                    <h4>✨ La Filosofía</h4>
+                    <p>
+                        Bienvenid@ a una nueva forma de ver tu dinero. Esto no es solo una calculadora, es un espejo de tus decisiones.
+                        El dinero no es el fin, es la herramienta. Si lo organizas, dejas de trabajar para él y él empieza a trabajar para ti.
+                        No te estreses si los números hoy no son los que quieres. Lo importante es que <strong>hoy empezaste a medirlo</strong>.
                     </p>
                 </div>
 
-                <div class="help-card border-l-4 border-warning">
-                    <h3 class="font-bold text-sm mb-2 text-warning uppercase tracking-wider">Capítulo 4: La Verdad (Registro)</h3>
-                    <p class="text-[11px] leading-relaxed opacity-80 mb-2">
-                        Lo que no se mide, no se mejora. El gráfico de <strong>Pulso Financiero</strong> (Etapa 3) debe ser tu mejor amigo. Queremos ver picos hacia arriba (ingresos) y caídas controladas.
+                <div class="help-card prose-mini">
+                    <h4>📍 ETAPA 1: PLANEACIÓN (Tu Norte)</h4>
+                    <p>
+                        Todo imperio nace con una visión. En la sección <strong>Meta Soñada</strong>, quiero que pongas esa cifra que te daría paz mental. No la cifra para sobrevivir, sino la cifra para vivir bien.
                     </p>
-                    <p class="text-[11px] leading-relaxed opacity-80">
-                        Usa los selectores de fecha para ver tu evolución semanal. La consistencia es la clave del éxito.
+                    <p>
+                        La <strong>Caja Chica</strong> es tu realidad inmediata. Es el dinero líquido que tienes hoy. Úsala religiosamente: si compras un café, ¡anótalo! Si te pagan un proyecto, ¡anótalo!
+                        La disciplina en lo pequeño crea abundancia en lo grande.
                     </p>
                 </div>
 
-                <button onclick="App.navigateTo('home')" class="w-full py-4 bg-primary text-white rounded-2xl font-bold text-xs flex items-center justify-center gap-2 shadow-soft hover:bg-primary/90 transition-all mt-4 mb-8">
+                <div class="help-card prose-mini">
+                    <h4>🚀 ETAPA 2: ANÁLISIS (Tu Motor)</h4>
+                    <p>
+                        Aquí es donde ocurre la magia.
+                    </p>
+                    <p>
+                        <strong>En Ingresos:</strong> No te limites a tu sueldo. La herramienta de "Proyectos" está diseñada para emprendedores.
+                        Fíjate bien: Te deja poner el <em>Precio</em> (lo que cobras) y el <em>Costo</em> (lo que te cuesta hacerlo).
+                        <strong>Consejo de Oro:</strong> Nunca cobres solo por tu tiempo, cobra por el valor que aportas. Y siempre, siempre, calcula tu ganancia real. Si vendes algo a $100 pero te costó $90, solo ganaste $10. ¡Ojo ahí!
+                    </p>
+                    <p>
+                        <strong>En Gastos:</strong> Sé brutalmente honesto. Anota hasta el Netflix que no ves. Los gastos hormiga son los termitas de tu fortuna. Identifícalos y elimínalos sin piedad.
+                    </p>
+                </div>
+
+                <div class="help-card prose-mini">
+                    <h4>📈 ETAPA 3: REGISTRO (La Verdad)</h4>
+                    <p>
+                        El gráfico lineal es tu detector de mentiras. Si ves picos hacia abajo constantes, algo falla en la etapa 2.
+                        Si ves una línea ascendente, ¡felicidades! Estás construyendo patrimonio.
+                        Usa las fechas (Desde/Hasta) para analizar semanas específicas. ¿Gastas más los fines de semana? ¿A fin de mes? El patrón te dirá qué hábito cambiar.
+                    </p>
+                </div>
+
+                <div class="help-card bg-primary/5 border-primary/20 prose-mini">
+                    <h4>💡 Nota Final</h4>
+                    <p>
+                        La riqueza no es cuánto ganas, es cuánto conservas.
+                        Usa esta app todos los días. Haz que sea tu ritual de la mañana o de la noche.
+                        Tú tienes el control. ¡A darle con todo!
+                    </p>
+                </div>
+
+                <button onclick="App.navigateTo('home')" class="w-full py-4 bg-primary text-white rounded-2xl font-bold text-xs flex items-center justify-center gap-2 shadow-soft hover:bg-primary/90 transition-all mt-6">
                     <span class="material-symbols-rounded text-lg">home</span>
-                    ¡Entendido, voy a comerme el mundo!
+                    ¡Estoy listo para dominar esto!
                 </button>
             </div>
         </div>
@@ -507,11 +544,11 @@
         <div class="pointer-events-auto bg-white/95 dark:bg-[#1a1a1a]/95 backdrop-blur-xl border border-white/20 shadow-golden rounded-[1.25rem] w-full max-w-md px-6 py-4 transition-all transform hover:-translate-y-1">
             <div class="flex justify-between items-center mb-2">
                 <div class="flex flex-col">
-                    <span class="hint-text text-[9px] tracking-widest">💰 AHORRO POTENCIAL</span>
+                    <span class="hint-text text-[9px] tracking-widest">💰 MARGEN DE MANIOBRA</span>
                     <span id="barSurplus" class="text-xl font-black leading-none mt-0.5">$0</span>
                 </div>
                 <div class="text-right flex flex-col items-end">
-                    <span class="hint-text text-[9px] tracking-widest">⏱️ META EN</span>
+                    <span class="hint-text text-[9px] tracking-widest">⏱️ TIEMPO A LA META</span>
                     <div id="barTime" class="text-[11px] font-bold bg-primary/10 text-primary px-3 py-0.5 rounded-lg mt-0.5">--</div>
                 </div>
             </div>
@@ -519,7 +556,7 @@
                 <div id="barProgress" class="h-full bg-black/80 dark:bg-white w-0 transition-all duration-1000 rounded-full"></div>
             </div>
             <div class="flex justify-between text-[9px] font-bold opacity-50 mt-2 font-mono">
-                <span>Ingresos - Gastos = Tu Libertad</span>
+                <span>Ingresos - Gastos = Libertad</span>
                 <span id="barGoalText">Falta: $0</span>
             </div>
         </div>
@@ -578,12 +615,14 @@
                     if (doc.exists) { state = { ...state, ...doc.data() }; App.updateGreeting(); } 
                     else { const u = firebaseAuth.currentUser; state.userName = u.displayName ? u.displayName.split(' ')[0] : ''; Data.save(); App.openProfileModal(); }
                     
-                    // Init Dates (Last 30 days)
+                    // Init Dates (This Month)
                     const today = new Date();
-                    const past = new Date();
-                    past.setDate(today.getDate() - 30);
-                    state.chartStart = past.toISOString().split('T')[0];
-                    state.chartEnd = today.toISOString().split('T')[0];
+                    const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+                    // Adjust to local ISO string
+                    const offset = today.getTimezoneOffset() * 60000;
+                    state.chartStart = new Date(firstDay.getTime() - offset).toISOString().split('T')[0];
+                    state.chartEnd = new Date(today.getTime() - offset).toISOString().split('T')[0];
+                    
                     Utils.$('dateStart').value = state.chartStart;
                     Utils.$('dateEnd').value = state.chartEnd;
                     
@@ -621,7 +660,7 @@
                 const limit = state.historySettings.limit;
                 const totalPages = Math.ceil(totalItems / limit);
                 
-                if (state.historySettings.page > totalPages) state.historySettings.page = 1;
+                if (state.historySettings.page > totalPages && totalPages > 0) state.historySettings.page = 1;
                 
                 const startIndex = (state.historySettings.page - 1) * limit;
                 const pagedItems = filtered.slice(startIndex, startIndex + limit);
@@ -631,27 +670,31 @@
                     if(btn) btn.className = state.historySettings.limit === l ? "page-btn active" : "page-btn inactive";
                 });
 
-                if(totalItems === 0) { container.innerHTML = '<p class="text-[9px] opacity-40 text-center py-6 italic">Aún no hay chisme financiero. ¡Haz tu primer movimiento!</p>'; return; }
+                if(totalItems === 0) { container.innerHTML = '<p class="text-[9px] opacity-40 text-center py-6 italic">Aquí se escribirá tu historia.</p>'; return; }
                 
                 pagedItems.forEach(h => {
                     const isAdd = h.type === 'add';
                     const d = new Date(h.date);
-                    // Compact Row Layout
+                    // Compact Row Layout (Hoja contable)
                     container.innerHTML += `
                     <div class="compact-row group">
-                        <div class="text-[9px] font-bold opacity-50 font-mono">${d.getDate()}/${d.getMonth()+1}</div>
-                        <input value="${h.desc || ''}" class="bg-transparent text-[10px] font-medium w-full truncate focus:outline-none focus:text-primary" oninput="Data.updateHistoryDesc(${h.id}, this.value)" placeholder="Detalle...">
+                        <div class="text-[9px] font-bold opacity-50 font-mono flex flex-col leading-tight">
+                            <span>${d.getDate()}/${d.getMonth()+1}</span>
+                            <span class="text-[7px]">${d.getFullYear().toString().substr(-2)}</span>
+                        </div>
+                        <input value="${h.desc || ''}" class="bg-transparent text-[10px] font-medium w-full truncate focus:outline-none focus:text-primary px-1" oninput="Data.updateHistoryDesc(${h.id}, this.value)" placeholder="Sin detalle...">
                         <div class="text-right flex items-center justify-end gap-2">
                             <span class="text-[10px] font-bold ${isAdd ? 'text-success' : 'text-danger'}">${isAdd ? '+' : '-'}${Utils.formatCompact(h.amount)}</span>
-                            <button onclick="App.deleteItem('history', ${h.id})" class="opacity-0 group-hover:opacity-100 text-danger text-[10px]"><span class="material-symbols-rounded text-xs">close</span></button>
+                            <button onclick="App.deleteItem('history', ${h.id})" class="opacity-0 group-hover:opacity-100 text-danger text-[10px] transition-opacity"><span class="material-symbols-rounded text-xs">close</span></button>
                         </div>
                     </div>`;
                 });
 
+                // Numbered Pages
                 if(totalPages > 1) {
                     for(let i = 1; i <= totalPages; i++) {
                         const btn = document.createElement('button');
-                        btn.className = `w-6 h-6 rounded-md text-[9px] font-bold border ${state.historySettings.page === i ? 'bg-primary text-white border-primary' : 'bg-transparent border-black/10 text-text-muted-light'}`;
+                        btn.className = `w-6 h-6 rounded-md text-[9px] font-bold border transition-colors ${state.historySettings.page === i ? 'bg-primary text-white border-primary' : 'bg-transparent border-black/10 text-text-muted-light hover:bg-black/5'}`;
                         btn.innerText = i;
                         btn.onclick = () => App.setHistoryPage(i);
                         controls.appendChild(btn);
@@ -660,7 +703,7 @@
             },
             renderIncomes: () => {
                 const container = Utils.$('incomesList'); if (!container) return; container.innerHTML = '';
-                if(state.incomes.length === 0) { container.innerHTML = `<div class="col-span-full py-10 text-center opacity-40 border-2 border-dashed border-black/5 rounded-xl"><p class="text-[10px] font-medium">¡Vamos! Agrega tu primer proyecto rentable.</p></div>`; return; }
+                if(state.incomes.length === 0) { container.innerHTML = `<div class="col-span-full py-10 text-center opacity-40 border-2 border-dashed border-black/5 rounded-xl"><p class="text-[10px] font-medium">Dale al botón "Nuevo" para crear riqueza.</p></div>`; return; }
                 state.incomes.forEach(i => {
                     const sub = (i.price - i.cost) * i.qty;
                     container.innerHTML += `
@@ -671,11 +714,11 @@
                         </div>
                         <div class="flex gap-2 mb-2">
                              <div class="w-1/2 relative bg-black/5 dark:bg-black/20 rounded-xl p-1.5">
-                                <span class="text-[7px] opacity-50 font-bold block mb-0.5 text-center tracking-wide">VENTA</span>
+                                <span class="text-[8px] opacity-50 font-bold block mb-0.5 text-center tracking-wide">PRECIO</span>
                                 <input type="number" value="${i.price}" class="editable-input w-full bg-transparent text-xs font-bold text-center border-none" oninput="App.updateSliderCalc(${i.id}, 'price', this.value)" placeholder="0" onfocus="this.value=''">
                              </div>
                              <div class="w-1/2 relative bg-danger/5 dark:bg-black/20 rounded-xl p-1.5 border border-danger/10">
-                                <span class="text-[7px] opacity-50 font-bold block mb-0.5 text-danger text-center tracking-wide">COSTO</span>
+                                <span class="text-[8px] opacity-50 font-bold block mb-0.5 text-danger text-center tracking-wide">COSTO</span>
                                 <input type="number" value="${i.cost}" class="editable-input w-full bg-transparent text-xs font-bold text-danger text-center border-none" oninput="App.updateSliderCalc(${i.id}, 'cost', this.value)" placeholder="0" onfocus="this.value=''">
                              </div>
                         </div>
@@ -685,7 +728,7 @@
                             <span id="qty-disp-${i.id}" class="text-[9px] font-bold bg-primary text-white px-1.5 py-0.5 rounded-md min-w-[24px] text-center">${i.qty}</span>
                         </div>
                         <div class="text-right mt-2 pt-2 border-t border-dashed border-black/10 dark:border-white/10 flex justify-between items-center">
-                            <span class="text-[8px] opacity-50 font-bold uppercase">Ganancia Neta:</span>
+                            <span class="text-[8px] opacity-50 font-bold uppercase">Tu Ganancia Real:</span>
                             <span id="profit-disp-${i.id}" class="text-success font-black text-sm">+${Utils.formatMoney(sub)}</span>
                         </div>
                     </div>`;
@@ -693,7 +736,7 @@
             },
             renderExpenses: () => {
                 const container = Utils.$('expensesList'); if (!container) return; container.innerHTML = '';
-                if(state.expenses.length === 0) { container.innerHTML = `<div class="col-span-full py-10 text-center opacity-40 border-2 border-dashed border-black/5 rounded-xl"><p class="text-[10px] font-medium">¿Nada que pagar? ¡Qué suerte! Si no, agrégalo aquí.</p></div>`; return; }
+                if(state.expenses.length === 0) { container.innerHTML = `<div class="col-span-full py-10 text-center opacity-40 border-2 border-dashed border-black/5 rounded-xl"><p class="text-[10px] font-medium">Toca (+) para registrar gastos fijos.</p></div>`; return; }
                 state.expenses.forEach(e => {
                     container.innerHTML += `
                     <div class="flex items-center gap-3 bg-white/50 dark:bg-white/5 p-3 rounded-2xl border border-white/20 shadow-sm">
@@ -716,11 +759,10 @@
                 // Date Filtering logic
                 let sDate = new Date(Utils.$('dateStart').value);
                 let eDate = new Date(Utils.$('dateEnd').value);
-                // Fallback validation
-                if(isNaN(sDate.getTime())) sDate = new Date(new Date().setDate(new Date().getDate() - 30));
-                if(isNaN(eDate.getTime())) eDate = new Date();
-                
-                eDate.setHours(23,59,59); sDate.setHours(0,0,0);
+                // Adjust for TZ
+                sDate.setMinutes(sDate.getMinutes() + sDate.getTimezoneOffset());
+                eDate.setMinutes(eDate.getMinutes() + eDate.getTimezoneOffset());
+                eDate.setHours(23,59,59);
 
                 let sorted = [...state.history]
                     .filter(h => { const d = new Date(h.date); return d >= sDate && d <= eDate; })
@@ -760,7 +802,7 @@
                         maintainAspectRatio: false, 
                         plugins: { legend: {display:false}, tooltip: {enabled: true} }, 
                         scales: { 
-                            x: { display: true, grid: {display:false}, ticks: {font:{size:8}, color:'#8a7a72', maxRotation:0} }, 
+                            x: { display: true, grid: {display:false}, ticks: {font:{size:9}, color:'#8a7a72', maxRotation:0} }, 
                             y: { display: false } 
                         } 
                     }
@@ -769,16 +811,16 @@
             updateThermometer: (inc, exp) => {
                 const badge = Utils.$('healthBadge'); const desc = Utils.$('healthDescText'); if (!badge || !desc) return;
                 let rate = inc > 0 ? ((inc - exp) / inc) * 100 : 0; let pos = inc <= exp ? 10 : 30 + Math.min((rate/50)*70, 70);
-                if(pos < 35) { badge.innerText = "🚨 ALERTA"; badge.className="px-3 py-1 bg-danger text-white rounded-full text-[9px] font-black tracking-wider"; desc.innerText = "Tus gastos están devorando tus ingresos."; }
-                else if(pos < 65) { badge.innerText = "⚖️ EQUILIBRIO"; badge.className="px-3 py-1 bg-warning text-black/80 rounded-full text-[9px] font-black tracking-wider"; desc.innerText = "Vas bien, pero no te confíes."; }
-                else { badge.innerText = "🚀 LIBERTAD"; badge.className="px-3 py-1 bg-success text-white rounded-full text-[9px] font-black tracking-wider"; desc.innerText = "Estás construyendo riqueza real."; }
+                if(pos < 35) { badge.innerText = "🚨 ALERTA"; badge.className="px-3 py-1 bg-danger text-white rounded-full text-[9px] font-black tracking-wider"; desc.innerText = "¡Cuidado! Gastos superan ingresos."; }
+                else if(pos < 65) { badge.innerText = "⚖️ ESTABLE"; badge.className="px-3 py-1 bg-warning text-black/80 rounded-full text-[9px] font-black tracking-wider"; desc.innerText = "Equilibrio. Vigila los gastos hormiga."; }
+                else { badge.innerText = "🚀 COHETE"; badge.className="px-3 py-1 bg-success text-white rounded-full text-[9px] font-black tracking-wider"; desc.innerText = "Vas volando. Margen excelente."; }
             }
         };
 
         const App = {
             init: () => { Auth.init(); UI.renderAll(); },
             navigateTo: (id) => { 
-                document.querySelectorAll('.flex-view, .scroll-full, #view-home').forEach(el => { el.classList.add('hidden'); el.classList.remove('fade-in'); });
+                document.querySelectorAll('.flex-view, .scroll-full').forEach(el => { el.classList.add('hidden'); el.classList.remove('fade-in'); });
                 const view = Utils.$(`view-${id}`); 
                 if (view) { view.classList.remove('hidden'); view.classList.add('fade-in'); }
                 
@@ -810,11 +852,11 @@
             },
             updateBottomBar: (sur, tot, rem) => {
                 const bar = Utils.$('barProgress'); const time = Utils.$('barTime'); const surDisp = Utils.$('barSurplus');
-                Utils.setText('barGoalText', `Para tu imperio faltan: ${Utils.formatCompact(rem)}`);
+                Utils.setText('barGoalText', `Faltan: ${Utils.formatCompact(rem)}`);
                 if (surDisp) { surDisp.innerText = (sur > 0 ? '+' : '') + Utils.formatMoney(sur); surDisp.className = `text-lg font-black leading-none ${sur > 0 ? 'text-success' : 'text-danger'}`; }
                 if (bar && time) {
                     if (sur > 0) { bar.style.width = Math.min(((sur/tot)*100)*2, 100) + '%'; bar.className = 'h-full bg-success transition-all duration-1000 rounded-full'; time.innerText = App.formatTime(rem/sur); } 
-                    else { bar.style.width = '100%'; bar.className = 'h-full bg-danger transition-all duration-1000 rounded-full'; time.innerText = "¡ALERTA!"; }
+                    else { bar.style.width = '100%'; bar.className = 'h-full bg-danger transition-all duration-1000 rounded-full'; time.innerText = "Alerta"; }
                 }
             },
             formatTime: (m) => { if(m === Infinity || isNaN(m)) return "∞"; if(m <= 0) return "¡YA!"; const y = Math.floor(m/12); const mo = Math.floor(m%12); return y > 0 ? `${y}a ${mo}m` : `${mo} mes(es)`; },
@@ -823,13 +865,13 @@
             
             openProfileModal: () => { Utils.$('profileModal').classList.remove('hidden'); setTimeout(() => { Utils.$('profileCard').classList.remove('scale-95', 'opacity-0'); Utils.$('profileCard').classList.add('scale-100', 'opacity-100'); }, 10); Utils.$('inputUserName').value = state.userName; },
             closeProfileModal: () => { Utils.$('profileCard').classList.add('scale-95', 'opacity-0'); setTimeout(() => Utils.$('profileModal').classList.add('hidden'), 200); },
-            saveProfile: () => { const n = Utils.$('inputUserName').value.trim(); if(n) { state.userName = n; Data.save(); App.updateGreeting(); App.closeProfileModal(); UI.showToast("✓ ¡Bienvenido al club!"); } },
-            updateGreeting: () => { Utils.$('userGreetingName').innerText = state.userName || 'Visionario'; },
+            saveProfile: () => { const n = Utils.$('inputUserName').value.trim(); if(n) { state.userName = n; Data.save(); App.updateGreeting(); App.closeProfileModal(); UI.showToast("✓ Perfil guardado"); } },
+            updateGreeting: () => { Utils.$('userGreetingName').innerText = state.userName || 'Jefe/a'; },
 
-            modifyFund: (t) => { const input = Utils.$('fundInput'); const amount = parseFloat(input.value); if(!amount || amount <= 0) { input.focus(); UI.showToast("El éxito necesita números"); return; } pendingTransaction = { type: t, amount: amount }; App.openTxModal(); },
+            modifyFund: (t) => { const input = Utils.$('fundInput'); const amount = parseFloat(input.value); if(!amount || amount <= 0) { input.focus(); UI.showToast("Ingresa un monto"); return; } pendingTransaction = { type: t, amount: amount }; App.openTxModal(); },
             openTxModal: () => { 
                 const t = pendingTransaction.type; 
-                Utils.$('modalTitle').innerText = t === 'add' ? '¡Dinero Fresco! 🎉' : 'Salida Necesaria 💸'; 
+                Utils.$('modalTitle').innerText = t === 'add' ? '¡Dinero Entrando!' : 'Dinero Saliendo'; 
                 Utils.$('modalIcon').innerText = t === 'add' ? 'arrow_downward' : 'arrow_upward'; 
                 Utils.$('modalIcon').className = `material-symbols-rounded text-2xl p-2 rounded-full ${t === 'add' ? 'text-success bg-success/10' : 'text-danger bg-danger/10'}`;
                 Utils.$('modalAmountDisplay').innerText = Utils.formatMoney(pendingTransaction.amount);
@@ -837,7 +879,7 @@
                 
                 const inputDesc = Utils.$('transactionDesc');
                 inputDesc.value = ""; 
-                inputDesc.placeholder = t === 'add' ? 'Ej: Venta del siglo, Regalo...' : 'Ej: Inversión, Comida...';
+                inputDesc.placeholder = t === 'add' ? 'Ej: Venta, Regalo...' : 'Ej: Comida, Transporte...';
                 
                 Utils.$('transactionModal').classList.remove('hidden'); 
                 setTimeout(() => { Utils.$('transactionCard').classList.remove('scale-95', 'opacity-0'); Utils.$('transactionCard').classList.add('scale-100', 'opacity-100'); }, 10);
@@ -847,7 +889,7 @@
             confirmTransaction: () => {
                 if(!pendingTransaction) return;
                 const descVal = Utils.$('transactionDesc').value.trim();
-                const desc = descVal || (pendingTransaction.type === 'add' ? 'Ingreso positivo' : 'Gasto necesario');
+                const desc = descVal || (pendingTransaction.type === 'add' ? 'Ingreso extra' : 'Gasto vario');
                 
                 if(pendingTransaction.type === 'add') { state.accumulated += pendingTransaction.amount; try { UI.triggerConfetti(); } catch(e) {} } 
                 else { state.accumulated = Math.max(0, state.accumulated - pendingTransaction.amount); }
@@ -855,15 +897,15 @@
                 state.history.unshift({ id: Date.now(), date: new Date().toISOString(), desc: desc, amount: pendingTransaction.amount, type: pendingTransaction.type });
                 Utils.$('fundInput').value = ''; pendingTransaction = null;
                 state.historySettings.page = 1;
-                UI.renderHistory(); App.calculateGlobal(); App.closeTransactionModal(); UI.showToast("✓ Movimiento guardado");
+                UI.renderHistory(); App.calculateGlobal(); App.closeTransactionModal(); UI.showToast("✓ ¡Anotado!");
             },
 
-            addItem: (t) => { const id = Date.now(); if(t === 'incomes') state.incomes.push({id, name:'Nueva Fuente', price:0, cost:0, qty:1}); else state.expenses.push({id, name:'Nuevo Compromiso', amount:0}); App.calculateGlobal(); UI.renderAll(); UI.showToast("✓ ¡A por ello!"); },
+            addItem: (t) => { const id = Date.now(); if(t === 'incomes') state.incomes.push({id, name:'Nuevo Proyecto', price:0, cost:0, qty:1}); else state.expenses.push({id, name:'Nuevo Gasto', amount:0}); App.calculateGlobal(); UI.renderAll(); UI.showToast("✓ Agregado"); },
             deleteItem: (t, id) => { 
                 if(t === 'history') { const x = state.history.find(i => i.id === id); if(x) { state.accumulated += (x.type === 'add' ? -x.amount : x.amount); state.accumulated = Math.max(0, state.accumulated); state.history = state.history.filter(i => i.id !== id); }}
                 else if(t === 'incomes') state.incomes = state.incomes.filter(i => i.id !== id); 
                 else state.expenses = state.expenses.filter(i => i.id !== id); 
-                App.calculateGlobal(); UI.renderAll(); UI.showToast("✓ Eliminado");
+                App.calculateGlobal(); UI.renderAll(); UI.showToast("✓ Borrado");
             },
             updateItem: (t, id, f, v) => { const arr = state[t]; const i = arr.find(x => x.id === id); if(i) { i[f] = (f === 'name') ? v : (parseFloat(v) || 0); App.calculateGlobal(); } },
             updateSliderCalc: (id, f, v) => {
