@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-    <title>Marie Finance - Master Guide</title>
+    <title>Marie Finance - Unified Logic</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20,400,1,0" rel="stylesheet" />
@@ -122,6 +122,14 @@
         .hint-text { font-size: 10px; letter-spacing: 0.05em; opacity: 0.7; text-transform: uppercase; font-weight: 700; }
         .stage-label { font-size: 9px; font-weight: 800; letter-spacing: 0.1em; color: #b08968; opacity: 0.9; margin-bottom: 0.6rem; display: inline-block; border-bottom: 2px solid rgba(176, 137, 104, 0.2); padding-bottom: 2px; }
 
+        .page-btn {
+            width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;
+            border-radius: 8px; font-size: 10px; font-weight: bold; transition: all 0.2s; cursor: pointer;
+        }
+        .page-btn.active { background: #b08968; color: white; box-shadow: 0 4px 6px -1px rgba(176, 137, 104, 0.3); }
+        .page-btn.inactive { background: rgba(0,0,0,0.05); color: #8a7a72; border: 1px solid rgba(0,0,0,0.05); }
+        .dark .page-btn.inactive { background: rgba(255,255,255,0.05); color: #a8a29e; border: 1px solid rgba(255,255,255,0.05); }
+
         .compact-row {
             display: grid; grid-template-columns: 45px 1fr 70px; gap: 8px; align-items: center;
             padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.04);
@@ -129,12 +137,9 @@
         .dark .compact-row { border-bottom: 1px solid rgba(255,255,255,0.04); }
         .compact-row:last-child { border-bottom: none; }
 
-        /* Typography for the Manual */
-        .prose-mini p { margin-bottom: 1rem; line-height: 1.7; font-size: 11px; color: rgba(74, 64, 58, 0.9); }
-        .dark .prose-mini p { color: rgba(231, 229, 228, 0.9); }
-        .prose-mini h4 { font-weight: 900; margin-bottom: 0.5rem; color: #b08968; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 1.5rem; }
+        .prose-mini p { margin-bottom: 0.8rem; line-height: 1.6; }
+        .prose-mini h4 { font-weight: 800; margin-bottom: 0.4rem; color: #b08968; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 1rem; }
         .prose-mini h4:first-child { margin-top: 0; }
-        .prose-mini strong { font-weight: 800; color: inherit; }
         
         input[type="date"]::-webkit-calendar-picker-indicator { cursor: pointer; opacity: 0.6; filter: invert(0.5); }
         .dark input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); }
@@ -317,15 +322,15 @@
                                 <p class="text-[9px] opacity-60 mt-0.5">Tus números no mienten.</p>
                             </div>
                             <div class="flex gap-2 items-center">
-                                <div class="flex flex-col items-end">
-                                    <div class="flex items-center gap-1 mb-1">
-                                        <span class="text-[8px] font-bold opacity-50 uppercase">Desde</span>
-                                        <input type="date" id="dateStart" onchange="App.updateChart()" class="bg-black/5 dark:bg-white/10 text-[9px] font-bold rounded-md px-1.5 py-0.5 border-none h-5 w-24 text-right cursor-pointer">
-                                    </div>
-                                    <div class="flex items-center gap-1">
-                                        <span class="text-[8px] font-bold opacity-50 uppercase">Hasta</span>
-                                        <input type="date" id="dateEnd" onchange="App.updateChart()" class="bg-black/5 dark:bg-white/10 text-[9px] font-bold rounded-md px-1.5 py-0.5 border-none h-5 w-24 text-right cursor-pointer">
-                                    </div>
+                                <div class="relative">
+                                    <select id="chartMonth" onchange="App.updateChart()" class="appearance-none bg-black/5 dark:bg-white/10 text-[9px] font-bold rounded-lg px-2 py-1 pr-5 border-none outline-none cursor-pointer text-primary">
+                                        </select>
+                                    <span class="material-symbols-rounded text-[10px] absolute right-1 top-1.5 pointer-events-none opacity-50">expand_more</span>
+                                </div>
+                                <div class="relative">
+                                    <select id="chartYear" onchange="App.updateChart()" class="appearance-none bg-black/5 dark:bg-white/10 text-[9px] font-bold rounded-lg px-2 py-1 pr-5 border-none outline-none cursor-pointer text-primary">
+                                        </select>
+                                    <span class="material-symbols-rounded text-[10px] absolute right-1 top-1.5 pointer-events-none opacity-50">expand_more</span>
                                 </div>
                             </div>
                         </div>
@@ -583,8 +588,8 @@
 
         let state = { 
             userName: '', goal: 5000, accumulated: 0, salary: 600, incomes: [], expenses: [], history: [], 
-            historySettings: { limit: 15, page: 1, month: new Date().getMonth(), year: new Date().getFullYear() }, 
-            chartStart: '', chartEnd: '' 
+            historySettings: { limit: 15, page: 1, month: new Date().getMonth(), year: new Date().getFullYear() },
+            chartSettings: { month: new Date().getMonth(), year: new Date().getFullYear() }
         };
         let pendingTransaction = null, chartInstance = null, firebaseAuth = null, firestoreDb = null;
 
@@ -601,12 +606,10 @@
             setVal: (id, v) => { const e = Utils.$(id); if(e && document.activeElement !== e) e.value = v; },
             setText: (id, t) => { const e = Utils.$(id); if(e) e.innerText = t; },
             setHTML: (id, h) => { const e = Utils.$(id); if(e) e.innerHTML = h; },
-            // Timezone safe local string YYYY-MM-DD
             toLocalISO: (d) => {
                 const offset = d.getTimezoneOffset() * 60000;
                 return new Date(d.getTime() - offset).toISOString().split('T')[0];
             },
-            // Parse YYYY-MM-DD to local date
             parseDate: (str) => {
                 if(!str) return new Date();
                 const [y, m, d] = str.split('-').map(Number);
@@ -640,18 +643,8 @@
                     else { const u = firebaseAuth.currentUser; state.userName = u.displayName ? u.displayName.split(' ')[0] : ''; Data.save(); App.openProfileModal(); }
                     
                     const today = new Date();
-                    const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
-                    state.chartStart = Utils.toLocalISO(firstDay);
-                    state.chartEnd = Utils.toLocalISO(today);
-                    
-                    // Init view filter to current month/year
-                    state.historySettings.month = today.getMonth(); 
-                    state.historySettings.year = today.getFullYear();
-                    state.historySettings.limit = 15;
-                    state.historySettings.page = 1;
-
-                    Utils.$('dateStart').value = state.chartStart;
-                    Utils.$('dateEnd').value = state.chartEnd;
+                    state.historySettings = { limit: 15, page: 1, month: today.getMonth(), year: today.getFullYear() };
+                    state.chartSettings = { month: today.getMonth(), year: today.getFullYear() };
                     
                     UI.renderAll();
                 } catch(e) { console.error(e); }
@@ -672,64 +665,58 @@
                     if (!el.countUpInstance.error) el.countUpInstance.start(); else el.innerText = '$' + endVal;
                 } catch(e) { el.innerText = '$' + endVal; }
             },
+            // Shared Logic for Dropdown Population
+            populateDropdowns: (selMonth, selYear, currentMonth, currentYear) => {
+                const months = new Set([new Date().getFullYear()]);
+                state.history.forEach(h => months.add(Utils.parseDate(h.date).getFullYear()));
+                
+                // Populate Year
+                selYear.innerHTML = '';
+                Array.from(months).sort((a,b)=>b-a).forEach(y => {
+                    const opt = document.createElement('option');
+                    opt.value = y; opt.text = y;
+                    if(y === parseInt(currentYear)) opt.selected = true;
+                    selYear.appendChild(opt);
+                });
+
+                // Populate Month
+                selMonth.innerHTML = '';
+                const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+                monthNames.forEach((m, idx) => {
+                    const opt = document.createElement('option');
+                    opt.value = idx; opt.text = m;
+                    if(idx === parseInt(currentMonth)) opt.selected = true;
+                    selMonth.appendChild(opt);
+                });
+            },
             renderHistory: () => {
                 const container = Utils.$('historyContainer'); 
                 const controls = Utils.$('paginationControls');
-                const selMonth = Utils.$('selMonth');
-                const selYear = Utils.$('selYear');
                 
                 if (!container) return; 
                 container.innerHTML = ''; controls.innerHTML = '';
                 
-                // 1. RE-POPULATE YEARS DYNAMICALLY EVERY TIME TO CATCH NEW YEARS
-                const years = new Set([new Date().getFullYear()]);
-                state.history.forEach(h => years.add(Utils.parseDate(h.date).getFullYear()));
-                
-                // Keep selection if possible
-                const currentSelYear = state.historySettings.year;
-                selYear.innerHTML = '';
-                Array.from(years).sort((a,b)=>b-a).forEach(y => {
-                    const opt = document.createElement('option');
-                    opt.value = y; opt.text = y;
-                    if(y === currentSelYear) opt.selected = true;
-                    selYear.appendChild(opt);
-                });
+                // Populate history dropdowns
+                UI.populateDropdowns(Utils.$('selMonth'), Utils.$('selYear'), state.historySettings.month, state.historySettings.year);
 
-                // Populate Month Select if empty
-                if (selMonth.options.length === 0) {
-                    selMonth.innerHTML = '';
-                    const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-                    monthNames.forEach((m, idx) => {
-                        const opt = document.createElement('option');
-                        opt.value = idx; opt.text = m;
-                        if(idx === state.historySettings.month) opt.selected = true;
-                        selMonth.appendChild(opt);
-                    });
-                } else {
-                    // Update selection state visually
-                    selMonth.value = state.historySettings.month; 
-                    selYear.value = state.historySettings.year;
-                }
-
-                // 2. Filter logic
+                // Filter logic
                 const filtered = state.history.filter(h => {
                     const d = Utils.parseDate(h.date);
                     return d.getMonth() === parseInt(state.historySettings.month) && 
                            d.getFullYear() === parseInt(state.historySettings.year);
                 }).sort((a,b) => Utils.parseDate(b.date) - Utils.parseDate(a.date));
 
-                // 3. Pagination Logic
+                // Pagination
                 const totalItems = filtered.length;
-                const limit = 15; // Fixed Limit
+                const limit = 15;
                 const totalPages = Math.ceil(totalItems / limit);
                 
                 if (state.historySettings.page > totalPages && totalPages > 0) state.historySettings.page = 1;
-                if (state.historySettings.page < 1) state.historySettings.page = 1;
                 
                 const startIndex = (state.historySettings.page - 1) * limit;
                 const pagedItems = filtered.slice(startIndex, startIndex + limit);
 
-                if(totalItems === 0) { container.innerHTML = '<p class="text-[9px] opacity-40 text-center py-6 italic">Nada por aquí en este mes.</p>'; return; }
+                if(totalItems === 0) { container.innerHTML = '<p class="text-[9px] opacity-40 text-center py-6 italic">Nada en este mes.</p>'; return; }
                 
                 pagedItems.forEach(h => {
                     const isAdd = h.type === 'add';
@@ -748,7 +735,6 @@
                     </div>`;
                 });
 
-                // Render Pagination Numbers
                 if(totalPages > 1) {
                     for(let i = 1; i <= totalPages; i++) {
                         const btn = document.createElement('button');
@@ -814,23 +800,35 @@
             renderChart: () => {
                 const ctx = Utils.$('mainChart'); if(!ctx) return;
                 
-                let sDate = Utils.parseDate(Utils.$('dateStart').value);
-                let eDate = Utils.parseDate(Utils.$('dateEnd').value);
-                eDate.setHours(23,59,59);
+                // Populate Chart Dropdowns
+                UI.populateDropdowns(Utils.$('chartMonth'), Utils.$('chartYear'), state.chartSettings.month, state.chartSettings.year);
 
                 let sorted = [...state.history]
-                    .filter(h => { const d = Utils.parseDate(h.date); return d >= sDate && d <= eDate; })
+                    .filter(h => {
+                        const d = Utils.parseDate(h.date);
+                        return d.getMonth() === parseInt(state.chartSettings.month) && 
+                               d.getFullYear() === parseInt(state.chartSettings.year);
+                    })
                     .sort((a,b) => Utils.parseDate(a.date) - Utils.parseDate(b.date));
 
                 const labels = [];
                 const dataPoints = [];
+                
+                // Start with balance from beginning of time up to this month
+                // This simulates "Opening Balance"
+                let accumulatedPrior = 0;
+                // Calculate opening balance logic (simplified: assumed 0 start or could filter history < start date)
+                // For visual impact in linear graph, we start from 0 relative to the month or sum logic.
+                // To keep it simple and consistent: we show flow within the month starting from previous accumulated.
+                
+                // Better approach: Show pure movement accumulation starting from 0 for the period visual
                 let bal = 0; 
                 
-                if (sorted.length === 0) { labels.push('Hoy'); dataPoints.push(state.accumulated); }
+                if (sorted.length === 0) { labels.push('Inicio'); dataPoints.push(0); }
                 else {
                     sorted.forEach(h => {
                         const d = Utils.parseDate(h.date);
-                        labels.push(`${d.getDate()}/${d.getMonth()+1}`);
+                        labels.push(`${d.getDate()}`);
                         bal += (h.type === 'add' ? h.amount : -h.amount);
                         dataPoints.push(bal); 
                     });
@@ -956,13 +954,14 @@
                 
                 Utils.$('fundInput').value = ''; pendingTransaction = null;
                 
-                // Update view to transaction date so user sees it immediately
+                // Force Update Views to transaction date
                 const tDate = Utils.parseDate(dateVal);
                 state.historySettings.month = tDate.getMonth();
                 state.historySettings.year = tDate.getFullYear();
-                state.historySettings.page = 1;
+                state.chartSettings.month = tDate.getMonth();
+                state.chartSettings.year = tDate.getFullYear();
                 
-                UI.renderHistory(); App.calculateGlobal(); App.closeTransactionModal(); UI.showToast("✓ ¡Anotado!");
+                UI.renderHistory(); UI.renderChart(); App.calculateGlobal(); App.closeTransactionModal(); UI.showToast("✓ ¡Anotado!");
             },
 
             addItem: (t) => { const id = Date.now(); if(t === 'incomes') state.incomes.push({id, name:'Nuevo Proyecto', price:0, cost:0, qty:1}); else state.expenses.push({id, name:'Nuevo Gasto', amount:0}); App.calculateGlobal(); UI.renderAll(); UI.showToast("✓ Agregado"); },
@@ -992,8 +991,8 @@
                 UI.renderHistory(); 
             },
             updateChart: () => { 
-                state.chartStart = Utils.$('dateStart').value; 
-                state.chartEnd = Utils.$('dateEnd').value;
+                state.chartSettings.month = parseInt(Utils.$('chartMonth').value); 
+                state.chartSettings.year = parseInt(Utils.$('chartYear').value); 
                 UI.renderChart(); 
             }
         };
