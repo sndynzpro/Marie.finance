@@ -38,19 +38,10 @@
                     },
                     boxShadow: {
                         'soft': '0 8px 32px -4px rgba(0, 0, 0, 0.05)',
-                        'glow': '0 0 25px -5px rgba(176, 137, 104, 0.4)',
                         'golden': '0 10px 20px -5px rgba(50, 50, 93, 0.15), 0 5px 10px -5px rgba(0, 0, 0, 0.2)',
                     },
-                    animation: {
-                        'gradient': 'gradient 25s ease infinite',
-                    },
-                    keyframes: {
-                        gradient: {
-                            '0%': { backgroundPosition: '0% 50%' },
-                            '50%': { backgroundPosition: '100% 50%' },
-                            '100%': { backgroundPosition: '0% 50%' },
-                        }
-                    }
+                    animation: { 'gradient': 'gradient 25s ease infinite' },
+                    keyframes: { gradient: { '0%': { backgroundPosition: '0% 50%' }, '50%': { backgroundPosition: '100% 50%' }, '100%': { backgroundPosition: '0% 50%' } } }
                 },
             },
         }
@@ -69,22 +60,16 @@
         .animated-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
             background: linear-gradient(-45deg, #efebe9, #d7ccc8, #e6dace, #f5f5f5);
-            background-size: 300% 300%;
-            animation: gradient 25s ease infinite;
+            background-size: 300% 300%; animation: gradient 25s ease infinite;
         }
-        .dark .animated-bg {
-            background: linear-gradient(-45deg, #1a120b, #2b1d16, #3e2723, #0c0a09);
-        }
+        .dark .animated-bg { background: linear-gradient(-45deg, #1a120b, #2b1d16, #3e2723, #0c0a09); }
 
         .glass-panel { 
             background: rgba(255, 255, 255, 0.8); 
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.4);
         }
-        .dark .glass-panel { 
-            background: rgba(20, 15, 10, 0.85); 
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
-        }
+        .dark .glass-panel { background: rgba(20, 15, 10, 0.85); border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
         
         .card-glass {
             background: rgba(255, 255, 255, 0.65);
@@ -92,11 +77,7 @@
             border: 1px solid rgba(255, 255, 255, 0.6);
             transition: all 0.2s ease;
         }
-        .dark .card-glass {
-            background: rgba(40, 30, 25, 0.6); 
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
+        .dark .card-glass { background: rgba(40, 30, 25, 0.6); border: 1px solid rgba(255, 255, 255, 0.08); }
         .card-glass:active { transform: scale(0.99); }
 
         ::-webkit-scrollbar { width: 3px; height: 3px; }
@@ -125,34 +106,50 @@
         .modal-bg { position: absolute; inset: 0; background-color: rgba(0,0,0,0.5); backdrop-filter: blur(4px); }
         
         .btn-header { width: 36px; height: 36px; flex-shrink: 0; border-radius: 10px; }
-        .btn-control { width: 48px; height: 48px; flex-shrink: 0; border-radius: 14px; }
+        .btn-control { width: 44px; height: 44px; flex-shrink: 0; border-radius: 12px; }
 
-        .view-container { 
-            height: calc(100vh - 130px); 
-            overflow-y: auto; 
-            overflow-x: hidden;
-            padding-bottom: 20px;
+        .view-container { height: calc(100vh - 125px); overflow-y: auto; overflow-x: hidden; padding-bottom: 10px; }
+
+        /* INPUTS EDITABLES CON LÍNEA PUNTEADA */
+        .editable-input {
+            border-bottom: 1.5px dashed rgba(176, 137, 104, 0.4) !important;
+            transition: border-color 0.2s ease;
+            padding-bottom: 2px;
+        }
+        .editable-input:focus {
+            border-bottom-color: #b08968 !important;
+        }
+        .editable-input::placeholder {
+            color: rgba(138, 122, 114, 0.5);
+        }
+        .dark .editable-input {
+            border-bottom-color: rgba(176, 137, 104, 0.3) !important;
+        }
+        .dark .editable-input:focus {
+            border-bottom-color: #b08968 !important;
+        }
+
+        /* Hint text */
+        .hint-text {
+            font-size: 7px;
+            letter-spacing: 0.3px;
+            opacity: 0.5;
+            text-transform: uppercase;
+            font-weight: 600;
         }
 
         .help-card {
             background: rgba(255, 255, 255, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.4);
-            border-radius: 16px;
-            padding: 14px;
-            transition: all 0.2s ease;
+            border-radius: 14px; padding: 12px;
         }
-        .dark .help-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        .help-card:hover { transform: translateY(-2px); }
+        .dark .help-card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08); }
 
         .step-number {
-            width: 24px; height: 24px; border-radius: 50%;
+            width: 20px; height: 20px; border-radius: 50%;
             background: linear-gradient(135deg, #b08968, #8d6e63);
-            color: white; font-size: 11px; font-weight: 700;
-            display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0;
+            color: white; font-size: 10px; font-weight: 700;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
         }
     </style>
 </head>
@@ -162,13 +159,13 @@
     <div class="animated-bg"></div>
     <div id="toast">Notificación</div>
 
-    <!-- LOGIN OVERLAY -->
+    <!-- LOGIN -->
     <div id="loginOverlay" class="fixed inset-0 z-[999] bg-gradient-to-br from-[#efebe9] to-[#e6dace] dark:from-[#1a120b] dark:to-[#0c0a09] flex items-center justify-center transition-opacity duration-500">
-        <div class="card-glass p-8 rounded-3xl shadow-golden text-center max-w-xs mx-6">
-            <span class="text-[10px] font-black text-primary mb-2 block tracking-widest">MARIE FINANCE</span>
-            <h1 class="text-3xl font-display font-bold mb-3">Bienvenida</h1>
-            <p class="text-xs text-text-muted-light dark:text-text-muted-dark mb-6">Finanzas compactas y claras.</p>
-            <button onclick="Auth.login()" class="w-full py-3 rounded-xl bg-white dark:bg-white/10 font-bold flex items-center justify-center gap-2 shadow-sm text-xs border border-black/5">
+        <div class="card-glass p-6 rounded-2xl shadow-golden text-center max-w-xs mx-6">
+            <span class="text-[9px] font-black text-primary mb-1 block tracking-widest">MARIE FINANCE</span>
+            <h1 class="text-2xl font-display font-bold mb-2">Bienvenida</h1>
+            <p class="text-[10px] text-text-muted-light dark:text-text-muted-dark mb-5">Finanzas compactas y claras.</p>
+            <button onclick="Auth.login()" class="w-full py-2.5 rounded-xl bg-white dark:bg-white/10 font-bold flex items-center justify-center gap-2 shadow-sm text-xs border border-black/5">
                 <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-4 h-4" alt="G"> Continuar con Google
             </button>
         </div>
@@ -178,12 +175,12 @@
     <div id="profileModal" class="modal-backdrop hidden">
         <div class="modal-bg" onclick="App.closeProfileModal()"></div>
         <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-xs rounded-2xl p-5 shadow-golden relative z-10 transform scale-95 opacity-0 transition-all" id="profileCard">
-            <h3 class="text-base font-bold text-center mb-1">Identidad</h3>
-            <p class="text-xs text-center text-text-muted-light mb-4">¿Cómo te llamamos?</p>
-            <input id="inputUserName" type="text" placeholder="Ej: Marie" class="w-full bg-black/5 dark:bg-white/5 rounded-xl py-2.5 px-4 text-sm font-medium text-center mb-4 outline-none">
+            <h3 class="text-base font-bold text-center mb-1">Tu Nombre</h3>
+            <p class="text-[10px] text-center text-text-muted-light mb-3">¿Cómo te llamamos?</p>
+            <input id="inputUserName" type="text" placeholder="Ej: Marie" class="editable-input w-full bg-transparent py-2 px-3 text-sm font-medium text-center mb-4">
             <div class="grid grid-cols-2 gap-2">
-                <button onclick="App.closeProfileModal()" class="py-2.5 rounded-xl text-[10px] font-bold bg-black/5">CANCELAR</button>
-                <button onclick="App.saveProfile()" class="py-2.5 rounded-xl text-[10px] font-bold bg-primary text-white">GUARDAR</button>
+                <button onclick="App.closeProfileModal()" class="py-2 rounded-xl text-[10px] font-bold bg-black/5">CANCELAR</button>
+                <button onclick="App.saveProfile()" class="py-2 rounded-xl text-[10px] font-bold bg-primary text-white">GUARDAR</button>
             </div>
         </div>
     </div>
@@ -192,11 +189,11 @@
     <div id="logoutModal" class="modal-backdrop hidden">
         <div class="modal-bg" onclick="Auth.closeLogoutModal()"></div>
         <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-xs rounded-2xl p-5 shadow-golden relative z-10 transform scale-95 opacity-0 text-center transition-all" id="logoutCard">
-            <h3 class="text-base font-bold mb-2">¿Cerrar Sesión?</h3>
-            <p class="text-xs text-text-muted-light mb-4">Tus datos están seguros.</p>
+            <h3 class="text-base font-bold mb-1">¿Cerrar Sesión?</h3>
+            <p class="text-[10px] text-text-muted-light mb-4">Tus datos están seguros en la nube.</p>
             <div class="grid grid-cols-2 gap-2">
-                <button onclick="Auth.closeLogoutModal()" class="py-2.5 rounded-xl text-[10px] font-bold bg-black/5">VOLVER</button>
-                <button onclick="Auth.confirmLogout()" class="py-2.5 rounded-xl text-[10px] font-bold bg-danger text-white">SALIR</button>
+                <button onclick="Auth.closeLogoutModal()" class="py-2 rounded-xl text-[10px] font-bold bg-black/5">VOLVER</button>
+                <button onclick="Auth.confirmLogout()" class="py-2 rounded-xl text-[10px] font-bold bg-danger text-white">SALIR</button>
             </div>
         </div>
     </div>
@@ -205,23 +202,23 @@
     <div id="transactionModal" class="modal-backdrop hidden">
         <div onclick="App.closeTransactionModal()" class="modal-bg"></div>
         <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-xs rounded-2xl p-5 shadow-golden relative z-10 transform scale-95 opacity-0 transition-all" id="transactionCard">
-            <div class="flex justify-center mb-3"><span class="material-symbols-rounded text-2xl text-primary" id="modalIcon">payments</span></div>
-            <h3 class="text-base font-bold text-center mb-1" id="modalTitle">Movimiento</h3>
-            <p class="text-sm text-center text-text-muted-light mb-4 font-mono font-bold" id="modalAmountDisplay">$0</p>
+            <div class="flex justify-center mb-2"><span class="material-symbols-rounded text-2xl text-primary" id="modalIcon">payments</span></div>
+            <h3 class="text-base font-bold text-center" id="modalTitle">Movimiento</h3>
+            <p class="text-sm text-center text-text-muted-light mb-3 font-mono font-bold" id="modalAmountDisplay">$0</p>
             <div class="mb-4">
-                <label class="text-[9px] font-bold uppercase text-text-muted-light block mb-1.5 pl-1">Concepto</label>
-                <input id="transactionDesc" type="text" placeholder="Descripción..." class="w-full bg-black/5 dark:bg-white/5 rounded-xl py-2.5 px-3 text-sm outline-none">
+                <label class="hint-text block mb-1 pl-1">Describe este movimiento</label>
+                <input id="transactionDesc" type="text" placeholder="Ej: Pago de cliente, Compra supermercado..." class="editable-input w-full bg-transparent py-2 px-2 text-sm">
             </div>
             <div class="grid grid-cols-2 gap-2">
-                <button onclick="App.closeTransactionModal()" class="py-2.5 rounded-xl text-[10px] font-bold bg-black/5">CANCELAR</button>
-                <button onclick="App.confirmTransaction()" id="modalConfirmBtn" class="py-2.5 rounded-xl text-[10px] font-bold bg-primary text-white">CONFIRMAR</button>
+                <button onclick="App.closeTransactionModal()" class="py-2 rounded-xl text-[10px] font-bold bg-black/5">CANCELAR</button>
+                <button onclick="App.confirmTransaction()" id="modalConfirmBtn" class="py-2 rounded-xl text-[10px] font-bold bg-primary text-white">CONFIRMAR</button>
             </div>
         </div>
     </div>
 
     <!-- HEADER -->
     <div class="fixed top-0 w-full z-50">
-        <div class="glass-panel w-full px-4 py-2.5 flex items-center justify-between shadow-sm">
+        <div class="glass-panel w-full px-4 py-2 flex items-center justify-between shadow-sm">
             <div class="flex items-center gap-2">
                 <button id="backBtn" onclick="App.navigateTo('home')" class="hidden btn-header bg-white/50 dark:bg-white/5 flex items-center justify-center active:scale-95 transition-all border border-white/20">
                     <span class="material-symbols-rounded text-base">arrow_back</span>
@@ -232,410 +229,335 @@
                 </div>
             </div>
             <div class="flex gap-1.5">
-                <button onclick="App.navigateTo('help')" class="btn-header border border-white/20 flex items-center justify-center active:scale-95 hover:bg-primary/10 transition-all" title="Ayuda">
+                <button onclick="App.navigateTo('help')" class="btn-header border border-white/20 flex items-center justify-center active:scale-95 hover:bg-primary/10 transition-all" title="Guía de uso">
                     <span class="material-symbols-rounded text-base text-primary">help</span>
                 </button>
-                <button onclick="App.openProfileModal()" class="btn-header border border-white/20 flex items-center justify-center active:scale-95 transition-all">
+                <button onclick="App.openProfileModal()" class="btn-header border border-white/20 flex items-center justify-center active:scale-95 transition-all" title="Tu perfil">
                     <span class="material-symbols-rounded text-base">account_circle</span>
                 </button>
-                <button onclick="Auth.logout()" class="btn-header border border-white/20 flex items-center justify-center active:scale-95 hover:bg-danger/10 hover:text-danger transition-all">
+                <button onclick="Auth.logout()" class="btn-header border border-white/20 flex items-center justify-center active:scale-95 hover:bg-danger/10 hover:text-danger transition-all" title="Cerrar sesión">
                     <span class="material-symbols-rounded text-base">logout</span>
                 </button>
-                <button onclick="App.toggleTheme()" class="btn-header bg-primary text-white flex items-center justify-center active:scale-95 transition-all">
+                <button onclick="App.toggleTheme()" class="btn-header bg-primary text-white flex items-center justify-center active:scale-95 transition-all" title="Cambiar tema">
                     <span class="material-symbols-rounded text-base">contrast</span>
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- MAIN CONTAINER -->
-    <div class="flex-1 w-full max-w-[900px] mx-auto px-3 pt-14" id="mainContainer">
+    <!-- MAIN -->
+    <div class="flex-1 w-full max-w-[900px] mx-auto px-3 pt-12" id="mainContainer">
         
-        <!-- VIEW: HOME -->
+        <!-- HOME -->
         <div id="view-home" class="view-container fade-in">
-            <div class="mb-3 flex justify-between items-end pt-2">
+            <div class="mb-2 flex justify-between items-end pt-1">
                 <div>
-                    <h1 class="text-lg font-display font-black"><span class="text-primary">Hola, </span><span id="userGreetingName">...</span></h1>
-                    <p class="text-[10px] text-text-muted-light opacity-80">Tu resumen compacto.</p>
+                    <h1 class="text-base font-display font-black"><span class="text-primary">Hola, </span><span id="userGreetingName">...</span></h1>
+                    <p class="text-[8px] text-text-muted-light opacity-70">Toca cualquier tarjeta para ver detalles</p>
                 </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-2.5">
+            <div class="grid grid-cols-2 gap-2">
                 
                 <!-- Meta Card -->
-                <div class="card-glass p-3 rounded-2xl shadow-soft relative overflow-hidden col-span-2 cursor-pointer" onclick="App.navigateTo('goal')">
-                    <div class="absolute top-0 right-0 p-2 opacity-10"><span class="material-symbols-rounded text-4xl">savings</span></div>
+                <div class="card-glass p-2.5 rounded-xl shadow-soft relative overflow-hidden col-span-2 cursor-pointer" onclick="App.navigateTo('goal')">
+                    <div class="absolute top-0 right-0 p-1.5 opacity-10"><span class="material-symbols-rounded text-3xl">savings</span></div>
                     <div class="flex justify-between items-center">
                         <div>
-                            <p class="text-[9px] font-black text-text-muted-light tracking-widest uppercase mb-0.5">Tu Meta</p>
-                            <span id="homeGoalDisplay" class="text-2xl font-black tracking-tighter">0</span>
+                            <p class="hint-text mb-0.5">🎯 Tu meta de ahorro</p>
+                            <span id="homeGoalDisplay" class="text-xl font-black tracking-tighter">0</span>
                         </div>
                         <div class="text-right">
-                            <span class="text-[9px] font-bold block opacity-60">Disponible</span>
-                            <div class="text-lg font-bold text-success" id="homeSavedDisplay">$0</div>
+                            <p class="hint-text mb-0.5">💰 Dinero actual</p>
+                            <div class="text-base font-bold text-success" id="homeSavedDisplay">$0</div>
                         </div>
-                        <span class="material-symbols-rounded text-lg opacity-30">chevron_right</span>
+                        <span class="material-symbols-rounded text-base opacity-30">chevron_right</span>
                     </div>
+                    <p class="text-[7px] opacity-40 mt-1.5 text-center">Toca para registrar ingresos y retiros de tu dinero real</p>
                 </div>
 
-                <!-- Ingresos Card -->
-                <div class="card-glass p-3 rounded-2xl shadow-soft cursor-pointer" onclick="App.navigateTo('incomes')">
+                <!-- Ingresos -->
+                <div class="card-glass p-2.5 rounded-xl shadow-soft cursor-pointer" onclick="App.navigateTo('incomes')">
                     <div class="flex justify-between items-start mb-1">
-                        <div class="w-8 h-8 rounded-lg bg-success/10 flex items-center justify-center text-success"><span class="material-symbols-rounded text-base">trending_up</span></div>
-                        <span class="material-symbols-rounded text-sm opacity-30">chevron_right</span>
+                        <div class="w-7 h-7 rounded-lg bg-success/10 flex items-center justify-center text-success"><span class="material-symbols-rounded text-sm">trending_up</span></div>
+                        <span class="material-symbols-rounded text-xs opacity-30">chevron_right</span>
                     </div>
-                    <p class="text-[9px] font-bold text-text-muted-light uppercase">Ingresos</p>
-                    <div id="homeIncomeDisplay" class="text-xl font-black text-success tracking-tight">$0</div>
+                    <p class="hint-text">📈 Dinero que entra</p>
+                    <div id="homeIncomeDisplay" class="text-lg font-black text-success tracking-tight">$0</div>
+                    <p class="text-[7px] opacity-40 mt-1">Sueldo + proyectos extras</p>
                 </div>
 
-                <!-- Gastos Card -->
-                <div class="card-glass p-3 rounded-2xl shadow-soft cursor-pointer" onclick="App.navigateTo('expenses')">
+                <!-- Gastos -->
+                <div class="card-glass p-2.5 rounded-xl shadow-soft cursor-pointer" onclick="App.navigateTo('expenses')">
                     <div class="flex justify-between items-start mb-1">
-                        <div class="w-8 h-8 rounded-lg bg-danger/10 flex items-center justify-center text-danger"><span class="material-symbols-rounded text-base">trending_down</span></div>
-                        <span class="material-symbols-rounded text-sm opacity-30">chevron_right</span>
+                        <div class="w-7 h-7 rounded-lg bg-danger/10 flex items-center justify-center text-danger"><span class="material-symbols-rounded text-sm">trending_down</span></div>
+                        <span class="material-symbols-rounded text-xs opacity-30">chevron_right</span>
                     </div>
-                    <p class="text-[9px] font-bold text-text-muted-light uppercase">Gastos</p>
-                    <div id="homeExpenseDisplay" class="text-xl font-black text-danger tracking-tight">$0</div>
+                    <p class="hint-text">📉 Dinero que sale</p>
+                    <div id="homeExpenseDisplay" class="text-lg font-black text-danger tracking-tight">$0</div>
+                    <p class="text-[7px] opacity-40 mt-1">Todos tus gastos fijos</p>
                 </div>
 
-                <!-- Health Card -->
-                <div class="card-glass p-3 rounded-2xl shadow-soft col-span-2">
-                    <div class="flex justify-between items-center mb-2">
+                <!-- Health -->
+                <div class="card-glass p-2.5 rounded-xl shadow-soft col-span-2">
+                    <div class="flex justify-between items-center mb-1.5">
                         <div class="flex items-center gap-2">
-                            <div class="w-7 h-7 rounded-lg bg-warning/10 flex items-center justify-center text-warning"><span class="material-symbols-rounded text-sm">cardiology</span></div>
-                            <h3 class="font-bold text-[10px] uppercase tracking-wide">Salud Financiera</h3>
+                            <div class="w-6 h-6 rounded-lg bg-warning/10 flex items-center justify-center text-warning"><span class="material-symbols-rounded text-xs">cardiology</span></div>
+                            <div>
+                                <h3 class="font-bold text-[9px] uppercase tracking-wide">Salud Financiera</h3>
+                                <p class="text-[7px] opacity-50">Indica qué tan bien vas</p>
+                            </div>
                         </div>
-                        <div id="healthBadge" class="px-2 py-0.5 bg-black/5 rounded-full text-[8px] font-black uppercase">--</div>
+                        <div id="healthBadge" class="px-2 py-0.5 bg-black/5 rounded-full text-[7px] font-black uppercase">--</div>
                     </div>
-                    <p class="text-[9px] opacity-60 mb-2" id="healthDescText">Calculando...</p>
-                    <div class="h-[60px] w-full"><canvas id="mainChart"></canvas></div>
+                    <p class="text-[8px] opacity-50 mb-1.5" id="healthDescText">Calculando tu situación...</p>
+                    <div class="h-[50px] w-full"><canvas id="mainChart"></canvas></div>
                 </div>
             </div>
         </div>
 
-        <!-- VIEW: GOAL -->
+        <!-- GOAL -->
         <div id="view-goal" class="view-container fade-in hidden">
-            <div class="card-glass p-4 rounded-2xl shadow-golden text-center mt-2">
-                <div class="mb-4">
-                    <p class="text-[9px] font-black text-primary uppercase tracking-widest mb-1">Tu Meta</p>
+            <div class="card-glass p-4 rounded-xl shadow-golden text-center mt-1">
+                <div class="mb-3">
+                    <p class="hint-text text-primary mb-1">🎯 ¿Cuánto quieres ahorrar?</p>
                     <div class="flex justify-center items-center">
-                        <span class="text-xl text-muted-light/30 mr-1">$</span>
-                        <input id="inputGoal" type="number" class="bg-transparent text-center text-4xl font-black w-full max-w-[180px] outline-none" placeholder="0" oninput="App.updateVal('goal', this.value)">
+                        <span class="text-lg text-muted-light/30 mr-1">$</span>
+                        <input id="inputGoal" type="number" class="editable-input bg-transparent text-center text-3xl font-black w-full max-w-[160px]" placeholder="0" oninput="App.updateVal('goal', this.value)">
                     </div>
+                    <p class="text-[7px] opacity-40 mt-1">Escribe tu meta financiera ideal</p>
                     <div class="w-full max-w-xs mx-auto h-1 bg-black/5 rounded-full mt-2 overflow-hidden">
                         <div id="goalProgressBar" class="h-full bg-primary w-0 transition-all duration-1000"></div>
                     </div>
                 </div>
 
-                <div class="border-t border-dashed border-black/10 dark:border-white/10 pt-4">
-                    <p class="text-[9px] font-bold uppercase text-text-muted-light mb-3">Operar Saldo Real</p>
-                    <div class="flex items-center justify-center gap-3">
-                        <button onclick="App.modifyFund('sub')" class="btn-control bg-danger/10 text-danger flex items-center justify-center text-xl active:scale-90 transition-all hover:bg-danger hover:text-white">
+                <div class="border-t border-dashed border-black/10 dark:border-white/10 pt-3">
+                    <p class="hint-text mb-2">💵 Registrar movimiento de dinero real</p>
+                    <div class="flex items-center justify-center gap-2">
+                        <button onclick="App.modifyFund('sub')" class="btn-control bg-danger/10 text-danger flex items-center justify-center text-lg active:scale-90 transition-all hover:bg-danger hover:text-white flex-col">
                             <span class="material-symbols-rounded">remove</span>
+                            <span class="text-[6px] font-bold">SALIÓ</span>
                         </button>
                         <div class="bg-black/5 dark:bg-white/5 rounded-xl px-3 py-1.5 w-28">
-                            <input id="fundInput" type="number" placeholder="0" class="w-full bg-transparent text-center font-bold text-xl outline-none">
+                            <input id="fundInput" type="number" placeholder="0" class="editable-input w-full bg-transparent text-center font-bold text-lg">
+                            <p class="text-[6px] opacity-40 text-center mt-0.5">Monto a registrar</p>
                         </div>
-                        <button onclick="App.modifyFund('add')" class="btn-control bg-success/10 text-success flex items-center justify-center text-xl active:scale-90 transition-all hover:bg-success hover:text-white">
+                        <button onclick="App.modifyFund('add')" class="btn-control bg-success/10 text-success flex items-center justify-center text-lg active:scale-90 transition-all hover:bg-success hover:text-white flex-col">
                             <span class="material-symbols-rounded">add</span>
+                            <span class="text-[6px] font-bold">ENTRÓ</span>
                         </button>
                     </div>
-                    <div class="flex justify-between px-8 text-[8px] font-bold text-text-muted-light mt-1 uppercase opacity-60">
-                        <span>Retirar</span>
-                        <span>Ingresar</span>
-                    </div>
+                    <p class="text-[7px] opacity-40 mt-2">← Usa cuando gastes &nbsp;|&nbsp; Usa cuando recibas →</p>
                 </div>
 
-                <div class="mt-4 pt-3 border-t border-black/5 dark:border-white/5">
-                    <h2 id="detailSavedDisplay" class="text-3xl font-black text-success tracking-tight mb-0.5">$0</h2>
-                    <span class="text-[9px] uppercase font-bold opacity-50">Disponible Actual</span>
+                <div class="mt-3 pt-3 border-t border-black/5 dark:border-white/5">
+                    <p class="hint-text mb-1">💰 Tu dinero disponible ahora</p>
+                    <h2 id="detailSavedDisplay" class="text-2xl font-black text-success tracking-tight">$0</h2>
                     
-                    <button onclick="App.toggleHistory()" class="mx-auto mt-3 flex items-center gap-1.5 px-3 py-1.5 bg-black/5 rounded-full text-[9px] font-bold hover:bg-black/10 transition-all">
-                        <span>Historial</span> <span id="historyChevron" class="material-symbols-rounded text-xs transition-transform">expand_more</span>
+                    <button onclick="App.toggleHistory()" class="mx-auto mt-2 flex items-center gap-1 px-3 py-1 bg-black/5 rounded-full text-[8px] font-bold hover:bg-black/10 transition-all">
+                        <span class="material-symbols-rounded text-xs">history</span>
+                        <span>Ver historial de movimientos</span> 
+                        <span id="historyChevron" class="material-symbols-rounded text-xs transition-transform">expand_more</span>
                     </button>
-                    <div id="historyContainer" class="hidden mt-3 space-y-1.5 text-left max-h-32 overflow-y-auto"></div>
+                    <div id="historyContainer" class="hidden mt-2 space-y-1 text-left max-h-28 overflow-y-auto"></div>
                 </div>
             </div>
         </div>
 
-        <!-- VIEW: INCOMES -->
+        <!-- INCOMES -->
         <div id="view-incomes" class="view-container fade-in hidden">
-            <div class="card-glass p-3 rounded-2xl shadow-golden mb-3 flex justify-between items-center mt-2">
-                <div>
-                    <p class="text-[9px] font-bold uppercase text-text-muted-light">Total Entradas</p>
-                    <p id="totalIncomeDisplay" class="text-2xl font-black text-success tracking-tight">$0</p>
-                </div>
-                <div class="text-right">
-                    <p class="text-[8px] font-bold uppercase opacity-50 mb-0.5">Base Fija</p>
-                    <div class="flex items-center justify-end">
-                        <span class="text-xs mr-1 opacity-50">$</span>
-                        <input id="inputSalary" type="number" class="w-20 bg-transparent text-right font-black text-lg border-b border-dashed border-black/20 outline-none" oninput="App.updateVal('salary', this.value)">
+            <div class="card-glass p-3 rounded-xl shadow-golden mb-2 mt-1">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="hint-text">📊 Total que entra al mes</p>
+                        <p id="totalIncomeDisplay" class="text-xl font-black text-success tracking-tight">$0</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="hint-text mb-0.5">💼 Tu sueldo fijo mensual</p>
+                        <div class="flex items-center justify-end">
+                            <span class="text-xs mr-1 opacity-50">$</span>
+                            <input id="inputSalary" type="number" class="editable-input w-20 bg-transparent text-right font-black text-lg" oninput="App.updateVal('salary', this.value)" placeholder="0">
+                        </div>
                     </div>
                 </div>
+                <p class="text-[7px] opacity-40 mt-1 text-center">El sueldo fijo es lo que recibes seguro cada mes</p>
             </div>
 
             <div class="flex justify-between items-center mb-2 px-1">
-                <span class="text-[10px] font-bold opacity-60">Proyectos Variables</span>
-                <button onclick="App.addItem('incomes')" class="px-3 py-1.5 bg-success text-white rounded-lg text-[10px] font-bold shadow-md flex items-center gap-1">
-                    <span class="material-symbols-rounded text-xs">add</span> Nuevo
+                <div>
+                    <span class="text-[9px] font-bold opacity-60">Proyectos / Extras</span>
+                    <p class="text-[7px] opacity-40">Ventas, freelance, trabajos extras</p>
+                </div>
+                <button onclick="App.addItem('incomes')" class="px-3 py-1.5 bg-success text-white rounded-lg text-[9px] font-bold shadow-md flex items-center gap-1">
+                    <span class="material-symbols-rounded text-xs">add</span> Agregar
                 </button>
             </div>
 
-            <div id="incomesList" class="grid grid-cols-1 md:grid-cols-2 gap-2 max-h-[calc(100vh-280px)] overflow-y-auto"></div>
+            <div id="incomesList" class="grid grid-cols-1 md:grid-cols-2 gap-2 max-h-[calc(100vh-270px)] overflow-y-auto"></div>
         </div>
 
-        <!-- VIEW: EXPENSES -->
+        <!-- EXPENSES -->
         <div id="view-expenses" class="view-container fade-in hidden">
-            <div class="card-glass p-3 rounded-2xl shadow-golden mb-3 flex justify-between items-center mt-2">
+            <div class="card-glass p-3 rounded-xl shadow-golden mb-2 flex justify-between items-center mt-1">
                 <div>
-                    <p class="text-[9px] font-bold uppercase text-text-muted-light">Total Salidas</p>
-                    <p id="totalExpenseDisplay" class="text-2xl font-black text-danger tracking-tight">$0</p>
+                    <p class="hint-text">💸 Total que sale al mes</p>
+                    <p id="totalExpenseDisplay" class="text-xl font-black text-danger tracking-tight">$0</p>
+                    <p class="text-[7px] opacity-40">Suma de todos tus gastos fijos</p>
                 </div>
-                <button onclick="App.addItem('expenses')" class="w-10 h-10 bg-danger text-white flex items-center justify-center rounded-xl shadow-lg">
-                    <span class="material-symbols-rounded text-xl">add</span>
+                <button onclick="App.addItem('expenses')" class="w-10 h-10 bg-danger text-white flex items-center justify-center rounded-xl shadow-lg flex-col">
+                    <span class="material-symbols-rounded text-lg">add</span>
+                    <span class="text-[5px] font-bold">NUEVO</span>
                 </button>
             </div>
 
-            <p class="text-[10px] font-bold opacity-60 mb-2 px-1">Lista de Gastos</p>
+            <p class="text-[9px] font-bold opacity-60 mb-1 px-1">Lista de gastos mensuales</p>
+            <p class="text-[7px] opacity-40 mb-2 px-1">Renta, servicios, suscripciones, comida, transporte...</p>
             <div id="expensesList" class="grid grid-cols-1 md:grid-cols-2 gap-2 max-h-[calc(100vh-250px)] overflow-y-auto"></div>
         </div>
 
-        <!-- VIEW: HELP - NUEVA SECCIÓN -->
+        <!-- HELP -->
         <div id="view-help" class="view-container fade-in hidden">
-            <div class="mt-2 mb-4">
-                <div class="flex items-center gap-3 mb-1">
-                    <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                        <span class="material-symbols-rounded text-xl text-primary">menu_book</span>
+            <div class="mt-1 mb-3">
+                <div class="flex items-center gap-2 mb-0.5">
+                    <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                        <span class="material-symbols-rounded text-lg text-primary">menu_book</span>
                     </div>
                     <div>
-                        <h1 class="text-lg font-display font-black">Guía de Uso</h1>
-                        <p class="text-[10px] text-text-muted-light">Aprende a dominar tus finanzas</p>
+                        <h1 class="text-base font-display font-black">Guía Rápida</h1>
+                        <p class="text-[8px] text-text-muted-light">Aprende a usar Marie Finance en 2 minutos</p>
                     </div>
                 </div>
             </div>
 
-            <div class="space-y-3">
+            <div class="space-y-2">
                 
-                <!-- Sección 1: Dashboard -->
                 <div class="help-card">
-                    <div class="flex items-start gap-3">
+                    <div class="flex items-start gap-2">
                         <div class="step-number">1</div>
                         <div class="flex-1">
-                            <div class="flex items-center gap-2 mb-1.5">
-                                <span class="material-symbols-rounded text-lg text-primary">dashboard</span>
-                                <h3 class="font-bold text-sm">Dashboard Principal</h3>
+                            <div class="flex items-center gap-1.5 mb-1">
+                                <span class="material-symbols-rounded text-sm text-primary">dashboard</span>
+                                <h3 class="font-bold text-[11px]">Dashboard = Tu Resumen</h3>
                             </div>
-                            <p class="text-[11px] text-text-muted-light leading-relaxed">
-                                El dashboard te muestra un <strong>resumen completo</strong> de tu situación financiera:
+                            <p class="text-[9px] text-text-muted-light leading-relaxed">
+                                Muestra tu <strong>meta</strong>, <strong>dinero actual</strong>, <strong>ingresos</strong> y <strong>gastos</strong>. 
+                                Toca cualquier tarjeta para ver más detalles.
                             </p>
-                            <ul class="mt-2 space-y-1.5 text-[10px]">
-                                <li class="flex items-center gap-2">
-                                    <span class="material-symbols-rounded text-xs text-success">savings</span>
-                                    <span><strong>Tu Meta:</strong> El objetivo de ahorro que quieres alcanzar</span>
-                                </li>
-                                <li class="flex items-center gap-2">
-                                    <span class="material-symbols-rounded text-xs text-success">trending_up</span>
-                                    <span><strong>Ingresos:</strong> Todo el dinero que entra (sueldo + extras)</span>
-                                </li>
-                                <li class="flex items-center gap-2">
-                                    <span class="material-symbols-rounded text-xs text-danger">trending_down</span>
-                                    <span><strong>Gastos:</strong> Todo el dinero que sale mensualmente</span>
-                                </li>
-                                <li class="flex items-center gap-2">
-                                    <span class="material-symbols-rounded text-xs text-warning">cardiology</span>
-                                    <span><strong>Salud:</strong> Indicador de qué tan bien vas financieramente</span>
-                                </li>
-                            </ul>
                         </div>
                     </div>
                 </div>
 
-                <!-- Sección 2: Meta y Saldo -->
                 <div class="help-card">
-                    <div class="flex items-start gap-3">
+                    <div class="flex items-start gap-2">
                         <div class="step-number">2</div>
                         <div class="flex-1">
-                            <div class="flex items-center gap-2 mb-1.5">
-                                <span class="material-symbols-rounded text-lg text-success">savings</span>
-                                <h3 class="font-bold text-sm">Tu Objetivo (Meta)</h3>
+                            <div class="flex items-center gap-1.5 mb-1">
+                                <span class="material-symbols-rounded text-sm text-success">savings</span>
+                                <h3 class="font-bold text-[11px]">Tu Objetivo = Centro de Control</h3>
                             </div>
-                            <p class="text-[11px] text-text-muted-light leading-relaxed mb-2">
-                                Aquí configuras <strong>cuánto quieres ahorrar</strong> y registras los movimientos de tu dinero real:
-                            </p>
-                            <div class="bg-success/5 rounded-lg p-2.5 mb-2">
-                                <p class="text-[10px] font-bold text-success mb-1">💰 Botón + (Ingresar)</p>
-                                <p class="text-[10px] text-text-muted-light">Úsalo cuando <strong>recibes dinero</strong>: cobras tu sueldo, te pagan un proyecto, vendes algo, etc.</p>
-                            </div>
-                            <div class="bg-danger/5 rounded-lg p-2.5">
-                                <p class="text-[10px] font-bold text-danger mb-1">💸 Botón - (Retirar)</p>
-                                <p class="text-[10px] text-text-muted-light">Úsalo cuando <strong>gastas dinero</strong>: pagas renta, compras algo, retiras del cajero, etc.</p>
+                            <div class="grid grid-cols-2 gap-2 mt-1.5">
+                                <div class="bg-success/10 rounded-lg p-2">
+                                    <p class="text-[8px] font-bold text-success">+ ENTRÓ</p>
+                                    <p class="text-[8px] text-text-muted-light">Cuando recibes dinero: sueldo, ventas, pagos</p>
+                                </div>
+                                <div class="bg-danger/10 rounded-lg p-2">
+                                    <p class="text-[8px] font-bold text-danger">- SALIÓ</p>
+                                    <p class="text-[8px] text-text-muted-light">Cuando gastas: compras, pagos, retiros</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Sección 3: Ingresos -->
                 <div class="help-card">
-                    <div class="flex items-start gap-3">
+                    <div class="flex items-start gap-2">
                         <div class="step-number">3</div>
                         <div class="flex-1">
-                            <div class="flex items-center gap-2 mb-1.5">
-                                <span class="material-symbols-rounded text-lg text-success">trending_up</span>
-                                <h3 class="font-bold text-sm">Gestionar Ingresos</h3>
+                            <div class="flex items-center gap-1.5 mb-1">
+                                <span class="material-symbols-rounded text-sm text-success">trending_up</span>
+                                <h3 class="font-bold text-[11px]">Ingresos = Tu Potencia</h3>
                             </div>
-                            <p class="text-[11px] text-text-muted-light leading-relaxed mb-2">
-                                Registra todas tus <strong>fuentes de dinero</strong>:
+                            <p class="text-[9px] text-text-muted-light">
+                                <strong>Sueldo fijo:</strong> Lo que ganas seguro cada mes<br>
+                                <strong>Proyectos:</strong> Extras como ventas o freelance (precio - costo × cantidad)
                             </p>
-                            <ul class="space-y-1.5 text-[10px]">
-                                <li class="flex items-start gap-2">
-                                    <span class="text-success font-bold">•</span>
-                                    <span><strong>Base Fija:</strong> Tu sueldo mensual seguro</span>
-                                </li>
-                                <li class="flex items-start gap-2">
-                                    <span class="text-success font-bold">•</span>
-                                    <span><strong>Proyectos:</strong> Trabajos extras, ventas, freelance</span>
-                                </li>
-                                <li class="flex items-start gap-2">
-                                    <span class="text-success font-bold">•</span>
-                                    <span><strong>Precio vs Costo:</strong> Si vendes algo, pon el precio de venta y cuánto te costó a ti</span>
-                                </li>
-                                <li class="flex items-start gap-2">
-                                    <span class="text-success font-bold">•</span>
-                                    <span><strong>Cantidad:</strong> Cuántas unidades vendes o proyectos haces</span>
-                                </li>
-                            </ul>
                         </div>
                     </div>
                 </div>
 
-                <!-- Sección 4: Gastos -->
                 <div class="help-card">
-                    <div class="flex items-start gap-3">
+                    <div class="flex items-start gap-2">
                         <div class="step-number">4</div>
                         <div class="flex-1">
-                            <div class="flex items-center gap-2 mb-1.5">
-                                <span class="material-symbols-rounded text-lg text-danger">trending_down</span>
-                                <h3 class="font-bold text-sm">Controlar Gastos</h3>
+                            <div class="flex items-center gap-1.5 mb-1">
+                                <span class="material-symbols-rounded text-sm text-danger">trending_down</span>
+                                <h3 class="font-bold text-[11px]">Gastos = Tus Compromisos</h3>
                             </div>
-                            <p class="text-[11px] text-text-muted-light leading-relaxed mb-2">
-                                Anota <strong>todos tus compromisos mensuales</strong>:
-                            </p>
-                            <div class="grid grid-cols-2 gap-2 text-[10px]">
-                                <div class="bg-black/5 dark:bg-white/5 rounded-lg p-2">
-                                    <span class="material-symbols-rounded text-xs text-danger">cottage</span>
-                                    <span class="ml-1">Renta/Hipoteca</span>
-                                </div>
-                                <div class="bg-black/5 dark:bg-white/5 rounded-lg p-2">
-                                    <span class="material-symbols-rounded text-xs text-danger">wifi</span>
-                                    <span class="ml-1">Internet/Tel</span>
-                                </div>
-                                <div class="bg-black/5 dark:bg-white/5 rounded-lg p-2">
-                                    <span class="material-symbols-rounded text-xs text-danger">restaurant</span>
-                                    <span class="ml-1">Comida</span>
-                                </div>
-                                <div class="bg-black/5 dark:bg-white/5 rounded-lg p-2">
-                                    <span class="material-symbols-rounded text-xs text-danger">directions_car</span>
-                                    <span class="ml-1">Transporte</span>
-                                </div>
-                            </div>
-                            <p class="text-[10px] text-text-muted-light mt-2 italic">
-                                💡 Tip: No juzgues, solo anota. Ver la realidad es el primer paso.
+                            <p class="text-[9px] text-text-muted-light">
+                                Anota todo lo que pagas cada mes: renta, luz, agua, internet, comida, transporte, suscripciones...
                             </p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Sección 5: Barra Inferior -->
                 <div class="help-card">
-                    <div class="flex items-start gap-3">
+                    <div class="flex items-start gap-2">
                         <div class="step-number">5</div>
                         <div class="flex-1">
-                            <div class="flex items-center gap-2 mb-1.5">
-                                <span class="material-symbols-rounded text-lg text-primary">analytics</span>
-                                <h3 class="font-bold text-sm">Barra de Progreso</h3>
+                            <div class="flex items-center gap-1.5 mb-1">
+                                <span class="material-symbols-rounded text-sm text-warning">edit</span>
+                                <h3 class="font-bold text-[11px]">Campos Editables</h3>
                             </div>
-                            <p class="text-[11px] text-text-muted-light leading-relaxed mb-2">
-                                La barra inferior te muestra:
+                            <p class="text-[9px] text-text-muted-light">
+                                Todo lo que tiene <span class="border-b border-dashed border-primary">línea punteada</span> se puede editar. 
+                                Solo toca y escribe.
                             </p>
-                            <ul class="space-y-1.5 text-[10px]">
-                                <li class="flex items-start gap-2">
-                                    <span class="text-primary font-bold">→</span>
-                                    <span><strong>Capacidad Real:</strong> Ingresos menos Gastos = lo que puedes ahorrar</span>
-                                </li>
-                                <li class="flex items-start gap-2">
-                                    <span class="text-primary font-bold">→</span>
-                                    <span><strong>Estimado:</strong> Cuánto tiempo te falta para alcanzar tu meta</span>
-                                </li>
-                                <li class="flex items-start gap-2">
-                                    <span class="text-primary font-bold">→</span>
-                                    <span><strong>Progreso:</strong> Barra visual de cuánto llevas vs cuánto falta</span>
-                                </li>
-                            </ul>
                         </div>
                     </div>
                 </div>
 
-                <!-- Tips Finales -->
                 <div class="help-card bg-primary/5 border-primary/20">
-                    <div class="flex items-start gap-3">
-                        <span class="material-symbols-rounded text-xl text-primary">lightbulb</span>
+                    <div class="flex items-start gap-2">
+                        <span class="material-symbols-rounded text-base text-primary">lightbulb</span>
                         <div class="flex-1">
-                            <h3 class="font-bold text-sm mb-2">Tips para el Éxito</h3>
-                            <ul class="space-y-1.5 text-[10px]">
-                                <li class="flex items-start gap-2">
-                                    <span class="text-primary">✓</span>
-                                    <span>Actualiza tus movimientos <strong>cada vez que recibes o gastas</strong> dinero</span>
-                                </li>
-                                <li class="flex items-start gap-2">
-                                    <span class="text-primary">✓</span>
-                                    <span>Revisa el dashboard <strong>al menos una vez por semana</strong></span>
-                                </li>
-                                <li class="flex items-start gap-2">
-                                    <span class="text-primary">✓</span>
-                                    <span>Pon metas <strong>realistas y alcanzables</strong></span>
-                                </li>
-                                <li class="flex items-start gap-2">
-                                    <span class="text-primary">✓</span>
-                                    <span>Si la salud está en "ALERTA", <strong>reduce gastos o aumenta ingresos</strong></span>
-                                </li>
-                                <li class="flex items-start gap-2">
-                                    <span class="text-primary">✓</span>
-                                    <span>Celebra cada logro, <strong>¡el confetti aparece por algo!</strong> 🎉</span>
-                                </li>
+                            <h3 class="font-bold text-[10px] mb-1">💡 Tips Rápidos</h3>
+                            <ul class="space-y-1 text-[8px] text-text-muted-light">
+                                <li>✓ Actualiza tus movimientos cada vez que recibas o gastes</li>
+                                <li>✓ La barra inferior muestra cuánto puedes ahorrar al mes</li>
+                                <li>✓ Si la salud está en "ALERTA", reduce gastos</li>
+                                <li>✓ ¡El confetti celebra cada ingreso! 🎉</li>
                             </ul>
                         </div>
                     </div>
                 </div>
 
-                <!-- Botón Volver -->
-                <button onclick="App.navigateTo('home')" class="w-full py-3 bg-primary text-white rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-lg mt-2">
-                    <span class="material-symbols-rounded text-base">home</span>
+                <button onclick="App.navigateTo('home')" class="w-full py-2.5 bg-primary text-white rounded-xl font-bold text-xs flex items-center justify-center gap-2 shadow-lg">
+                    <span class="material-symbols-rounded text-sm">home</span>
                     Volver al Dashboard
                 </button>
-
             </div>
         </div>
 
     </div>
 
     <!-- BOTTOM BAR -->
-    <div id="bottomBar" class="fixed bottom-0 w-full z-40 p-2 pb-4 flex justify-center pointer-events-none">
-        <div class="pointer-events-auto bg-white/90 dark:bg-black/90 backdrop-blur-xl border border-white/20 shadow-golden rounded-xl w-full max-w-md px-4 py-2.5">
-            <div class="flex justify-between items-center mb-1.5">
+    <div id="bottomBar" class="fixed bottom-0 w-full z-40 p-2 pb-3 flex justify-center pointer-events-none">
+        <div class="pointer-events-auto bg-white/90 dark:bg-black/90 backdrop-blur-xl border border-white/20 shadow-golden rounded-xl w-full max-w-md px-3 py-2">
+            <div class="flex justify-between items-center mb-1">
                 <div class="flex flex-col">
-                    <span class="text-[8px] font-black text-text-muted-light uppercase tracking-widest">Capacidad Real</span>
-                    <span id="barSurplus" class="text-lg font-black leading-none">$0</span>
+                    <span class="hint-text">📊 Capacidad de ahorro mensual</span>
+                    <span id="barSurplus" class="text-base font-black leading-none">$0</span>
                 </div>
                 <div class="text-right flex flex-col items-end">
-                    <span class="text-[8px] font-bold opacity-50 uppercase">Estimado</span>
-                    <div id="barTime" class="text-[10px] font-bold bg-primary/10 text-primary px-2 py-0.5 rounded">--</div>
+                    <span class="hint-text">⏱️ Tiempo para tu meta</span>
+                    <div id="barTime" class="text-[9px] font-bold bg-primary/10 text-primary px-2 py-0.5 rounded">--</div>
                 </div>
             </div>
             <div class="w-full bg-black/5 h-1 rounded-full overflow-hidden">
                 <div id="barProgress" class="h-full bg-black/80 dark:bg-white w-0 transition-all duration-1000 rounded-full"></div>
             </div>
-            <div class="flex justify-between text-[8px] font-bold opacity-50 mt-0.5">
-                <span>Progreso</span>
+            <div class="flex justify-between text-[7px] font-bold opacity-40 mt-0.5">
+                <span>Ingresos - Gastos = Lo que puedes guardar</span>
                 <span id="barGoalText">Falta: $0</span>
             </div>
         </div>
@@ -656,9 +578,9 @@
             formatCompact: (v) => new Intl.NumberFormat('en-US', { notation: "compact", maximumFractionDigits: 1 }).format(v),
             getSmartIcon: (name) => {
                 const n = (name || '').toLowerCase();
-                const icons = { 'comida': 'restaurant', 'uber': 'local_gas_station', 'casa': 'cottage', 'wifi': 'wifi', 'netflix': 'movie', 'gym': 'fitness_center', 'renta': 'cottage', 'luz': 'bolt', 'agua': 'water_drop', 'gas': 'local_fire_department' };
+                const icons = { 'comida': 'restaurant', 'uber': 'local_gas_station', 'casa': 'cottage', 'renta': 'cottage', 'wifi': 'wifi', 'internet': 'wifi', 'netflix': 'movie', 'spotify': 'music_note', 'gym': 'fitness_center', 'luz': 'bolt', 'agua': 'water_drop', 'gas': 'local_fire_department', 'tel': 'phone_android', 'celular': 'phone_android', 'seguro': 'security', 'trans': 'directions_car', 'uber': 'local_taxi', 'gasolina': 'local_gas_station' };
                 for (let key in icons) if (n.includes(key)) return icons[key];
-                return 'credit_card';
+                return 'receipt';
             },
             setText: (id, t) => { const e = Utils.$(id); if(e) e.innerText = t; },
             setHTML: (id, h) => { const e = Utils.$(id); if(e) e.innerHTML = h; },
@@ -667,12 +589,8 @@
 
         const Auth = {
             init: () => {
-                try { 
-                    firebase.initializeApp(CONFIG.firebase); 
-                    firebaseAuth = firebase.auth(); 
-                    firestoreDb = firebase.firestore(); 
-                    Auth.monitor(); 
-                } catch (e) { console.error(e); }
+                try { firebase.initializeApp(CONFIG.firebase); firebaseAuth = firebase.auth(); firestoreDb = firebase.firestore(); Auth.monitor(); } 
+                catch (e) { console.error(e); }
             },
             monitor: () => {
                 firebaseAuth.onAuthStateChanged(user => {
@@ -684,13 +602,9 @@
             login: () => firebaseAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider()),
             logout: () => { 
                 const modal = Utils.$('logoutModal'); const card = Utils.$('logoutCard');
-                modal.classList.remove('hidden'); 
-                setTimeout(() => { card.classList.remove('scale-95', 'opacity-0'); card.classList.add('scale-100', 'opacity-100'); }, 10);
+                modal.classList.remove('hidden'); setTimeout(() => { card.classList.remove('scale-95', 'opacity-0'); card.classList.add('scale-100', 'opacity-100'); }, 10);
             },
-            closeLogoutModal: () => {
-                const card = Utils.$('logoutCard'); card.classList.add('scale-95', 'opacity-0');
-                setTimeout(() => Utils.$('logoutModal').classList.add('hidden'), 200);
-            },
+            closeLogoutModal: () => { Utils.$('logoutCard').classList.add('scale-95', 'opacity-0'); setTimeout(() => Utils.$('logoutModal').classList.add('hidden'), 200); },
             confirmLogout: () => { firebaseAuth.signOut(); location.reload(); }
         };
 
@@ -703,10 +617,7 @@
                     UI.renderAll();
                 } catch(e) { console.error(e); }
             },
-            save: () => { 
-                const u = firebaseAuth.currentUser; 
-                if(u) firestoreDb.collection(CONFIG.collections.users).doc(u.uid).set(state, { merge: true }).catch(e => console.error(e));
-            },
+            save: () => { const u = firebaseAuth.currentUser; if(u) firestoreDb.collection(CONFIG.collections.users).doc(u.uid).set(state, { merge: true }).catch(e => console.error(e)); },
             updateHistoryDesc: (id, val) => { const item = state.history.find(h => h.id === id); if(item) { item.desc = val; Data.save(); } }
         };
 
@@ -724,56 +635,70 @@
             },
             renderHistory: () => {
                 const container = Utils.$('historyContainer'); if (!container) return; container.innerHTML = '';
-                const sorted = [...state.history].sort((a,b) => b.id - a.id).slice(0, 10);
-                if(sorted.length === 0) { container.innerHTML = '<p class="text-[10px] opacity-40 text-center py-3">Sin movimientos.</p>'; return; }
+                const sorted = [...state.history].sort((a,b) => b.id - a.id).slice(0, 8);
+                if(sorted.length === 0) { container.innerHTML = '<p class="text-[9px] opacity-40 text-center py-2">Aún no hay movimientos registrados</p>'; return; }
                 sorted.forEach(h => {
                     const isAdd = h.type === 'add';
                     container.innerHTML += `
-                    <div class="flex justify-between items-center p-2 bg-white/50 dark:bg-white/5 rounded-lg text-[10px]">
+                    <div class="flex justify-between items-center p-2 bg-white/50 dark:bg-white/5 rounded-lg text-[9px]">
                         <div class="flex items-center gap-1.5 flex-1 overflow-hidden">
-                            <span class="material-symbols-rounded text-xs ${isAdd ? 'text-success' : 'text-danger'}">${isAdd ? 'arrow_downward' : 'arrow_upward'}</span>
-                            <input value="${h.desc || ''}" class="bg-transparent font-medium flex-1 outline-none truncate" oninput="Data.updateHistoryDesc(${h.id}, this.value)">
+                            <span class="material-symbols-rounded text-xs ${isAdd ? 'text-success' : 'text-danger'}">${isAdd ? 'south' : 'north'}</span>
+                            <input value="${h.desc || ''}" class="editable-input bg-transparent font-medium flex-1 truncate text-[9px]" oninput="Data.updateHistoryDesc(${h.id}, this.value)" placeholder="Descripción...">
                         </div>
-                        <div class="flex items-center gap-1.5 shrink-0">
+                        <div class="flex items-center gap-1 shrink-0">
                             <span class="font-bold ${isAdd ? 'text-success' : 'text-danger'}">${isAdd ? '+' : '-'}${Utils.formatMoney(h.amount)}</span>
-                            <button onclick="App.deleteItem('history', ${h.id})" class="text-danger opacity-50 hover:opacity-100"><span class="material-symbols-rounded text-xs">close</span></button>
+                            <button onclick="App.deleteItem('history', ${h.id})" class="text-danger/50 hover:text-danger"><span class="material-symbols-rounded text-xs">close</span></button>
                         </div>
                     </div>`;
                 });
             },
             renderIncomes: () => {
                 const container = Utils.$('incomesList'); if (!container) return; container.innerHTML = '';
-                if(state.incomes.length === 0) { container.innerHTML = `<div class="col-span-full py-6 text-center opacity-40"><p class="text-[10px]">Añade tu primer proyecto.</p></div>`; return; }
+                if(state.incomes.length === 0) { container.innerHTML = `<div class="col-span-full py-4 text-center opacity-40"><p class="text-[9px]">Toca "Agregar" para añadir un proyecto o ingreso extra</p></div>`; return; }
                 state.incomes.forEach(i => {
                     const sub = (i.price - i.cost) * i.qty;
                     container.innerHTML += `
-                    <div class="bg-white/50 dark:bg-white/5 p-3 rounded-xl border border-white/20">
-                        <div class="flex justify-between mb-1.5">
-                            <input value="${i.name}" class="bg-transparent font-bold text-xs flex-1 outline-none" oninput="App.updateItem('incomes', ${i.id}, 'name', this.value)" placeholder="Nombre...">
-                            <button onclick="App.deleteItem('incomes', ${i.id})" class="text-text-muted-light hover:text-danger ml-2"><span class="material-symbols-rounded text-sm">close</span></button>
+                    <div class="bg-white/50 dark:bg-white/5 p-2.5 rounded-xl border border-white/20">
+                        <div class="flex justify-between items-center mb-1.5">
+                            <input value="${i.name}" class="editable-input bg-transparent font-bold text-[10px] flex-1" oninput="App.updateItem('incomes', ${i.id}, 'name', this.value)" placeholder="Nombre del proyecto...">
+                            <button onclick="App.deleteItem('incomes', ${i.id})" class="text-text-muted-light hover:text-danger ml-1"><span class="material-symbols-rounded text-sm">close</span></button>
                         </div>
                         <div class="flex gap-1.5 mb-1.5">
-                             <div class="w-1/2 relative"><span class="text-[7px] absolute top-0.5 left-1.5 opacity-50 font-bold">PRECIO</span><input type="number" value="${i.price}" class="w-full bg-black/5 dark:bg-black/20 rounded-lg pt-3 pb-1 px-2 text-[10px] font-bold text-center outline-none" oninput="App.updateItem('incomes', ${i.id}, 'price', this.value)"></div>
-                             <div class="w-1/2 relative"><span class="text-[7px] absolute top-0.5 left-1.5 opacity-50 font-bold text-danger">COSTO</span><input type="number" value="${i.cost}" class="w-full bg-black/5 dark:bg-black/20 rounded-lg pt-3 pb-1 px-2 text-[10px] font-bold text-danger text-center outline-none" oninput="App.updateItem('incomes', ${i.id}, 'cost', this.value)"></div>
+                             <div class="w-1/2 relative">
+                                <span class="text-[6px] opacity-40 font-bold block mb-0.5">💵 PRECIO VENTA</span>
+                                <input type="number" value="${i.price}" class="editable-input w-full bg-black/5 dark:bg-black/20 rounded-lg py-1 px-2 text-[10px] font-bold text-center" oninput="App.updateItem('incomes', ${i.id}, 'price', this.value)" placeholder="0">
+                             </div>
+                             <div class="w-1/2 relative">
+                                <span class="text-[6px] opacity-40 font-bold block mb-0.5 text-danger">💸 TU COSTO</span>
+                                <input type="number" value="${i.cost}" class="editable-input w-full bg-black/5 dark:bg-black/20 rounded-lg py-1 px-2 text-[10px] font-bold text-danger text-center" oninput="App.updateItem('incomes', ${i.id}, 'cost', this.value)" placeholder="0">
+                             </div>
                         </div>
                         <div class="flex items-center gap-1.5">
+                            <span class="text-[7px] opacity-40">Cantidad:</span>
                             <input type="range" min="1" max="50" value="${i.qty}" class="flex-1" oninput="App.updateItem('incomes', ${i.id}, 'qty', this.value)">
-                            <span class="text-[9px] font-bold bg-primary/10 px-1.5 rounded">${i.qty}u</span>
+                            <span class="text-[8px] font-bold bg-primary/10 px-1.5 rounded">${i.qty}u</span>
                         </div>
-                        <div class="text-right mt-1.5 pt-1.5 border-t border-dashed border-white/20 text-success font-black text-xs">+${Utils.formatMoney(sub)}</div>
+                        <div class="text-right mt-1.5 pt-1.5 border-t border-dashed border-black/10 dark:border-white/10">
+                            <span class="text-[7px] opacity-40 mr-1">Ganancia:</span>
+                            <span class="text-success font-black text-xs">+${Utils.formatMoney(sub)}</span>
+                        </div>
                     </div>`;
                 });
             },
             renderExpenses: () => {
                 const container = Utils.$('expensesList'); if (!container) return; container.innerHTML = '';
-                if(state.expenses.length === 0) { container.innerHTML = `<div class="col-span-full py-6 text-center opacity-40"><p class="text-[10px]">¡Sin gastos!</p></div>`; return; }
+                if(state.expenses.length === 0) { container.innerHTML = `<div class="col-span-full py-4 text-center opacity-40"><p class="text-[9px]">Toca el botón + para agregar tus gastos mensuales</p></div>`; return; }
                 state.expenses.forEach(e => {
                     container.innerHTML += `
-                    <div class="flex items-center gap-2 bg-white/50 dark:bg-white/5 p-2.5 rounded-xl border border-white/20">
-                        <div class="w-8 h-8 rounded-lg bg-danger/5 flex items-center justify-center text-danger shrink-0"><span class="material-symbols-rounded text-base">${Utils.getSmartIcon(e.name)}</span></div>
+                    <div class="flex items-center gap-2 bg-white/50 dark:bg-white/5 p-2 rounded-xl border border-white/20">
+                        <div class="w-8 h-8 rounded-lg bg-danger/5 flex items-center justify-center text-danger shrink-0"><span class="material-symbols-rounded text-sm">${Utils.getSmartIcon(e.name)}</span></div>
                         <div class="flex-1 overflow-hidden">
-                            <input value="${e.name}" class="bg-transparent font-bold text-[10px] w-full outline-none truncate" oninput="App.updateItem('expenses', ${e.id}, 'name', this.value)" placeholder="Concepto...">
-                            <div class="flex items-center"><span class="text-[9px] opacity-50 mr-0.5">$</span><input type="number" value="${e.amount}" class="bg-transparent font-bold text-xs w-16 outline-none" oninput="App.updateItem('expenses', ${e.id}, 'amount', this.value)"></div>
+                            <input value="${e.name}" class="editable-input bg-transparent font-bold text-[9px] w-full truncate" oninput="App.updateItem('expenses', ${e.id}, 'name', this.value)" placeholder="Nombre del gasto...">
+                            <div class="flex items-center mt-0.5">
+                                <span class="text-[8px] opacity-50 mr-0.5">$</span>
+                                <input type="number" value="${e.amount}" class="editable-input bg-transparent font-bold text-[10px] w-16" oninput="App.updateItem('expenses', ${e.id}, 'amount', this.value)" placeholder="0">
+                                <span class="text-[7px] opacity-30 ml-1">/mes</span>
+                            </div>
                         </div>
                         <button onclick="App.deleteItem('expenses', ${e.id})" class="text-text-muted-light hover:text-danger p-1"><span class="material-symbols-rounded text-sm">close</span></button>
                     </div>`;
@@ -783,10 +708,10 @@
                 const ctx = Utils.$('mainChart'); if(!ctx) return;
                 const sorted = [...state.history].sort((a,b) => a.id - b.id);
                 const labels = [''], dataPoints = [0]; let bal = 0;
-                sorted.slice(-8).forEach(h => { bal = Math.max(0, bal + (h.type === 'add' ? h.amount : -h.amount)); labels.push(''); dataPoints.push(bal); });
+                sorted.slice(-6).forEach(h => { bal = Math.max(0, bal + (h.type === 'add' ? h.amount : -h.amount)); labels.push(''); dataPoints.push(bal); });
                 labels.push(''); dataPoints.push(state.accumulated);
                 if(chartInstance) chartInstance.destroy();
-                const grad = ctx.getContext('2d').createLinearGradient(0, 0, 0, 60);
+                const grad = ctx.getContext('2d').createLinearGradient(0, 0, 0, 50);
                 grad.addColorStop(0, 'rgba(176, 137, 104, 0.3)'); grad.addColorStop(1, 'rgba(176, 137, 104, 0.0)');
                 chartInstance = new Chart(ctx, {
                     type: 'line', data: { labels, datasets: [{ data: dataPoints, borderColor: '#b08968', backgroundColor: grad, borderWidth: 2, pointRadius: 0, fill: true, tension: 0.4 }] },
@@ -796,9 +721,9 @@
             updateThermometer: (inc, exp) => {
                 const badge = Utils.$('healthBadge'); const desc = Utils.$('healthDescText'); if (!badge || !desc) return;
                 let rate = inc > 0 ? ((inc - exp) / inc) * 100 : 0; let pos = inc <= exp ? 10 : 30 + Math.min((rate/50)*70, 70);
-                if(pos < 35) { badge.innerText = "ALERTA"; badge.className="px-2 py-0.5 bg-danger/20 text-danger rounded-full text-[8px] font-black"; desc.innerText = "Gastos muy altos."; }
-                else if(pos < 65) { badge.innerText = "OK"; badge.className="px-2 py-0.5 bg-warning/20 text-warning rounded-full text-[8px] font-black"; desc.innerText = "Estás al límite."; }
-                else { badge.innerText = "BIEN"; badge.className="px-2 py-0.5 bg-success/20 text-success rounded-full text-[8px] font-black"; desc.innerText = "Construyendo futuro."; }
+                if(pos < 35) { badge.innerText = "⚠️ ALERTA"; badge.className="px-2 py-0.5 bg-danger/20 text-danger rounded-full text-[7px] font-black"; desc.innerText = "Gastas más de lo que ganas. Reduce gastos."; }
+                else if(pos < 65) { badge.innerText = "😐 OK"; badge.className="px-2 py-0.5 bg-warning/20 text-warning rounded-full text-[7px] font-black"; desc.innerText = "Estás al límite. Poco margen de ahorro."; }
+                else { badge.innerText = "✅ BIEN"; badge.className="px-2 py-0.5 bg-success/20 text-success rounded-full text-[7px] font-black"; desc.innerText = "¡Excelente! Tienes buen margen para ahorrar."; }
             }
         };
 
@@ -807,9 +732,8 @@
             navigateTo: (id) => { 
                 document.querySelectorAll('[id^="view-"]').forEach(el => el.classList.add('hidden')); 
                 const view = Utils.$(`view-${id}`); if (view) view.classList.remove('hidden'); 
-                const btn = Utils.$('backBtn'); 
-                const label = Utils.$('pageTitleLabel');
-                const titles = { home: 'DASHBOARD', goal: 'OBJETIVO', incomes: 'INGRESOS', expenses: 'GASTOS', help: 'AYUDA' };
+                const btn = Utils.$('backBtn'); const label = Utils.$('pageTitleLabel');
+                const titles = { home: 'DASHBOARD', goal: 'TU OBJETIVO', incomes: 'INGRESOS', expenses: 'GASTOS', help: 'GUÍA DE USO' };
                 if(label) label.innerText = titles[id] || 'DASHBOARD';
                 if(id === 'home') btn.classList.add('hidden'); else btn.classList.remove('hidden');
                 App.calculateGlobal();
@@ -837,50 +761,50 @@
             updateBottomBar: (sur, tot, rem) => {
                 const bar = Utils.$('barProgress'); const time = Utils.$('barTime'); const surDisp = Utils.$('barSurplus');
                 Utils.setText('barGoalText', `Falta: ${Utils.formatCompact(rem)}`);
-                if (surDisp) { surDisp.innerText = (sur > 0 ? '+' : '') + Utils.formatMoney(sur); surDisp.className = `text-lg font-black leading-none ${sur > 0 ? 'text-success' : 'text-danger'}`; }
+                if (surDisp) { surDisp.innerText = (sur > 0 ? '+' : '') + Utils.formatMoney(sur); surDisp.className = `text-base font-black leading-none ${sur > 0 ? 'text-success' : 'text-danger'}`; }
                 if (bar && time) {
                     if (sur > 0) { bar.style.width = Math.min(((sur/tot)*100)*2, 100) + '%'; bar.className = 'h-full bg-success transition-all duration-1000 rounded-full'; time.innerText = App.formatTime(rem/sur); } 
-                    else { bar.style.width = '100%'; bar.className = 'h-full bg-danger transition-all duration-1000 rounded-full'; time.innerText = "Nunca"; }
+                    else { bar.style.width = '100%'; bar.className = 'h-full bg-danger transition-all duration-1000 rounded-full'; time.innerText = "∞"; }
                 }
             },
-            formatTime: (m) => { if(m === Infinity) return "Nunca"; if(m <= 0) return "¡Listo!"; const y = Math.floor(m/12); const mo = Math.floor(m%12); return y > 0 ? `${y}a ${mo}m` : `${mo}m`; },
+            formatTime: (m) => { if(m === Infinity || isNaN(m)) return "∞"; if(m <= 0) return "🎉 ¡Listo!"; const y = Math.floor(m/12); const mo = Math.floor(m%12); return y > 0 ? `${y}a ${mo}m` : `${mo} meses`; },
             updateVal: (k, v) => { state[k] = parseFloat(v)||0; App.calculateGlobal(); },
             toggleTheme: () => { document.documentElement.classList.toggle('dark'); UI.renderChart(); },
             
             openProfileModal: () => { Utils.$('profileModal').classList.remove('hidden'); setTimeout(() => { Utils.$('profileCard').classList.remove('scale-95', 'opacity-0'); Utils.$('profileCard').classList.add('scale-100', 'opacity-100'); }, 10); Utils.$('inputUserName').value = state.userName; },
             closeProfileModal: () => { Utils.$('profileCard').classList.add('scale-95', 'opacity-0'); setTimeout(() => Utils.$('profileModal').classList.add('hidden'), 200); },
-            saveProfile: () => { const n = Utils.$('inputUserName').value.trim(); if(n) { state.userName = n; Data.save(); App.updateGreeting(); App.closeProfileModal(); } },
+            saveProfile: () => { const n = Utils.$('inputUserName').value.trim(); if(n) { state.userName = n; Data.save(); App.updateGreeting(); App.closeProfileModal(); UI.showToast("✓ Nombre guardado"); } },
             updateGreeting: () => { Utils.$('userGreetingName').innerText = state.userName || 'Amiga'; },
 
-            modifyFund: (t) => { const input = Utils.$('fundInput'); const amount = parseFloat(input.value); if(!amount || amount <= 0) { input.focus(); UI.showToast("Ingresa un monto"); return; } pendingTransaction = { type: t, amount: amount }; App.openTxModal(); },
+            modifyFund: (t) => { const input = Utils.$('fundInput'); const amount = parseFloat(input.value); if(!amount || amount <= 0) { input.focus(); UI.showToast("Escribe un monto"); return; } pendingTransaction = { type: t, amount: amount }; App.openTxModal(); },
             openTxModal: () => { 
                 const t = pendingTransaction.type; 
-                Utils.$('modalTitle').innerText = t === 'add' ? 'Ingreso' : 'Retiro'; 
-                Utils.$('modalIcon').innerText = t === 'add' ? 'arrow_downward' : 'arrow_upward'; 
+                Utils.$('modalTitle').innerText = t === 'add' ? '💰 Dinero que entró' : '💸 Dinero que salió'; 
+                Utils.$('modalIcon').innerText = t === 'add' ? 'south' : 'north'; 
                 Utils.$('modalIcon').className = `material-symbols-rounded text-2xl ${t === 'add' ? 'text-success' : 'text-danger'}`;
                 Utils.$('modalAmountDisplay').innerText = Utils.formatMoney(pendingTransaction.amount);
-                Utils.$('modalConfirmBtn').className = `py-2.5 rounded-xl text-[10px] font-bold text-white ${t === 'add' ? 'bg-success' : 'bg-danger'}`;
+                Utils.$('modalConfirmBtn').className = `py-2 rounded-xl text-[10px] font-bold text-white ${t === 'add' ? 'bg-success' : 'bg-danger'}`;
                 Utils.$('transactionDesc').value = ""; Utils.$('transactionModal').classList.remove('hidden'); 
                 setTimeout(() => { Utils.$('transactionCard').classList.remove('scale-95', 'opacity-0'); Utils.$('transactionCard').classList.add('scale-100', 'opacity-100'); }, 10);
             },
             closeTransactionModal: () => { Utils.$('transactionCard').classList.add('scale-95', 'opacity-0'); setTimeout(() => Utils.$('transactionModal').classList.add('hidden'), 200); },
             confirmTransaction: () => {
                 if(!pendingTransaction) return;
-                const desc = Utils.$('transactionDesc').value.trim() || (pendingTransaction.type === 'add' ? 'Ingreso' : 'Retiro');
+                const desc = Utils.$('transactionDesc').value.trim() || (pendingTransaction.type === 'add' ? 'Ingreso' : 'Gasto');
                 if(pendingTransaction.type === 'add') { state.accumulated += pendingTransaction.amount; try { UI.triggerConfetti(); } catch(e) {} } 
                 else { state.accumulated = Math.max(0, state.accumulated - pendingTransaction.amount); }
                 if (!state.history) state.history = [];
                 state.history.unshift({ id: Date.now(), date: new Date().toISOString(), desc: desc, amount: pendingTransaction.amount, type: pendingTransaction.type });
                 Utils.$('fundInput').value = ''; pendingTransaction = null;
-                UI.renderHistory(); App.calculateGlobal(); App.closeTransactionModal(); UI.showToast("✓ Registrado");
+                UI.renderHistory(); App.calculateGlobal(); App.closeTransactionModal(); UI.showToast("✓ Movimiento registrado");
             },
 
-            addItem: (t) => { const id = Date.now(); if(t === 'incomes') state.incomes.push({id, name:'Nuevo', price:0, cost:0, qty:1}); else state.expenses.push({id, name:'Nuevo', amount:0}); App.calculateGlobal(); UI.renderAll(); },
+            addItem: (t) => { const id = Date.now(); if(t === 'incomes') state.incomes.push({id, name:'Nuevo proyecto', price:0, cost:0, qty:1}); else state.expenses.push({id, name:'Nuevo gasto', amount:0}); App.calculateGlobal(); UI.renderAll(); UI.showToast("✓ Agregado"); },
             deleteItem: (t, id) => { 
                 if(t === 'history') { const x = state.history.find(i => i.id === id); if(x) { state.accumulated += (x.type === 'add' ? -x.amount : x.amount); state.accumulated = Math.max(0, state.accumulated); state.history = state.history.filter(i => i.id !== id); }}
                 else if(t === 'incomes') state.incomes = state.incomes.filter(i => i.id !== id); 
                 else state.expenses = state.expenses.filter(i => i.id !== id); 
-                App.calculateGlobal(); UI.renderAll(); UI.showToast("Eliminado");
+                App.calculateGlobal(); UI.renderAll(); UI.showToast("✓ Eliminado");
             },
             updateItem: (t, id, f, v) => { const arr = state[t]; const i = arr.find(x => x.id === id); if(i) { i[f] = (f === 'name') ? v : (parseFloat(v) || 0); App.calculateGlobal(); } },
             toggleHistory: () => { Utils.$('historyContainer').classList.toggle('hidden'); Utils.$('historyChevron').classList.toggle('rotate-180'); }
