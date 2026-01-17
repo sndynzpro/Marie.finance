@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-    <title>Marie Finance - Final Cut</title>
+    <title>Marie Finance - Precision Edition</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20,400,1,0" rel="stylesheet" />
@@ -107,75 +107,43 @@
         .btn-header:hover { opacity: 1; background-color: rgba(0,0,0,0.05); }
         .dark .btn-header:hover { background-color: rgba(255,255,255,0.1); }
         
-        /* Layout Structure for Fixed Headers */
         #mainContainer { position: fixed; top: 60px; left: 0; right: 0; bottom: 0; overflow: hidden; pointer-events: none; }
         
-        /* Contenedor flexible para vistas con header fijo */
         .flex-view {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            width: 100%;
-            max-width: 900px;
-            margin: 0 auto;
-            pointer-events: auto;
-            padding-left: 1rem;
-            padding-right: 1rem;
+            display: flex; flex-direction: column; height: 100%; width: 100%; max-width: 900px; margin: 0 auto; pointer-events: auto; padding-left: 1rem; padding-right: 1rem;
         }
 
-        .scroll-content {
-            flex: 1;
-            overflow-y: auto;
-            overflow-x: hidden;
-            padding-bottom: 160px; /* Space for bottom bar */
-            -webkit-overflow-scrolling: touch;
-        }
-        
-        /* Para el dashboard principal que scrollea todo junto */
-        .scroll-full {
-            overflow-y: auto;
-            height: 100%;
-            padding-bottom: 160px;
-        }
+        .scroll-content { flex: 1; overflow-y: auto; overflow-x: hidden; padding-bottom: 160px; -webkit-overflow-scrolling: touch; }
+        .scroll-full { overflow-y: auto; height: 100%; padding-bottom: 160px; }
 
         .editable-input {
-            border-bottom: 1.5px dashed rgba(176, 137, 104, 0.4) !important;
-            transition: border-color 0.2s ease;
-            padding-bottom: 2px;
-            color: inherit;
+            border-bottom: 1.5px dashed rgba(176, 137, 104, 0.4) !important; transition: border-color 0.2s ease; padding-bottom: 2px; color: inherit;
         }
         .editable-input:focus { border-bottom-color: #b08968 !important; }
         .editable-input::placeholder { color: rgba(138, 122, 114, 0.3); }
         .dark .editable-input { border-bottom-color: rgba(176, 137, 104, 0.3) !important; }
 
-        .hint-text {
-            font-size: 10px;
-            letter-spacing: 0.05em;
-            opacity: 0.6;
-            text-transform: uppercase;
-            font-weight: 700;
-        }
+        .hint-text { font-size: 10px; letter-spacing: 0.05em; opacity: 0.6; text-transform: uppercase; font-weight: 700; }
         
         .stage-label {
-            font-size: 9px;
-            font-weight: 800;
-            letter-spacing: 0.1em;
-            color: #b08968;
-            opacity: 0.9;
-            margin-bottom: 0.6rem;
-            display: inline-block;
-            border-bottom: 2px solid rgba(176, 137, 104, 0.2);
-            padding-bottom: 2px;
+            font-size: 9px; font-weight: 800; letter-spacing: 0.1em; color: #b08968; opacity: 0.9; margin-bottom: 0.6rem; display: inline-block; border-bottom: 2px solid rgba(176, 137, 104, 0.2); padding-bottom: 2px;
         }
 
-        /* Paginación */
+        /* Paginación y Lista Compacta */
         .page-btn {
-            width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
-            border-radius: 8px; font-size: 10px; font-weight: bold; transition: all 0.2s;
+            width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;
+            border-radius: 6px; font-size: 9px; font-weight: bold; transition: all 0.2s;
         }
         .page-btn.active { background: #b08968; color: white; box-shadow: 0 4px 6px -1px rgba(176, 137, 104, 0.3); }
         .page-btn.inactive { background: rgba(0,0,0,0.05); color: #8a7a72; }
         .dark .page-btn.inactive { background: rgba(255,255,255,0.05); color: #a8a29e; }
+
+        .compact-row {
+            display: grid; grid-template-columns: 45px 1fr 60px; gap: 8px; align-items: center;
+            padding: 6px 0; border-bottom: 1px solid rgba(0,0,0,0.03);
+        }
+        .dark .compact-row { border-bottom: 1px solid rgba(255,255,255,0.03); }
+        .compact-row:last-child { border-bottom: none; }
     </style>
 </head>
 
@@ -188,13 +156,13 @@
         <div class="card-glass p-10 rounded-[2rem] shadow-golden text-center max-w-sm mx-6 w-full relative overflow-hidden">
             <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-primary to-[#d4a373]"></div>
             <span class="text-[10px] font-black text-primary mb-3 block tracking-[0.25em] mt-2">MARIE FINANCE</span>
-            <h1 class="text-4xl font-display font-bold mb-4 text-[#3d342f] dark:text-white">¡Qué alegría verte!</h1>
+            <h1 class="text-4xl font-display font-bold mb-4 text-[#3d342f] dark:text-white">¡Bienvenid@!</h1>
             <p class="text-sm text-text-muted-light dark:text-text-muted-dark mb-10 leading-relaxed font-medium">
                 "Hoy es un día perfecto para sumar y no restar.<br>Vamos a poner orden a ese imperio tuyo." ✨
             </p>
             <button onclick="Auth.login()" class="w-full py-4 rounded-2xl bg-white dark:bg-white/10 font-bold flex items-center justify-center gap-3 shadow-soft text-sm border border-black/5 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300">
                 <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="G"> 
-                Dale, entremos
+                Empezar
             </button>
         </div>
     </div>
@@ -202,24 +170,12 @@
     <div id="profileModal" class="modal-backdrop hidden">
         <div class="modal-bg" onclick="App.closeProfileModal()"></div>
         <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-[280px] rounded-[1.6rem] p-6 shadow-golden relative z-10 transform scale-95 opacity-0 transition-all" id="profileCard">
-            <h3 class="text-lg font-bold text-center mb-1">¿Cómo te llamas?</h3>
-            <p class="text-[11px] text-center text-text-muted-light mb-6">Para saludarte como se debe.</p>
-            <input id="inputUserName" type="text" placeholder="Tu nombre..." class="editable-input w-full bg-transparent py-2 px-3 text-base font-medium text-center mb-6" onfocus="this.value=''">
+            <h3 class="text-lg font-bold text-center mb-1">Tu Identidad</h3>
+            <p class="text-[11px] text-center text-text-muted-light mb-6">¿Cómo prefieres que te llamemos?</p>
+            <input id="inputUserName" type="text" placeholder="Nombre..." class="editable-input w-full bg-transparent py-2 px-3 text-base font-medium text-center mb-6" onfocus="this.value=''">
             <div class="grid grid-cols-2 gap-3">
                 <button onclick="App.closeProfileModal()" class="py-2.5 rounded-xl text-[10px] font-bold bg-black/5 hover:bg-black/10 transition-colors">LUEGO</button>
                 <button onclick="App.saveProfile()" class="py-2.5 rounded-xl text-[10px] font-bold bg-primary text-white shadow-md hover:bg-primary/90 transition-colors">LISTO</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="logoutModal" class="modal-backdrop hidden">
-        <div class="modal-bg" onclick="Auth.closeLogoutModal()"></div>
-        <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-[280px] rounded-[1.6rem] p-6 shadow-golden relative z-10 transform scale-95 opacity-0 text-center transition-all" id="logoutCard">
-            <h3 class="text-lg font-bold mb-1">¿Te nos vas?</h3>
-            <p class="text-[11px] text-text-muted-light mb-6">Tranqui, todo queda guardado.</p>
-            <div class="grid grid-cols-2 gap-3">
-                <button onclick="Auth.closeLogoutModal()" class="py-2.5 rounded-xl text-[10px] font-bold bg-black/5 hover:bg-black/10 transition-colors">ME QUEDO</button>
-                <button onclick="Auth.confirmLogout()" class="py-2.5 rounded-xl text-[10px] font-bold bg-danger text-white shadow-md hover:bg-danger/90 transition-colors">CHAU</button>
             </div>
         </div>
     </div>
@@ -234,7 +190,7 @@
             <p class="text-2xl text-center text-text-main-light dark:text-white mb-4 font-display font-black tracking-tight mt-1" id="modalAmountDisplay">$0</p>
             
             <div class="mb-6">
-                <label class="hint-text block mb-1 pl-1">Concepto</label>
+                <label class="hint-text block mb-1 pl-1">Detalle</label>
                 <input id="transactionDesc" type="text" placeholder="" class="editable-input w-full bg-transparent py-2 px-2 text-sm font-medium">
             </div>
 
@@ -313,7 +269,7 @@
                             </div>
                             <p class="hint-text">📈 Lo que entra</p>
                             <div id="homeIncomeDisplay" class="text-xl font-black text-success tracking-tight mt-1">$0</div>
-                            <p class="text-[9px] opacity-60 mt-1.5 leading-tight">¡Que llueva, que llueva! Aquí sumamos todo.</p>
+                            <p class="text-[9px] opacity-60 mt-1.5 leading-tight">Sueldo + Inventos varios.</p>
                         </div>
 
                         <div class="card-glass p-phi-3 rounded-[1.5rem] shadow-soft cursor-pointer group hover:border-danger/30 transition-all duration-300" onclick="App.navigateTo('expenses')">
@@ -323,7 +279,7 @@
                             </div>
                             <p class="hint-text">📉 Lo que sale</p>
                             <div id="homeExpenseDisplay" class="text-xl font-black text-danger tracking-tight mt-1">$0</div>
-                            <p class="text-[9px] opacity-60 mt-1.5 leading-tight">La dolorosa. Hay que tenerla cortita.</p>
+                            <p class="text-[9px] opacity-60 mt-1.5 leading-tight">La dolorosa necesaria.</p>
                         </div>
                     </div>
                 </div>
@@ -331,25 +287,34 @@
                 <div>
                     <span class="stage-label">ETAPA 3: REGISTRO</span>
                     <div class="card-glass p-phi-3 rounded-[1.5rem] shadow-soft">
-                        <div class="flex justify-between items-center mb-3">
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-2xl bg-warning/10 flex items-center justify-center text-warning"><span class="material-symbols-rounded text-xl">cardiology</span></div>
-                                <div>
-                                    <h3 class="font-bold text-xs uppercase tracking-wide">Pulso Financiero</h3>
-                                    <p class="text-[9px] opacity-60">El detector de mentiras</p>
-                                </div>
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="font-bold text-xs uppercase tracking-wide flex items-center gap-2">
+                                    <span class="material-symbols-rounded text-lg text-primary">monitoring</span>
+                                    Pulso Financiero
+                                </h3>
+                                <p class="text-[9px] opacity-60 mt-0.5">La verdad en una línea.</p>
                             </div>
-                            <div class="flex gap-2">
-                                <select id="chartPeriod" onchange="App.updateChartPeriod()" class="bg-black/5 dark:bg-white/10 text-[9px] font-bold rounded-lg px-2 py-0.5 border-none focus:outline-none appearance-none">
-                                    <option value="7">7 Días</option>
-                                    <option value="30" selected>Mes</option>
-                                    <option value="365">Año</option>
-                                </select>
+                            <div class="flex gap-2 items-center">
+                                <div class="flex flex-col items-end">
+                                    <div class="flex items-center gap-1 mb-1">
+                                        <span class="text-[8px] font-bold opacity-50 uppercase">Desde</span>
+                                        <input type="date" id="dateStart" onchange="App.updateChart()" class="bg-black/5 dark:bg-white/10 text-[9px] font-bold rounded-md px-1.5 py-0.5 border-none h-5">
+                                    </div>
+                                    <div class="flex items-center gap-1">
+                                        <span class="text-[8px] font-bold opacity-50 uppercase">Hasta</span>
+                                        <input type="date" id="dateEnd" onchange="App.updateChart()" class="bg-black/5 dark:bg-white/10 text-[9px] font-bold rounded-md px-1.5 py-0.5 border-none h-5">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         
-                        <div class="h-[120px] w-full mt-2"><canvas id="mainChart"></canvas></div>
-                        <p class="text-[9px] text-center opacity-40 mt-2 font-mono">Los números no tienen sentimientos, pero tú sí.</p>
+                        <div class="h-[140px] w-full mt-3"><canvas id="mainChart"></canvas></div>
+                        
+                        <div class="flex justify-between items-center mt-3 pt-2 border-t border-black/5 dark:border-white/5">
+                            <div id="healthBadge" class="px-2.5 py-0.5 bg-black/5 rounded-full text-[8px] font-black uppercase tracking-wider">--</div>
+                            <p class="text-[9px] opacity-50 italic" id="healthDescText">Calculando...</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -389,24 +354,29 @@
                     </div>
                 </div>
 
-                <div class="flex justify-between items-center px-1 mb-2 border-b border-black/5 pb-2">
+                <div class="flex justify-between items-center px-1 mb-2 pb-2 border-b border-black/5">
                     <h3 class="text-xs font-bold opacity-70 flex items-center gap-1.5">
                         <span class="material-symbols-rounded text-base">history</span> El Chisme
                     </h3>
+                    <div class="flex gap-1.5">
+                        <button onclick="App.setHistoryLimit(15)" id="btnLimit15" class="page-btn active">15</button>
+                        <button onclick="App.setHistoryLimit(30)" id="btnLimit30" class="page-btn inactive">30</button>
+                        <button onclick="App.setHistoryLimit(50)" id="btnLimit50" class="page-btn inactive">50</button>
+                        <button onclick="App.setHistoryLimit(100)" id="btnLimit100" class="page-btn inactive">100</button>
+                    </div>
                 </div>
             </div>
 
             <div class="scroll-content px-1">
-                 <div class="flex gap-2 mb-4 justify-center">
-                    <button onclick="App.setHistoryLimit(15)" id="btnLimit15" class="page-btn active">15</button>
-                    <button onclick="App.setHistoryLimit(30)" id="btnLimit30" class="page-btn inactive">30</button>
-                    <button onclick="App.setHistoryLimit(50)" id="btnLimit50" class="page-btn inactive">50</button>
-                    <button onclick="App.setHistoryLimit(100)" id="btnLimit100" class="page-btn inactive">100</button>
+                <div class="grid grid-cols-[45px_1fr_60px] gap-2 px-2 mb-2 text-[8px] font-bold opacity-40 uppercase tracking-wider">
+                    <span>Fecha</span>
+                    <span>Detalle</span>
+                    <span class="text-right">Monto</span>
                 </div>
 
-                <div id="historyContainer" class="space-y-2.5 min-h-[200px]"></div>
+                <div id="historyContainer" class="bg-white/40 dark:bg-white/5 rounded-xl border border-white/20 p-2 shadow-sm min-h-[100px]"></div>
                 
-                <div id="paginationControls" class="flex justify-center gap-2 mt-6 pb-4"></div>
+                <div id="paginationControls" class="flex justify-center gap-2 mt-4 pb-4 flex-wrap"></div>
             </div>
         </div>
 
@@ -431,7 +401,7 @@
                 <div class="flex justify-between items-end mb-2 px-2">
                     <div>
                         <span class="text-xs font-bold opacity-80">Variables / Extras</span>
-                        <p class="text-[10px] opacity-40 mt-0.5">Desliza para hacer magia</p>
+                        <p class="text-[10px] opacity-40 mt-0.5">Desliza para ajustar</p>
                     </div>
                     <button onclick="App.addItem('incomes')" class="px-4 py-2 bg-success text-white rounded-xl text-[10px] font-bold shadow-soft flex items-center gap-1.5 hover:bg-success/90 transition-all active:scale-95">
                         <span class="material-symbols-rounded text-base">add</span> Nuevo
@@ -448,7 +418,7 @@
                     <div>
                         <p class="hint-text">💸 Total Egresos</p>
                         <p id="totalExpenseDisplay" class="text-3xl font-black text-danger tracking-tight mt-1">$0</p>
-                        <p class="text-[10px] opacity-40 mt-0.5">La realidad duele</p>
+                        <p class="text-[10px] opacity-40 mt-0.5">Lo que toca pagar sí o sí</p>
                     </div>
                     <button onclick="App.addItem('expenses')" class="w-12 h-12 bg-danger text-white flex items-center justify-center rounded-2xl shadow-lg hover:scale-105 active:scale-95 transition-all">
                         <span class="material-symbols-rounded text-2xl">add</span>
@@ -472,43 +442,27 @@
                     </div>
                     <div>
                         <h1 class="text-xl font-display font-black">Manual de Supervivencia</h1>
-                        <p class="text-[11px] text-text-muted-light mt-0.5">Que no te cuenten cuentos.</p>
+                        <p class="text-[11px] text-text-muted-light mt-0.5">Tus finanzas, sin drama.</p>
                     </div>
                 </div>
             </div>
 
             <div class="space-y-4 text-text-main-light dark:text-text-main-dark pb-8">
-                
                 <div class="help-card">
                     <h3 class="font-bold text-sm mb-2 text-primary">ETAPA 1: Planeación (El Sueño)</h3>
-                    <p class="text-[11px] leading-relaxed opacity-80 mb-2">
-                        Aquí pones la <strong>Meta Soñada</strong>. ¿Quieres un carro? ¿Un viaje? ¿Paz mental? Ponle precio arriba.
-                    </p>
-                    <p class="text-[11px] leading-relaxed opacity-80">
-                        La <strong>Caja Chica</strong> es tu billetera real. Si gastaste en chicles, pon "Salió". Si te encontraste plata en el pantalón, pon "Entró". El historial es tu conciencia escrita.
-                    </p>
+                    <p class="text-[11px] leading-relaxed opacity-80 mb-2">Aquí defines tu norte. Pon tu <strong>Meta Soñada</strong> arriba. Abajo está tu <strong>Caja Chica</strong>, que es el dinero real que tienes hoy. Úsalo para anotar cada vez que gastes o cobres algo.</p>
                 </div>
-
                 <div class="help-card">
-                    <h3 class="font-bold text-sm mb-2 text-success">ETAPA 2: Análisis (La Verdad)</h3>
-                    <p class="text-[11px] leading-relaxed opacity-80 mb-2">
-                        <strong>Ingresos:</strong> Pon tu sueldo fijo. Si matas tigritos o vendes cosas, usa el botón "Nuevo". La app calcula tu ganancia real (Precio - Costo) para que no te engañes pensando que eres rico.
-                    </p>
-                    <p class="text-[11px] leading-relaxed opacity-80">
-                        <strong>Gastos:</strong> Aquí anota todo lo fijo. Renta, luz, internet, suscripciones que no usas... todo suma.
-                    </p>
+                    <h3 class="font-bold text-sm mb-2 text-success">ETAPA 2: Análisis (La Realidad)</h3>
+                    <p class="text-[11px] leading-relaxed opacity-80 mb-2">Aquí calculas tu poder. En <strong>Ingresos</strong>, suma lo fijo y lo variable (¡ojo con los costos!). En <strong>Gastos</strong>, anota todo lo que sale sí o sí. La resta de esto es tu verdadero poder de ahorro.</p>
                 </div>
-
                 <div class="help-card">
-                    <h3 class="font-bold text-sm mb-2 text-warning">ETAPA 3: Registro (El Pulso)</h3>
-                    <p class="text-[11px] leading-relaxed opacity-80">
-                        Es el gráfico de la verdad. Si la línea va para abajo como tobogán, frena el gasto. Si va para arriba como cohete, ¡felicidades!
-                    </p>
+                    <h3 class="font-bold text-sm mb-2 text-warning">ETAPA 3: Registro (La Verdad)</h3>
+                    <p class="text-[11px] leading-relaxed opacity-80">El gráfico no miente. Selecciona las fechas y mira si vas subiendo como la espuma o bajando peligrosamente. Si es lineal y pica hacia arriba, ¡vamos ganando!</p>
                 </div>
-
                 <button onclick="App.navigateTo('home')" class="w-full py-4 bg-primary text-white rounded-2xl font-bold text-xs flex items-center justify-center gap-2 shadow-soft hover:bg-primary/90 transition-all mt-6">
                     <span class="material-symbols-rounded text-lg">home</span>
-                    ¡A darle átomos!
+                    ¡Listo, soy experto!
                 </button>
             </div>
         </div>
@@ -543,7 +497,11 @@
             collections: { users: 'users' }
         };
 
-        let state = { userName: '', goal: 5000, accumulated: 0, salary: 600, incomes: [], expenses: [], history: [], historySettings: { limit: 15, page: 1 }, chartPeriod: 30 };
+        let state = { 
+            userName: '', goal: 5000, accumulated: 0, salary: 600, incomes: [], expenses: [], history: [], 
+            historySettings: { limit: 15, page: 1 }, 
+            chartStart: '', chartEnd: '' 
+        };
         let pendingTransaction = null, chartInstance = null, firebaseAuth = null, firestoreDb = null;
 
         const Utils = {
@@ -556,15 +514,15 @@
                 for (let key in icons) if (n.includes(key)) return icons[key];
                 return 'receipt_long';
             },
+            setVal: (id, v) => { const e = Utils.$(id); if(e && document.activeElement !== e) e.value = v; },
             setText: (id, t) => { const e = Utils.$(id); if(e) e.innerText = t; },
-            setHTML: (id, h) => { const e = Utils.$(id); if(e) e.innerHTML = h; },
-            setVal: (id, v) => { const e = Utils.$(id); if(e && document.activeElement !== e) e.value = v; }
+            setHTML: (id, h) => { const e = Utils.$(id); if(e) e.innerHTML = h; }
         };
 
         const Auth = {
             init: () => {
                 try { firebase.initializeApp(CONFIG.firebase); firebaseAuth = firebase.auth(); firestoreDb = firebase.firestore(); Auth.monitor(); } 
-                catch (e) { console.error("Firebase Placeholder mode"); }
+                catch (e) { console.error("Firebase Placeholder"); }
             },
             monitor: () => {
                 firebaseAuth.onAuthStateChanged(user => {
@@ -574,10 +532,7 @@
                 });
             },
             login: () => firebaseAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider()),
-            logout: () => { 
-                const modal = Utils.$('logoutModal'); const card = Utils.$('logoutCard');
-                modal.classList.remove('hidden'); setTimeout(() => { card.classList.remove('scale-95', 'opacity-0'); card.classList.add('scale-100', 'opacity-100'); }, 10);
-            },
+            logout: () => { Utils.$('logoutModal').classList.remove('hidden'); setTimeout(() => { Utils.$('logoutCard').classList.remove('scale-95', 'opacity-0'); Utils.$('logoutCard').classList.add('scale-100', 'opacity-100'); }, 10); },
             closeLogoutModal: () => { Utils.$('logoutCard').classList.add('scale-95', 'opacity-0'); setTimeout(() => Utils.$('logoutModal').classList.add('hidden'), 200); },
             confirmLogout: () => { firebaseAuth.signOut(); location.reload(); }
         };
@@ -588,6 +543,15 @@
                     const doc = await firestoreDb.collection(CONFIG.collections.users).doc(uid).get();
                     if (doc.exists) { state = { ...state, ...doc.data() }; App.updateGreeting(); } 
                     else { const u = firebaseAuth.currentUser; state.userName = u.displayName ? u.displayName.split(' ')[0] : ''; Data.save(); App.openProfileModal(); }
+                    
+                    // Init Dates
+                    const today = new Date();
+                    const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+                    state.chartStart = firstDay.toISOString().split('T')[0];
+                    state.chartEnd = today.toISOString().split('T')[0];
+                    Utils.$('dateStart').value = state.chartStart;
+                    Utils.$('dateEnd').value = state.chartEnd;
+                    
                     state.historySettings = { limit: 15, page: 1 };
                     UI.renderAll();
                 } catch(e) { console.error(e); }
@@ -614,7 +578,7 @@
                 if (!container) return; 
                 container.innerHTML = ''; controls.innerHTML = '';
                 
-                // Sorting logic
+                // Sorting: Newest First
                 let filtered = [...state.history].sort((a,b) => b.id - a.id);
                 
                 // Pagination Logic
@@ -622,46 +586,37 @@
                 const limit = state.historySettings.limit;
                 const totalPages = Math.ceil(totalItems / limit);
                 
-                // Ensure current page is valid
                 if (state.historySettings.page > totalPages) state.historySettings.page = 1;
                 
                 const startIndex = (state.historySettings.page - 1) * limit;
                 const pagedItems = filtered.slice(startIndex, startIndex + limit);
 
-                // Render Active Page Buttons (15, 30...)
                 [15,30,50,100].forEach(l => {
                     const btn = Utils.$(`btnLimit${l}`);
-                    if(btn) btn.className = state.historySettings.limit === l 
-                        ? "page-btn active" 
-                        : "page-btn inactive";
+                    if(btn) btn.className = state.historySettings.limit === l ? "page-btn active" : "page-btn inactive";
                 });
 
-                if(totalItems === 0) { container.innerHTML = '<p class="text-[10px] opacity-40 text-center py-8 italic">El chisme está vacío por ahora.</p>'; return; }
+                if(totalItems === 0) { container.innerHTML = '<p class="text-[9px] opacity-40 text-center py-6 italic">Aquí aparecerá tu historia.</p>'; return; }
                 
                 pagedItems.forEach(h => {
                     const isAdd = h.type === 'add';
                     const d = new Date(h.date);
+                    // Compact Row Layout
                     container.innerHTML += `
-                    <div class="flex justify-between items-center p-2.5 bg-white/50 dark:bg-white/5 rounded-2xl text-[10px] border border-white/10 hover:bg-white/60 transition-colors group">
-                        <div class="flex items-center gap-3 flex-1 overflow-hidden">
-                            <div class="flex flex-col items-center justify-center w-8 bg-black/5 rounded-lg py-0.5">
-                                <span class="font-bold text-[9px] opacity-60 leading-none">${d.toLocaleString('es-ES', { month: 'short' })}</span>
-                                <span class="font-black text-xs leading-none">${d.getDate()}</span>
-                            </div>
-                            <input value="${h.desc || ''}" class="editable-input bg-transparent font-medium flex-1 truncate text-[10px] py-0.5 group-hover:border-black/20" oninput="Data.updateHistoryDesc(${h.id}, this.value)" placeholder="Sin detalle...">
-                        </div>
-                        <div class="flex items-center gap-1.5 shrink-0 ml-2">
-                            <span class="font-bold ${isAdd ? 'text-success' : 'text-danger'} text-xs">${isAdd ? '+' : '-'}${Utils.formatMoney(h.amount)}</span>
-                            <button onclick="App.deleteItem('history', ${h.id})" class="text-danger/40 hover:text-danger p-1"><span class="material-symbols-rounded text-sm">close</span></button>
+                    <div class="compact-row group">
+                        <div class="text-[9px] font-bold opacity-50 font-mono">${d.getDate()}/${d.getMonth()+1}</div>
+                        <input value="${h.desc || ''}" class="bg-transparent text-[10px] font-medium w-full truncate focus:outline-none focus:text-primary" oninput="Data.updateHistoryDesc(${h.id}, this.value)" placeholder="Sin detalle">
+                        <div class="text-right flex items-center justify-end gap-2">
+                            <span class="text-[10px] font-bold ${isAdd ? 'text-success' : 'text-danger'}">${isAdd ? '+' : '-'}${Utils.formatCompact(h.amount)}</span>
+                            <button onclick="App.deleteItem('history', ${h.id})" class="opacity-0 group-hover:opacity-100 text-danger text-[10px]"><span class="material-symbols-rounded text-xs">close</span></button>
                         </div>
                     </div>`;
                 });
 
-                // Render Pagination Numbers
                 if(totalPages > 1) {
                     for(let i = 1; i <= totalPages; i++) {
                         const btn = document.createElement('button');
-                        btn.className = `w-6 h-6 rounded-full text-[10px] font-bold ${state.historySettings.page === i ? 'bg-primary text-white' : 'bg-black/5 text-text-muted-light'}`;
+                        btn.className = `w-6 h-6 rounded-md text-[9px] font-bold border ${state.historySettings.page === i ? 'bg-primary text-white border-primary' : 'bg-transparent border-black/10 text-text-muted-light'}`;
                         btn.innerText = i;
                         btn.onclick = () => App.setHistoryPage(i);
                         controls.appendChild(btn);
@@ -681,11 +636,11 @@
                         </div>
                         <div class="flex gap-2 mb-2">
                              <div class="w-1/2 relative bg-black/5 dark:bg-black/20 rounded-xl p-1.5">
-                                <span class="text-[7px] opacity-50 font-bold block mb-0.5 text-center tracking-wide">PRECIO</span>
+                                <span class="text-[8px] opacity-50 font-bold block mb-0.5 text-center tracking-wide">PRECIO</span>
                                 <input type="number" value="${i.price}" class="editable-input w-full bg-transparent text-xs font-bold text-center border-none" oninput="App.updateSliderCalc(${i.id}, 'price', this.value)" placeholder="0" onfocus="this.value=''">
                              </div>
                              <div class="w-1/2 relative bg-danger/5 dark:bg-black/20 rounded-xl p-1.5 border border-danger/10">
-                                <span class="text-[7px] opacity-50 font-bold block mb-0.5 text-danger text-center tracking-wide">COSTO</span>
+                                <span class="text-[8px] opacity-50 font-bold block mb-0.5 text-danger text-center tracking-wide">COSTO</span>
                                 <input type="number" value="${i.cost}" class="editable-input w-full bg-transparent text-xs font-bold text-danger text-center border-none" oninput="App.updateSliderCalc(${i.id}, 'cost', this.value)" placeholder="0" onfocus="this.value=''">
                              </div>
                         </div>
@@ -723,26 +678,26 @@
             renderChart: () => {
                 const ctx = Utils.$('mainChart'); if(!ctx) return;
                 
-                // Filter data based on selected period
-                const now = new Date();
-                const days = parseInt(state.chartPeriod) || 30;
-                const cutoff = new Date(now.setDate(now.getDate() - days));
-                
+                // Date Filtering logic
+                let sDate = new Date(Utils.$('dateStart').value);
+                let eDate = new Date(Utils.$('dateEnd').value);
+                if(isNaN(sDate)) sDate = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+                if(isNaN(eDate)) eDate = new Date();
+                eDate.setHours(23,59,59);
+
                 let sorted = [...state.history]
-                    .filter(h => new Date(h.date) >= cutoff)
+                    .filter(h => { const d = new Date(h.date); return d >= sDate && d <= eDate; })
                     .sort((a,b) => new Date(a.date) - new Date(b.date));
 
-                // Process data for linear steps
                 const labels = [];
                 const dataPoints = [];
-                let bal = 0; // We simulate balance reconstruction roughly from 0 for the period view
+                let bal = 0; 
                 
                 if (sorted.length === 0) { labels.push('Hoy'); dataPoints.push(state.accumulated); }
                 else {
                     sorted.forEach(h => {
                         const d = new Date(h.date);
                         labels.push(`${d.getDate()}/${d.getMonth()+1}`);
-                        // Logic: Inverse reconstruction not needed for simple view, just step accumulation
                         bal += (h.type === 'add' ? h.amount : -h.amount);
                         dataPoints.push(bal); 
                     });
@@ -758,9 +713,8 @@
                             data: dataPoints, 
                             borderColor: '#b08968', 
                             borderWidth: 2, 
-                            pointRadius: 1, 
-                            tension: 0, // LINEAL / DRÁSTICO
-                            stepped: false,
+                            pointRadius: 2, 
+                            tension: 0, // Linear and drastic
                             fill: false 
                         }] 
                     },
@@ -769,7 +723,7 @@
                         maintainAspectRatio: false, 
                         plugins: { legend: {display:false}, tooltip: {enabled: true} }, 
                         scales: { 
-                            x: { display: true, grid: {display:false}, ticks: {font:{size:8}, color:'#8a7a72'} }, 
+                            x: { display: true, grid: {display:false}, ticks: {font:{size:8}, color:'#8a7a72', maxRotation:0} }, 
                             y: { display: false } 
                         } 
                     }
@@ -778,8 +732,8 @@
             updateThermometer: (inc, exp) => {
                 const badge = Utils.$('healthBadge'); const desc = Utils.$('healthDescText'); if (!badge || !desc) return;
                 let rate = inc > 0 ? ((inc - exp) / inc) * 100 : 0; let pos = inc <= exp ? 10 : 30 + Math.min((rate/50)*70, 70);
-                if(pos < 35) { badge.innerText = "🚨 ALERTA"; badge.className="px-3 py-1 bg-danger text-white rounded-full text-[9px] font-black tracking-wider"; desc.innerText = "¡Frena el carro! Estás en rojo."; }
-                else if(pos < 65) { badge.innerText = "⚖️ ESTABLE"; badge.className="px-3 py-1 bg-warning text-black/80 rounded-full text-[9px] font-black tracking-wider"; desc.innerText = "Ni tan mal, ni tan bien. Cuidado."; }
+                if(pos < 35) { badge.innerText = "🚨 ALERTA"; badge.className="px-3 py-1 bg-danger text-white rounded-full text-[9px] font-black tracking-wider"; desc.innerText = "¡Frena! Estás gastando de más."; }
+                else if(pos < 65) { badge.innerText = "⚖️ ESTABLE"; badge.className="px-3 py-1 bg-warning text-black/80 rounded-full text-[9px] font-black tracking-wider"; desc.innerText = "Ni tan mal, ni tan bien."; }
                 else { badge.innerText = "🚀 COHETE"; badge.className="px-3 py-1 bg-success text-white rounded-full text-[9px] font-black tracking-wider"; desc.innerText = "Vas volando. ¡Sigue así!"; }
             }
         };
@@ -863,7 +817,6 @@
                 if (!state.history) state.history = [];
                 state.history.unshift({ id: Date.now(), date: new Date().toISOString(), desc: desc, amount: pendingTransaction.amount, type: pendingTransaction.type });
                 Utils.$('fundInput').value = ''; pendingTransaction = null;
-                // Reset to page 1 to see new item
                 state.historySettings.page = 1;
                 UI.renderHistory(); App.calculateGlobal(); App.closeTransactionModal(); UI.showToast("✓ ¡Anotado en el libro!");
             },
@@ -889,7 +842,11 @@
             },
             setHistoryLimit: (limit) => { state.historySettings.limit = limit; state.historySettings.page = 1; UI.renderHistory(); },
             setHistoryPage: (page) => { state.historySettings.page = page; UI.renderHistory(); },
-            updateChartPeriod: () => { state.chartPeriod = Utils.$('chartPeriod').value; UI.renderChart(); }
+            updateChart: () => { 
+                state.chartStart = Utils.$('dateStart').value; 
+                state.chartEnd = Utils.$('dateEnd').value;
+                UI.renderChart(); 
+            }
         };
 
         document.addEventListener('DOMContentLoaded', App.init);
