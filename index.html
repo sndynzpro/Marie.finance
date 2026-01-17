@@ -38,7 +38,7 @@
                     },
                     boxShadow: {
                         'soft': '0 8px 32px -4px rgba(0, 0, 0, 0.05)',
-                        'golden': '0 10px 30px -5px rgba(176, 137, 104, 0.15), 0 5px 15px -5px rgba(0, 0, 0, 0.1)',
+                        'golden': '0 12px 24px -5px rgba(50, 50, 93, 0.10), 0 8px 16px -8px rgba(0, 0, 0, 0.1)',
                     },
                     animation: { 'gradient': 'gradient 25s ease infinite' },
                     keyframes: { gradient: { '0%': { backgroundPosition: '0% 50%' }, '50%': { backgroundPosition: '100% 50%' }, '100%': { backgroundPosition: '0% 50%' } } }
@@ -78,21 +78,21 @@
             transition: all 0.2s ease;
         }
         .dark .card-glass { background: rgba(40, 30, 25, 0.6); border: 1px solid rgba(255, 255, 255, 0.08); }
-        .card-glass:active { transform: scale(0.98); }
+        .card-glass:active { transform: scale(0.99); }
 
-        ::-webkit-scrollbar { width: 3px; height: 3px; }
+        /* Scrollbars delicados */
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #b08968; border-radius: 10px; opacity: 0.5; }
 
         input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
         input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none; height: 16px; width: 16px; border-radius: 50%;
-            background: #b08968; cursor: pointer; margin-top: -6px; 
-            box-shadow: 0 1px 4px rgba(0,0,0,0.3); border: 2px solid white; transition: transform 0.1s;
+            -webkit-appearance: none; height: 14px; width: 14px; border-radius: 50%;
+            background: #b08968; cursor: pointer; margin-top: -5px; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2); border: 2px solid white;
         }
-        input[type=range]::-webkit-slider-thumb:active { transform: scale(1.2); }
-        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; cursor: pointer; background: rgba(0,0,0,0.1); border-radius: 99px; }
-        .dark input[type=range]::-webkit-slider-runnable-track { background: rgba(255,255,255,0.1); }
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; cursor: pointer; background: #e5e5e5; border-radius: 99px; }
+        .dark input[type=range]::-webkit-slider-runnable-track { background: #4e342e; }
 
         #toast {
             visibility: hidden; min-width: 200px; background-color: rgba(43, 29, 22, 0.95);
@@ -104,49 +104,58 @@
         #toast.show { visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0); }
         
         .modal-backdrop { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; padding: 1rem; }
-        .modal-bg { position: absolute; inset: 0; background-color: rgba(0,0,0,0.6); backdrop-filter: blur(6px); }
+        .modal-bg { position: absolute; inset: 0; background-color: rgba(0,0,0,0.6); backdrop-filter: blur(5px); }
         
-        .btn-header { width: 32px; height: 32px; flex-shrink: 0; border-radius: 8px; opacity: 0.6; transition: all 0.2s ease; }
-        .btn-header:hover { opacity: 1; background-color: rgba(0,0,0,0.05); transform: translateY(-1px); }
+        /* Iconos minimalistas superiores */
+        .btn-header { width: 32px; height: 32px; flex-shrink: 0; border-radius: 8px; opacity: 0.7; transition: all 0.2s ease; }
+        .btn-header:hover { opacity: 1; background-color: rgba(0,0,0,0.05); }
         .dark .btn-header:hover { background-color: rgba(255,255,255,0.1); }
         
+        /* Contenedor principal con scroll global y padding para bottom bar */
         .view-container { height: 100%; overflow-y: auto; overflow-x: hidden; padding-bottom: 150px; padding-top: 10px; }
 
         .editable-input {
-            border-bottom: 1.5px dashed rgba(176, 137, 104, 0.3) !important;
-            transition: all 0.2s ease;
+            border-bottom: 1.5px dashed rgba(176, 137, 104, 0.4) !important;
+            transition: border-color 0.2s ease;
             padding-bottom: 2px;
             color: inherit;
-            background: transparent;
         }
-        .editable-input:focus { border-bottom-color: #b08968 !important; opacity: 1; }
-        .editable-input::placeholder { color: rgba(138, 122, 114, 0.4); font-weight: normal; }
-        .dark .editable-input { border-bottom-color: rgba(176, 137, 104, 0.2) !important; }
+        .editable-input:focus { border-bottom-color: #b08968 !important; }
+        .editable-input::placeholder { color: rgba(138, 122, 114, 0.4); font-style: italic; }
+        .dark .editable-input { border-bottom-color: rgba(176, 137, 104, 0.3) !important; }
 
-        .hint-text { font-size: 9px; letter-spacing: 0.5px; opacity: 0.7; text-transform: uppercase; font-weight: 700; }
+        .hint-text {
+            font-size: 9px;
+            letter-spacing: 0.5px;
+            opacity: 0.7;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
 
         .help-card {
-            background: rgba(255, 255, 255, 0.5); border: 1px solid rgba(255, 255, 255, 0.4);
-            border-radius: 16px; padding: 16px; margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 16px; padding: 16px;
         }
         .dark .help-card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08); }
 
         .step-number {
-            width: 24px; height: 24px; border-radius: 50%; background: linear-gradient(135deg, #b08968, #8d6e63);
-            color: white; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+            width: 24px; height: 24px; border-radius: 50%;
+            background: linear-gradient(135deg, #b08968, #8d6e63);
+            color: white; font-size: 11px; font-weight: 700;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
-        /* Styles specifically for the "Ghost" inputs in modal */
-        .ghost-input { text-align: center; width: 100%; outline: none; border: none; background: transparent; }
-        .ghost-input:focus::placeholder { color: transparent; }
-        
-        /* Dropdown style */
+        /* Select personalizado limpio */
         .custom-select {
-            background: transparent; border: 1px solid rgba(0,0,0,0.1); border-radius: 8px; 
-            font-size: 10px; padding: 2px 6px; outline: none; color: inherit; font-weight: bold;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23b08968%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.7rem top 50%;
+            background-size: 0.65rem auto;
+            padding-right: 1.5rem;
         }
-        .dark .custom-select { border-color: rgba(255,255,255,0.1); background: rgba(0,0,0,0.2); }
     </style>
 </head>
 
@@ -156,13 +165,14 @@
     <div id="toast">Notificación</div>
 
     <div id="loginOverlay" class="fixed inset-0 z-[999] bg-gradient-to-br from-[#efebe9] to-[#e6dace] dark:from-[#1a120b] dark:to-[#0c0a09] flex items-center justify-center transition-opacity duration-500">
-        <div class="card-glass p-8 rounded-3xl shadow-golden text-center max-w-sm mx-6 w-full relative overflow-hidden">
-            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-warning"></div>
-            <span class="text-[10px] font-black text-primary mb-3 block tracking-[0.25em]">MARIE FINANCE</span>
-            <h1 class="text-3xl font-display font-bold mb-3 leading-tight">Tu sueño empieza hoy.</h1>
-            <p class="text-xs text-text-muted-light dark:text-text-muted-dark mb-8 leading-relaxed font-medium">No se trata solo de números, se trata de la vida que estás construyendo. Haz que cada centavo cuente.</p>
-            <button onclick="Auth.login()" class="w-full py-3.5 rounded-2xl bg-white dark:bg-white/10 font-bold flex items-center justify-center gap-3 shadow-lg hover:shadow-xl transform active:scale-95 transition-all text-sm border border-black/5">
-                <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="G"> Iniciar mi viaje
+        <div class="card-glass p-8 rounded-3xl shadow-golden text-center max-w-sm mx-6 w-full">
+            <span class="text-[10px] font-black text-primary mb-2 block tracking-[0.2em]">MARIE FINANCE</span>
+            <h1 class="text-3xl font-display font-bold mb-3">Tu Momento es Hoy</h1>
+            <p class="text-xs text-text-muted-light dark:text-text-muted-dark mb-6 leading-relaxed">
+                Toma el control de tu futuro, un número a la vez. <br>Tu paz mental financiera comienza ahora mismo.
+            </p>
+            <button onclick="Auth.login()" class="w-full py-3.5 rounded-2xl bg-white dark:bg-white/10 font-bold flex items-center justify-center gap-3 shadow-sm text-sm border border-black/5 hover:bg-gray-50 transition-colors">
+                <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="G"> Iniciar Viaje
             </button>
         </div>
     </div>
@@ -170,12 +180,12 @@
     <div id="profileModal" class="modal-backdrop hidden">
         <div class="modal-bg" onclick="App.closeProfileModal()"></div>
         <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-xs rounded-3xl p-6 shadow-golden relative z-10 transform scale-95 opacity-0 transition-all" id="profileCard">
-            <h3 class="text-sm font-bold text-center mb-1 text-primary tracking-wide uppercase">Identidad</h3>
-            <p class="text-[11px] text-center text-text-muted-light mb-4">¿Cómo te llamamos en este viaje?</p>
-            <input id="inputUserName" type="text" placeholder="Tu Nombre..." class="ghost-input text-xl font-bold border-b border-dashed border-primary/30 py-2 mb-6" onfocus="this.select()">
+            <h3 class="text-lg font-bold text-center mb-1">Vamos a conocernos</h3>
+            <p class="text-[11px] text-center text-text-muted-light mb-4">¿Cómo te gustaría que te llamemos?</p>
+            <input id="inputUserName" type="text" placeholder="Ej: Alex, Sol..." class="editable-input w-full bg-transparent py-2 px-3 text-base font-medium text-center mb-6">
             <div class="grid grid-cols-2 gap-3">
                 <button onclick="App.closeProfileModal()" class="py-2.5 rounded-xl text-[10px] font-bold bg-black/5 hover:bg-black/10">LUEGO</button>
-                <button onclick="App.saveProfile()" class="py-2.5 rounded-xl text-[10px] font-bold bg-primary text-white shadow-lg shadow-primary/30">EMPEZAR</button>
+                <button onclick="App.saveProfile()" class="py-2.5 rounded-xl text-[10px] font-bold bg-primary text-white shadow-lg shadow-primary/30">¡LISTO!</button>
             </div>
         </div>
     </div>
@@ -183,31 +193,32 @@
     <div id="logoutModal" class="modal-backdrop hidden">
         <div class="modal-bg" onclick="Auth.closeLogoutModal()"></div>
         <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-xs rounded-3xl p-6 shadow-golden relative z-10 transform scale-95 opacity-0 text-center transition-all" id="logoutCard">
-            <h3 class="text-sm font-bold mb-1 uppercase tracking-wide">¿Hacemos una pausa?</h3>
-            <p class="text-[11px] text-text-muted-light mb-5">Todo quedará guardado para tu regreso.</p>
+            <h3 class="text-lg font-bold mb-1">¿Hacemos una pausa?</h3>
+            <p class="text-[11px] text-text-muted-light mb-5">Todo quedará guardado para cuando vuelvas.</p>
             <div class="grid grid-cols-2 gap-3">
-                <button onclick="Auth.closeLogoutModal()" class="py-2.5 rounded-xl text-[10px] font-bold bg-black/5 hover:bg-black/10">SEGUIR</button>
-                <button onclick="Auth.confirmLogout()" class="py-2.5 rounded-xl text-[10px] font-bold bg-danger text-white shadow-lg shadow-danger/30">CERRAR</button>
+                <button onclick="Auth.closeLogoutModal()" class="py-2.5 rounded-xl text-[10px] font-bold bg-black/5 hover:bg-black/10">ME QUEDO</button>
+                <button onclick="Auth.confirmLogout()" class="py-2.5 rounded-xl text-[10px] font-bold bg-danger text-white shadow-lg shadow-danger/30">CERRAR SESIÓN</button>
             </div>
         </div>
     </div>
 
     <div id="transactionModal" class="modal-backdrop hidden">
         <div onclick="App.closeTransactionModal()" class="modal-bg"></div>
-        <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-xs rounded-3xl p-5 shadow-golden relative z-10 transform scale-95 opacity-0 transition-all border border-white/40" id="transactionCard">
-            <div class="flex flex-col items-center">
-                <span class="text-[9px] font-bold tracking-widest text-text-muted-light uppercase mb-1" id="modalTitle">MOVIMIENTO</span>
-                <div class="text-3xl font-display font-black tracking-tighter mb-4" id="modalAmountDisplay">$0</div>
-                
-                <div class="w-full bg-black/5 dark:bg-white/5 rounded-2xl px-4 py-3 mb-4">
-                    <input id="transactionDesc" type="text" placeholder="Escribe el concepto..." class="ghost-input text-sm font-medium w-full text-center placeholder:text-text-muted-light/50" onfocus="this.placeholder=''">
-                    <div class="h-0.5 w-8 bg-primary/20 mx-auto mt-1 rounded-full"></div>
-                </div>
+        <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-xs rounded-2xl p-5 shadow-golden relative z-10 transform scale-95 opacity-0 transition-all border-0" id="transactionCard">
+            <div class="flex justify-center mb-2">
+                <span class="material-symbols-rounded text-2xl text-primary bg-primary/10 p-2 rounded-full" id="modalIcon">payments</span>
+            </div>
+            <h3 class="text-base font-bold text-center mb-0.5" id="modalTitle">Registro</h3>
+            <p class="text-xl text-center text-text-main-light dark:text-white mb-4 font-display font-black tracking-tight" id="modalAmountDisplay">$0</p>
+            
+            <div class="mb-5 bg-black/5 dark:bg-white/5 rounded-xl p-3">
+                <label class="hint-text block mb-1 pl-1">Concepto (Opcional)</label>
+                <input id="transactionDesc" type="text" placeholder="Escribe aquí..." class="w-full bg-transparent text-sm border-none focus:ring-0 p-0 placeholder-opacity-50 text-center font-medium">
+            </div>
 
-                <div class="grid grid-cols-2 gap-3 w-full">
-                    <button onclick="App.closeTransactionModal()" class="py-3 rounded-2xl text-[10px] font-bold bg-transparent border border-black/5 hover:bg-black/5">CANCELAR</button>
-                    <button onclick="App.confirmTransaction()" id="modalConfirmBtn" class="py-3 rounded-2xl text-[10px] font-bold bg-primary text-white shadow-lg transform active:scale-95 transition-transform">CONFIRMAR</button>
-                </div>
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="App.closeTransactionModal()" class="py-2 rounded-xl text-[10px] font-bold text-text-muted-light hover:bg-black/5">CANCELAR</button>
+                <button onclick="App.confirmTransaction()" id="modalConfirmBtn" class="py-2 rounded-xl text-[10px] font-bold bg-primary text-white shadow-md hover:scale-[1.02] transition-transform">CONFIRMAR</button>
             </div>
         </div>
     </div>
@@ -219,22 +230,22 @@
                     <span class="material-symbols-rounded text-lg">arrow_back</span>
                 </button>
                 <div class="flex flex-col cursor-pointer leading-tight" onclick="App.navigateTo('home')">
-                    <span id="pageTitleLabel" class="text-[8px] font-black text-primary tracking-widest uppercase">PANEL</span>
+                    <span id="pageTitleLabel" class="text-[9px] font-black text-primary tracking-widest uppercase">PANEL</span>
                     <span id="pageTitleMain" class="text-sm font-bold font-display">Marie Finance</span>
                 </div>
             </div>
             <div class="flex gap-1">
                 <button onclick="App.navigateTo('help')" class="btn-header flex items-center justify-center active:scale-95 text-primary" title="Ayuda">
-                    <span class="material-symbols-rounded text-lg">help</span>
+                    <span class="material-symbols-rounded text-xl">help</span>
                 </button>
                 <button onclick="App.openProfileModal()" class="btn-header flex items-center justify-center active:scale-95" title="Tu perfil">
-                    <span class="material-symbols-rounded text-lg">account_circle</span>
+                    <span class="material-symbols-rounded text-xl">account_circle</span>
                 </button>
                 <button onclick="Auth.logout()" class="btn-header flex items-center justify-center active:scale-95 hover:text-danger" title="Cerrar sesión">
-                    <span class="material-symbols-rounded text-lg">logout</span>
+                    <span class="material-symbols-rounded text-xl">logout</span>
                 </button>
                 <button onclick="App.toggleTheme()" class="btn-header flex items-center justify-center active:scale-95" title="Cambiar tema">
-                    <span class="material-symbols-rounded text-lg">contrast</span>
+                    <span class="material-symbols-rounded text-xl">contrast</span>
                 </button>
             </div>
         </div>
@@ -245,8 +256,8 @@
         <div id="view-home" class="view-container fade-in">
             <div class="mb-4 flex justify-between items-end px-1">
                 <div>
-                    <h1 class="text-lg font-display font-black"><span class="text-primary">Hola, </span><span id="userGreetingName">...</span></h1>
-                    <p class="text-[10px] text-text-muted-light font-medium">¡A darle con todo hoy!</p>
+                    <h1 class="text-xl font-display font-black"><span class="text-primary">¡Hola! </span><span id="userGreetingName">...</span></h1>
+                    <p class="text-[10px] text-text-muted-light font-medium">Hoy es un gran día para organizar tus números.</p>
                 </div>
             </div>
 
@@ -256,16 +267,16 @@
                     <div class="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20 transition-opacity"><span class="material-symbols-rounded text-5xl">savings</span></div>
                     <div class="flex justify-between items-center relative z-10">
                         <div>
-                            <p class="hint-text mb-1">🎯 La Gran Cima (Meta)</p>
+                            <p class="hint-text mb-1">🎯 Tu Gran Meta</p>
                             <span id="homeGoalDisplay" class="text-2xl font-black tracking-tighter">0</span>
                         </div>
                         <div class="text-right">
-                            <p class="hint-text mb-1">💰 Caja Chica Real</p>
+                            <p class="hint-text mb-1">💰 Saldo Actual</p>
                             <div class="text-lg font-bold text-success" id="homeSavedDisplay">$0</div>
                         </div>
                         <span class="material-symbols-rounded text-xl opacity-30 group-hover:translate-x-1 transition-transform">chevron_right</span>
                     </div>
-                    <p class="text-[9px] opacity-50 mt-2 font-medium">Toca aquí para registrar el dinero real que entra y sale.</p>
+                    <p class="text-[9px] opacity-50 mt-2 font-medium">Haz clic aquí para ver tu historial y movimientos.</p>
                 </div>
 
                 <div class="card-glass p-4 rounded-2xl shadow-soft cursor-pointer group hover:border-success/30 transition-all" onclick="App.navigateTo('incomes')">
@@ -273,9 +284,9 @@
                         <div class="w-8 h-8 rounded-xl bg-success/10 flex items-center justify-center text-success"><span class="material-symbols-rounded text-lg">trending_up</span></div>
                         <span class="material-symbols-rounded text-sm opacity-30 group-hover:text-success transition-colors">arrow_outward</span>
                     </div>
-                    <p class="hint-text">🚀 Motor de Ingresos</p>
+                    <p class="hint-text">📈 Flujo Positivo</p>
                     <div id="homeIncomeDisplay" class="text-xl font-black text-success tracking-tight mt-0.5">$0</div>
-                    <p class="text-[9px] opacity-50 mt-1 truncate">Fijos + Variables</p>
+                    <p class="text-[9px] opacity-50 mt-1 truncate">Sueldo + Proyectos</p>
                 </div>
 
                 <div class="card-glass p-4 rounded-2xl shadow-soft cursor-pointer group hover:border-danger/30 transition-all" onclick="App.navigateTo('expenses')">
@@ -283,9 +294,9 @@
                         <div class="w-8 h-8 rounded-xl bg-danger/10 flex items-center justify-center text-danger"><span class="material-symbols-rounded text-lg">trending_down</span></div>
                         <span class="material-symbols-rounded text-sm opacity-30 group-hover:text-danger transition-colors">arrow_outward</span>
                     </div>
-                    <p class="hint-text">📉 Inversión y Gastos</p>
+                    <p class="hint-text">📉 Compromisos</p>
                     <div id="homeExpenseDisplay" class="text-xl font-black text-danger tracking-tight mt-0.5">$0</div>
-                    <p class="text-[9px] opacity-50 mt-1 truncate">Lo que sale mensualmente</p>
+                    <p class="text-[9px] opacity-50 mt-1 truncate">Lo fijo y lo variable</p>
                 </div>
 
                 <div class="card-glass p-4 rounded-2xl shadow-soft col-span-2">
@@ -293,177 +304,193 @@
                         <div class="flex items-center gap-3">
                             <div class="w-8 h-8 rounded-xl bg-warning/10 flex items-center justify-center text-warning"><span class="material-symbols-rounded text-lg">cardiology</span></div>
                             <div>
-                                <h3 class="font-bold text-[10px] uppercase tracking-wide">Pulso Financiero</h3>
-                                <p class="text-[9px] opacity-60">¿Cómo vamos este mes?</p>
+                                <h3 class="font-bold text-[10px] uppercase tracking-wide">Salud Financiera</h3>
+                                <p class="text-[9px] opacity-60">El pulso de tu economía</p>
                             </div>
                         </div>
                         <div id="healthBadge" class="px-2.5 py-1 bg-black/5 rounded-full text-[8px] font-black uppercase tracking-wider">--</div>
                     </div>
-                    <p class="text-[10px] opacity-60 mb-2 pl-1" id="healthDescText">Analizando tus números...</p>
+                    <p class="text-[10px] opacity-60 mb-2 pl-1" id="healthDescText">Analizando datos...</p>
                     <div class="h-[60px] w-full"><canvas id="mainChart"></canvas></div>
                 </div>
             </div>
         </div>
 
         <div id="view-goal" class="view-container fade-in hidden">
-            <div class="grid grid-cols-2 gap-3 mb-3">
-                 <div class="card-glass p-4 rounded-2xl shadow-golden flex flex-col justify-center">
-                    <p class="hint-text text-primary mb-1">🎯 Meta Total</p>
-                    <div class="flex items-baseline gap-1">
-                        <span class="text-xs font-bold opacity-50">$</span>
-                        <input id="inputGoal" type="number" class="editable-input bg-transparent font-black text-xl w-full" placeholder="0" oninput="App.updateVal('goal', this.value)" onfocus="this.value=''">
+            <div class="card-glass p-4 rounded-2xl shadow-golden text-center mt-2 mb-3">
+                <div class="flex justify-between items-center px-2">
+                    <div class="text-left">
+                        <p class="hint-text text-primary">🎯 Meta Total</p>
+                        <div class="flex items-center">
+                            <span class="text-sm opacity-30 mr-1 font-bold">$</span>
+                            <input id="inputGoal" type="number" class="editable-input bg-transparent text-xl font-black w-24" placeholder="0" oninput="App.updateVal('goal', this.value)">
+                        </div>
                     </div>
-                    <div class="w-full h-1 bg-black/5 rounded-full mt-2 overflow-hidden">
-                        <div id="goalProgressBar" class="h-full bg-primary w-0 transition-all duration-1000"></div>
+                    <div class="text-right">
+                         <p class="hint-text text-success">💰 Acumulado</p>
+                         <h2 id="detailSavedDisplay" class="text-xl font-black text-success tracking-tight">$0</h2>
                     </div>
-                 </div>
+                </div>
+                <div class="w-full h-1 bg-black/5 rounded-full mt-3 overflow-hidden">
+                    <div id="goalProgressBar" class="h-full bg-primary w-0 transition-all duration-1000"></div>
+                </div>
 
-                 <div class="card-glass p-4 rounded-2xl shadow-golden flex flex-col justify-center bg-success/5 dark:bg-success/5 border-success/20">
-                    <p class="hint-text text-success mb-1">💰 Saldo Real</p>
-                    <h2 id="detailSavedDisplay" class="text-2xl font-black text-success tracking-tight">$0</h2>
-                 </div>
-            </div>
-
-            <div class="card-glass p-3 rounded-2xl mb-4 border-dashed border-2 border-black/5">
-                <p class="hint-text text-center mb-2">⚡ Registro Rápido</p>
-                <div class="flex gap-2 items-center">
-                    <input id="fundInput" type="number" placeholder="Monto..." class="bg-white/50 dark:bg-black/20 rounded-xl px-3 py-2 text-sm font-bold w-1/3 text-center outline-none border border-transparent focus:border-primary/50" onfocus="this.value=''">
-                    <button onclick="App.modifyFund('sub')" class="flex-1 py-2 rounded-xl bg-danger text-white font-bold text-[10px] shadow-md active:scale-95 transition-all">SALIÓ</button>
-                    <button onclick="App.modifyFund('add')" class="flex-1 py-2 rounded-xl bg-success text-white font-bold text-[10px] shadow-md active:scale-95 transition-all">ENTRÓ</button>
+                <div class="mt-4 pt-3 border-t border-dashed border-black/10 dark:border-white/10">
+                    <p class="hint-text mb-2 text-center">👇 Movimiento Rápido</p>
+                    <div class="flex items-center justify-center gap-2">
+                        <input id="fundInput" type="number" placeholder="0.00" class="editable-input w-24 bg-transparent text-center font-bold text-lg p-1 text-text-main-light dark:text-white">
+                        <button onclick="App.modifyFund('sub')" class="w-8 h-8 rounded-full bg-danger/10 text-danger flex items-center justify-center hover:bg-danger hover:text-white transition-all shadow-sm"><span class="material-symbols-rounded text-lg">remove</span></button>
+                        <button onclick="App.modifyFund('add')" class="w-8 h-8 rounded-full bg-success/10 text-success flex items-center justify-center hover:bg-success hover:text-white transition-all shadow-sm"><span class="material-symbols-rounded text-lg">add</span></button>
+                    </div>
                 </div>
             </div>
 
-            <div class="mt-4">
-                <div class="flex justify-between items-center mb-3 px-1">
-                    <p class="hint-text">📜 El Chisme (Historial)</p>
+            <div class="px-1">
+                <div class="flex justify-between items-end mb-2">
+                    <h3 class="text-xs font-bold opacity-70 flex items-center gap-1"><span class="material-symbols-rounded text-sm">history</span> Historial</h3>
                     <div class="flex gap-2">
-                        <select id="historyMonthFilter" onchange="UI.renderHistory()" class="custom-select">
-                            <option value="all">Todos los meses</option>
+                        <select id="historyMonthFilter" onchange="UI.renderHistory()" class="custom-select bg-white/50 dark:bg-black/20 text-[9px] font-bold py-1 pl-2 rounded-lg border-none focus:ring-0 text-text-main-light dark:text-white">
+                            <option value="ALL">Todo</option>
                         </select>
-                        <select id="historyLimitFilter" onchange="UI.renderHistory()" class="custom-select">
-                            <option value="15">Ver 15</option>
-                            <option value="30">Ver 30</option>
-                            <option value="50">Ver 50</option>
-                            <option value="100">Ver 100</option>
+                        <select id="historyLimitFilter" onchange="UI.renderHistory()" class="custom-select bg-white/50 dark:bg-black/20 text-[9px] font-bold py-1 pl-2 rounded-lg border-none focus:ring-0 text-text-main-light dark:text-white">
+                            <option value="15">15</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
                         </select>
                     </div>
                 </div>
-                <div id="historyContainer" class="space-y-2 text-left pb-10"></div>
+                
+                <div id="historyContainer" class="space-y-2 pb-10 min-h-[200px]">
+                    </div>
             </div>
         </div>
 
         <div id="view-incomes" class="view-container fade-in hidden">
-            <div class="card-glass p-4 rounded-2xl shadow-golden mb-4 mt-1 flex justify-between items-center bg-gradient-to-br from-white/80 to-success/5">
-                <div>
-                    <p class="hint-text">💵 Proyección Mensual</p>
-                    <p id="totalIncomeDisplay" class="text-2xl font-black text-success tracking-tight mt-0.5">$0</p>
-                </div>
-                <div class="text-right">
-                    <p class="hint-text mb-1">💼 Base Fija</p>
-                    <input id="inputSalary" type="number" class="editable-input w-20 bg-transparent text-right font-black text-lg" oninput="App.updateVal('salary', this.value)" onfocus="this.value=''" placeholder="0">
+            <div class="card-glass p-4 rounded-2xl shadow-golden mb-4 mt-2">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="hint-text">📊 Potencial Total</p>
+                        <p id="totalIncomeDisplay" class="text-2xl font-black text-success tracking-tight mt-1">$0</p>
+                    </div>
+                    <div class="text-right pl-4 border-l border-black/5">
+                        <p class="hint-text mb-1">💼 Fijo / Base</p>
+                        <div class="flex items-center justify-end">
+                            <span class="text-xs mr-1 opacity-50">$</span>
+                            <input id="inputSalary" type="number" class="editable-input w-20 bg-transparent text-right font-black text-xl" oninput="App.updateVal('salary', this.value)" placeholder="0">
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="flex justify-between items-end mb-3 px-2">
                 <div>
-                    <span class="text-xs font-bold opacity-80">Fuentes de Ingreso</span>
-                    <p class="text-[10px] opacity-40">Tigritos, ventas, inventos...</p>
+                    <span class="text-xs font-bold opacity-70">Proyectos & Variables</span>
+                    <p class="text-[10px] opacity-40">Desliza abajo para ver más</p>
                 </div>
                 <button onclick="App.addItem('incomes')" class="px-4 py-2 bg-success text-white rounded-xl text-[10px] font-bold shadow-md flex items-center gap-1 hover:bg-success/90 transition-all active:scale-95">
                     <span class="material-symbols-rounded text-sm">add</span> Nuevo
                 </button>
             </div>
 
-            <div id="incomesList" class="grid grid-cols-1 md:grid-cols-2 gap-3 pb-20"></div>
+            <div id="incomesList" class="grid grid-cols-1 gap-3 pb-10"></div>
         </div>
 
         <div id="view-expenses" class="view-container fade-in hidden">
-            <div class="card-glass p-4 rounded-2xl shadow-golden mb-4 mt-1 flex justify-between items-center bg-gradient-to-br from-white/80 to-danger/5">
+            <div class="card-glass p-4 rounded-2xl shadow-golden mb-4 flex justify-between items-center mt-2">
                 <div>
-                    <p class="hint-text">💸 Salida Mensual</p>
-                    <p id="totalExpenseDisplay" class="text-2xl font-black text-danger tracking-tight mt-0.5">$0</p>
+                    <p class="hint-text">💸 Total Salidas</p>
+                    <p id="totalExpenseDisplay" class="text-2xl font-black text-danger tracking-tight mt-1">$0</p>
                 </div>
-                <div class="text-right">
-                    <button onclick="App.addItem('expenses')" class="px-4 py-2 bg-danger text-white rounded-xl text-[10px] font-bold shadow-md flex items-center gap-1 hover:bg-danger/90 transition-all active:scale-95">
-                        <span class="material-symbols-rounded text-sm">add</span> Nuevo Gasto
-                    </button>
-                </div>
+                <button onclick="App.addItem('expenses')" class="w-10 h-10 bg-danger text-white flex items-center justify-center rounded-xl shadow-lg hover:bg-danger/90 transition-all active:scale-95">
+                    <span class="material-symbols-rounded text-xl">add</span>
+                </button>
             </div>
 
             <div class="px-2 mb-3">
-                <p class="text-xs font-bold opacity-80 mb-0.5">Fugas de Capital</p>
-                <p class="text-[10px] opacity-40">Gastos fijos, servicios, suscripciones...</p>
+                <p class="text-xs font-bold opacity-70 mb-0.5">Lista de Compromisos</p>
+                <p class="text-[10px] opacity-40">Todo suma, desliza para revisar</p>
             </div>
             
-            <div id="expensesList" class="grid grid-cols-1 md:grid-cols-2 gap-3 pb-20"></div>
+            <div id="expensesList" class="grid grid-cols-1 md:grid-cols-2 gap-3 pb-10"></div>
         </div>
 
         <div id="view-help" class="view-container fade-in hidden">
-            <div class="mt-2 mb-5 px-2">
-                <h1 class="text-xl font-display font-black text-primary">Manual de Supervivencia</h1>
-                <p class="text-[11px] text-text-muted-light">Guía definitiva para dominar esta herramienta.</p>
+            <div class="mt-2 mb-4 px-2">
+                <div class="flex items-center gap-3 mb-1">
+                    <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                        <span class="material-symbols-rounded text-xl text-primary">menu_book</span>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-display font-black">Manual de Supervivencia</h1>
+                        <p class="text-[10px] text-text-muted-light">Guía definitiva para dominar tus números.</p>
+                    </div>
+                </div>
             </div>
 
-            <div class="space-y-4 pb-20">
+            <div class="space-y-4 pb-20 px-1">
                 
                 <div class="help-card">
                     <h3 class="font-bold text-sm mb-2 text-primary flex items-center gap-2">
-                        <span class="material-symbols-rounded text-lg">dashboard</span> EL PANEL PRINCIPAL
+                        <span class="material-symbols-rounded text-base">dashboard</span> 1. El Panel (Tu Radar)
                     </h3>
-                    <p class="text-[10px] leading-relaxed text-text-muted-light text-justify">
-                        Es tu cabina de mando. Aquí ves la salud general de tu economía de un vistazo. 
-                        <br><br>
-                        • <strong>La Gran Cima (Meta):</strong> Tu objetivo final de ahorro. ¿Quieres un carro? ¿Un viaje? Aquí se refleja cuánto llevas acumulado vs lo que quieres lograr.
-                        <br>
-                        • <strong>Motor de Ingresos:</strong> Es una proyección. Suma tu sueldo fijo más todos los "tigritos" o ventas que haces al mes.
-                        <br>
-                        • <strong>Inversión y Gastos:</strong> Todo lo que sale de tu bolsillo mensualmente de forma fija.
-                        <br>
-                        • <strong>Pulso Financiero:</strong> Un gráfico y un diagnóstico rápido. Si dice "Sólido", vas genial. Si dice "Atención", gastas más de lo que ganas.
+                    <p class="text-[11px] text-text-muted-light leading-relaxed mb-2 text-justify">
+                        Aquí ves la "foto completa" de tu situación actual. No se trata de juzgarte, sino de informarte.
                     </p>
+                    <ul class="list-disc pl-4 space-y-1 text-[10px] text-text-muted-light">
+                        <li><strong>Tu Gran Meta:</strong> Te muestra cuánto has acumulado vs. lo que sueñas tener. Toca esta tarjeta para registrar movimientos del día a día.</li>
+                        <li><strong>Flujo Positivo:</strong> Es tu potencia. Cuánto eres capaz de generar este mes si todo sale bien.</li>
+                        <li><strong>Compromisos:</strong> Lo que ya tienes comprometido pagar.</li>
+                        <li><strong>Salud Financiera:</strong> Un gráfico inteligente que compara tus ingresos contra tus gastos y te dice si estás en zona verde (ahorrando), amarilla (al límite) o roja (peligro).</li>
+                    </ul>
                 </div>
 
                 <div class="help-card">
                     <h3 class="font-bold text-sm mb-2 text-success flex items-center gap-2">
-                        <span class="material-symbols-rounded text-lg">savings</span> LA META & REGISTRO REAL
+                        <span class="material-symbols-rounded text-base">savings</span> 2. Meta y Movimientos
                     </h3>
-                    <p class="text-[10px] leading-relaxed text-text-muted-light text-justify">
-                        Esta sección es la única que afecta tu dinero real "en mano".
-                        <br><br>
-                        • <strong>Saldo Real:</strong> Es el dinero que tienes disponible HOY.
-                        <br>
-                        • <strong>Botones Entró/Salió:</strong> Úsalos cada vez que abras la billetera. ¿Compraste un café? Pon el monto y dale "Salió". ¿Te pagaron una factura? Dale "Entró".
-                        <br>
-                        • <strong>Historial (El Chisme):</strong> Ahora puedes filtrar por mes para ver en qué se te fue la plata en Diciembre o cuánto hiciste en Enero. ¡Nada se escapa!
+                    <p class="text-[11px] text-text-muted-light leading-relaxed mb-2 text-justify">
+                        Esta es la sección operativa. Aquí es donde "pasan las cosas" reales.
                     </p>
+                    <ul class="list-disc pl-4 space-y-1 text-[10px] text-text-muted-light">
+                        <li><strong>Saldo Acumulado:</strong> Es el dinero real que tienes disponible ahora mismo.</li>
+                        <li><strong>Registrar Movimiento:</strong> Usa el campo pequeño y los botones (+ / -) para registrar compras del súper, un pago que te hicieron, o una salida a comer. ¡Sé constante aquí!</li>
+                        <li><strong>Historial:</strong> Abajo verás todo lo que has hecho. Puedes filtrar por mes para ver cómo te fue en meses pasados.</li>
+                    </ul>
                 </div>
 
                 <div class="help-card">
-                    <h3 class="font-bold text-sm mb-2 text-warning flex items-center gap-2">
-                        <span class="material-symbols-rounded text-lg">trending_up</span> PROYECCIÓN DE INGRESOS
+                    <h3 class="font-bold text-sm mb-2 text-primary flex items-center gap-2">
+                        <span class="material-symbols-rounded text-base">trending_up</span> 3. Ingresos (Planificación)
                     </h3>
-                    <p class="text-[10px] leading-relaxed text-text-muted-light text-justify">
-                        Aquí planificas tu potencia de fuego.
-                        <br><br>
-                        • <strong>Base Fija:</strong> Tu sueldo o mesada que llega sí o sí.
-                        <br>
-                        • <strong>Proyectos (Items):</strong> Agrega productos que vendes o servicios. Lo genial es que calculamos la <strong>Ganancia Real</strong> (Precio de Venta - Costo). 
-                        <br>
-                        • <strong>Control Deslizante:</strong> Mueve la barrita para simular "¿Qué pasa si vendo 10 unidades? ¿Y si vendo 20?". Los números se actualizan al instante para que veas tu potencial.
+                    <p class="text-[11px] text-text-muted-light leading-relaxed mb-2 text-justify">
+                        Aquí proyectamos el éxito. No solo pongas tu sueldo, piensa en grande.
                     </p>
+                    <ul class="list-disc pl-4 space-y-1 text-[10px] text-text-muted-light">
+                        <li><strong>Fijo/Base:</strong> Tu sueldo seguro o mesada.</li>
+                        <li><strong>Proyectos/Variables:</strong> Aquí está la magia. Agrega cada "tigrito", venta o freelance. 
+                            <br><em>Tip Pro:</em> El sistema calcula automáticamente tu ganancia real (Precio al cliente - Tus costos) x Cantidad vendida. ¡Mueve los controles deslizantes para ver cómo crecen tus números!</li>
+                    </ul>
                 </div>
 
                 <div class="help-card">
                     <h3 class="font-bold text-sm mb-2 text-danger flex items-center gap-2">
-                        <span class="material-symbols-rounded text-lg">trending_down</span> GASTOS MENSUALES
+                        <span class="material-symbols-rounded text-base">trending_down</span> 4. Gastos (Realidad)
                     </h3>
-                    <p class="text-[10px] leading-relaxed text-text-muted-light text-justify">
-                        Aquí anotas tus compromisos ineludibles.
-                        <br><br>
-                        Agrega la renta, el internet, Netflix, el gimnasio. Usa el control deslizante para ajustar montos variables (como la luz o el mercado) y ver cómo afecta tu capacidad de ahorro final. Si la barra inferior se pone roja, ¡recorta gastos aquí!
+                    <p class="text-[11px] text-text-muted-light leading-relaxed mb-2 text-justify">
+                        Para tener paz mental, hay que saber a dónde se va el dinero.
                     </p>
+                    <ul class="list-disc pl-4 space-y-1 text-[10px] text-text-muted-light">
+                        <li>Agrega todo: Alquiler, internet, salidas, suscripciones.</li>
+                        <li>Usa los controles deslizantes si tus gastos varían (ej. la luz a veces viene más cara).</li>
+                        <li>Si el total de aquí supera al de Ingresos, el sistema te alertará en el Dashboard.</li>
+                    </ul>
                 </div>
 
+                <button onclick="App.navigateTo('home')" class="w-full py-3 bg-primary text-white rounded-2xl font-bold text-xs flex items-center justify-center gap-2 shadow-lg hover:bg-primary/90 transition-all mt-4">
+                    <span class="material-symbols-rounded text-base">home</span>
+                    ¡Entendido, volver al Panel!
+                </button>
             </div>
         </div>
 
@@ -473,11 +500,11 @@
         <div class="pointer-events-auto bg-white/90 dark:bg-[#1a1a1a]/95 backdrop-blur-xl border border-white/20 shadow-golden rounded-2xl w-full max-w-md px-5 py-3 transition-all transform hover:-translate-y-1">
             <div class="flex justify-between items-center mb-1.5">
                 <div class="flex flex-col">
-                    <span class="hint-text text-[8px] tracking-widest">💰 AHORRO POTENCIAL</span>
+                    <span class="hint-text text-[8px] tracking-widest">💰 CAPACIDAD AHORRO</span>
                     <span id="barSurplus" class="text-lg font-black leading-none">$0</span>
                 </div>
                 <div class="text-right flex flex-col items-end">
-                    <span class="hint-text text-[8px] tracking-widest">⏱️ TIEMPO ESTIMADO</span>
+                    <span class="hint-text text-[8px] tracking-widest">⏱️ TIEMPO META</span>
                     <div id="barTime" class="text-[10px] font-bold bg-primary/10 text-primary px-2.5 py-0.5 rounded-lg">--</div>
                 </div>
             </div>
@@ -550,135 +577,179 @@
         };
 
         const UI = {
-            renderAll: () => { UI.renderIncomes(); UI.renderExpenses(); UI.renderHistory(); App.calculateGlobal(); },
+            renderAll: () => { UI.renderIncomes(); UI.renderExpenses(); UI.populateMonthFilter(); UI.renderHistory(); App.calculateGlobal(); },
             showToast: (msg) => { const toast = Utils.$('toast'); toast.innerText = msg; toast.className = "show"; setTimeout(() => { toast.className = ""; }, 2500); },
             triggerConfetti: () => { if (typeof confetti === 'function') confetti({ particleCount: 100, spread: 70, origin: { y: 0.7 }, colors: ['#b08968', '#6a994e', '#e9c46a'], scalar: 1.2 }); },
             animateNum: (id, endVal) => {
                 const el = Utils.$(id); if (!el) return;
                 try {
-                    if(!el.countUpInstance) el.countUpInstance = new countUp.CountUp(id, endVal, { duration: 0.5, prefix: '$' }); // Faster duration for snappiness
+                    if(!el.countUpInstance) el.countUpInstance = new countUp.CountUp(id, endVal, { duration: 1, prefix: '$' });
                     else el.countUpInstance.update(endVal);
                     if (!el.countUpInstance.error) el.countUpInstance.start(); else el.innerText = '$' + endVal;
                 } catch(e) { el.innerText = '$' + endVal; }
             },
+            
+            // Nueva lógica de Historial con Filtros
             populateMonthFilter: () => {
-                const filter = Utils.$('historyMonthFilter');
-                const currentVal = filter.value;
-                const months = [...new Set(state.history.map(h => h.date.substring(0, 7)))].sort().reverse();
+                if(!state.history || state.history.length === 0) return;
+                const select = Utils.$('historyMonthFilter');
+                // Guardar selección actual
+                const currentVal = select.value;
+                select.innerHTML = '<option value="ALL">Todo</option>';
                 
-                filter.innerHTML = '<option value="all">Todos los meses</option>';
-                const monthNames = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
-                
-                months.forEach(m => {
-                    const [y, mo] = m.split('-');
-                    const name = `${monthNames[parseInt(mo)-1]} ${y}`;
-                    filter.innerHTML += `<option value="${m}">${name}</option>`;
+                const months = new Set();
+                state.history.forEach(h => {
+                    const d = new Date(h.date || h.id);
+                    const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+                    months.add(key);
                 });
-                if(currentVal && filter.querySelector(`option[value="${currentVal}"]`)) filter.value = currentVal;
-            },
-            renderHistory: () => {
-                const container = Utils.$('historyContainer'); if (!container) return; container.innerHTML = '';
-                UI.populateMonthFilter();
                 
-                let filtered = [...state.history].sort((a,b) => b.id - a.id);
-                const monthFilter = Utils.$('historyMonthFilter').value;
-                const limitFilter = parseInt(Utils.$('historyLimitFilter').value);
+                // Ordenar descendente
+                Array.from(months).sort().reverse().forEach(m => {
+                    const [y, mon] = m.split('-');
+                    const dateObj = new Date(y, mon-1);
+                    const label = dateObj.toLocaleString('es-ES', { month: 'long', year: 'numeric' });
+                    const opt = document.createElement('option');
+                    opt.value = m;
+                    opt.innerText = label.charAt(0).toUpperCase() + label.slice(1);
+                    select.appendChild(opt);
+                });
+                select.value = currentVal || 'ALL';
+            },
 
-                if(monthFilter !== 'all') {
-                    filtered = filtered.filter(h => h.date.startsWith(monthFilter));
+            renderHistory: () => {
+                const container = Utils.$('historyContainer'); if (!container) return; 
+                container.innerHTML = '';
+                
+                const limit = parseInt(Utils.$('historyLimitFilter').value) || 15;
+                const monthFilter = Utils.$('historyMonthFilter').value;
+                
+                let sorted = [...(state.history || [])].sort((a,b) => b.id - a.id);
+                
+                // Filtrar por mes
+                if(monthFilter !== 'ALL') {
+                    sorted = sorted.filter(h => {
+                        const d = new Date(h.date || h.id);
+                        const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+                        return key === monthFilter;
+                    });
                 }
                 
-                filtered = filtered.slice(0, limitFilter);
+                // Limitar cantidad
+                const totalItems = sorted.length;
+                sorted = sorted.slice(0, limit);
 
-                if(filtered.length === 0) { container.innerHTML = '<p class="text-[10px] opacity-40 text-center py-3 italic">No hay chisme (movimientos) por aquí.</p>'; return; }
+                if(totalItems === 0) { container.innerHTML = '<p class="text-[10px] opacity-40 text-center py-6 italic">No hay movimientos en este periodo.</p>'; return; }
                 
-                filtered.forEach(h => {
+                sorted.forEach(h => {
                     const isAdd = h.type === 'add';
-                    const dateObj = new Date(h.date);
-                    const day = dateObj.getDate();
-                    const month = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"][dateObj.getMonth()];
-
+                    const dateStr = new Date(h.date || h.id).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' });
                     container.innerHTML += `
-                    <div class="flex justify-between items-center p-2.5 bg-white/50 dark:bg-white/5 rounded-xl text-[10px] border border-white/10 hover:bg-white/60 transition-colors group">
+                    <div class="flex justify-between items-center p-3 bg-white/50 dark:bg-white/5 rounded-xl text-[10px] border border-white/10 hover:bg-white/60 transition-colors">
                         <div class="flex items-center gap-3 flex-1 overflow-hidden">
-                            <div class="flex flex-col items-center justify-center w-8 h-8 rounded-lg bg-black/5 dark:bg-white/5 shrink-0">
-                                <span class="text-[9px] font-black leading-none">${day}</span>
-                                <span class="text-[7px] uppercase opacity-60 leading-none">${month}</span>
-                            </div>
-                            <div class="flex flex-col flex-1 overflow-hidden">
-                                <input value="${h.desc || ''}" class="editable-input bg-transparent font-bold text-[10px] w-full truncate py-0.5 placeholder:text-text-muted-light/30" oninput="Data.updateHistoryDesc(${h.id}, this.value)" placeholder="Sin concepto">
-                                <span class="text-[8px] opacity-40">${isAdd ? 'Ingreso' : 'Egreso'}</span>
-                            </div>
+                            <span class="text-[9px] font-mono opacity-50 w-8">${dateStr}</span>
+                            <span class="material-symbols-rounded text-sm ${isAdd ? 'text-success' : 'text-danger'} bg-black/5 dark:bg-white/10 rounded-full p-1">${isAdd ? 'arrow_downward' : 'arrow_upward'}</span>
+                            <input value="${h.desc || ''}" class="editable-input bg-transparent font-medium flex-1 truncate text-[11px] py-1" oninput="Data.updateHistoryDesc(${h.id}, this.value)" placeholder="Sin descripción...">
                         </div>
                         <div class="flex items-center gap-2 shrink-0 ml-2">
-                            <span class="font-bold ${isAdd ? 'text-success' : 'text-danger'} text-xs bg-white/40 dark:bg-black/20 px-2 py-1 rounded-lg">${isAdd ? '+' : '-'}${Utils.formatMoney(h.amount)}</span>
-                            <button onclick="App.deleteItem('history', ${h.id})" class="text-danger/20 hover:text-danger p-1 transition-colors"><span class="material-symbols-rounded text-base">delete</span></button>
+                            <span class="font-bold ${isAdd ? 'text-success' : 'text-danger'} text-xs">${isAdd ? '+' : '-'}${Utils.formatMoney(h.amount)}</span>
+                            <button onclick="App.deleteItem('history', ${h.id})" class="text-danger/40 hover:text-danger p-1"><span class="material-symbols-rounded text-base">delete</span></button>
                         </div>
                     </div>`;
                 });
+                
+                if(totalItems > limit) {
+                    container.innerHTML += `<div class="text-center py-2"><p class="text-[9px] opacity-40 italic">Mostrando ${limit} de ${totalItems} movimientos</p></div>`;
+                }
             },
+
             renderIncomes: () => {
-                const container = Utils.$('incomesList'); if (!container) return; container.innerHTML = '';
-                if(state.incomes.length === 0) { container.innerHTML = `<div class="col-span-full py-6 text-center opacity-40 border-2 border-dashed border-black/5 rounded-xl"><p class="text-[10px] font-medium">Pulsa "Nuevo" para agregar un proyecto.</p></div>`; return; }
-                state.incomes.forEach(i => {
-                    const sub = (i.price - i.cost) * i.qty;
-                    // Note: Slider logic now calls App.updateIncomeRealTime on input
-                    container.innerHTML += `
-                    <div class="bg-white/50 dark:bg-white/5 p-3 rounded-2xl border border-white/20 hover:shadow-sm transition-all" id="income-card-${i.id}">
-                        <div class="flex justify-between items-center mb-2">
-                            <input value="${i.name}" class="editable-input bg-transparent font-bold text-xs flex-1 text-primary" oninput="App.updateItem('incomes', ${i.id}, 'name', this.value)" onfocus="this.value=''" placeholder="Nombre del proyecto...">
-                            <button onclick="App.deleteItem('incomes', ${i.id})" class="text-text-muted-light hover:text-danger ml-2 p-1"><span class="material-symbols-rounded text-base">close</span></button>
-                        </div>
-                        <div class="flex gap-2 mb-2">
-                             <div class="w-1/2 relative bg-black/5 dark:bg-black/20 rounded-xl p-1.5">
-                                <span class="text-[7px] opacity-50 font-bold block mb-0.5 text-center">PRECIO</span>
-                                <input type="number" value="${i.price}" class="editable-input w-full bg-transparent text-xs font-bold text-center border-none" oninput="App.updateItem('incomes', ${i.id}, 'price', this.value)" onfocus="this.value=''" placeholder="0">
-                             </div>
-                             <div class="w-1/2 relative bg-danger/5 dark:bg-black/20 rounded-xl p-1.5 border border-danger/10">
-                                <span class="text-[7px] opacity-50 font-bold block mb-0.5 text-danger text-center">COSTO</span>
-                                <input type="number" value="${i.cost}" class="editable-input w-full bg-transparent text-xs font-bold text-danger text-center border-none" oninput="App.updateItem('incomes', ${i.id}, 'cost', this.value)" onfocus="this.value=''" placeholder="0">
-                             </div>
-                        </div>
-                        <div class="flex items-center gap-2 px-1 mb-1">
-                            <span class="text-[8px] opacity-50 uppercase font-bold">Volumen:</span>
-                            <input type="range" min="1" max="100" value="${i.qty}" class="flex-1 h-1" oninput="App.updateIncomeRealTime(${i.id}, this.value)" onchange="App.saveIncomeData(${i.id}, this.value)">
-                            <span id="qty-disp-${i.id}" class="text-[9px] font-bold bg-primary text-white px-1.5 py-0.5 rounded-md min-w-[24px] text-center">${i.qty}</span>
-                        </div>
-                        <div class="text-right mt-2 pt-2 border-t border-dashed border-black/10 dark:border-white/10 flex justify-between items-center">
-                            <span class="text-[8px] opacity-50 font-bold uppercase">Ganancia:</span>
-                            <span id="total-disp-${i.id}" class="text-success font-black text-sm">+${Utils.formatMoney(sub)}</span>
-                        </div>
-                    </div>`;
-                });
-            },
-            renderExpenses: () => {
-                const container = Utils.$('expensesList'); if (!container) return; container.innerHTML = '';
-                if(state.expenses.length === 0) { container.innerHTML = `<div class="col-span-full py-6 text-center opacity-40 border-2 border-dashed border-black/5 rounded-xl"><p class="text-[10px] font-medium">Toca "Nuevo Gasto" para agregar.</p></div>`; return; }
-                state.expenses.forEach(e => {
-                    container.innerHTML += `
-                    <div class="flex flex-col gap-2 bg-white/50 dark:bg-white/5 p-3 rounded-2xl border border-white/20 shadow-sm">
-                        <div class="flex items-center gap-3">
-                            <div class="w-9 h-9 rounded-xl bg-danger/5 flex items-center justify-center text-danger shrink-0"><span class="material-symbols-rounded text-base">${Utils.getSmartIcon(e.name)}</span></div>
-                            <div class="flex-1 overflow-hidden">
-                                <input value="${e.name}" class="editable-input bg-transparent font-bold text-[11px] w-full truncate" oninput="App.updateItem('expenses', ${e.id}, 'name', this.value)" onfocus="this.value=''" placeholder="Concepto...">
-                                <div class="flex items-center mt-0.5">
-                                    <span class="text-[9px] opacity-50 mr-0.5 font-bold">$</span>
-                                    <input type="number" id="exp-amount-${e.id}" value="${e.amount}" class="editable-input bg-transparent font-bold text-xs w-20" oninput="App.updateExpenseRealTime(${e.id}, this.value)" onfocus="this.value=''" placeholder="0">
+                const container = Utils.$('incomesList'); if (!container) return; 
+                // NO borramos innerHTML si estamos editando para mantener fluidez, 
+                // solo si cambia la longitud del array
+                const currentCount = container.children.length;
+                if(state.incomes.length !== currentCount) {
+                    container.innerHTML = '';
+                    if(state.incomes.length === 0) { container.innerHTML = `<div class="col-span-full py-6 text-center opacity-40 border-2 border-dashed border-black/5 rounded-xl"><p class="text-[10px] font-medium">Pulsa "Nuevo" para registrar un proyecto o venta.</p></div>`; return; }
+                    
+                    state.incomes.forEach(i => {
+                        const sub = (i.price - i.cost) * i.qty;
+                        container.innerHTML += `
+                        <div id="income-card-${i.id}" class="bg-white/50 dark:bg-white/5 p-3 rounded-2xl border border-white/20 hover:shadow-sm transition-all mb-3">
+                            <div class="flex justify-between items-center mb-2">
+                                <input value="${i.name}" class="editable-input bg-transparent font-bold text-xs flex-1 text-primary" onchange="App.saveItem('incomes', ${i.id}, 'name', this.value)" placeholder="Nombre del proyecto...">
+                                <button onclick="App.deleteItem('incomes', ${i.id})" class="text-text-muted-light hover:text-danger ml-2 p-1"><span class="material-symbols-rounded text-base">delete</span></button>
+                            </div>
+                            <div class="flex gap-2 mb-2">
+                                <div class="w-1/2 relative bg-black/5 dark:bg-black/20 rounded-xl p-1.5">
+                                    <span class="text-[7px] opacity-50 font-bold block mb-0.5 text-center">PRECIO</span>
+                                    <input type="number" value="${i.price}" class="w-full bg-transparent text-xs font-bold text-center border-none p-0 focus:ring-0" oninput="App.liveUpdateIncome(${i.id}, 'price', this.value)" placeholder="0">
+                                </div>
+                                <div class="w-1/2 relative bg-danger/5 dark:bg-black/20 rounded-xl p-1.5 border border-danger/10">
+                                    <span class="text-[7px] opacity-50 font-bold block mb-0.5 text-danger text-center">COSTO</span>
+                                    <input type="number" value="${i.cost}" class="w-full bg-transparent text-xs font-bold text-danger text-center border-none p-0 focus:ring-0" oninput="App.liveUpdateIncome(${i.id}, 'cost', this.value)" placeholder="0">
                                 </div>
                             </div>
-                            <button onclick="App.deleteItem('expenses', ${e.id})" class="text-text-muted-light hover:text-danger p-2"><span class="material-symbols-rounded text-lg">close</span></button>
-                        </div>
-                        <div class="flex items-center gap-2 mt-1">
-                             <input type="range" min="0" max="2000" step="10" value="${e.amount}" class="flex-1 h-1" oninput="App.updateExpenseRealTime(${e.id}, this.value, true)" onchange="App.saveExpenseData(${e.id}, this.value)">
-                        </div>
-                    </div>`;
-                });
+                            <div class="flex items-center gap-2 px-1">
+                                <span class="text-[8px] opacity-50 uppercase font-bold">Unidades:</span>
+                                <input type="range" min="1" max="50" value="${i.qty}" class="flex-1 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" oninput="App.liveUpdateIncome(${i.id}, 'qty', this.value)">
+                                <span id="qty-disp-${i.id}" class="text-[9px] font-bold bg-primary text-white px-1.5 py-0.5 rounded-md min-w-[24px] text-center">${i.qty}</span>
+                            </div>
+                            <div class="text-right mt-2 pt-2 border-t border-dashed border-black/10 dark:border-white/10 flex justify-between items-center">
+                                <span class="text-[8px] opacity-50 font-bold uppercase">Ganancia Estimada:</span>
+                                <span id="profit-disp-${i.id}" class="text-success font-black text-sm">+${Utils.formatMoney(sub)}</span>
+                            </div>
+                        </div>`;
+                    });
+                } else {
+                    // Update values without re-rendering HTML structure (prevents jumpy sliders)
+                     state.incomes.forEach(i => {
+                        const qtyDisp = document.getElementById(`qty-disp-${i.id}`);
+                        const profitDisp = document.getElementById(`profit-disp-${i.id}`);
+                        if(qtyDisp) qtyDisp.innerText = i.qty;
+                        if(profitDisp) profitDisp.innerText = '+' + Utils.formatMoney((i.price - i.cost) * i.qty);
+                     });
+                }
+            },
+            renderExpenses: () => {
+                const container = Utils.$('expensesList'); if (!container) return;
+                
+                // Mismo enfoque de fluidez
+                const currentCount = container.children.length;
+                if(state.expenses.length !== currentCount) {
+                    container.innerHTML = '';
+                    if(state.expenses.length === 0) { container.innerHTML = `<div class="col-span-full py-6 text-center opacity-40 border-2 border-dashed border-black/5 rounded-xl"><p class="text-[10px] font-medium">Toca el botón (+) para añadir tus gastos fijos.</p></div>`; return; }
+                    
+                    state.expenses.forEach(e => {
+                        container.innerHTML += `
+                        <div class="flex flex-col gap-2 bg-white/50 dark:bg-white/5 p-3 rounded-2xl border border-white/20 shadow-sm mb-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-9 h-9 rounded-xl bg-danger/5 flex items-center justify-center text-danger shrink-0"><span class="material-symbols-rounded text-base">${Utils.getSmartIcon(e.name)}</span></div>
+                                <div class="flex-1 overflow-hidden">
+                                    <input value="${e.name}" class="editable-input bg-transparent font-bold text-[11px] w-full truncate" onchange="App.saveItem('expenses', ${e.id}, 'name', this.value)" placeholder="Concepto...">
+                                </div>
+                                <button onclick="App.deleteItem('expenses', ${e.id})" class="text-text-muted-light hover:text-danger p-2"><span class="material-symbols-rounded text-lg">delete</span></button>
+                            </div>
+                            
+                            <div class="flex items-center gap-2 mt-1 px-1">
+                                <span class="text-[9px] opacity-50 font-bold">$</span>
+                                <input type="range" min="0" max="2000" step="5" value="${e.amount}" class="flex-1 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" oninput="App.liveUpdateExpense(${e.id}, this.value)">
+                                <input type="number" id="exp-input-${e.id}" value="${e.amount}" class="w-16 bg-transparent text-right text-xs font-bold border-none p-0 focus:ring-0" oninput="App.liveUpdateExpense(${e.id}, this.value)">
+                            </div>
+                        </div>`;
+                    });
+                } else {
+                     state.expenses.forEach(e => {
+                        const inp = document.getElementById(`exp-input-${e.id}`);
+                        if(inp && document.activeElement !== inp) inp.value = e.amount;
+                     });
+                }
             },
             renderChart: () => {
                 const ctx = Utils.$('mainChart'); if(!ctx) return;
                 const sorted = [...state.history].sort((a,b) => a.id - b.id);
                 const labels = [''], dataPoints = [0]; let bal = 0;
-                sorted.slice(-15).forEach(h => { bal = Math.max(0, bal + (h.type === 'add' ? h.amount : -h.amount)); labels.push(''); dataPoints.push(bal); });
+                sorted.slice(-10).forEach(h => { bal = Math.max(0, bal + (h.type === 'add' ? h.amount : -h.amount)); labels.push(''); dataPoints.push(bal); });
                 labels.push(''); dataPoints.push(state.accumulated);
                 if(chartInstance) chartInstance.destroy();
                 const grad = ctx.getContext('2d').createLinearGradient(0, 0, 0, 80);
@@ -691,9 +762,9 @@
             updateThermometer: (inc, exp) => {
                 const badge = Utils.$('healthBadge'); const desc = Utils.$('healthDescText'); if (!badge || !desc) return;
                 let rate = inc > 0 ? ((inc - exp) / inc) * 100 : 0; let pos = inc <= exp ? 10 : 30 + Math.min((rate/50)*70, 70);
-                if(pos < 35) { badge.innerText = "🚨 ATENCIÓN"; badge.className="px-2.5 py-1 bg-danger text-white rounded-full text-[8px] font-black tracking-wider"; desc.innerText = "Gastos > Ingresos. ¡Alerta!"; }
-                else if(pos < 65) { badge.innerText = "⚖️ EQUILIBRADO"; badge.className="px-2.5 py-1 bg-warning text-black/80 rounded-full text-[8px] font-black tracking-wider"; desc.innerText = "Estable, pero vigila los antojos."; }
-                else { badge.innerText = "✅ SÓLIDO"; badge.className="px-2.5 py-1 bg-success text-white rounded-full text-[8px] font-black tracking-wider"; desc.innerText = "¡Excelente ritmo de crecimiento!"; }
+                if(pos < 35) { badge.innerText = "🚨 ATENCIÓN"; badge.className="px-2.5 py-1 bg-danger text-white rounded-full text-[8px] font-black tracking-wider"; desc.innerText = "Revisa tus gastos urgentes."; }
+                else if(pos < 65) { badge.innerText = "⚖️ ESTABLE"; badge.className="px-2.5 py-1 bg-warning text-black/80 rounded-full text-[8px] font-black tracking-wider"; desc.innerText = "Vas bien, mantén el equilibrio."; }
+                else { badge.innerText = "✅ SÓLIDO"; badge.className="px-2.5 py-1 bg-success text-white rounded-full text-[8px] font-black tracking-wider"; desc.innerText = "Tu capacidad de ahorro es genial."; }
             }
         };
 
@@ -703,7 +774,7 @@
                 document.querySelectorAll('[id^="view-"]').forEach(el => el.classList.add('hidden')); 
                 const view = Utils.$(`view-${id}`); if (view) view.classList.remove('hidden'); 
                 const btn = Utils.$('backBtn'); const label = Utils.$('pageTitleLabel');
-                const titles = { home: 'RESUMEN', goal: 'TU OBJETIVO', incomes: 'INGRESOS', expenses: 'GASTOS', help: 'MANUAL' };
+                const titles = { home: 'RESUMEN', goal: 'TU META', incomes: 'INGRESOS', expenses: 'GASTOS', help: 'MANUAL' };
                 if(label) label.innerText = titles[id] || 'PANEL';
                 if(id === 'home') btn.classList.add('hidden'); else btn.classList.remove('hidden');
                 App.calculateGlobal();
@@ -730,11 +801,11 @@
             },
             updateBottomBar: (sur, tot, rem) => {
                 const bar = Utils.$('barProgress'); const time = Utils.$('barTime'); const surDisp = Utils.$('barSurplus');
-                Utils.setText('barGoalText', `Falta para la meta: ${Utils.formatCompact(rem)}`);
+                Utils.setText('barGoalText', `Te falta: ${Utils.formatCompact(rem)}`);
                 if (surDisp) { surDisp.innerText = (sur > 0 ? '+' : '') + Utils.formatMoney(sur); surDisp.className = `text-lg font-black leading-none ${sur > 0 ? 'text-success' : 'text-danger'}`; }
                 if (bar && time) {
                     if (sur > 0) { bar.style.width = Math.min(((sur/tot)*100)*2, 100) + '%'; bar.className = 'h-full bg-success transition-all duration-1000 rounded-full'; time.innerText = App.formatTime(rem/sur); } 
-                    else { bar.style.width = '100%'; bar.className = 'h-full bg-danger transition-all duration-1000 rounded-full'; time.innerText = "Revisa números"; }
+                    else { bar.style.width = '100%'; bar.className = 'h-full bg-danger transition-all duration-1000 rounded-full'; time.innerText = "Sin margen"; }
                 }
             },
             formatTime: (m) => { if(m === Infinity || isNaN(m)) return "∞"; if(m <= 0) return "¡LOGRADO!"; const y = Math.floor(m/12); const mo = Math.floor(m%12); return y > 0 ? `${y}a ${mo}m` : `${mo} mes(es)`; },
@@ -743,20 +814,20 @@
             
             openProfileModal: () => { Utils.$('profileModal').classList.remove('hidden'); setTimeout(() => { Utils.$('profileCard').classList.remove('scale-95', 'opacity-0'); Utils.$('profileCard').classList.add('scale-100', 'opacity-100'); }, 10); Utils.$('inputUserName').value = state.userName; },
             closeProfileModal: () => { Utils.$('profileCard').classList.add('scale-95', 'opacity-0'); setTimeout(() => Utils.$('profileModal').classList.add('hidden'), 200); },
-            saveProfile: () => { const n = Utils.$('inputUserName').value.trim(); if(n) { state.userName = n; Data.save(); App.updateGreeting(); App.closeProfileModal(); UI.showToast("✓ Perfil actualizado"); } },
-            updateGreeting: () => { Utils.$('userGreetingName').innerText = state.userName || 'Visionario'; },
+            saveProfile: () => { const n = Utils.$('inputUserName').value.trim(); if(n) { state.userName = n; Data.save(); App.updateGreeting(); App.closeProfileModal(); UI.showToast("✓ Nombre guardado"); } },
+            updateGreeting: () => { Utils.$('userGreetingName').innerText = state.userName || 'Amiga/o'; },
 
-            modifyFund: (t) => { const input = Utils.$('fundInput'); const amount = parseFloat(input.value); if(!amount || amount <= 0) { input.focus(); UI.showToast("Ingresa un monto primero"); return; } pendingTransaction = { type: t, amount: amount }; App.openTxModal(); },
+            modifyFund: (t) => { const input = Utils.$('fundInput'); const amount = parseFloat(input.value); if(!amount || amount <= 0) { input.focus(); UI.showToast("Escribe un monto primero"); return; } pendingTransaction = { type: t, amount: amount }; App.openTxModal(); },
             openTxModal: () => { 
                 const t = pendingTransaction.type; 
-                Utils.$('modalTitle').innerText = t === 'add' ? 'REGISTRAR INGRESO' : 'REGISTRAR GASTO'; 
+                Utils.$('modalTitle').innerText = t === 'add' ? 'Registrar Ingreso' : 'Registrar Gasto'; 
+                Utils.$('modalIcon').innerText = t === 'add' ? 'arrow_downward' : 'arrow_upward'; 
+                Utils.$('modalIcon').className = `material-symbols-rounded text-3xl p-3 rounded-full ${t === 'add' ? 'text-success bg-success/10' : 'text-danger bg-danger/10'}`;
                 Utils.$('modalAmountDisplay').innerText = Utils.formatMoney(pendingTransaction.amount);
-                Utils.$('modalAmountDisplay').className = `text-3xl font-display font-black tracking-tighter mb-4 ${t === 'add' ? 'text-success' : 'text-danger'}`;
-                Utils.$('modalConfirmBtn').className = `py-3 rounded-2xl text-[10px] font-bold text-white shadow-lg transform active:scale-95 transition-transform ${t === 'add' ? 'bg-success hover:bg-success/90' : 'bg-danger hover:bg-danger/90'}`;
+                Utils.$('modalConfirmBtn').className = `py-2 rounded-xl text-[10px] font-bold text-white shadow-md w-full ${t === 'add' ? 'bg-success hover:bg-success/90' : 'bg-danger hover:bg-danger/90'}`;
                 
                 const inputDesc = Utils.$('transactionDesc');
                 inputDesc.value = ""; 
-                // Set Placeholder based on context
                 inputDesc.placeholder = t === 'add' ? 'Ej: Pago cliente, Venta...' : 'Ej: Comida, Transporte...';
                 
                 Utils.$('transactionModal').classList.remove('hidden'); 
@@ -774,7 +845,8 @@
                 if (!state.history) state.history = [];
                 state.history.unshift({ id: Date.now(), date: new Date().toISOString(), desc: desc, amount: pendingTransaction.amount, type: pendingTransaction.type });
                 Utils.$('fundInput').value = ''; pendingTransaction = null;
-                UI.renderHistory(); App.calculateGlobal(); App.closeTransactionModal(); UI.showToast("✓ Movimiento guardado");
+                UI.populateMonthFilter(); // Actualizar filtros si hay nuevo mes
+                UI.renderHistory(); App.calculateGlobal(); App.closeTransactionModal(); UI.showToast("✓ ¡Anotado!");
             },
 
             addItem: (t) => { const id = Date.now(); if(t === 'incomes') state.incomes.push({id, name:'Nuevo Proyecto', price:0, cost:0, qty:1}); else state.expenses.push({id, name:'Nuevo Gasto', amount:0}); App.calculateGlobal(); UI.renderAll(); UI.showToast("✓ Agregado"); },
@@ -784,37 +856,47 @@
                 else state.expenses = state.expenses.filter(i => i.id !== id); 
                 App.calculateGlobal(); UI.renderAll(); UI.showToast("✓ Eliminado");
             },
-            updateItem: (t, id, f, v) => { const arr = state[t]; const i = arr.find(x => x.id === id); if(i) { i[f] = (f === 'name') ? v : (parseFloat(v) || 0); App.calculateGlobal(); } },
             
-            // SPECIAL REAL-TIME UPDATES FOR SLIDERS
-            updateIncomeRealTime: (id, val) => {
-                 const i = state.incomes.find(x => x.id === id);
-                 if(i) {
-                     i.qty = parseInt(val);
-                     // Direct DOM manipulation for instant feedback without re-rendering list
-                     const txtQty = document.getElementById(`qty-disp-${id}`);
-                     const txtTotal = document.getElementById(`total-disp-${id}`);
-                     if(txtQty) txtQty.innerText = i.qty;
-                     if(txtTotal) txtTotal.innerText = '+' + Utils.formatMoney((i.price - i.cost) * i.qty);
-                     App.calculateGlobal(); // Update global totals
-                 }
-            },
-            saveIncomeData: (id, val) => { Data.save(); }, // Trigger save only on slider release (onchange)
-
-            updateExpenseRealTime: (id, val, isSlider = false) => {
-                const e = state.expenses.find(x => x.id === id);
-                if(e) {
-                    e.amount = parseFloat(val) || 0;
-                    if(isSlider) {
-                         const input = document.getElementById(`exp-amount-${id}`);
-                         if(input) input.value = e.amount;
-                    }
-                    App.calculateGlobal();
+            // Lógica optimizada para Sliders en tiempo real
+            saveItem: (t, id, f, v) => { const arr = state[t]; const i = arr.find(x => x.id === id); if(i) { i[f] = v; Data.save(); } },
+            liveUpdateIncome: (id, f, v) => {
+                const i = state.incomes.find(x => x.id === id);
+                if(i) {
+                    i[f] = parseFloat(v) || 0;
+                    // Solo actualizamos el DOM especifico, NO re-renderizamos todo el HTML
+                    const qtyEl = document.getElementById(`qty-disp-${id}`);
+                    const profEl = document.getElementById(`profit-disp-${id}`);
+                    if(qtyEl) qtyEl.innerText = i.qty;
+                    if(profEl) profEl.innerText = '+' + Utils.formatMoney((i.price - i.cost) * i.qty);
+                    // Calculo global sin re-pintar listas
+                    App.calculateGlobalValuesOnly(); 
                 }
             },
-            saveExpenseData: (id, val) => { Data.save(); },
+            liveUpdateExpense: (id, v) => {
+                const e = state.expenses.find(x => x.id === id);
+                if(e) {
+                    e.amount = parseFloat(v) || 0;
+                    const inp = document.getElementById(`exp-input-${id}`);
+                    if(inp && document.activeElement !== inp) inp.value = e.amount;
+                    App.calculateGlobalValuesOnly();
+                }
+            },
+            // Versión ligera de calculo global que no re-pinta listas (evita lag en slider)
+            calculateGlobalValuesOnly: () => {
+                let varInc = state.incomes.reduce((a, i) => a + ((i.price - i.cost) * i.qty), 0);
+                let totInc = state.salary + varInc;
+                let totExp = state.expenses.reduce((a, e) => a + e.amount, 0);
+                let sur = totInc - totExp;
+                let rem = Math.max(0, state.goal - state.accumulated);
 
-            toggleHistory: () => { Utils.$('historyContainer').classList.toggle('hidden'); Utils.$('historyChevron').classList.toggle('rotate-180'); }
+                Utils.setText('totalIncomeDisplay', Utils.formatMoney(totInc));
+                Utils.setText('totalExpenseDisplay', Utils.formatMoney(totExp));
+                UI.animateNum('homeIncomeDisplay', totInc); // Solo actualiza home si es visible
+                UI.animateNum('homeExpenseDisplay', totExp);
+                App.updateBottomBar(sur, totInc, rem); UI.updateThermometer(totInc, totExp);
+                // Guardar con debounce para no saturar DB (opcional, aquí simple)
+                Data.save();
+            }
         };
 
         document.addEventListener('DOMContentLoaded', App.init);
