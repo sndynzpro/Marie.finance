@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-    <title>Marie Finance - Final Logic</title>
+    <title>Marie Finance - Final Vibe</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20,400,1,0" rel="stylesheet" />
@@ -131,6 +131,7 @@
 
         .prose-mini p { margin-bottom: 0.8rem; line-height: 1.6; }
         .prose-mini h4 { font-weight: 800; margin-bottom: 0.4rem; color: #b08968; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 1rem; }
+        .prose-mini h4:first-child { margin-top: 0; }
         
         input[type="date"]::-webkit-calendar-picker-indicator { cursor: pointer; opacity: 0.6; filter: invert(0.5); }
         .dark input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); }
@@ -146,12 +147,9 @@
         <div class="card-glass p-10 rounded-[2rem] shadow-golden text-center max-w-sm mx-6 w-full relative overflow-hidden">
             <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-primary to-[#d4a373]"></div>
             <span class="text-[10px] font-black text-primary mb-3 block tracking-[0.25em] mt-2">MARIE FINANCE</span>
-            <h1 class="text-4xl font-display font-bold mb-4 text-[#3d342f] dark:text-white">¡Bienvenid@!</h1>
+            <h1 class="text-4xl font-display font-bold mb-4 text-[#3d342f] dark:text-white">¡Qué alegría verte!</h1>
             <p class="text-sm text-text-muted-light dark:text-text-muted-dark mb-4 leading-relaxed font-medium">
-                "Este es tu primer paso hacia la tranquilidad. Olvida las fórmulas complicadas, aquí venimos a organizar tu imperio con cariño."
-            </p>
-            <p class="text-[11px] text-text-muted-light mb-8 italic opacity-80">
-                Tu futuro financiero empieza cuando le pierdes el miedo a tus números. ¡Hagámoslo juntos!
+                "Hoy es un día perfecto para sumar y no restar. Vamos a poner orden."
             </p>
             <button onclick="Auth.login()" class="w-full py-4 rounded-2xl bg-white dark:bg-white/10 font-bold flex items-center justify-center gap-3 shadow-soft text-sm border border-black/5 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300">
                 <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="G"> 
@@ -163,14 +161,24 @@
     <div id="profileModal" class="modal-backdrop hidden">
         <div class="modal-bg" onclick="App.closeProfileModal()"></div>
         <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-[280px] rounded-[1.6rem] p-6 shadow-golden relative z-10 transform scale-95 opacity-0 transition-all" id="profileCard">
-            <h3 class="text-lg font-bold text-center mb-1">¡Un gusto conocerte!</h3>
-            <p class="text-[11px] text-center text-text-muted-light mb-6 leading-relaxed">
-                Para que esto sea más personal, dime cómo te gusta que te llamen.
-            </p>
+            <h3 class="text-lg font-bold text-center mb-1">Tu Identidad</h3>
+            <p class="text-[11px] text-center text-text-muted-light mb-6">¿Cómo te decimos de cariño?</p>
             <input id="inputUserName" type="text" placeholder="Ej: Álex..." class="editable-input w-full bg-transparent py-2 px-3 text-base font-medium text-center mb-6" onfocus="this.value=''">
             <div class="grid grid-cols-2 gap-3">
-                <button onclick="App.closeProfileModal()" class="py-2.5 rounded-xl text-[10px] font-bold bg-black/5 hover:bg-black/10 transition-colors">DESPUÉS</button>
-                <button onclick="App.saveProfile()" class="py-2.5 rounded-xl text-[10px] font-bold bg-primary text-white shadow-md hover:bg-primary/90 transition-colors">¡HECHO!</button>
+                <button onclick="App.closeProfileModal()" class="py-2.5 rounded-xl text-[10px] font-bold bg-black/5 hover:bg-black/10 transition-colors">LUEGO</button>
+                <button onclick="App.saveProfile()" class="py-2.5 rounded-xl text-[10px] font-bold bg-primary text-white shadow-md hover:bg-primary/90 transition-colors">LISTO</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="logoutModal" class="modal-backdrop hidden">
+        <div class="modal-bg" onclick="Auth.closeLogoutModal()"></div>
+        <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-[280px] rounded-[1.6rem] p-6 shadow-golden relative z-10 transform scale-95 opacity-0 text-center transition-all" id="logoutCard">
+            <h3 class="text-lg font-bold mb-1">¿Te nos vas?</h3>
+            <p class="text-[11px] text-text-muted-light mb-6">Tranqui, todo queda guardado.</p>
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="Auth.closeLogoutModal()" class="py-2.5 rounded-xl text-[10px] font-bold bg-black/5 hover:bg-black/10 transition-colors">ME QUEDO</button>
+                <button onclick="Auth.confirmLogout()" class="py-2.5 rounded-xl text-[10px] font-bold bg-danger text-white shadow-md hover:bg-danger/90 transition-colors">CHAU</button>
             </div>
         </div>
     </div>
@@ -182,8 +190,7 @@
                 <span class="material-symbols-rounded text-2xl text-primary bg-primary/10 p-3 rounded-full shadow-inner" id="modalIcon">payments</span>
             </div>
             <h3 class="text-xs font-bold text-center uppercase tracking-wide opacity-80" id="modalTitle">Registro</h3>
-            <p class="text-[10px] text-center opacity-50 mb-1">Confirma el monto:</p>
-            <p class="text-2xl text-center text-text-main-light dark:text-white mb-4 font-display font-black tracking-tight" id="modalAmountDisplay">$0</p>
+            <p class="text-2xl text-center text-text-main-light dark:text-white mb-4 font-display font-black tracking-tight mt-1" id="modalAmountDisplay">$0</p>
             
             <div class="mb-4">
                 <label class="hint-text block mb-1 pl-1">Fecha</label>
@@ -235,8 +242,8 @@
         <div id="view-home" class="view-container scroll-full flex-view px-4 fade-in">
             <div class="mb-6 flex justify-between items-end px-1 pt-2">
                 <div>
-                    <h1 class="text-xl font-display font-black tracking-tight"><span class="text-primary">¡Hola, </span><span id="userGreetingName">...</span>!</h1>
-                    <p class="text-[11px] text-text-muted-light font-medium mt-1">Hoy es un gran día para sumar éxitos.</p>
+                    <h1 class="text-xl font-display font-black tracking-tight"><span class="text-primary">Hola, </span><span id="userGreetingName">...</span></h1>
+                    <p class="text-[11px] text-text-muted-light font-medium mt-1">Hoy es un buen día para sumar.</p>
                 </div>
             </div>
 
@@ -249,12 +256,12 @@
                             <div>
                                 <p class="hint-text mb-1.5">🎯 Meta Soñada</p>
                                 <span id="homeGoalDisplay" class="text-3xl font-black tracking-tighter">0</span>
-                                <p class="text-[10px] opacity-60 mt-2 font-medium max-w-[160px] leading-tight">Define cuánto quieres y ve por ello.</p>
+                                <p class="text-[10px] opacity-60 mt-2 font-medium">Aquí se cocina el futuro.</p>
                             </div>
                             <div class="text-right">
                                 <p class="hint-text mb-1.5">💰 Caja Chica (Hoy)</p>
                                 <div class="text-xl font-bold text-success" id="homeSavedDisplay">$0</div>
-                                <p class="text-[9px] opacity-50 mt-1">Lo que tienes ahora mismo.</p>
+                                <p class="text-[9px] opacity-50 mt-1">Realidad actual</p>
                             </div>
                             <span class="material-symbols-rounded text-2xl opacity-30 group-hover:translate-x-1 transition-transform duration-300">chevron_right</span>
                         </div>
@@ -271,7 +278,7 @@
                             </div>
                             <p class="hint-text">📈 ¡Venga esa Plata!</p>
                             <div id="homeIncomeDisplay" class="text-xl font-black text-success tracking-tight mt-1">$0</div>
-                            <p class="text-[9px] opacity-60 mt-2 leading-tight">Proyecta tu abundancia aquí.</p>
+                            <p class="text-[9px] opacity-60 mt-1.5 leading-tight">Proyecta tu abundancia.</p>
                         </div>
 
                         <div class="card-glass p-phi-3 rounded-[1.5rem] shadow-soft cursor-pointer group hover:border-danger/30 transition-all duration-300" onclick="App.navigateTo('expenses')">
@@ -281,7 +288,7 @@
                             </div>
                             <p class="hint-text">📉 Salidas Dolorosas</p>
                             <div id="homeExpenseDisplay" class="text-xl font-black text-danger tracking-tight mt-1">$0</div>
-                            <p class="text-[9px] opacity-60 mt-2 leading-tight">Identifica y recorta lo que sobre.</p>
+                            <p class="text-[9px] opacity-60 mt-1.5 leading-tight">Mantén esto bajo control.</p>
                         </div>
                     </div>
                 </div>
@@ -293,9 +300,9 @@
                             <div>
                                 <h3 class="font-bold text-xs uppercase tracking-wide flex items-center gap-2">
                                     <span class="material-symbols-rounded text-lg text-primary">monitoring</span>
-                                    El Detector de Verdad
+                                    Pulso Financiero
                                 </h3>
-                                <p class="text-[9px] opacity-60 mt-0.5">Tus números no mienten.</p>
+                                <p class="text-[9px] opacity-60 mt-0.5">La verdad en una línea.</p>
                             </div>
                             <div class="flex gap-2 items-center">
                                 <div class="flex flex-col items-end">
@@ -315,7 +322,7 @@
                         
                         <div class="flex justify-between items-center mt-3 pt-2 border-t border-black/5 dark:border-white/5">
                             <div id="healthBadge" class="px-2.5 py-0.5 bg-black/5 rounded-full text-[8px] font-black uppercase tracking-wider">--</div>
-                            <p class="text-[9px] opacity-50 italic" id="healthDescText">Déjame analizarte...</p>
+                            <p class="text-[9px] opacity-50 italic" id="healthDescText">Calculando...</p>
                         </div>
                     </div>
                 </div>
@@ -332,12 +339,12 @@
                                 <span class="text-lg text-muted-light/30 mr-1 font-bold">$</span>
                                 <input id="inputGoal" type="number" class="editable-input bg-transparent text-left text-3xl font-black w-32" placeholder="0" oninput="App.updateVal('goal', this.value)" onfocus="this.value=''">
                             </div>
-                            <p class="text-[9px] opacity-50 text-left mt-1">¿Qué precio tiene tu sueño?</p>
+                            <p class="text-[9px] opacity-50 text-left mt-1">¿Cuánto cuesta tu sueño?</p>
                         </div>
                         <div class="text-right">
                              <p class="hint-text text-success mb-1">💰 Caja Chica</p>
                              <h2 id="detailSavedDisplay" class="text-3xl font-black text-success tracking-tight">$0</h2>
-                             <p class="text-[9px] opacity-50 text-right mt-1">Saldo en tiempo real</p>
+                             <p class="text-[9px] opacity-50 text-right mt-1">Saldo real hoy</p>
                         </div>
                     </div>
                     
@@ -368,16 +375,20 @@
                 </div>
 
                 <div class="flex justify-between items-center px-1 mb-2 pb-2 border-b border-black/5">
-                    <div class="relative">
-                        <select id="monthSelector" onchange="App.filterHistory()" class="appearance-none bg-black/5 dark:bg-white/10 text-[10px] font-bold rounded-lg px-3 py-1.5 pr-7 border-none outline-none cursor-pointer">
-                            </select>
-                        <span class="material-symbols-rounded text-xs absolute right-1.5 top-2 pointer-events-none opacity-50">expand_more</span>
-                    </div>
-                    <div class="flex gap-1.5">
-                        <button onclick="App.setHistoryLimit(15)" id="btnLimit15" class="page-btn active">15</button>
-                        <button onclick="App.setHistoryLimit(30)" id="btnLimit30" class="page-btn inactive">30</button>
-                        <button onclick="App.setHistoryLimit(50)" id="btnLimit50" class="page-btn inactive">50</button>
-                        <button onclick="App.setHistoryLimit(100)" id="btnLimit100" class="page-btn inactive">100</button>
+                    <h3 class="text-xs font-bold opacity-70 flex items-center gap-1.5">
+                        <span class="material-symbols-rounded text-base">history</span> El Chisme
+                    </h3>
+                    <div class="flex gap-2">
+                        <div class="relative">
+                            <select id="selMonth" onchange="App.filterHistory()" class="appearance-none bg-white dark:bg-white/10 text-[9px] font-bold rounded-lg px-2 py-1 pr-5 border border-black/5 outline-none cursor-pointer">
+                                </select>
+                            <span class="material-symbols-rounded text-[10px] absolute right-1 top-1.5 pointer-events-none opacity-50">expand_more</span>
+                        </div>
+                        <div class="relative">
+                            <select id="selYear" onchange="App.filterHistory()" class="appearance-none bg-white dark:bg-white/10 text-[9px] font-bold rounded-lg px-2 py-1 pr-5 border border-black/5 outline-none cursor-pointer">
+                                </select>
+                            <span class="material-symbols-rounded text-[10px] absolute right-1 top-1.5 pointer-events-none opacity-50">expand_more</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -402,7 +413,7 @@
                         <div>
                             <p class="hint-text">📊 Capacidad de Fuego</p>
                             <p id="totalIncomeDisplay" class="text-3xl font-black text-success tracking-tight mt-1">$0</p>
-                            <p class="text-[10px] opacity-50 mt-1">Lo que puedes generar si te aplicas.</p>
+                            <p class="text-[10px] opacity-50 mt-1">Lo que puedes generar.</p>
                         </div>
                         <div class="text-right pl-6 border-l border-black/5">
                             <p class="hint-text mb-1">💼 Fijo / Base</p>
@@ -418,7 +429,7 @@
                 <div class="flex justify-between items-end mb-2 px-2">
                     <div>
                         <span class="text-xs font-bold opacity-80">Inventos & Tigritos</span>
-                        <p class="text-[10px] opacity-40 mt-0.5">Calcula tu ganancia real aquí. ¡Nada de engañarse!</p>
+                        <p class="text-[10px] opacity-40 mt-0.5">Calcula tu ganancia real.</p>
                     </div>
                     <button onclick="App.addItem('incomes')" class="px-4 py-2 bg-success text-white rounded-xl text-[10px] font-bold shadow-soft flex items-center gap-1.5 hover:bg-success/90 transition-all active:scale-95">
                         <span class="material-symbols-rounded text-base">add</span> Nuevo
@@ -435,7 +446,7 @@
                     <div>
                         <p class="hint-text">💸 Compromisos Totales</p>
                         <p id="totalExpenseDisplay" class="text-3xl font-black text-danger tracking-tight mt-1">$0</p>
-                        <p class="text-[10px] opacity-40 mt-0.5">Dinero que ya tiene dueño (lamentablemente).</p>
+                        <p class="text-[10px] opacity-40 mt-0.5">Dinero con dueño.</p>
                     </div>
                     <button onclick="App.addItem('expenses')" class="w-12 h-12 bg-danger text-white flex items-center justify-center rounded-2xl shadow-lg hover:scale-105 active:scale-95 transition-all">
                         <span class="material-symbols-rounded text-2xl">add</span>
@@ -444,7 +455,7 @@
 
                 <div class="px-2 mb-2">
                     <p class="text-xs font-bold opacity-80 mb-0.5">Lista de Obligaciones</p>
-                    <p class="text-[10px] opacity-40">Anota todo, hasta lo más pequeño.</p>
+                    <p class="text-[10px] opacity-40">No dejes nada por fuera.</p>
                 </div>
             </div>
             
@@ -458,34 +469,36 @@
                         <span class="material-symbols-rounded text-2xl text-primary">menu_book</span>
                     </div>
                     <div>
-                        <h1 class="text-xl font-display font-black">Tu Manual de Éxito</h1>
-                        <p class="text-[11px] text-text-muted-light mt-0.5">Aprende las reglas del juego para ganar.</p>
+                        <h1 class="text-xl font-display font-black">Manual de Supervivencia</h1>
+                        <p class="text-[11px] text-text-muted-light mt-0.5">Domina tus finanzas fácil.</p>
                     </div>
                 </div>
             </div>
 
             <div class="space-y-4 text-text-main-light dark:text-text-main-dark pb-8 text-[11px]">
                 <div class="help-card prose-mini">
-                    <h4>✨ La Mentalidad Correcta</h4>
-                    <p>¡Hola! 👋 Primero respira. El dinero no es tu enemigo, es tu empleado. Si tú no lo mandas a él, él te manda a ti. Esta app es tu centro de comando. No te juzgues si empiezas en negativo, lo importante es que hoy tomaste el control. ¡Tú puedes!</p>
+                    <h4>✨ La Mentalidad</h4>
+                    <p>El dinero es tu empleado, no tu jefe. Organízalo y verás como crece. Relájate, que aquí no juzgamos.</p>
                 </div>
                 <div class="help-card prose-mini">
-                    <h4>📍 ETAPA 1: PLANEACIÓN (Tu Norte)</h4>
-                    <p>En <strong>Meta Soñada</strong>, quiero que pongas una cifra que te emocione. ¿Quieres viajar? ¿Comprar casa? ¿Dormir tranquilo? Ponle precio.</p>
-                    <p>La <strong>Caja Chica</strong> es tu realidad hoy. Es el dinero líquido. Úsala como un diario: ¿Te pagaron? Dale a "Entró". ¿Pagaste la luz? Dale a "Salió". El secreto de la riqueza es el orden en lo pequeño.</p>
+                    <h4>📍 ETAPA 1: PLANEACIÓN</h4>
+                    <p>Tu <strong>Meta Soñada</strong> es tu norte. La <strong>Caja Chica</strong> es tu realidad hoy. Úsala para registrar cada movimiento real.</p>
                 </div>
                 <div class="help-card prose-mini">
-                    <h4>🚀 ETAPA 2: ANÁLISIS (Tu Motor)</h4>
-                    <p>Aquí calculamos tu potencia real. <br><strong>Ingresos:</strong> ¿Tienes un sueldo? Ponlo en Fijo. ¿Vendes cosas o haces trabajos extra? Usa el botón "Nuevo". La app tiene un truco genial: pones a cuánto vendes y cuánto te costó a ti. Así ves tu <em>Ganancia Real</em>.</p>
-                    <p><strong>Gastos:</strong> Aquí toca ser valiente. Anota todo. La renta, el internet, y sobre todo... esas suscripciones que no usas. Los gastos hormiga son los termitas de tu fortuna. ¡Aplástalos!</p>
+                    <h4>🚀 ETAPA 2: ANÁLISIS</h4>
+                    <p>Calcula tu potencia. En <strong>Ingresos</strong> usa "Nuevo" para calcular ganancias reales de ventas. En <strong>Gastos</strong>, sé brutalmente honesto.</p>
                 </div>
                 <div class="help-card prose-mini">
-                    <h4>📈 ETAPA 3: REGISTRO (La Verdad)</h4>
-                    <p>El gráfico lineal es tu pulso. Queremos ver esa línea subiendo como un cohete. Si va para abajo, no te asustes: ajusta la Etapa 2. Recorta gastos o busca más ingresos.</p>
+                    <h4>📈 ETAPA 3: REGISTRO</h4>
+                    <p>El gráfico te dice la verdad. Úsalo para ver tendencias y corregir el rumbo a tiempo.</p>
+                </div>
+                <div class="help-card bg-primary/5 border-primary/20 prose-mini">
+                    <h4>💡 Tips Rápidos</h4>
+                    <p>La constancia es clave. 5 minutos al día hacen la diferencia. ¡A darle!</p>
                 </div>
                 <button onclick="App.navigateTo('home')" class="w-full py-4 bg-primary text-white rounded-2xl font-bold text-xs flex items-center justify-center gap-2 shadow-soft hover:bg-primary/90 transition-all mt-6">
                     <span class="material-symbols-rounded text-lg">home</span>
-                    ¡Listo, soy un genio financiero!
+                    ¡Listo!
                 </button>
             </div>
         </div>
@@ -496,11 +509,11 @@
         <div class="pointer-events-auto bg-white/95 dark:bg-[#1a1a1a]/95 backdrop-blur-xl border border-white/20 shadow-golden rounded-[1.25rem] w-full max-w-md px-6 py-4 transition-all transform hover:-translate-y-1">
             <div class="flex justify-between items-center mb-2">
                 <div class="flex flex-col">
-                    <span class="hint-text text-[9px] tracking-widest">💰 MARGEN DE MANIOBRA</span>
+                    <span class="hint-text text-[9px] tracking-widest">💰 MARGEN</span>
                     <span id="barSurplus" class="text-xl font-black leading-none mt-0.5">$0</span>
                 </div>
                 <div class="text-right flex flex-col items-end">
-                    <span class="hint-text text-[9px] tracking-widest">⏱️ TIEMPO A LA META</span>
+                    <span class="hint-text text-[9px] tracking-widest">⏱️ META EN</span>
                     <div id="barTime" class="text-[11px] font-bold bg-primary/10 text-primary px-3 py-0.5 rounded-lg mt-0.5">--</div>
                 </div>
             </div>
@@ -522,8 +535,8 @@
 
         let state = { 
             userName: '', goal: 5000, accumulated: 0, salary: 600, incomes: [], expenses: [], history: [], 
-            historySettings: { limit: 15, page: 1 }, 
-            chartStart: '', chartEnd: '', viewMonth: '' 
+            historySettings: { limit: 15, page: 1, month: new Date().getMonth(), year: new Date().getFullYear() }, 
+            chartStart: '', chartEnd: '' 
         };
         let pendingTransaction = null, chartInstance = null, firebaseAuth = null, firestoreDb = null;
 
@@ -545,7 +558,7 @@
                 const offset = d.getTimezoneOffset() * 60000;
                 return new Date(d.getTime() - offset).toISOString().split('T')[0];
             },
-            // Parse YYYY-MM-DD to local midnight
+            // Parse YYYY-MM-DD to local date
             parseDate: (str) => {
                 if(!str) return new Date();
                 const [y, m, d] = str.split('-').map(Number);
@@ -582,12 +595,16 @@
                     const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
                     state.chartStart = Utils.toLocalISO(firstDay);
                     state.chartEnd = Utils.toLocalISO(today);
-                    state.viewMonth = state.chartStart.substring(0, 7); // YYYY-MM
                     
+                    // Init view filter to current month/year
+                    state.historySettings.month = today.getMonth(); 
+                    state.historySettings.year = today.getFullYear();
+                    state.historySettings.limit = 15;
+                    state.historySettings.page = 1;
+
                     Utils.$('dateStart').value = state.chartStart;
                     Utils.$('dateEnd').value = state.chartEnd;
                     
-                    state.historySettings = { limit: 15, page: 1 };
                     UI.renderAll();
                 } catch(e) { console.error(e); }
             },
@@ -610,40 +627,52 @@
             renderHistory: () => {
                 const container = Utils.$('historyContainer'); 
                 const controls = Utils.$('paginationControls');
-                const selector = Utils.$('monthSelector');
+                const selMonth = Utils.$('selMonth');
+                const selYear = Utils.$('selYear');
+                
                 if (!container) return; 
                 container.innerHTML = ''; controls.innerHTML = '';
                 
-                // 1. Generate Dropdown Options based on available data
-                const months = new Set();
-                const now = new Date();
-                const currentMonthKey = Utils.toLocalISO(now).substring(0, 7);
-                months.add(currentMonthKey); // Always include current month
+                // 1. Setup Dropdowns (Unique Years)
+                const years = new Set([new Date().getFullYear()]);
+                state.history.forEach(h => years.add(Utils.parseDate(h.date).getFullYear()));
                 
-                state.history.forEach(h => months.add(h.date.substring(0, 7)));
-                
-                const sortedMonths = Array.from(months).sort().reverse();
-                
-                selector.innerHTML = '';
-                sortedMonths.forEach(m => {
-                    const [y, mo] = m.split('-');
-                    const dateObj = new Date(y, mo - 1, 1);
-                    const label = dateObj.toLocaleString('es-ES', { month: 'long', year: 'numeric' });
-                    const option = document.createElement('option');
-                    option.value = m;
-                    option.innerText = label.charAt(0).toUpperCase() + label.slice(1);
-                    if(m === state.viewMonth) option.selected = true;
-                    selector.appendChild(option);
-                });
+                // Populate Year Select
+                if (selYear.options.length === 0 || selYear.innerHTML === '') {
+                    selYear.innerHTML = '';
+                    Array.from(years).sort((a,b)=>b-a).forEach(y => {
+                        const opt = document.createElement('option');
+                        opt.value = y; opt.text = y;
+                        if(y === state.historySettings.year) opt.selected = true;
+                        selYear.appendChild(opt);
+                    });
+                }
 
-                // 2. Filter list by selected month
-                let filtered = state.history.filter(h => h.date.startsWith(state.viewMonth));
-                // Sort by date desc
-                filtered.sort((a,b) => new Date(b.date) - new Date(a.date));
-                
+                // Populate Month Select
+                if (selMonth.options.length === 0) {
+                    selMonth.innerHTML = '';
+                    const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+                    monthNames.forEach((m, idx) => {
+                        const opt = document.createElement('option');
+                        opt.value = idx; opt.text = m;
+                        if(idx === state.historySettings.month) opt.selected = true;
+                        selMonth.appendChild(opt);
+                    });
+                } else {
+                    selMonth.value = state.historySettings.month; // Ensure correct selection
+                    selYear.value = state.historySettings.year;
+                }
+
+                // 2. Filter logic
+                const filtered = state.history.filter(h => {
+                    const d = Utils.parseDate(h.date);
+                    return d.getMonth() === parseInt(state.historySettings.month) && 
+                           d.getFullYear() === parseInt(state.historySettings.year);
+                }).sort((a,b) => Utils.parseDate(b.date) - Utils.parseDate(a.date));
+
                 // 3. Pagination Logic
                 const totalItems = filtered.length;
-                let limit = state.historySettings.limit;
+                const limit = 15; // Fixed Limit
                 const totalPages = Math.ceil(totalItems / limit);
                 
                 if (state.historySettings.page > totalPages && totalPages > 0) state.historySettings.page = 1;
@@ -652,22 +681,16 @@
                 const startIndex = (state.historySettings.page - 1) * limit;
                 const pagedItems = filtered.slice(startIndex, startIndex + limit);
 
-                [15,30,50,100].forEach(l => {
-                    const btn = Utils.$(`btnLimit${l}`);
-                    if(btn) btn.className = state.historySettings.limit === l ? "page-btn active" : "page-btn inactive";
-                });
-
-                if(totalItems === 0) { container.innerHTML = '<p class="text-[9px] opacity-40 text-center py-6 italic">Nada por aquí en este mes.</p>'; return; }
+                if(totalItems === 0) { container.innerHTML = '<p class="text-[9px] opacity-40 text-center py-6 italic">Nada en este mes.</p>'; return; }
                 
                 pagedItems.forEach(h => {
                     const isAdd = h.type === 'add';
                     const d = Utils.parseDate(h.date);
-                    // Compact Row Layout (Hoja contable)
                     container.innerHTML += `
                     <div class="compact-row group">
                         <div class="text-[9px] font-bold opacity-50 font-mono flex flex-col leading-tight">
-                            <span>${d.getDate()}/${d.getMonth()+1}</span>
-                            <span class="text-[7px]">${d.getFullYear().toString().substr(-2)}</span>
+                            <span>${d.getDate()}</span>
+                            <span class="text-[7px]">DÍA</span>
                         </div>
                         <input value="${h.desc || ''}" class="bg-transparent text-[10px] font-medium w-full truncate focus:outline-none focus:text-primary px-1" oninput="Data.updateHistoryDesc(${h.id}, this.value)" placeholder="Sin detalle...">
                         <div class="text-right flex items-center justify-end gap-2">
@@ -677,7 +700,7 @@
                     </div>`;
                 });
 
-                // Numbered Pages
+                // Render Pagination Numbers
                 if(totalPages > 1) {
                     for(let i = 1; i <= totalPages; i++) {
                         const btn = document.createElement('button');
@@ -864,7 +887,7 @@
                 inputDesc.value = ""; 
                 inputDesc.placeholder = t === 'add' ? 'Ej: Venta, Regalo...' : 'Ej: Comida, Transporte...';
                 
-                // Use safe local date
+                // Safe Local Date for Input
                 Utils.$('transactionDate').value = Utils.toLocalISO(new Date());
 
                 Utils.$('transactionModal').classList.remove('hidden'); 
@@ -885,8 +908,10 @@
                 
                 Utils.$('fundInput').value = ''; pendingTransaction = null;
                 
-                // If the new date is in the current view, stay there, else maybe jump or just stay page 1
-                state.viewMonth = dateVal.substring(0, 7); 
+                // Update view to transaction date
+                const tDate = Utils.parseDate(dateVal);
+                state.historySettings.month = tDate.getMonth();
+                state.historySettings.year = tDate.getFullYear();
                 state.historySettings.page = 1;
                 
                 UI.renderHistory(); App.calculateGlobal(); App.closeTransactionModal(); UI.showToast("✓ ¡Anotado!");
@@ -911,9 +936,13 @@
                     App.calculateGlobal(); 
                 }
             },
-            setHistoryLimit: (limit) => { state.historySettings.limit = limit; state.historySettings.page = 1; UI.renderHistory(); },
             setHistoryPage: (page) => { state.historySettings.page = page; UI.renderHistory(); },
-            filterHistory: () => { state.viewMonth = Utils.$('monthSelector').value; state.historySettings.page = 1; UI.renderHistory(); },
+            filterHistory: () => { 
+                state.historySettings.month = parseInt(Utils.$('selMonth').value); 
+                state.historySettings.year = parseInt(Utils.$('selYear').value);
+                state.historySettings.page = 1;
+                UI.renderHistory(); 
+            },
             updateChart: () => { 
                 state.chartStart = Utils.$('dateStart').value; 
                 state.chartEnd = Utils.$('dateEnd').value;
