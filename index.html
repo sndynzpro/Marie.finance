@@ -1,666 +1,259 @@
 <!DOCTYPE html>
-<html class="dark" lang="es">
+<html lang="es">
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-    <title>Marie Finance - Compact</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20,400,1,0" rel="stylesheet" />
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.0.7/countUp.umd.js"></script>
-
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-
-    <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#b08968",        
-                        "text-main-light": "#4a403a",
-                        "text-muted-light": "#8a7a72",
-                        "text-main-dark": "#e7e5e4",
-                        "text-muted-dark": "#a8a29e",
-                        "success": "#6a994e",        
-                        "danger": "#bc4749",        
-                        "warning": "#e9c46a",        
-                    },
-                    fontFamily: {
-                        "display": ["Plus Jakarta Sans", "sans-serif"],
-                        "body": ["Inter", "sans-serif"],
-                    },
-                    boxShadow: {
-                        'soft': '0 8px 32px -4px rgba(0, 0, 0, 0.05)',
-                        'glow': '0 0 25px -5px rgba(176, 137, 104, 0.4)',
-                        'golden': '0 10px 20px -5px rgba(50, 50, 93, 0.15), 0 5px 10px -5px rgba(0, 0, 0, 0.2)',
-                    },
-                    animation: {
-                        'gradient': 'gradient 25s ease infinite',
-                    },
-                    keyframes: {
-                        gradient: {
-                            '0%': { backgroundPosition: '0% 50%' },
-                            '50%': { backgroundPosition: '100% 50%' },
-                            '100%': { backgroundPosition: '0% 50%' },
-                        }
-                    }
-                },
-            },
-        }
-    </script>
-
-    <style>
-        /* BASE & UTILIDADES */
-        body { -webkit-tap-highlight-color: transparent; transition: color 0.5s ease; }
-        input:focus { outline: none; }
-        input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-        
-        .fade-in { animation: fadeIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; opacity: 0; transform: translateY(8px); }
-        @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
-
-        .animated-bg {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-            background: linear-gradient(-45deg, #efebe9, #d7ccc8, #e6dace, #f5f5f5);
-            background-size: 300% 300%;
-            animation: gradient 25s ease infinite;
-        }
-        .dark .animated-bg {
-            background: linear-gradient(-45deg, #1a120b, #2b1d16, #3e2723, #0c0a09);
-        }
-
-        .glass-panel { 
-            background: rgba(255, 255, 255, 0.8); 
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.4);
-        }
-        .dark .glass-panel { 
-            background: rgba(20, 15, 10, 0.85); 
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
-        }
-        
-        .card-glass {
-            background: rgba(255, 255, 255, 0.65);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-        .dark .card-glass {
-            background: rgba(40, 30, 25, 0.6); 
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        @media (hover: hover) {
-            .card-glass:hover { transform: translateY(-2px); box-shadow: 0 15px 30px -5px rgba(60, 40, 30, 0.1); border-color: rgba(176, 137, 104, 0.4); }
-        }
-        .card-glass:active { transform: scale(0.99); }
-
-        .text-hero { font-size: clamp(1.75rem, 4vw, 3rem); line-height: 1; }
-        .text-truncate-input { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #b08968; border-radius: 10px; opacity: 0.5; }
-        .dark ::-webkit-scrollbar-thumb { background: #8d6e63; }
-
-        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
-        input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none; height: 14px; width: 14px; border-radius: 50%;
-            background: #b08968; cursor: pointer; margin-top: -5px; 
-            box-shadow: 0 1px 3px rgba(0,0,0,0.2); border: 2px solid white;
-        }
-        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; cursor: pointer; background: #e5e5e5; border-radius: 99px; }
-        .dark input[type=range]::-webkit-slider-runnable-track { background: #4e342e; }
-
-        #toast {
-            visibility: hidden; min-width: 200px; max-width: 80%; background-color: rgba(43, 29, 22, 0.95);
-            color: #fff; text-align: center; border-radius: 99px; padding: 10px 20px; position: fixed;
-            z-index: 100; left: 50%; bottom: 90px; transform: translateX(-50%) translateY(20px);
-            font-size: 12px; font-weight: 600; backdrop-filter: blur(8px);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2); opacity: 0; transition: all 0.3s ease;
-            border: 1px solid rgba(255,255,255,0.1); pointer-events: none;
-        }
-        #toast.show { visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0); }
-        
-        .modal-backdrop { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; padding: 1rem; }
-        .modal-bg { position: absolute; inset: 0; background-color: rgba(0,0,0,0.5); backdrop-filter: blur(4px); transition: opacity 0.3s; }
-        
-        .btn-header { width: 40px; height: 40px; flex-shrink: 0; border-radius: 12px; }
-        .btn-control { width: 56px; height: 56px; flex-shrink: 0; border-radius: 16px; }
-        .btn-action-lg { width: 50px; height: 50px; flex-shrink: 0; border-radius: 16px; }
-        .touch-target { min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
-        
-        /* Compact Explainer Box Style */
-        .info-box {
-            font-size: 0.7rem; line-height: 1.4; 
-            background: rgba(176, 137, 104, 0.08); 
-            border: 1px dashed rgba(176, 137, 104, 0.25);
-            border-radius: 12px; padding: 10px 14px;
-            color: #4a403a;
-        }
-        .dark .info-box { background: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.1); color: #a8a29e; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Meta Financiera</title>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <style>
+    :root {
+      --primary: #4361ee;
+      --success: #06d6a0;
+      --danger: #ef476f;
+      --warning: #ffd166;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --gray: #6c757d;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+    body { background: #f5f7ff; color: var(--dark); padding: 20px; }
+    .card { background: white; border-radius: 16px; padding: 24px; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    h1 { text-align: center; margin-bottom: 24px; color: var(--primary); }
+    .goal-display { font-size: 2.5rem; font-weight: bold; text-align: center; margin: 16px 0; color: var(--primary); }
+    .progress-container { height: 24px; background: #e9ecef; border-radius: 12px; overflow: hidden; margin: 16px 0; }
+    .progress-bar { height: 100%; background: var(--success); transition: width 0.5s ease; }
+    .input-group { display: flex; gap: 12px; margin: 16px 0; }
+    input, button { padding: 12px; border: 1px solid #ced4da; border-radius: 8px; font-size: 1rem; }
+    input { flex: 1; }
+    button { background: var(--primary); color: white; cursor: pointer; transition: opacity 0.2s; }
+    button:hover { opacity: 0.9; }
+    button.danger { background: var(--danger); }
+    .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--dark); color: white; padding: 12px 24px; border-radius: 8px; opacity: 0; transition: opacity 0.3s; z-index: 1000; }
+    .toast.show { opacity: 1; }
+    canvas { max-width: 100%; height: 200px !important; }
+    .history-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #eee; }
+    .history-amount.add { color: var(--success); }
+    .history-amount.remove { color: var(--danger); }
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; justify-content: center; align-items: center; }
+    .modal-content { background: white; padding: 24px; border-radius: 16px; width: 90%; max-width: 400px; }
+    .modal-buttons { display: flex; gap: 12px; margin-top: 20px; }
+    .modal-buttons button { flex: 1; }
+  </style>
 </head>
+<body>
+  <h1>🎯 Mi Meta Financiera</h1>
 
-<body class="text-text-main-light dark:text-text-main-dark font-body min-h-screen flex flex-col selection:bg-primary selection:text-white overflow-x-hidden">
-
-    <div class="animated-bg"></div>
-    <div id="toast">Notificación</div>
-
-    <div id="loginOverlay" class="fixed inset-0 z-[999] bg-gradient-to-br from-[#efebe9] to-[#e6dace] dark:from-[#1a120b] dark:to-[#0c0a09] flex items-center justify-center transition-opacity duration-500">
-        <div class="card-glass p-8 rounded-3xl shadow-golden text-center max-w-xs mx-6 border border-white/20 relative">
-            <span class="text-[10px] font-black text-primary mb-2 block tracking-widest">MARIE FINANCE</span>
-            <h1 class="text-3xl font-display font-bold mb-4">Bienvenida</h1>
-            <p class="text-xs text-text-muted-light dark:text-text-muted-dark mb-8">Finanzas compactas y claras.</p>
-            <button onclick="Auth.login()" class="w-full py-3 rounded-xl bg-white dark:bg-white/10 font-bold flex items-center justify-center gap-2 shadow-sm text-xs border border-black/5">
-                <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-4 h-4" alt="G"> Continuar con Google
-            </button>
-        </div>
+  <div class="card">
+    <div class="goal-display" id="detailSavedDisplay">$0</div>
+    <div class="progress-container">
+      <div class="progress-bar" id="progressBar" style="width: 0%"></div>
     </div>
-
-    <div id="profileModal" class="modal-backdrop hidden">
-        <div class="modal-bg" onclick="App.closeProfileModal()"></div>
-        <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-xs rounded-3xl p-6 shadow-golden relative z-10 transform scale-95 opacity-0 transition-all" id="profileCard">
-            <h3 class="text-lg font-bold text-center mb-1">Identidad</h3>
-            <p class="text-xs text-center text-text-muted-light mb-6">¿Cómo te llamamos?</p>
-            <input id="inputUserName" type="text" placeholder="Ej: Marie" class="w-full bg-black/5 dark:bg-white/5 rounded-xl py-3 px-4 text-sm font-medium text-center mb-6 focus:ring-1 ring-primary/50 outline-none">
-            <div class="grid grid-cols-2 gap-3">
-                <button onclick="App.closeProfileModal()" class="py-3 rounded-xl text-[10px] font-bold bg-black/5 text-text-muted-light">CANCELAR</button>
-                <button onclick="App.saveProfile()" class="py-3 rounded-xl text-[10px] font-bold bg-primary text-white shadow-lg shadow-primary/30">GUARDAR</button>
-            </div>
-        </div>
+    <div class="input-group">
+      <input type="number" id="fundInput" placeholder="Monto" min="0" step="any" />
+      <button id="btnAddFund">+ Ingresar</button>
+      <button id="btnRemoveFund" class="danger">– Retirar</button>
     </div>
+  </div>
 
-    <div id="logoutModal" class="modal-backdrop hidden">
-        <div class="modal-bg" onclick="Auth.closeLogoutModal()"></div>
-        <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-xs rounded-3xl p-6 shadow-golden relative z-10 transform scale-95 opacity-0 text-center transition-all" id="logoutCard">
-            <h3 class="text-lg font-bold mb-2">¿Cerrar Sesión?</h3>
-            <p class="text-xs text-text-muted-light mb-6 px-2">Tus datos están seguros.</p>
-            <div class="grid grid-cols-2 gap-3">
-                <button onclick="Auth.closeLogoutModal()" class="py-3 rounded-xl text-[10px] font-bold bg-black/5 text-text-muted-light">VOLVER</button>
-                <button onclick="Auth.confirmLogout()" class="py-3 rounded-xl text-[10px] font-bold bg-danger text-white shadow-lg shadow-danger/30">SALIR</button>
-            </div>
-        </div>
+  <div class="card">
+    <h3>Historial</h3>
+    <div id="historyList"></div>
+  </div>
+
+  <!-- Modal de confirmación -->
+  <div id="txModal" class="modal">
+    <div class="modal-content">
+      <h3 id="txModalTitle">Confirmar transacción</h3>
+      <p id="txModalDesc">¿Estás seguro?</p>
+      <div class="modal-buttons">
+        <button id="btnCancelTx">Cancelar</button>
+        <button id="btnConfirmTx" style="background:#06d6a0;">Confirmar</button>
+      </div>
     </div>
+  </div>
 
-    <div id="transactionModal" class="modal-backdrop hidden">
-        <div onclick="App.closeTransactionModal()" class="modal-bg"></div>
-        <div class="card-glass bg-white dark:bg-[#1a1a1a] w-full max-w-xs rounded-3xl p-6 shadow-golden relative z-10 transform scale-95 opacity-0 transition-all" id="transactionCard">
-            <div class="flex justify-center mb-4"><span class="material-symbols-rounded text-3xl text-primary" id="modalIcon">payments</span></div>
-            <h3 class="text-lg font-bold text-center mb-1" id="modalTitle">Movimiento</h3>
-            <p class="text-sm text-center text-text-muted-light mb-6 font-mono font-bold" id="modalAmountDisplay">$0.00</p>
-            <div class="mb-6">
-                <label class="text-[10px] font-bold uppercase text-text-muted-light block mb-2 pl-1">Concepto</label>
-                <input id="transactionDesc" type="text" placeholder="..." class="w-full bg-black/5 dark:bg-white/5 rounded-xl py-3 px-4 text-sm outline-none">
-            </div>
-            <div class="grid grid-cols-2 gap-3">
-                <button onclick="App.closeTransactionModal()" class="py-3 rounded-xl text-[10px] font-bold bg-black/5 text-text-muted-light">CANCELAR</button>
-                <button onclick="App.confirmTransaction()" id="modalConfirmBtn" class="py-3 rounded-xl text-[10px] font-bold bg-primary text-white shadow-md">CONFIRMAR</button>
-            </div>
-        </div>
-    </div>
+  <div class="toast" id="toast">Mensaje</div>
 
-    <div class="fixed top-0 w-full z-50 transition-all duration-300">
-        <div class="glass-panel mx-auto w-full px-5 py-3 lg:px-12 flex items-center justify-between shadow-sm">
-            <div class="flex items-center gap-3">
-                <button id="backBtn" onclick="App.navigateTo('home')" class="hidden btn-header bg-white/50 dark:bg-white/5 flex items-center justify-center hover:bg-white active:scale-95 transition-all border border-white/20">
-                    <span class="material-symbols-rounded text-lg">arrow_back</span>
-                </button>
-                <div class="flex flex-col cursor-pointer leading-tight" onclick="App.navigateTo('home')">
-                    <span id="pageTitleLabel" class="text-[9px] font-black text-primary tracking-widest">DASHBOARD</span>
-                    <span id="pageTitleMain" class="text-sm font-bold font-display text-text-main-light dark:text-text-main-dark">Marie Finance</span>
-                </div>
-            </div>
-            <div class="flex gap-2">
-                <button onclick="App.openProfileModal()" class="btn-header border border-white/20 flex items-center justify-center active:scale-95 hover:bg-white/20 transition-all"><span class="material-symbols-rounded text-lg">account_circle</span></button>
-                <button onclick="Auth.logout()" class="btn-header border border-white/20 flex items-center justify-center active:scale-95 hover:bg-danger/10 hover:text-danger transition-all"><span class="material-symbols-rounded text-lg">logout</span></button>
-                <button onclick="App.toggleTheme()" class="btn-header bg-primary text-white flex items-center justify-center active:scale-95 hover:shadow-lg transition-all"><span class="material-symbols-rounded text-lg">contrast</span></button>
-            </div>
-        </div>
-    </div>
+  <canvas id="chartCanvas"></canvas>
 
-    <div class="flex-1 w-full max-w-[1200px] mx-auto px-4 pt-24 pb-32 lg:px-8 overflow-visible" id="mainContainer">
-        
-        <div id="view-home" class="w-full">
-            <div class="mb-6 fade-in flex justify-between items-end">
-                <div>
-                    <h1 class="text-2xl font-display font-black text-text-main-light dark:text-white"><span class="text-primary">Hola, </span><span id="userGreetingName">...</span></h1>
-                    <p class="text-xs text-text-muted-light opacity-80 mt-1">Tu resumen compacto de hoy.</p>
-                </div>
-            </div>
+  <script>
+    // 🔧 Configuración de Firebase (REEMPLAZA CON TUS CREDENCIALES)
+    const firebaseConfig = {
+      apiKey: "TU_API_KEY",
+      authDomain: "TU_PROYECTO.firebaseapp.com",
+      projectId: "TU_PROYECTO",
+      storageBucket: "TU_PROYECTO.appspot.com",
+      messagingSenderId: "123456789",
+      appId: "1:123456789:web:abcdef123456789"
+    };
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                
-                <div class="card-glass p-5 rounded-3xl shadow-soft relative overflow-hidden group flex flex-col justify-between min-h-[160px] md:col-span-2" onclick="App.navigateTo('goal')">
-                    <div class="absolute top-0 right-0 p-4 opacity-10"><span class="material-symbols-rounded text-6xl">savings</span></div>
-                    
-                    <div class="flex justify-between items-start z-10 relative">
-                        <div>
-                            <p class="text-[10px] font-black text-text-muted-light tracking-widest uppercase mb-1">Tu Objetivo (Meta)</p>
-                            <div class="flex items-baseline gap-1">
-                                <span id="homeGoalDisplay" class="text-4xl font-black text-text-main-light dark:text-white tracking-tighter">0</span>
-                            </div>
-                        </div>
-                        <div class="text-right">
-                            <span class="text-[10px] font-bold block opacity-60">Disponible Real</span>
-                            <div class="text-xl font-bold text-success" id="homeSavedDisplay">$0</div>
-                        </div>
-                    </div>
-                    
-                    <div class="mt-4 pt-4 border-t border-black/5 dark:border-white/5 flex items-center gap-2 text-[10px] opacity-70">
-                        <span class="material-symbols-rounded text-sm text-primary">info</span>
-                        <span>Configura aquí cuánto dinero tienes realmente y cuánto quieres tener.</span>
-                    </div>
-                </div>
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const docRef = db.collection('savings').doc('main');
 
-                <div class="card-glass p-5 rounded-3xl shadow-soft relative overflow-hidden group cursor-pointer hover:border-success/30 transition-all" onclick="App.navigateTo('incomes')">
-                    <div class="flex justify-between items-start mb-2">
-                        <div class="w-10 h-10 rounded-xl bg-success/10 flex items-center justify-center text-success"><span class="material-symbols-rounded">trending_up</span></div>
-                        <span class="material-symbols-rounded text-lg opacity-30">arrow_outward</span>
-                    </div>
-                    <p class="text-[10px] font-bold text-text-muted-light uppercase">Ingresos Totales</p>
-                    <div id="homeIncomeDisplay" class="text-2xl font-black text-success tracking-tight mt-1">$0</div>
-                    <div class="mt-3 text-[9px] leading-tight opacity-60 bg-success/5 p-2 rounded-lg">
-                        <strong>¿Qué va aquí?</strong> Sueldo fijo + proyectos extras (ventas, freelance).
-                    </div>
-                </div>
+    let state = {
+      goal: 5000,
+      accumulated: 0,
+      history: []
+    };
 
-                <div class="card-glass p-5 rounded-3xl shadow-soft relative overflow-hidden group cursor-pointer hover:border-danger/30 transition-all" onclick="App.navigateTo('expenses')">
-                    <div class="flex justify-between items-start mb-2">
-                        <div class="w-10 h-10 rounded-xl bg-danger/10 flex items-center justify-center text-danger"><span class="material-symbols-rounded">trending_down</span></div>
-                        <span class="material-symbols-rounded text-lg opacity-30">arrow_outward</span>
-                    </div>
-                    <p class="text-[10px] font-bold text-text-muted-light uppercase">Gastos Totales</p>
-                    <div id="homeExpenseDisplay" class="text-2xl font-black text-danger tracking-tight mt-1">$0</div>
-                    <div class="mt-3 text-[9px] leading-tight opacity-60 bg-danger/5 p-2 rounded-lg">
-                        <strong>¿Qué va aquí?</strong> Todo lo que sale de tu bolsillo (fijo y hormiga).
-                    </div>
-                </div>
+    let pendingTransaction = null;
 
-                <div class="card-glass p-5 rounded-3xl shadow-soft relative overflow-hidden md:col-span-2 min-h-[200px]">
-                    <div class="flex justify-between items-center mb-4">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-lg bg-warning/10 flex items-center justify-center text-warning"><span class="material-symbols-rounded text-base">cardiology</span></div>
-                            <h3 class="font-bold text-xs uppercase tracking-wide">Salud Financiera</h3>
-                        </div>
-                        <div id="healthBadge" class="px-3 py-1 bg-black/5 rounded-full text-[9px] font-black uppercase">--</div>
-                    </div>
-                    
-                    <p class="text-[10px] opacity-60 mb-4 px-1" id="healthDescText">Calculando...</p>
-                    
-                    <div class="h-[100px] w-full relative">
-                        <canvas id="mainChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
+    // ===== UI =====
+    const UI = {
+      $: (id) => document.getElementById(id),
+      animateNum: (id, value) => {
+        const el = UI.$(id);
+        if (!el) return;
+        el.textContent = '$' + (value || 0).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+      },
+      renderChart: () => {
+        const ctx = UI.$('chartCanvas').getContext('2d');
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        const ratio = Math.min(1, state.accumulated / state.goal);
+        ctx.fillStyle = '#e9ecef';
+        ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        ctx.fillStyle = '#06d6a0';
+        ctx.fillRect(0, 0, ctx.canvas.width * ratio, ctx.canvas.height);
+      },
+      renderHistory: () => {
+        const list = UI.$('historyList');
+        list.innerHTML = '';
+        state.history.slice(0, 10).forEach(item => {
+          const div = document.createElement('div');
+          div.className = 'history-item';
+          const amountClass = item.amount >= 0 ? 'add' : 'remove';
+          div.innerHTML = `
+            <span>${new Date(item.date).toLocaleDateString()}</span>
+            <span class="history-amount ${amountClass}">$${Math.abs(item.amount).toFixed(2)}</span>
+          `;
+          list.appendChild(div);
+        });
+      },
+      showToast: (msg) => {
+        const t = UI.$('toast');
+        t.textContent = msg;
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 3000);
+      },
+      updateProgress: () => {
+        const percent = Math.min(100, (state.accumulated / state.goal) * 100);
+        UI.$('progressBar').style.width = percent + '%';
+        UI.animateNum('detailSavedDisplay', state.accumulated);
+        UI.renderChart();
+      }
+    };
 
-        <div id="view-goal" class="fade-in hidden w-full max-w-2xl mx-auto">
-            <div class="info-box mb-6 flex gap-3 items-start">
-                <span class="material-symbols-rounded text-primary text-lg shrink-0">help</span>
-                <div>
-                    <strong>Tu Centro de Mando:</strong> Aquí defines tu META (a dónde quieres llegar) y registras manualmente los cambios en tu dinero LÍQUIDO (lo que tienes hoy).
-                    <br><span class="opacity-70 mt-1 block">Usa los botones + y - cuando recibas dinero o gastes, para ver si te acercas o alejas de la meta.</span>
-                </div>
-            </div>
+    // ===== Utils =====
+    const Utils = {
+      $: (id) => document.getElementById(id)
+    };
 
-            <div class="card-glass p-6 rounded-3xl shadow-golden text-center">
-                <div class="mb-6">
-                    <p class="text-[10px] font-black text-primary uppercase tracking-widest mb-2">Tu Meta (El Norte)</p>
-                    <div class="flex justify-center items-center">
-                        <span class="text-2xl text-muted-light/30 mr-1">$</span>
-                        <input id="inputGoal" type="number" class="bg-transparent text-center text-5xl font-black w-full max-w-[200px] focus:ring-0 border-none p-0 outline-none text-text-main-light dark:text-white" placeholder="0" oninput="App.updateVal('goal', this.value)">
-                    </div>
-                    <div class="w-full max-w-xs mx-auto h-1 bg-black/5 rounded-full mt-2 overflow-hidden"><div id="goalProgressBar" class="h-full bg-primary w-0 transition-all duration-1000"></div></div>
-                </div>
+    // ===== Data =====
+    const Data = {
+      load: async () => {
+        try {
+          const doc = await docRef.get();
+          if (doc.exists) {
+            const data = doc.data();
+            state = {
+              goal: typeof data.goal === 'number' ? data.goal : 5000,
+              accumulated: typeof data.accumulated === 'number' ? data.accumulated : 0,
+              history: Array.isArray(data.history) ? data.history : []
+            };
+          }
+          App.initUI();
+        } catch (e) {
+          console.error("Error al cargar:", e);
+          UI.showToast("Error al cargar datos");
+        }
+      },
+      save: async () => {
+        try {
+          await docRef.set({
+            goal: state.goal,
+            accumulated: state.accumulated,
+            history: state.history
+          });
+        } catch (e) {
+          console.error("Error al guardar:", e);
+          UI.showToast("Error al guardar");
+        }
+      }
+    };
 
-                <div class="border-t border-dashed border-black/10 dark:border-white/10 pt-6">
-                    <p class="text-[10px] font-bold uppercase text-text-muted-light mb-4">Operar Saldo Real (Manual)</p>
-                    <div class="flex items-center justify-center gap-4">
-                        <button onclick="App.modifyFund('sub')" class="btn-control bg-danger/5 text-danger flex items-center justify-center text-2xl active:scale-90 transition-all hover:bg-danger hover:text-white"><span class="material-symbols-rounded">remove</span></button>
-                        <div class="bg-black/5 dark:bg-white/5 rounded-2xl px-4 py-2 w-32">
-                            <input id="fundInput" type="number" placeholder="0" class="w-full bg-transparent text-center font-bold text-2xl outline-none">
-                        </div>
-                        <button onclick="App.modifyFund('add')" class="btn-control bg-success/5 text-success flex items-center justify-center text-2xl active:scale-90 transition-all hover:bg-success hover:text-white"><span class="material-symbols-rounded">add</span></button>
-                    </div>
-                    <div class="flex justify-between px-10 text-[9px] font-bold text-text-muted-light mt-2 uppercase opacity-60">
-                        <span>Retirar</span>
-                        <span>Ingresar</span>
-                    </div>
-                </div>
+    // ===== App =====
+    const App = {
+      initUI: () => {
+        UI.updateProgress();
+        UI.renderHistory();
+      },
+      modifyFund: (type) => {
+        const i = Utils.$('fundInput');
+        const val = i.value.trim();
+        const a = parseFloat(val);
+        if (!val || isNaN(a) || a <= 0) {
+          UI.showToast("Ingresa un monto válido (> 0)");
+          i.focus();
+          return;
+        }
+        pendingTransaction = { type, amount: a };
+        App.openTxModal();
+      },
+      openTxModal: () => {
+        const title = pendingTransaction.type === 'add' ? 'Ingresar dinero' : 'Retirar dinero';
+        const desc = `¿Confirmar ${pendingTransaction.type === 'add' ? 'ingreso' : 'retiro'} de $${pendingTransaction.amount.toFixed(2)}?`;
+        UI.$('txModalTitle').textContent = title;
+        UI.$('txModalDesc').textContent = desc;
+        UI.$('txModal').style.display = 'flex';
+      },
+      closeTxModal: () => {
+        UI.$('txModal').style.display = 'none';
+        Utils.$('fundInput').value = '';
+        pendingTransaction = null;
+      },
+      confirmTransaction: () => {
+        if (!pendingTransaction) return;
 
-                <div class="mt-6 pt-4 border-t border-black/5 dark:border-white/5">
-                    <h2 id="detailSavedDisplay" class="text-4xl font-black text-success tracking-tight mb-1">$0</h2>
-                    <span class="text-[10px] uppercase font-bold opacity-50">Disponible Real Actual</span>
-                    
-                    <button onclick="App.toggleHistory()" class="mx-auto mt-4 flex items-center gap-2 px-4 py-2 bg-black/5 rounded-full text-[10px] font-bold hover:bg-black/10 transition-all">
-                        <span>Ver Historial</span> <span id="historyChevron" class="material-symbols-rounded text-sm transition-transform">expand_more</span>
-                    </button>
-                    <div id="historyContainer" class="hidden mt-4 space-y-2 text-left max-h-60 overflow-y-auto custom-scroll"></div>
-                </div>
-            </div>
-        </div>
+        const amount = parseFloat(pendingTransaction.amount);
+        if (isNaN(amount)) {
+          UI.showToast("Monto inválido");
+          App.closeTxModal();
+          return;
+        }
 
-        <div id="view-incomes" class="fade-in hidden w-full max-w-4xl mx-auto">
-            <div class="info-box mb-4 flex gap-3 items-center">
-                <span class="material-symbols-rounded text-success text-lg shrink-0">trending_up</span>
-                <div>
-                    <strong>Tus Motores:</strong> Define tu sueldo base (lo seguro) y agrega abajo cada "extra" o proyecto variable. Esto calcula tu potencia financiera total.
-                </div>
-            </div>
+        if (pendingTransaction.type === 'add') {
+          state.accumulated += amount;
+        } else {
+          state.accumulated = Math.max(0, state.accumulated - amount);
+        }
 
-            <div class="card-glass p-5 rounded-3xl shadow-golden mb-4 flex justify-between items-center bg-white/40 dark:bg-white/5">
-                <div>
-                    <p class="text-[10px] font-bold uppercase text-text-muted-light">Total Entradas</p>
-                    <p id="totalIncomeDisplay" class="text-3xl font-black text-success tracking-tight">$0</p>
-                </div>
-                <div class="text-right">
-                    <p class="text-[9px] font-bold uppercase opacity-50 mb-1">Base Fija Mensual</p>
-                    <div class="flex items-center justify-end">
-                        <span class="text-xs mr-1 opacity-50">$</span>
-                        <input id="inputSalary" type="number" class="w-24 bg-transparent text-right font-black text-xl focus:ring-0 border-b border-dashed border-black/20 outline-none p-0" oninput="App.updateVal('salary', this.value)">
-                    </div>
-                </div>
-            </div>
+        // Registrar en historial
+        state.history.unshift({
+          id: Date.now(),
+          date: new Date().toISOString(),
+          desc: pendingTransaction.type === 'add' ? 'Ingreso manual' : 'Retiro manual',
+          amount: pendingTransaction.type === 'add' ? amount : -amount,
+          type: pendingTransaction.type
+        });
 
-            <div class="flex justify-between items-center mb-4 px-2">
-                <span class="text-xs font-bold opacity-60">Proyectos Variables</span>
-                <button onclick="App.addItem('incomes')" class="px-4 py-2 bg-success text-white rounded-xl text-xs font-bold shadow-md hover:scale-105 transition-transform flex items-center gap-1"><span class="material-symbols-rounded text-sm">add</span> Nuevo</button>
-            </div>
+        // Guardar y actualizar UI
+        Data.save();
+        UI.updateProgress();
+        UI.renderHistory();
+        App.closeTxModal();
+      }
+    };
 
-            <div id="incomesList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3"></div>
-        </div>
-
-        <div id="view-expenses" class="fade-in hidden w-full max-w-4xl mx-auto">
-            <div class="info-box mb-4 flex gap-3 items-center">
-                <span class="material-symbols-rounded text-danger text-lg shrink-0">trending_down</span>
-                <div>
-                    <strong>Fugas de Capital:</strong> Registra aquí tus compromisos mensuales. No juzgues, solo anota. Ver la realidad es el primer paso para controlarla.
-                </div>
-            </div>
-
-            <div class="card-glass p-5 rounded-3xl shadow-golden mb-4 flex justify-between items-center bg-white/40 dark:bg-white/5">
-                <div>
-                    <p class="text-[10px] font-bold uppercase text-text-muted-light">Total Salidas</p>
-                    <p id="totalExpenseDisplay" class="text-3xl font-black text-danger tracking-tight">$0</p>
-                </div>
-                <button onclick="App.addItem('expenses')" class="btn-action-lg bg-danger text-white flex items-center justify-center shadow-lg shadow-danger/30 hover:scale-105 transition-transform"><span class="material-symbols-rounded text-2xl">add</span></button>
-            </div>
-
-            <p class="text-xs font-bold opacity-60 mb-4 px-2">Lista de Compromisos</p>
-            <div id="expensesList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3"></div>
-        </div>
-
-    </div>
-
-    <div id="bottomBar" class="fixed bottom-0 w-full z-40 p-3 pb-6 flex justify-center pointer-events-none">
-        <div class="pointer-events-auto bg-white/90 dark:bg-black/90 backdrop-blur-xl border border-white/20 shadow-golden rounded-2xl w-full max-w-md px-5 py-3">
-            <div class="flex justify-between items-center mb-2">
-                <div class="flex flex-col">
-                    <span class="text-[9px] font-black text-text-muted-light uppercase tracking-widest">Capacidad Real</span>
-                    <span id="barSurplus" class="text-xl font-black text-text-main-light dark:text-white leading-none">$0</span>
-                </div>
-                <div class="text-right flex flex-col items-end">
-                    <span class="text-[9px] font-bold opacity-50 uppercase mb-0.5">Estimado</span>
-                    <div id="barTime" class="text-xs font-bold bg-primary/10 text-primary px-2 py-0.5 rounded-md">--</div>
-                </div>
-            </div>
-            <div class="w-full bg-black/5 h-1.5 rounded-full overflow-hidden flex items-center">
-                <div id="barProgress" class="h-full bg-black/80 dark:bg-white w-0 transition-all duration-1000 rounded-full"></div>
-            </div>
-            <div class="flex justify-between text-[9px] font-bold opacity-50 mt-1">
-                <span>Progreso</span>
-                <span id="barGoalText">Falta: $0</span>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // CONFIGURACIÓN & LÓGICA PRINCIPAL (Minimizada)
-        const CONFIG = {
-            firebase: { apiKey: "AIzaSyANBc8ziutAX47V_iJpgdn-7O3S3kvI3Tc", authDomain: "marie-finance.firebaseapp.com", projectId: "marie-finance", storageBucket: "marie-finance.firebasestorage.app", messagingSenderId: "754175935134", appId: "1:754175935134:web:d159ae64d6ce56f51f318f" },
-            collections: { users: 'users' }
-        };
-
-        let state = { userName: '', goal: 5000, accumulated: 0, salary: 600, incomes: [], expenses: [], history: [] };
-        let pendingTransaction = null, chartInstance = null, firebaseAuth = null, firestoreDb = null;
-
-        const Utils = {
-            $: (id) => document.getElementById(id),
-            formatMoney: (v) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(v),
-            formatCompact: (v) => new Intl.NumberFormat('en-US', { notation: "compact", maximumFractionDigits: 1 }).format(v),
-            getSmartIcon: (name) => {
-                const n = (name || '').toLowerCase();
-                const icons = { 'comida': 'restaurant', 'uber': 'local_gas_station', 'casa': 'cottage', 'wifi': 'wifi', 'netflix': 'movie', 'gym': 'fitness_center' };
-                for (let key in icons) if (n.includes(key)) return icons[key];
-                return 'credit_card';
-            }
-        };
-
-        const Auth = {
-            init: () => {
-                try { firebase.initializeApp(CONFIG.firebase); firebaseAuth = firebase.auth(); firestoreDb = firebase.firestore(); Auth.monitor(); } 
-                catch (e) { console.error(e); }
-            },
-            monitor: () => {
-                firebaseAuth.onAuthStateChanged(user => {
-                    const overlay = Utils.$('loginOverlay');
-                    if (user) { overlay.classList.add('opacity-0', 'pointer-events-none'); Data.load(user.uid); } 
-                    else { overlay.classList.remove('opacity-0', 'pointer-events-none'); }
-                });
-            },
-            login: () => firebaseAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider()),
-            logout: () => { 
-                const modal = Utils.$('logoutModal'); const card = Utils.$('logoutCard');
-                modal.classList.remove('hidden'); setTimeout(() => { card.classList.remove('scale-95', 'opacity-0'); card.classList.add('scale-100', 'opacity-100'); }, 10);
-            },
-            closeLogoutModal: () => {
-                const modal = Utils.$('logoutModal'); const card = Utils.$('logoutCard');
-                card.classList.remove('scale-100', 'opacity-100'); setTimeout(() => modal.classList.add('hidden'), 200);
-            },
-            confirmLogout: () => { firebaseAuth.signOut(); location.reload(); }
-        };
-
-        const Data = {
-            load: async (uid) => {
-                const doc = await firestoreDb.collection(CONFIG.collections.users).doc(uid).get();
-                if (doc.exists) { state = { ...state, ...doc.data() }; App.updateGreeting(); } 
-                else { const u = firebaseAuth.currentUser; state.userName = u.displayName ? u.displayName.split(' ')[0] : ''; Data.save(); App.openProfileModal(); }
-                UI.renderAll();
-            },
-            save: () => { const u = firebaseAuth.currentUser; if(u) firestoreDb.collection(CONFIG.collections.users).doc(u.uid).set(state, { merge: true }); },
-            updateHistoryDesc: (id, val) => { const item = state.history.find(h => h.id === id); if(item) { item.desc = val; Data.save(); UI.renderChart(); } }
-        };
-
-        const UI = {
-            renderAll: () => { UI.renderIncomes(); UI.renderExpenses(); UI.renderHistory(); App.calculateGlobal(); },
-            showToast: (msg) => {
-                const toast = Utils.$('toast'); toast.innerText = msg; toast.className = "show";
-                setTimeout(() => { toast.className = ""; }, 2500);
-            },
-            animateNum: (id, endVal) => {
-                const el = Utils.$(id); if (!el) return;
-                if(!el.countUpInstance) el.countUpInstance = new countUp.CountUp(id, endVal, { duration: 1, prefix: '$' });
-                else el.countUpInstance.update(endVal);
-                if (!el.countUpInstance.error) el.countUpInstance.start(); else el.innerText = '$' + endVal;
-            },
-            renderHistory: () => {
-                const container = Utils.$('historyContainer'); container.innerHTML = '';
-                const sorted = [...state.history].sort((a,b) => b.id - a.id).slice(0, 15);
-                if(sorted.length === 0) { container.innerHTML = '<p class="text-xs opacity-40 text-center py-4">Sin movimientos recientes.</p>'; return; }
-                sorted.forEach(h => {
-                    const isAdd = h.type === 'add';
-                    container.innerHTML += `
-                    <div class="flex justify-between items-center p-3 bg-white/50 dark:bg-white/5 rounded-xl border border-white/20 text-xs">
-                        <div class="flex items-center gap-2 w-full overflow-hidden">
-                            <span class="material-symbols-rounded text-sm ${isAdd ? 'text-success' : 'text-danger'}">${isAdd ? 'arrow_downward' : 'arrow_upward'}</span>
-                            <input value="${h.desc}" class="bg-transparent font-medium w-full outline-none text-truncate-input" oninput="Data.updateHistoryDesc(${h.id}, this.value)">
-                        </div>
-                        <div class="flex items-center gap-2 shrink-0">
-                            <span class="font-bold ${isAdd ? 'text-success' : 'text-danger'}">${isAdd ? '+' : '-'}${Utils.formatMoney(h.amount)}</span>
-                            <button onclick="App.deleteItem('history', ${h.id})" class="text-danger opacity-50 hover:opacity-100"><span class="material-symbols-rounded text-sm">delete</span></button>
-                        </div>
-                    </div>`;
-                });
-            },
-            renderIncomes: () => {
-                const container = Utils.$('incomesList'); container.innerHTML = '';
-                if(state.incomes.length === 0) { container.innerHTML = `<div class="col-span-full py-8 text-center opacity-40"><p class="text-xs">Añade tu primer proyecto.</p></div>`; return; }
-                state.incomes.forEach(i => {
-                    const sub = (i.price - i.cost) * i.qty;
-                    container.innerHTML += `
-                    <div class="bg-white/50 dark:bg-white/5 p-4 rounded-2xl border border-white/20 card-glass">
-                        <div class="flex justify-between mb-2">
-                            <input value="${i.name}" class="bg-transparent font-bold text-sm w-full outline-none" oninput="App.updateItem('incomes', ${i.id}, 'name', this.value)" onblur="App.validateInput(this, 'Proyecto')" placeholder="Nombre...">
-                            <button onclick="App.deleteItem('incomes', ${i.id})" class="text-text-muted-light hover:text-danger"><span class="material-symbols-rounded text-base">close</span></button>
-                        </div>
-                        <div class="flex gap-2 mb-2">
-                             <div class="w-1/2 group relative"><span class="text-[8px] absolute top-1 left-2 opacity-50 font-bold">PRECIO</span><input type="number" value="${i.price}" class="w-full bg-black/5 dark:bg-black/20 rounded-lg pt-3 pb-1 px-2 text-xs font-bold text-center outline-none" oninput="App.updateItem('incomes', ${i.id}, 'price', this.value)"></div>
-                             <div class="w-1/2 group relative"><span class="text-[8px] absolute top-1 left-2 opacity-50 font-bold text-danger">COSTO</span><input type="number" value="${i.cost}" class="w-full bg-black/5 dark:bg-black/20 rounded-lg pt-3 pb-1 px-2 text-xs font-bold text-danger text-center outline-none" oninput="App.updateItem('incomes', ${i.id}, 'cost', this.value)"></div>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <input type="range" min="1" max="50" value="${i.qty}" class="w-full" oninput="App.updateItem('incomes', ${i.id}, 'qty', this.value)">
-                            <span class="text-[10px] font-bold whitespace-nowrap bg-primary/10 px-2 rounded">${i.qty} Unid.</span>
-                        </div>
-                        <div class="text-right mt-2 pt-2 border-t border-dashed border-white/20 text-success font-black text-sm">+${Utils.formatMoney(sub)}</div>
-                    </div>`;
-                });
-            },
-            renderExpenses: () => {
-                const container = Utils.$('expensesList'); container.innerHTML = '';
-                if(state.expenses.length === 0) { container.innerHTML = `<div class="col-span-full py-8 text-center opacity-40"><p class="text-xs">¡Sin gastos! (Por ahora).</p></div>`; return; }
-                state.expenses.forEach(e => {
-                    container.innerHTML += `
-                    <div class="flex items-center gap-3 bg-white/50 dark:bg-white/5 p-3 rounded-2xl border border-white/20 card-glass">
-                        <div class="w-10 h-10 rounded-xl bg-danger/5 flex items-center justify-center text-danger shrink-0"><span class="material-symbols-rounded text-lg">${Utils.getSmartIcon(e.name)}</span></div>
-                        <div class="flex-1 w-full overflow-hidden">
-                            <input value="${e.name}" class="bg-transparent font-bold text-xs w-full outline-none text-truncate-input" oninput="App.updateItem('expenses', ${e.id}, 'name', this.value)" onblur="App.validateInput(this, 'Gasto')" placeholder="Concepto...">
-                            <div class="flex items-center mt-0.5"><span class="text-[10px] opacity-50 mr-1">$</span><input type="number" value="${e.amount}" class="bg-transparent font-bold text-sm w-20 outline-none" oninput="App.updateItem('expenses', ${e.id}, 'amount', this.value)"></div>
-                        </div>
-                        <button onclick="App.deleteItem('expenses', ${e.id})" class="text-text-muted-light hover:text-danger p-2"><span class="material-symbols-rounded text-base">close</span></button>
-                    </div>`;
-                });
-            },
-            renderChart: () => {
-                const ctx = Utils.$('mainChart'); if(!ctx) return;
-                const sorted = [...state.history].sort((a,b) => a.id - b.id);
-                const labels = ['Inicio'], dataPoints = [0];
-                let bal = 0;
-                sorted.forEach(h => { bal = Math.max(0, bal + (h.type === 'add' ? h.amount : -h.amount)); labels.push('.'); dataPoints.push(bal); });
-                labels.push('Hoy'); dataPoints.push(state.accumulated);
-                if(chartInstance) chartInstance.destroy();
-                const grad = ctx.getContext('2d').createLinearGradient(0, 0, 0, 100);
-                grad.addColorStop(0, 'rgba(176, 137, 104, 0.4)'); grad.addColorStop(1, 'rgba(176, 137, 104, 0.0)');
-                chartInstance = new Chart(ctx, {
-                    type: 'line', data: { labels, datasets: [{ data: dataPoints, borderColor: '#b08968', backgroundColor: grad, borderWidth: 2, pointRadius: 0, fill: true, tension: 0.4 }] },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display:false}, tooltip: {enabled: false} }, scales: { x: {display:false}, y: {display:false} } }
-                });
-            },
-            updateThermometer: (inc, exp) => {
-                const slider = Utils.$('healthIndicator'); const badge = Utils.$('healthBadge'); const desc = Utils.$('healthDescText');
-                let rate = inc > 0 ? ((inc - exp) / inc) * 100 : 0; let pos = inc <= exp ? 10 : 30 + Math.min((rate/50)*70, 70);
-                if(slider) slider.style.left = `${pos}%`;
-                if(pos < 35) { badge.innerText = "ALERTA"; badge.className="px-3 py-1 bg-danger/20 text-danger rounded-full text-[9px] font-black"; desc.innerText = "Gastos muy altos."; }
-                else if(pos < 65) { badge.innerText = "OK"; badge.className="px-3 py-1 bg-warning/20 text-warning rounded-full text-[9px] font-black"; desc.innerText = "Estás al límite."; }
-                else { badge.innerText = "BIEN"; badge.className="px-3 py-1 bg-success/20 text-success rounded-full text-[9px] font-black"; desc.innerText = "Construyendo futuro."; }
-            }
-        };
-
-        const App = {
-            init: () => { Auth.init(); UI.renderAll(); },
-            navigateTo: (id) => { 
-                document.querySelectorAll('[id^="view-"]').forEach(el => el.classList.add('hidden')); Utils.$(`view-${id}`).classList.remove('hidden'); 
-                const btn = Utils.$('backBtn'); if(id === 'home') btn.classList.add('hidden'); else btn.classList.remove('hidden');
-                App.calculateGlobal();
-            },
-            calculateGlobal: () => {
-                let varInc = state.incomes.reduce((a, i) => a + ((i.price - i.cost) * i.qty), 0);
-                let totInc = state.salary + varInc;
-                let totExp = state.expenses.reduce((a, e) => a + e.amount, 0);
-                let sur = totInc - totExp;
-                let rem = Math.max(0, state.goal - state.accumulated);
-
-                UI.animateNum('homeGoalDisplay', state.goal);
-                Utils.setHTML('homeSavedDisplay', `$${Utils.formatCompact(state.accumulated)}`);
-                UI.animateNum('homeIncomeDisplay', totInc);
-                UI.animateNum('homeExpenseDisplay', totExp);
-                
-                Utils.setVal('inputGoal', state.goal); Utils.setVal('inputSalary', state.salary);
-                UI.animateNum('detailSavedDisplay', state.accumulated);
-                Utils.setText('totalIncomeDisplay', Utils.formatMoney(totInc));
-                Utils.setText('totalExpenseDisplay', Utils.formatMoney(totExp));
-
-                const pb = Utils.$('goalProgressBar'); if(pb) pb.style.width = Math.min((state.accumulated/state.goal)*100, 100) + '%';
-                App.updateBottomBar(sur, totInc, rem); UI.updateThermometer(totInc, totExp); UI.renderChart(); Data.save();
-            },
-            updateBottomBar: (sur, tot, rem) => {
-                const bar = Utils.$('barProgress'); const time = Utils.$('barTime'); const surDisp = Utils.$('barSurplus');
-                Utils.setText('barGoalText', `Falta: ${Utils.formatCompact(rem)}`);
-                surDisp.innerText = (sur > 0 ? '+' : '') + Utils.formatMoney(sur);
-                surDisp.className = `text-xl font-black leading-none ${sur > 0 ? 'text-success' : 'text-danger'}`;
-                
-                if (sur > 0) {
-                    bar.style.width = Math.min(((sur/tot)*100)*2, 100) + '%'; bar.className = 'h-full bg-success w-0 transition-all duration-1000 rounded-full';
-                    time.innerText = App.formatTime(rem/sur);
-                } else {
-                    bar.style.width = '100%'; bar.className = 'h-full bg-danger w-0 transition-all duration-1000 rounded-full';
-                    time.innerText = "Nunca";
-                }
-            },
-            formatTime: (m) => { if(m === Infinity) return "Nunca"; if(m <= 0) return "Listo"; const y = Math.floor(m/12); const mo = Math.floor(m%12); return y > 0 ? `${y}a ${mo}m` : `${mo}m`; },
-            updateVal: (k, v) => { state[k] = parseFloat(v)||0; App.calculateGlobal(); },
-            validateInput: (el, fb) => { if(!el.value.trim()) { el.value = fb; el.dispatchEvent(new Event('input')); } },
-            toggleTheme: () => { document.documentElement.classList.toggle('dark'); UI.renderChart(); },
-            
-            // Modales
-            openProfileModal: () => { Utils.$('profileModal').classList.remove('hidden'); setTimeout(() => { Utils.$('profileCard').classList.remove('scale-95', 'opacity-0'); Utils.$('profileCard').classList.add('scale-100', 'opacity-100'); }, 10); Utils.$('inputUserName').value = state.userName; },
-            closeProfileModal: () => { Utils.$('profileCard').classList.remove('scale-100', 'opacity-100'); setTimeout(() => Utils.$('profileModal').classList.add('hidden'), 200); },
-            saveProfile: () => { const n = Utils.$('inputUserName').value.trim(); if(n) { state.userName = n; Data.save(); App.updateGreeting(); App.closeProfileModal(); } },
-            updateGreeting: () => { Utils.$('userGreetingName').innerText = state.userName || 'Amiga'; },
-
-            // Transacciones
-            modifyFund: (t) => { const i = Utils.$('fundInput'); const a = parseFloat(i.value); if(!a) { i.focus(); return; } pendingTransaction = { type: t, amount: a }; App.openTxModal(); },
-            openTxModal: () => { 
-                const t = pendingTransaction.type; Utils.$('modalTitle').innerText = t==='add'?'Ingreso Manual':'Retiro Manual'; 
-                Utils.$('modalIcon').innerText = t==='add'?'arrow_downward':'warning'; Utils.$('modalIcon').className = `material-symbols-rounded text-3xl ${t==='add'?'text-success':'text-warning'}`;
-                Utils.$('modalAmountDisplay').innerText = Utils.formatMoney(pendingTransaction.amount);
-                Utils.$('modalConfirmBtn').className = `py-3 rounded-xl text-[10px] font-bold text-white shadow-md touch-target ${t==='add'?'bg-success':'bg-danger'}`;
-                Utils.$('transactionDesc').value = ""; Utils.$('transactionModal').classList.remove('hidden'); setTimeout(() => { Utils.$('transactionCard').classList.remove('scale-95', 'opacity-0'); Utils.$('transactionCard').classList.add('scale-100', 'opacity-100'); }, 10);
-            },
-            closeTransactionModal: () => { Utils.$('transactionCard').classList.remove('scale-100', 'opacity-100'); setTimeout(() => Utils.$('transactionModal').classList.add('hidden'), 200); },
-            confirmTransaction: () => {
-                if(!pendingTransaction) return; const d = Utils.$('transactionDesc').value || (pendingTransaction.type === 'add' ? 'Ahorro' : 'Retiro');
-                if(pendingTransaction.type === 'add') { state.accumulated += pendingTransaction.amount; UI.triggerConfetti(); } else { state.accumulated = Math.max(0, state.accumulated - pendingTransaction.amount); }
-                state.history.unshift({ id: Date.now(), date: new Date().toISOString(), desc: d, amount: pendingTransaction.amount, type: pendingTransaction.type });
-                Utils.$('fundInput').value = ''; UI.renderHistory(); App.calculateGlobal(); App.closeTransactionModal();
-            },
-
-            // CRUD
-            addItem: (t) => { const id = Date.now(); if(t==='incomes') state.incomes.push({id, name:'Nuevo', price:0, cost:0, qty:1}); else state.expenses.push({id, name:'Nuevo', amount:0}); App.calculateGlobal(); UI.renderAll(); },
-            deleteItem: (t, id) => { 
-                if(t==='history') { const x = state.history.find(i=>i.id===id); if(x) { state.accumulated += (x.type==='add' ? -x.amount : x.amount); state.history = state.history.filter(i=>i.id!==id); }}
-                else if(t==='incomes') state.incomes = state.incomes.filter(i=>i.id!==id); 
-                else state.expenses = state.expenses.filter(i=>i.id!==id); 
-                App.calculateGlobal(); UI.renderAll(); UI.showToast("Eliminado");
-            },
-            updateItem: (t, id, f, v) => { 
-                const arr = state[t]; const i = arr.find(x=>x.id===id); if(i) { i[f] = (f==='name'||f==='desc')?v:(parseFloat(v)||0); App.calculateGlobal(); }
-            },
-            toggleHistory: () => { Utils.$('historyContainer').classList.toggle('hidden'); Utils.$('historyChevron').classList.toggle('rotate-180'); }
-        };
-
-        // Extensions
-        Utils.setText = (id, t) => { const e = Utils.$(id); if(e) e.innerText = t; }
-        Utils.setHTML = (id, h) => { const e = Utils.$(id); if(e) e.innerHTML = h; }
-        Utils.setVal = (id, v) => { const e = Utils.$(id); if(e && document.activeElement !== e) e.value = v; }
-
-        document.addEventListener('DOMContentLoaded', App.init);
-    </script>
+    // ===== Eventos =====
+    document.addEventListener('DOMContentLoaded', () => {
+      UI.$('btnAddFund').addEventListener('click', () => App.modifyFund('add'));
+      UI.$('btnRemoveFund').addEventListener('click', () => App.modifyFund('remove'));
+      UI.$('btnCancelTx').addEventListener('click', App.closeTxModal);
+      UI.$('btnConfirmTx').addEventListener('click', App.confirmTransaction);
+      Data.load();
+    });
+  </script>
 </body>
 </html>
