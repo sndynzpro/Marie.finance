@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
     <meta name="theme-color" content="#b08968">
-    <title>Marie Finance - Ultimate UX</title>
+    <title>Marie Finance - Master Guide</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20,400,1,0" rel="stylesheet" />
@@ -41,7 +41,7 @@
         body { -webkit-tap-highlight-color: transparent; }
         input:focus { outline: none; }
         
-        .fade-in { animation: fadeIn 0.4s ease-out forwards; opacity: 0; transform: translateY(10px); }
+        .fade-in { animation: fadeIn 0.5s ease-out forwards; opacity: 0; transform: translateY(10px); }
         @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
 
         .animated-bg {
@@ -57,7 +57,6 @@
         .card-glass { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.7); }
         .dark .card-glass { background: rgba(45, 35, 30, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); }
 
-        /* Scrollbar invisible */
         ::-webkit-scrollbar { width: 0px; background: transparent; }
         
         /* Sliders */
@@ -93,25 +92,33 @@
         .page-btn.inactive { background: rgba(0,0,0,0.05); color: #8a7a72; border: 1px solid rgba(0,0,0,0.05); }
         .dark .page-btn.inactive { background: rgba(255,255,255,0.05); color: #a8a29e; border: 1px solid rgba(255,255,255,0.05); }
 
-        .compact-row { display: grid; grid-template-columns: 45px 1fr 85px; gap: 8px; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.04); }
+        .compact-row { display: grid; grid-template-columns: 45px 1fr 75px; gap: 8px; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.04); }
         .dark .compact-row { border-bottom: 1px solid rgba(255,255,255,0.04); }
         .compact-row:last-child { border-bottom: none; }
 
-        .prose-mini p { margin-bottom: 0.8rem; line-height: 1.6; color: rgba(74, 64, 58, 0.9); }
-        .dark .prose-mini p { color: rgba(231, 229, 228, 0.9); }
-        .prose-mini h4 { font-weight: 800; margin-bottom: 0.4rem; color: #b08968; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 1rem; }
-        
         .zen-blur { filter: blur(6px); transition: filter 0.3s; }
         .zen-blur:hover { filter: blur(0); }
 
-        /* Styles for date input */
         input[type="date"]::-webkit-calendar-picker-indicator { cursor: pointer; opacity: 0.6; filter: invert(0.5); }
         .dark input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); }
 
-        /* Dropdown Menu Animation */
         #mainMenu { transform-origin: top right; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
         #mainMenu.hidden { opacity: 0; transform: scale(0.95); pointer-events: none; }
         #mainMenu:not(.hidden) { opacity: 1; transform: scale(1); pointer-events: auto; }
+
+        /* Accordion Styles for Manual */
+        details > summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; font-weight: 800; font-size: 0.85rem; padding: 0.8rem 0; border-bottom: 1px solid rgba(0,0,0,0.05); color: #b08968; text-transform: uppercase; letter-spacing: 0.05em; transition: color 0.2s; }
+        .dark details > summary { border-bottom: 1px solid rgba(255,255,255,0.05); }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] > summary { border-bottom: none; color: #a87e5b; }
+        details > summary::after { content: '+'; font-size: 1.2em; font-weight: 400; transition: transform 0.2s; }
+        details[open] > summary::after { transform: rotate(45deg); }
+        .guide-content { padding: 0.5rem 0 1.5rem 0; font-size: 11px; line-height: 1.8; color: rgba(74, 64, 58, 0.9); }
+        .dark .guide-content { color: rgba(231, 229, 228, 0.9); }
+        .guide-content p { margin-bottom: 0.8rem; }
+        .guide-content strong { color: #b08968; }
+        .guide-content ul { list-style-type: disc; padding-left: 1.2rem; margin-bottom: 0.8rem; }
+        .guide-content li { margin-bottom: 0.4rem; }
     </style>
 </head>
 
@@ -133,19 +140,25 @@
         </div>
     </div>
 
-    <div id="mainMenu" class="hidden fixed top-16 right-4 w-48 bg-white/95 dark:bg-[#1a1a1a]/95 backdrop-blur-xl rounded-2xl shadow-golden z-[60] border border-white/20 p-2 flex flex-col gap-1">
-        <button onclick="App.openProfileModal(); App.toggleMenu()" class="w-full text-left px-3 py-2.5 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 text-xs font-bold flex items-center gap-2">
-            <span class="material-symbols-rounded text-base">account_circle</span> Mi Perfil
+    <div id="mainMenu" class="hidden fixed top-16 right-4 w-56 bg-white/95 dark:bg-[#1a1a1a]/95 backdrop-blur-xl rounded-2xl shadow-golden z-[60] border border-white/20 p-2 flex flex-col gap-1">
+        <button onclick="App.openProfileModal(); App.toggleMenu()" class="w-full text-left px-3 py-3 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 text-xs font-bold flex items-center gap-3 transition-colors">
+            <span class="material-symbols-rounded text-lg">account_circle</span> Mi Perfil
         </button>
-        <button onclick="App.toggleTheme(); App.toggleMenu()" class="w-full text-left px-3 py-2.5 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 text-xs font-bold flex items-center gap-2">
-            <span class="material-symbols-rounded text-base">contrast</span> Tema Claro/Oscuro
+        <button onclick="App.toggleTheme(); App.toggleMenu()" class="w-full text-left px-3 py-3 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 text-xs font-bold flex items-center gap-3 transition-colors">
+            <span class="material-symbols-rounded text-lg">contrast</span> Tema Claro/Oscuro
         </button>
-        <button onclick="App.navigateTo('help'); App.toggleMenu()" class="w-full text-left px-3 py-2.5 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 text-xs font-bold flex items-center gap-2">
-            <span class="material-symbols-rounded text-base">help</span> Guía de Uso
+        <button onclick="App.toggleCurrency(); App.toggleMenu()" class="w-full text-left px-3 py-3 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 text-xs font-bold flex items-center gap-3 transition-colors">
+            <span class="material-symbols-rounded text-lg">currency_exchange</span> Cambiar Moneda ($/Bs)
+        </button>
+        <button onclick="App.toggleZen(); App.toggleMenu()" class="w-full text-left px-3 py-3 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 text-xs font-bold flex items-center gap-3 transition-colors">
+            <span class="material-symbols-rounded text-lg" id="zenMenuIcon">visibility</span> Modo Privacidad
         </button>
         <div class="h-px bg-black/10 dark:bg-white/10 my-1"></div>
-        <button onclick="Auth.logout()" class="w-full text-left px-3 py-2.5 rounded-xl hover:bg-danger/10 text-danger text-xs font-bold flex items-center gap-2">
-            <span class="material-symbols-rounded text-base">logout</span> Cerrar Sesión
+        <button onclick="App.navigateTo('help'); App.toggleMenu()" class="w-full text-left px-3 py-3 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 text-xs font-bold flex items-center gap-3 text-primary transition-colors">
+            <span class="material-symbols-rounded text-lg">menu_book</span> Manual de Éxito
+        </button>
+        <button onclick="Auth.logout()" class="w-full text-left px-3 py-3 rounded-xl hover:bg-danger/10 text-danger text-xs font-bold flex items-center gap-3 transition-colors">
+            <span class="material-symbols-rounded text-lg">logout</span> Cerrar Sesión
         </button>
     </div>
 
@@ -157,11 +170,12 @@
                 <label class="hint-text block mb-1 pl-1">Tu Nombre</label>
                 <input id="inputUserName" type="text" placeholder="Ej: Álex..." class="editable-input w-full bg-transparent py-1.5 px-2 text-sm font-medium text-center">
             </div>
-            <div class="mb-4">
+            <div class="mb-6">
                 <label class="hint-text block mb-1 pl-1">Tasa de Cambio (Bs/$)</label>
                 <input id="inputRate" type="number" placeholder="60.00" class="editable-input w-full bg-transparent py-1.5 px-2 text-sm font-medium text-center">
-                <p class="text-[9px] opacity-50 mt-1 text-center">Para ver montos en Bolívares</p>
+                <p class="text-[9px] opacity-50 mt-1 text-center">Actualiza esto para ver tus Bs. reales</p>
             </div>
+            
             <div class="grid grid-cols-2 gap-3">
                 <button onclick="App.closeProfileModal()" class="py-2.5 rounded-xl text-[10px] font-bold bg-black/5 hover:bg-black/10">CANCELAR</button>
                 <button onclick="App.saveProfile()" class="py-2.5 rounded-xl text-[10px] font-bold bg-primary text-white shadow-md">GUARDAR</button>
@@ -192,14 +206,14 @@
             <p class="text-2xl text-center text-text-main-light dark:text-white mb-4 font-display font-black tracking-tight zen-sensitive" id="modalAmountDisplay">$0</p>
             
             <div class="mb-4">
-                <label class="hint-text block mb-1 pl-1">Fecha</label>
+                <label class="hint-text block mb-1 pl-1">Fecha Real</label>
                 <input id="transactionDate" type="date" class="editable-input w-full bg-transparent py-1.5 px-2 text-sm font-medium text-center">
             </div>
 
             <div class="mb-6">
-                <label class="hint-text block mb-1 pl-1">Concepto</label>
+                <label class="hint-text block mb-1 pl-1">Concepto (Opcional)</label>
                 <input id="transactionDesc" type="text" placeholder="" class="editable-input w-full bg-transparent py-2 px-2 text-sm font-medium">
-                <p class="text-[9px] opacity-40 mt-1 pl-1 italic">Ej: Compra semanal, Pago...</p>
+                <p class="text-[9px] opacity-40 mt-1 pl-1 italic">Ej: "Supermercado", "Honorarios"...</p>
             </div>
 
             <div class="grid grid-cols-2 gap-3">
@@ -221,14 +235,8 @@
                 </div>
             </div>
             <div class="flex gap-2">
-                <button onclick="App.toggleZen()" class="btn-header flex items-center justify-center" title="Modo Privado">
-                    <span class="material-symbols-rounded text-lg" id="zenIcon">visibility</span>
-                </button>
-                <button onclick="App.toggleCurrency()" class="btn-header flex items-center justify-center" title="Cambiar Moneda">
-                    <span class="font-black text-xs" id="currencyIcon">$</span>
-                </button>
                 <button onclick="App.toggleMenu()" class="btn-header flex items-center justify-center" title="Menú">
-                    <span class="material-symbols-rounded text-lg">menu</span>
+                    <span class="material-symbols-rounded text-xl">menu</span>
                 </button>
             </div>
         </div>
@@ -237,10 +245,10 @@
     <div id="mainContainer">
         
         <div id="view-home" class="view-container scroll-full flex-view px-4 fade-in">
-            <div class="mb-6 flex justify-between items-end px-1 pt-2">
+            <div class="mb-4 flex justify-between items-end px-1 pt-2">
                 <div>
-                    <h1 class="text-xl font-display font-black tracking-tight"><span class="text-primary">Hola, </span><span id="userGreetingName">...</span></h1>
-                    <p class="text-[11px] text-text-muted-light font-medium mt-1">Hoy es un buen día para sumar.</p>
+                    <h1 class="text-xl font-display font-black tracking-tight"><span class="text-primary">Hola, </span><span id="userGreetingName">...</span>!</h1>
+                    <p class="text-[11px] text-text-muted-light font-medium mt-1">Hoy es un buen día para organizar.</p>
                 </div>
             </div>
 
@@ -253,12 +261,12 @@
                             <div>
                                 <p class="hint-text mb-1.5">🎯 Meta Soñada</p>
                                 <span id="homeGoalDisplay" class="text-3xl font-black tracking-tighter zen-sensitive">0</span>
-                                <p class="text-[10px] opacity-60 mt-1 font-medium max-w-[160px] leading-tight">Tu objetivo financiero principal.</p>
+                                <p class="text-[10px] opacity-60 mt-2 font-medium max-w-[160px] leading-tight">Tu norte financiero.</p>
                             </div>
                             <div class="text-right">
                                 <p class="hint-text mb-1.5">💰 Caja Chica (Hoy)</p>
                                 <div class="text-xl font-bold text-success zen-sensitive" id="homeSavedDisplay">$0</div>
-                                <p class="text-[9px] opacity-50 mt-1">Dinero líquido disponible.</p>
+                                <p class="text-[9px] opacity-50 mt-1">Saldo disponible.</p>
                             </div>
                             <span class="material-symbols-rounded text-2xl opacity-30 group-hover:translate-x-1 transition-transform duration-300">chevron_right</span>
                         </div>
@@ -273,9 +281,9 @@
                                 <div class="w-10 h-10 rounded-2xl bg-success/10 flex items-center justify-center text-success"><span class="material-symbols-rounded text-xl">trending_up</span></div>
                                 <span class="material-symbols-rounded text-lg opacity-30 group-hover:text-success transition-colors">arrow_outward</span>
                             </div>
-                            <p class="hint-text">📈 ¡Venga esa Plata!</p>
+                            <p class="hint-text">📈 Lo que entra</p>
                             <div id="homeIncomeDisplay" class="text-xl font-black text-success tracking-tight mt-1 zen-sensitive">$0</div>
-                            <p class="text-[9px] opacity-60 mt-1 leading-tight">Tu techo de ingresos mensual.</p>
+                            <p class="text-[9px] opacity-60 mt-2 leading-tight">Tu potencial mensual.</p>
                         </div>
 
                         <div class="card-glass p-phi-3 rounded-[1.5rem] shadow-soft cursor-pointer group hover:border-danger/30 transition-all duration-300" onclick="App.navigateTo('expenses')">
@@ -283,9 +291,9 @@
                                 <div class="w-10 h-10 rounded-2xl bg-danger/10 flex items-center justify-center text-danger"><span class="material-symbols-rounded text-xl">trending_down</span></div>
                                 <span class="material-symbols-rounded text-lg opacity-30 group-hover:text-danger transition-colors">arrow_outward</span>
                             </div>
-                            <p class="hint-text">📉 Salidas Dolorosas</p>
+                            <p class="hint-text">📉 Lo que sale</p>
                             <div id="homeExpenseDisplay" class="text-xl font-black text-danger tracking-tight mt-1 zen-sensitive">$0</div>
-                            <p class="text-[9px] opacity-60 mt-1 leading-tight">Total de compromisos fijos.</p>
+                            <p class="text-[9px] opacity-60 mt-2 leading-tight">Compromisos fijos.</p>
                         </div>
                     </div>
                 </div>
@@ -297,9 +305,9 @@
                             <div>
                                 <h3 class="font-bold text-xs uppercase tracking-wide flex items-center gap-2">
                                     <span class="material-symbols-rounded text-lg text-primary">monitoring</span>
-                                    El Detector
+                                    Pulso
                                 </h3>
-                                <p class="text-[9px] opacity-60 mt-0.5">La verdad de tus números.</p>
+                                <p class="text-[9px] opacity-60 mt-0.5">Tu realidad en tiempo real.</p>
                             </div>
                             <div class="flex gap-2">
                                 <select id="chartMonth" onchange="App.updateChart()" class="appearance-none bg-black/5 dark:bg-white/10 text-[9px] font-bold rounded-lg px-2 py-0.5 border-none outline-none cursor-pointer"></select>
@@ -311,7 +319,7 @@
                         
                         <div class="flex justify-between items-center mt-3 pt-2 border-t border-black/5 dark:border-white/5">
                             <div id="healthBadge" class="px-2.5 py-0.5 bg-black/5 rounded-full text-[8px] font-black uppercase tracking-wider">--</div>
-                            <p class="text-[9px] opacity-50 italic" id="healthDescText">Calculando salud...</p>
+                            <p class="text-[9px] opacity-50 italic" id="healthDescText">Calculando...</p>
                         </div>
                     </div>
                 </div>
@@ -325,15 +333,15 @@
                         <div class="text-left">
                             <p class="hint-text text-primary mb-1">🎯 Meta Soñada</p>
                             <div class="flex items-center">
-                                <span class="text-lg text-muted-light/30 mr-1 font-bold" id="currencySym1">$</span>
+                                <span class="text-lg text-muted-light/30 mr-1 font-bold curSym">$</span>
                                 <input id="inputGoal" type="number" class="editable-input bg-transparent text-left text-3xl font-black w-32 zen-sensitive" placeholder="0" oninput="App.updateVal('goal', this.value)" onfocus="this.value=''">
                             </div>
-                            <p class="text-[9px] opacity-50 text-left mt-1">Tu objetivo.</p>
+                            <p class="text-[9px] opacity-50 text-left mt-1">¿Cuánto vale tu sueño?</p>
                         </div>
                         <div class="text-right">
                              <p class="hint-text text-success mb-1">💰 Caja Chica</p>
                              <h2 id="detailSavedDisplay" class="text-3xl font-black text-success tracking-tight zen-sensitive">$0</h2>
-                             <p class="text-[9px] opacity-50 text-right mt-1">Saldo real.</p>
+                             <p class="text-[9px] opacity-50 text-right mt-1">Saldo disponible</p>
                         </div>
                     </div>
                     
@@ -365,7 +373,7 @@
 
                 <div class="flex justify-between items-center px-1 mb-2 pb-2 border-b border-black/5">
                     <h3 class="text-xs font-bold opacity-70 flex items-center gap-1.5">
-                        <span class="material-symbols-rounded text-base">history</span> El Chisme
+                        <span class="material-symbols-rounded text-base">history</span> El Chisme (Historial)
                     </h3>
                     <div class="flex gap-2">
                         <div class="relative">
@@ -400,12 +408,12 @@
                         <div>
                             <p class="hint-text">📊 Capacidad Total</p>
                             <p id="totalIncomeDisplay" class="text-3xl font-black text-success tracking-tight mt-1 zen-sensitive">$0</p>
-                            <p class="text-[10px] opacity-50 mt-1">Suma de sueldo y proyectos.</p>
+                            <p class="text-[10px] opacity-50 mt-1">Suma de lo fijo y lo variable.</p>
                         </div>
                         <div class="text-right pl-6 border-l border-black/5">
                             <p class="hint-text mb-1">💼 Fijo / Base</p>
                             <div class="flex items-center justify-end">
-                                <span class="text-sm mr-1 opacity-50 font-black" id="currencySym2">$</span>
+                                <span class="text-sm mr-1 opacity-50 font-black curSym">$</span>
                                 <input id="inputSalary" type="number" class="editable-input w-24 bg-transparent text-right font-black text-2xl zen-sensitive" oninput="App.updateVal('salary', this.value)" placeholder="0" onfocus="this.value=''">
                             </div>
                             <p class="text-[9px] opacity-50 mt-1">Tu base segura.</p>
@@ -416,7 +424,7 @@
                 <div class="flex justify-between items-end mb-2 px-2">
                     <div>
                         <span class="text-xs font-bold opacity-80">Inventos & Tigritos</span>
-                        <p class="text-[10px] opacity-40 mt-0.5">Calcula tu ganancia real aquí.</p>
+                        <p class="text-[10px] opacity-40 mt-0.5">Calcula tu ganancia real.</p>
                     </div>
                     <button onclick="App.addItem('incomes')" class="px-4 py-2 bg-success text-white rounded-xl text-[10px] font-bold shadow-soft flex items-center gap-1.5 hover:bg-success/90 transition-all active:scale-95">
                         <span class="material-symbols-rounded text-base">add</span> Nuevo
@@ -433,7 +441,7 @@
                     <div>
                         <p class="hint-text">💸 Compromisos Totales</p>
                         <p id="totalExpenseDisplay" class="text-3xl font-black text-danger tracking-tight mt-1 zen-sensitive">$0</p>
-                        <p class="text-[10px] opacity-40 mt-0.5">Lo que sale sí o sí.</p>
+                        <p class="text-[10px] opacity-40 mt-0.5">Dinero que ya tiene dueño.</p>
                     </div>
                     <button onclick="App.addItem('expenses')" class="w-12 h-12 bg-danger text-white flex items-center justify-center rounded-2xl shadow-lg hover:scale-105 active:scale-95 transition-all">
                         <span class="material-symbols-rounded text-2xl">add</span>
@@ -442,7 +450,7 @@
 
                 <div class="px-2 mb-2">
                     <p class="text-xs font-bold opacity-80 mb-0.5">Lista de Obligaciones</p>
-                    <p class="text-[10px] opacity-40">Anota todo.</p>
+                    <p class="text-[10px] opacity-40">No dejes nada por fuera.</p>
                 </div>
             </div>
             
@@ -457,35 +465,58 @@
                     </div>
                     <div>
                         <h1 class="text-xl font-display font-black">Manual de Supervivencia</h1>
-                        <p class="text-[11px] text-text-muted-light mt-0.5">Entiende tus números.</p>
+                        <p class="text-[11px] text-text-muted-light mt-0.5">Aprende las reglas del juego.</p>
                     </div>
                 </div>
             </div>
 
-            <div class="space-y-4 text-text-main-light dark:text-text-main-dark pb-8 text-[11px]">
-                <div class="help-card prose-mini">
-                    <h4>✨ La Idea</h4>
-                    <p>El dinero es tu empleado. Si no lo organizas, se va. Esta app es tu herramienta para domarlo. Sin estrés, paso a paso.</p>
-                </div>
-                <div class="help-card prose-mini">
-                    <h4>📍 ETAPA 1: PLANEACIÓN</h4>
-                    <p><strong>Meta Soñada:</strong> Pon aquí la cifra que quieres tener. Es tu norte.<br><strong>Caja Chica:</strong> Es tu dinero hoy. Úsala como un diario: ¿Gastaste? Anota "Salió". ¿Cobraste? Anota "Entró".</p>
-                </div>
-                <div class="help-card prose-mini">
-                    <h4>🚀 ETAPA 2: ANÁLISIS</h4>
-                    <p><strong>Ingresos:</strong> Suma tu sueldo. Usa "Nuevo" para calcular cuánto ganas realmente en tus ventas (Precio - Costo).<br><strong>Gastos:</strong> Anota todo lo fijo. Renta, luz, etc. Así sabrás cuánto te queda libre.</p>
-                </div>
-                <div class="help-card prose-mini">
-                    <h4>📈 ETAPA 3: REGISTRO</h4>
-                    <p>El gráfico muestra tu progreso. Si la línea sube, vas bien. Si baja, revisa tus gastos. Usa el filtro de fecha para ver detalles.</p>
-                </div>
-                <div class="help-card bg-primary/5 border-primary/20 prose-mini">
-                    <h4>💡 Tip Rápido</h4>
-                    <p>Si la cifra es muy larga, activa el "Modo Zen" (el ojito arriba) para ocultarla en público. Si usas Bolívares, toca el símbolo de moneda.</p>
-                </div>
+            <div class="space-y-2 pb-8">
+                
+                <details class="bg-white/40 dark:bg-white/5 rounded-2xl border border-black/5 dark:border-white/5 px-4 overflow-hidden">
+                    <summary>✨ Filosofía Marie</summary>
+                    <div class="guide-content">
+                        <p>El dinero no es el fin, es la herramienta. Si lo organizas, dejas de trabajar para él y él empieza a trabajar para ti. No te estreses por el pasado, <strong>hoy</strong> tomas el control.</p>
+                    </div>
+                </details>
+
+                <details class="bg-white/40 dark:bg-white/5 rounded-2xl border border-black/5 dark:border-white/5 px-4 overflow-hidden">
+                    <summary>📍 Etapa 1: Planeación</summary>
+                    <div class="guide-content">
+                        <p><strong>Meta Soñada:</strong> Pon aquí la cifra que te daría paz mental. Visualízala.</p>
+                        <p><strong>Caja Chica:</strong> Es tu realidad inmediata. Úsala para registrar cada movimiento real del día a día. ¿Salió plata? Anótalo. ¿Entró? Anótalo. La disciplina en lo pequeño crea abundancia en lo grande.</p>
+                    </div>
+                </details>
+
+                <details class="bg-white/40 dark:bg-white/5 rounded-2xl border border-black/5 dark:border-white/5 px-4 overflow-hidden">
+                    <summary>🚀 Etapa 2: Análisis</summary>
+                    <div class="guide-content">
+                        <p>Aquí calculas tu verdadero poder.</p>
+                        <p><strong>Ingresos:</strong> Suma tu sueldo fijo. Usa el botón "Nuevo" para calcular la ganancia real de tus proyectos (Precio de venta - Costo).</p>
+                        <p><strong>Gastos:</strong> Sé brutalmente honesto. Anota la renta, la luz, el internet y esos gastos hormiga que te quitan el sueño.</p>
+                    </div>
+                </details>
+
+                <details class="bg-white/40 dark:bg-white/5 rounded-2xl border border-black/5 dark:border-white/5 px-4 overflow-hidden">
+                    <summary>📈 Etapa 3: Registro</summary>
+                    <div class="guide-content">
+                        <p>El gráfico es tu detector de verdad. Si la línea sube, vas ganando. Si baja constantemente, hay que revisar la Etapa 2. Usa los filtros de Mes y Año para ver tu evolución en el tiempo.</p>
+                    </div>
+                </details>
+
+                <details class="bg-white/40 dark:bg-white/5 rounded-2xl border border-black/5 dark:border-white/5 px-4 overflow-hidden">
+                    <summary>💡 Trucos Pro</summary>
+                    <div class="guide-content">
+                        <ul>
+                            <li><strong>Modo Zen:</strong> Toca el ojito en el menú para ocultar los montos en público.</li>
+                            <li><strong>Moneda:</strong> Toca el signo de dólar/Bs en el menú para cambiar todo a tu moneda local.</li>
+                            <li><strong>Paginación:</strong> Si tienes muchos movimientos, usa los números al final de la lista.</li>
+                        </ul>
+                    </div>
+                </details>
+
                 <button onclick="App.navigateTo('home')" class="w-full py-4 bg-primary text-white rounded-2xl font-bold text-xs flex items-center justify-center gap-2 shadow-soft hover:bg-primary/90 transition-all mt-6">
                     <span class="material-symbols-rounded text-lg">home</span>
-                    ¡Listo, entendido!
+                    ¡Listo, a facturar!
                 </button>
             </div>
         </div>
@@ -496,7 +527,7 @@
         <div class="pointer-events-auto bg-white/95 dark:bg-[#1a1a1a]/95 backdrop-blur-xl border border-white/20 shadow-golden rounded-[1.25rem] w-full max-w-md px-6 py-4 transition-all transform hover:-translate-y-1">
             <div class="flex justify-between items-center mb-2">
                 <div class="flex flex-col">
-                    <span class="hint-text text-[9px] tracking-widest">💰 MARGEN</span>
+                    <span class="hint-text text-[9px] tracking-widest">💰 MARGEN MENSUAL</span>
                     <span id="barSurplus" class="text-xl font-black leading-none mt-0.5 zen-sensitive">$0</span>
                 </div>
                 <div class="text-right flex flex-col items-end">
@@ -543,7 +574,7 @@
             setText: (id, t) => { const e = Utils.$(id); if(e) e.innerText = t; },
             toLocalISO: (d) => { const offset = d.getTimezoneOffset() * 60000; return new Date(d.getTime() - offset).toISOString().split('T')[0]; },
             parseDate: (str) => { if(!str) return new Date(); const [y, m, d] = str.split('-').map(Number); return new Date(y, m - 1, d); },
-            getSmartIcon: (n) => 'receipt_long' // Simplified
+            getSmartIcon: (n) => 'receipt_long'
         };
 
         const Auth = {
@@ -577,6 +608,13 @@
                     state.chartSettings.month = today.getMonth(); 
                     state.chartSettings.year = today.getFullYear();
                     
+                    // Init Theme
+                    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                    }
+
                     if(state.vesRate) Utils.$('inputRate').value = state.vesRate;
                     
                     UI.renderAll();
@@ -630,6 +668,7 @@
             renderHistory: () => {
                 const container = Utils.$('historyContainer'); 
                 const controls = Utils.$('paginationControls');
+                
                 if (!container) return; 
                 container.innerHTML = ''; controls.innerHTML = '';
                 
@@ -650,7 +689,7 @@
                 const startIndex = (state.historySettings.page - 1) * limit;
                 const pagedItems = filtered.slice(startIndex, startIndex + limit);
 
-                if(totalItems === 0) { container.innerHTML = '<p class="text-[9px] opacity-40 text-center py-6 italic">Nada por aquí en este mes.</p>'; return; }
+                if(totalItems === 0) { container.innerHTML = '<p class="text-[9px] opacity-40 text-center py-6 italic">Nada en este mes.</p>'; return; }
                 
                 pagedItems.forEach(h => {
                     const isAdd = h.type === 'add';
@@ -716,7 +755,7 @@
                 state.expenses.forEach(e => {
                     container.innerHTML += `
                     <div class="flex items-center gap-3 bg-white/50 dark:bg-white/5 p-3 rounded-2xl border border-white/20 shadow-sm">
-                        <div class="w-9 h-9 rounded-xl bg-danger/5 flex items-center justify-center text-danger shrink-0"><span class="material-symbols-rounded text-base">receipt_long</span></div>
+                        <div class="w-9 h-9 rounded-xl bg-danger/5 flex items-center justify-center text-danger shrink-0"><span class="material-symbols-rounded text-base">${Utils.getSmartIcon(e.name)}</span></div>
                         <div class="flex-1 overflow-hidden">
                             <input value="${e.name}" class="editable-input bg-transparent font-bold text-[11px] w-full truncate" oninput="App.updateItem('expenses', ${e.id}, 'name', this.value)" placeholder="Concepto..." onfocus="this.value=''">
                             <div class="flex items-center mt-0.5">
@@ -757,7 +796,9 @@
                 chartInstance = new Chart(ctx, {
                     type: 'line', 
                     data: { labels, datasets: [{ data: dataPoints, borderColor: '#b08968', borderWidth: 2, pointRadius: 3, pointBackgroundColor: '#b08968', tension: 0, fill: false }] },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display:false}, tooltip: { enabled: true, backgroundColor: 'rgba(255, 255, 255, 0.9)', titleColor: '#4a403a', bodyColor: '#4a403a', borderColor: 'rgba(176, 137, 104, 0.3)', borderWidth: 1, displayColors: false } }, scales: { x: { display: true, grid: {display:false}, ticks: {font:{size:9}, color:'#8a7a72', maxRotation:0} }, y: { display: false } } }
+                    options: { 
+                        responsive: true, maintainAspectRatio: false, 
+                        plugins: { legend: {display:false}, tooltip: { enabled: true, backgroundColor: 'rgba(255, 255, 255, 0.9)', titleColor: '#4a403a', bodyColor: '#4a403a', borderColor: 'rgba(176, 137, 104, 0.3)', borderWidth: 1, displayColors: false } }, scales: { x: { display: true, grid: {display:false}, ticks: {font:{size:9}, color:'#8a7a72', maxRotation:0} }, y: { display: false } } }
                 });
             },
             updateThermometer: (inc, exp) => {
@@ -786,6 +827,12 @@
                 let sur = totInc - totExp;
                 let rem = Math.max(0, state.goal - state.accumulated);
 
+                // Update currency signs
+                const sym = state.showVes ? 'Bs.' : '$';
+                if(Utils.$('currencySym1')) Utils.$('currencySym1').innerText = sym;
+                if(Utils.$('currencySym2')) Utils.$('currencySym2').innerText = sym;
+                if(Utils.$('currencyIcon')) Utils.$('currencyIcon').innerText = sym;
+
                 UI.animateNum('homeGoalDisplay', state.goal);
                 UI.animateNum('homeSavedDisplay', state.accumulated);
                 UI.animateNum('homeIncomeDisplay', totInc);
@@ -798,19 +845,38 @@
                 Utils.setVal('inputGoal', state.goal); Utils.setVal('inputSalary', state.salary);
                 const pb = Utils.$('goalProgressBar'); if(pb) pb.style.width = Math.min((state.accumulated/state.goal)*100, 100) + '%';
                 
-                Utils.setText('barGoalText', `Faltan: ${Utils.formatCompact(rem)}`);
-                const bar = Utils.$('barProgress'); const time = Utils.$('barTime');
-                if (bar && time) {
-                    if (sur > 0) { bar.style.width = Math.min(((sur/totInc)*100)*2, 100) + '%'; bar.className = 'h-full bg-success transition-all duration-1000 rounded-full'; time.innerText = "Calculando..."; } 
-                    else { bar.style.width = '100%'; bar.className = 'h-full bg-danger transition-all duration-1000 rounded-full'; time.innerText = "Alerta"; }
+                // Update Meta En Logic
+                let timeText = "--";
+                if(rem <= 0) timeText = "¡LOGRADO!";
+                else if(sur <= 0) timeText = "Sin margen";
+                else {
+                    const months = rem / sur;
+                    if(months === Infinity) timeText = "∞";
+                    else {
+                        const y = Math.floor(months/12);
+                        const m = Math.ceil(months%12);
+                        timeText = y > 0 ? `${y}a ${m}m` : `${m} meses`;
+                    }
+                }
+                Utils.setText('barGoalText', `Falta: ${Utils.formatCompact(rem)}`);
+                Utils.setText('barTime', timeText);
+
+                const bar = Utils.$('barProgress'); 
+                if (bar) {
+                    if (sur > 0) { bar.style.width = Math.min(((sur/totInc)*100)*2, 100) + '%'; bar.className = 'h-full bg-success transition-all duration-1000 rounded-full'; } 
+                    else { bar.style.width = '100%'; bar.className = 'h-full bg-danger transition-all duration-1000 rounded-full'; }
                 }
                 
                 UI.updateThermometer(totInc, totExp); UI.renderChart(); Data.save();
             },
             updateVal: (k, v) => { state[k] = parseFloat(v)||0; App.calculateGlobal(); },
-            toggleTheme: () => { document.documentElement.classList.toggle('dark'); UI.renderChart(); },
-            toggleZen: () => { state.zenMode = !state.zenMode; document.querySelectorAll('.zen-sensitive').forEach(el => el.classList.toggle('zen-blur', state.zenMode)); Utils.$('zenIcon').innerText = state.zenMode ? 'visibility_off' : 'visibility'; },
-            toggleCurrency: () => { state.showVes = !state.showVes; Utils.$('currencyIcon').innerText = state.showVes ? 'Bs' : '$'; App.calculateGlobal(); UI.renderHistory(); UI.renderChart(); },
+            toggleTheme: () => { 
+                document.documentElement.classList.toggle('dark'); 
+                localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+                UI.renderChart(); 
+            },
+            toggleZen: () => { state.zenMode = !state.zenMode; document.querySelectorAll('.zen-sensitive').forEach(el => el.classList.toggle('zen-blur', state.zenMode)); Utils.$('zenMenuIcon').innerText = state.zenMode ? 'visibility_off' : 'visibility'; },
+            toggleCurrency: () => { state.showVes = !state.showVes; App.calculateGlobal(); UI.renderHistory(); UI.renderChart(); UI.renderIncomes(); UI.renderExpenses(); },
             toggleMenu: () => { Utils.$('mainMenu').classList.toggle('hidden'); },
             openProfileModal: () => { Utils.$('profileModal').classList.remove('hidden'); setTimeout(() => { Utils.$('profileCard').classList.remove('scale-95', 'opacity-0'); Utils.$('profileCard').classList.add('scale-100', 'opacity-100'); }, 10); Utils.$('inputUserName').value = state.userName; },
             closeProfileModal: () => { Utils.$('profileCard').classList.add('scale-95', 'opacity-0'); setTimeout(() => Utils.$('profileModal').classList.add('hidden'), 200); },
